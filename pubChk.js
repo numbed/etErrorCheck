@@ -9,9 +9,7 @@ function main() {
     const okArray = [];
     const commArray = [];
     let today = new Date();
-    //test 3
-    //github 2
-    //github test
+
     //collecting data from active tab table (infoET)
     for (let i = 0, row; row = tableET.rows[i]; i++) {
         infoET[i] = {
@@ -297,7 +295,7 @@ function main() {
 
     function auctionTabOpen(array, text) {
         if (array.length !== 0) {
-            if (confirm('Търгове за ' + text + ' : ' + array.length + "\r\nОтвори?")) {
+            if (confirm('Търгове за ' + text + ': ' + array.length + "\r\nОтвори?")) {
                 console.log("OK");
                 for (i = 0; i < array.length; i++) {
                     window.open(array[i].etLink, '_blank');
@@ -305,7 +303,7 @@ function main() {
             }
         }
     }
-    auctionTabOpen(warnArray, "публкуване");
+    auctionTabOpen(warnArray, "публкуване на документация");
     auctionTabOpen(commArray, "назначаване на комисии");
 
     //console output function
