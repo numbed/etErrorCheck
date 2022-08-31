@@ -355,16 +355,13 @@ function main() {
 
     }
 
-
     function f2() {
-
         for (i = 0; i < 5; i++) {
             let elink = okArray[i].etLink;
             document.getElementById("auctioniFrame").src = elink;
-            document.getElementById("auctioniFrame").addEventListener("load", function () {
-                    console.log(document.getElementById('auctioniFrame').contentWindow.document.getElementById('auctionStartPrice').value);
-                    
-            });
+            document.getElementById("auctioniFrame").onload = function () {
+                    console.log(document.getElementById('auctioniFrame').contentWindow.document.getElementById('auctionStartPrice').value);                 
+            }
         }
     }
     f2();
