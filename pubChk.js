@@ -338,6 +338,10 @@ function main() {
     console.groupEnd();
     auctionConsoleOutput(commArray, "Комисии");
     auctionConsoleOutput(duplicatedArray, "Duplicates");
+
+
+
+
     // testing
 
     if (document.getElementById("auctioniFrame") == null) {
@@ -346,22 +350,26 @@ function main() {
         let iframe = document.createElement("iframe");
         iframe.style.display = "none";
         iframe.id = "auctioniFrame";
-        iframe.src = "https://auction.ucdp-smolian.com/au-admin/auctions/form/2485";
+        iframe.src = "";
         footer.appendChild(iframe);
 
     }
 
+
     function f2() {
 
-        alert(document.getElementById('auctioniFrame').contentWindow.document.getElementById('auctionStartPrice').value);
+        for (i = 0; i < 5; i++) {
+            let elink = okArray[i].etLink;
+            document.getElementById("auctioniFrame").src = elink;
+            document.getElementById("auctioniFrame").addEventListener("load", function () {
+                    console.log(document.getElementById('auctioniFrame').contentWindow.document.getElementById('auctionStartPrice').value);
+                    
+            });
+        }
     }
-    if (document.getElementById("auctioniFrame") !== null) {
-        f2();
-    }
+    f2();
+    if (document.getElementById("auctioniFrame") !== null) {}
 
-    for (i = 0; i < 5; i++) {
-
-    }
     // end of testing
 }
 main();
