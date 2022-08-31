@@ -1,0 +1,22 @@
+{
+    "name": "UCDP Swiss Army Knife",
+    "description": "UCDP e-auctions Swiss Army Knife duplicate | type | deadline | commission date checks and etc.",
+    "version": "0.1",
+    "manifest_version": 2,
+    "permissions": [
+        "activeTab"
+    ],
+    "background": {
+        "scripts": [
+            "./popup.js",
+            "./test.js"
+        ]
+    },
+    "browser_action": {
+        "default_icon": "icon.png"
+    },
+    "icons": {
+        "32": "UCDP_48.png",
+        "48": "UCDP_48.png"
+    }
+}

@@ -1,0 +1,24 @@
+body, body * {
+}
+div.boxes{
+	width: 105px;
+}
+#id1 {
+	font-weight: bold;
+	font-size: 8px;
+	text-align: center;
+}
+.leftbox {
+	float: left; 
+	width: 50px;
+	height: 50px;
+	text-align: center;
+}
+.rightbox {
+	float: right;
+	width: 50px;
+	height: 50px;
+	margin-right: 5px;
+	margin-top: 5px;
+	text-align: left;
+}
