@@ -345,13 +345,14 @@ function main() {
     // testing
 
     if (document.getElementById("auctioniFrame") == null) {
-
         let footer = document.querySelector(".footer");
         let iframe = document.createElement("iframe");
-        iframe.style.display = "none";
-        iframe.id = "auctioniFrame";
-        iframe.src = "";
+        // iframe.style.display = "none";
+        let id = okArray[2].number;
+        iframe.id = id;
+        iframe.src = okArray[2].etLink;
         footer.appendChild(iframe);
+
 
     }
 
@@ -360,13 +361,11 @@ function main() {
             let elink = okArray[i].etLink;
             document.getElementById("auctioniFrame").src = elink;
             document.getElementById("auctioniFrame").onload = function () {
-                    console.log(document.getElementById('auctioniFrame').contentWindow.document.getElementById('auctionStartPrice').value);                 
+                console.log(document.getElementById('auctioniFrame').contentWindow.document.getElementById('auctionStartPrice').value);
             }
         }
     }
     f2();
-    if (document.getElementById("auctioniFrame") !== null) {}
-
     // end of testing
 }
 main();
