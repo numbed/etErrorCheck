@@ -345,7 +345,7 @@ function main() {
     // testing
     for (let i = 0, row; row = tableET.rows[i]; i++) {
         const k = document.createElement("span");
-        rows.cells[0].appendChild(k);
+        row.cells[0].appendChild(k);
     }
 
 
