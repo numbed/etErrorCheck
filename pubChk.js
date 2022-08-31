@@ -38,7 +38,7 @@ function main() {
         } else {
             date = firstDate.getDate() - 1;
         }
-
+        
         commDate.setDate(date);
         let output = new Date();
         output = commDate.getDate() + "." + (commDate.getMonth() + 1) + "." + commDate.getFullYear();
@@ -80,7 +80,7 @@ function main() {
         output = output[0].trim().split(" ").pop();
         return output;
     }
-
+    
     //calculating deadline based on first date of the auction
     function calculateDeadline(date) {
         let d = date.split(" ");
@@ -101,7 +101,7 @@ function main() {
         } else if (firstDate.getDay() == 5) {
             deadline = firstDate.getDate() - 18;
         } else if (firstDate.getDay() == 6 || firstDate.getDay() == 0) {}
-
+        
         deadlineDate.setDate(deadline);
         let output = new Date();
         output = deadlineDate.getDate() + "." + (deadlineDate.getMonth() + 1) + "." + deadlineDate.getFullYear();
@@ -133,7 +133,7 @@ function main() {
             cArray.push(typeObj);
         }
     }
-
+    
     //commission date check
     for (i = 0; i < Object.keys(infoET).length; i++) {
         let commStr = infoET[i].commission.split(".");
@@ -149,7 +149,7 @@ function main() {
             type: infoET[i].type,
             subject: infoET[i].subject
         };
-
+        
         if (commDate.setHours(0, 0, 0, 0) == today.setHours(0, 0, 0, 0)) {
             commArray.push(commObj);
         }
@@ -241,7 +241,7 @@ function main() {
         div.id = "auctionsOutput";
         div.style.textAlign = "center";
         div.style.fontStyle = "italic";
-
+        
 
         const containerDupe = document.createElement("span");
         containerDupe.id = "containerDupe";
@@ -251,8 +251,8 @@ function main() {
         const containerWarn = document.createElement("span");
         containerWarn.id = "containerWarn";
         containerWarn.style.color = "#F8D210";
-
-
+        
+        
         const containerExpired = document.createElement("span");
         containerExpired.id = "containerExpired";
         containerExpired.style.color = "#D1462F";
@@ -262,11 +262,11 @@ function main() {
         containerOK.id = "containerOK";
         containerOK.style.color = "#59981A";
 
-
+        
         const containderComm = document.createElement("span");
         containderComm.id = "containderComm";
         containderComm.style.color = "#2f4050";
-
+        
 
         div.appendChild(containerDupe);
         div.appendChild(containerExpired);
@@ -291,8 +291,8 @@ function main() {
         document.getElementById("containderComm").innerText = commInfo;
     }
     f1();
-
-
+    
+    
     function auctionTabOpen(array, text) {
         if (array.length !== 0) {
             if (confirm('Търгове за ' + text + ': ' + array.length + "\r\nОтвори?")) {
@@ -343,24 +343,22 @@ function main() {
 
 
     // testing
+    for (let i = 0, row; row = tableET.rows[i]; i++) {
+        const k = document.createElement("span");
+        rows.cells[0].appendChild(k);
+    }
 
-    // if (document.getElementById("auctioniFrame") == null) {
-    //     let footer = document.querySelector(".footer");
-    //     let iframe = document.createElement("iframe");
-    //     // iframe.style.display = "none";
-    //     let id = okArray[2].number;
-    //     iframe.id = id;
-    //     iframe.src = okArray[2].etLink;
-    //     footer.appendChild(iframe);
-
-
-    // }
 
     // function f2() {
-    //     for (i = 0; i < 5; i++) {
-    //         let elink = okArray[i].etLink;
-    //         document.getElementById("auctioniFrame").src = elink;
-    //         document.getElementById("auctioniFrame").onload = function () {
+    //     if (document.getElementById("auctioniFrame") == null) {
+    //         for (i = 0; i < 5; i++) {
+    //             let footer = document.querySelector(".footer");
+    //             let iframe = document.createElement("iframe");
+    //             // iframe.style.display = "none";
+    //             let id = okArray[2].number;
+    //             iframe.id = id;
+    //             iframe.src = okArray[2].etLink;
+    //             footer.appendChild(iframe);
     //             console.log(document.getElementById('auctioniFrame').contentWindow.document.getElementById('auctionStartPrice').value);
     //         }
     //     }
@@ -369,6 +367,6 @@ function main() {
     // end of testing
 
     // dadasd
-
+    
 }
 main();
