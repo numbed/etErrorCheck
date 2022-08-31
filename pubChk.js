@@ -9,7 +9,7 @@ function main() {
     const okArray = [];
     const commArray = [];
     let today = new Date();
-
+    //test 3
     //github 2
     //github test
     //collecting data from active tab table (infoET)
