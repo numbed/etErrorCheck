@@ -37,6 +37,15 @@ chrome.browserAction.onClicked.addListener((tab) => {
                     allFrames: true
                 });
             });
+        } else if (tab.url.includes("/au-admin/history")) {
+            chrome.tabs.query({
+                active: true
+            }, function (tabs) {
+                chrome.tabs.executeScript(tab.id, {
+                    file: "auctionHistoryCheck.js",
+                    allFrames: true
+                });
+            });
         }
     });
 });
