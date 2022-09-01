@@ -4,7 +4,8 @@ function auctionHistoryCheck() {
     let historyTableET = document.querySelector("tbody");
     let historyTableHead = document.querySelector("thead");
     const historyET = {};
-    const todayAuctionsHistoryArray = [];
+    const todayAuctionsArray = [];
+    const yesterdayAuctionsArray = [];
     let today = new Date();
 
     //collecting data from active tab table (historyET)
@@ -46,9 +47,12 @@ function auctionHistoryCheck() {
             obekt: historyET[i].obekt,
             etLink: historyET[i].etLink,
         };
-
+        let yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
         if (dateBid.setHours(0, 0, 0, 0) == today.setHours(0, 0, 0, 0)) {
-            todayAuctionsHistoryArray.push(dateBidObj);
+            todayAuctionsArray.push(dateBidObj);
+        } else if (dateBid.setHours(0, 0, 0, 0) == yesterday.setHours(0, 0, 0, 0)) {
+            yesterdayAuctionsArray.push(dateBidObj);
         }
     }
 
@@ -62,11 +66,12 @@ function auctionHistoryCheck() {
             }
         });
     }
-    colorfullRowsOutput(todayAuctionsHistoryArray, "#2f4050", "white");
+    colorfullRowsOutput(todayAuctionsArray, "#2f4050", "white");
+    colorfullRowsOutput(yesterdayAuctionsArray, "#D1462F", "white");
 
-    function auctionTabOpen(array) {
+    function auctionTabOpen(array,text) {
         if (array.length !== 0) {
-            if (confirm('Проведени търгове днес: ' + array.length + "\r\nОтвори?")) {
+            if (confirm('Проведени търгове ' + text + ': ' + array.length + "\r\nОтвори?")) {
                 console.log("OK");
                 for (i = 0; i < array.length; i++) {
                     window.open(array[i].etLink, '_blank');
@@ -74,7 +79,8 @@ function auctionHistoryCheck() {
             }
         }
     }
-    auctionTabOpen(todayAuctionsHistoryArray);
+    auctionTabOpen(todayAuctionsArray, "днес");
+    auctionTabOpen(yesterdayAuctionsArray, "вчера");
 
     //auction front page info styling
     let predmet = historyTableHead.rows[1].cells[3];
@@ -83,29 +89,36 @@ function auctionHistoryCheck() {
         div.id = "auctionsOutput";
         div.style.textAlign = "center";
         div.style.fontStyle = "italic";
-        
+        div.innerText = ("Проведени търгове: ");
 
         const containerTodayAuctionsCount = document.createElement("span");
         containerTodayAuctionsCount.id = "containerTodayAuctionsCount";
         containerTodayAuctionsCount.style.color = "#2f4050";
 
+        const containerYesterdayAuctionsCount = document.createElement("span");
+        containerYesterdayAuctionsCount.id = "containerYesterdayAuctionsCount";
+        containerYesterdayAuctionsCount.style.color = "#D1462F";
+        
         div.appendChild(containerTodayAuctionsCount);
+        div.appendChild(containerYesterdayAuctionsCount);
 
         historyTableHead.rows[1].cells[3].appendChild(div);
     }
 
     //auction front page info
     function f1() {
-        let todayAuctionsHistoryInfo = ("Проведени търгове днес: " + todayAuctionsHistoryArray.length);
-        document.getElementById("containerTodayAuctionsCount").innerText = todayAuctionsHistoryInfo;
+        let todayInfo = ("днес: " + todayAuctionsArray.length + " | ");
+        let yesterdayInfo = ("вчера: " + yesterdayAuctionsArray.length);
+        document.getElementById("containerTodayAuctionsCount").innerText = todayInfo;
+        document.getElementById("containerYesterdayAuctionsCount").innerText = yesterdayInfo;
     }
     f1();
-    
 
-    console.log(Object.keys(todayAuctionsHistoryArray).length);
 
-    for (i = 0; i <= Object.keys(todayAuctionsHistoryArray).length; i++) {
-        console.log(todayAuctionsHistoryArray[i]);
+    console.log(Object.keys(todayAuctionsArray).length);
+
+    for (i = 0; i <= Object.keys(todayAuctionsArray).length; i++) {
+        console.log(todayAuctionsArray[i]);
 
     }
 }
