@@ -8,8 +8,7 @@
     ],
     "background": {
         "scripts": [
-            "./popup.js",
-            "./test.js"
+            "./popup.js"
         ]
     },
     "browser_action": {
@@ -18,5 +17,9 @@
     "icons": {
         "32": "UCDP_48.png",
         "48": "UCDP_48.png"
-    }
+    },
+    "web_accessible_resources": [
+        "pubChk.js",
+        "exportTest.js"
+     ]
 }
