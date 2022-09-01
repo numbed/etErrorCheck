@@ -1,5 +1,4 @@
 function main() {
-
     let tableET = document.querySelector("tbody");
     let tableHead = document.querySelector("thead");
     const infoET = {};
@@ -364,9 +363,11 @@ function main() {
     //     }
     // }
     // f2();
-    // end of testing
 
-    // dadasd
+
+
+
+    // end of testing
     
 }
 main();

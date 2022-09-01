@@ -1,6 +1,4 @@
-function exportTest() {
-    console.log("exportTest");
-}
-
-
-export exportTest();
+const myFunction = () => console.log ('Hello World!');
+export {
+  myFunction
+};
