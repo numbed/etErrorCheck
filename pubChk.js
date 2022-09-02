@@ -357,8 +357,17 @@ function main() {
         row.cells[0].appendChild(frame);
     }
     for (let i = 0, row; row = tableET.rows[i]; i++) {
-
-        console.log(document.getElementById(row.cells[0].innerText).contentWindow.document.getElementById('auctionStartPrice').value);
+        let gish = document.getElementById(row.cells[0].innerText);
+        gish.onload = function () {
+            // console.log(gish.contentWindow.document.getElementById('auctionStartPrice').value);
+            let links = gish.contentWindow.document.getElementById("auctionDocuments").links;
+            for (var i = 0; i < links.length; i++) {
+                // console.log(links[i].title);
+                if (links[i].title.includes("Документация")) {
+                    console.log(row.cells[0].innerText + " " + "True");
+                } 
+            }
+        }
     }
 
 
