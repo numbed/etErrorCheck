@@ -344,8 +344,23 @@ function main() {
     // testing
     // for (let i = 0, row; row = tableET.rows[i]; i++) {
     //     const k = document.createElement("span");
+    //     // console.log(row.cells[0].innerText);
+    //     k.id = row.cells[0].innerText;
     //     row.cells[0].appendChild(k);
     // }
+    for (let i = 0, row; row = tableET.rows[i]; i++) {
+        const frame = document.createElement("iframe");
+        frame.id = row.cells[0].innerText;
+        frame.onload = "access()";
+
+        frame.src = infoET[i].etLink;
+        row.cells[0].appendChild(frame);
+    }
+    for (let i = 0, row; row = tableET.rows[i]; i++) {
+
+        console.log(document.getElementById(row.cells[0].innerText).contentWindow.document.getElementById('auctionStartPrice').value);
+    }
+
 
     // function f3() {
     //     let footer = document.querySelector(".footer");
