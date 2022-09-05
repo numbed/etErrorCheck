@@ -227,10 +227,10 @@ function main() {
         });
     }
 
-    colorfullRowsOutput(expiredArray, "#D1462F", "white");
+    colorfullRowsOutput(expiredArray, "#59981A", "white");
     colorfullRowsOutput(commArray, "#2f4050", "white");
     colorfullRowsOutput(warnArray, "#F8D210", "black");
-    colorfullRowsOutput(okArray, "#59981A", "black");
+    colorfullRowsOutput(okArray, "#D1462F", "black");
     colorfullRowsOutput(duplicatedArray, "#344e41", "white");
 
     //auction front page info styling
@@ -254,12 +254,12 @@ function main() {
 
         const containerExpired = document.createElement("span");
         containerExpired.id = "containerExpired";
-        containerExpired.style.color = "#D1462F";
+        containerExpired.style.color = "#59981A";
 
 
         const containerOK = document.createElement("span");
         containerOK.id = "containerOK";
-        containerOK.style.color = "#59981A";
+        containerOK.style.color = "#D1462F";
 
 
         const containderComm = document.createElement("span");
@@ -348,29 +348,35 @@ function main() {
     //     k.id = row.cells[0].innerText;
     //     row.cells[0].appendChild(k);
     // }
-    for (let i = 0, row; row = tableET.rows[i]; i++) {
-        const frame = document.createElement("iframe");
-        frame.id = row.cells[0].innerText;
-        frame.onload = "access()";
+    if (!document.getElementById(tableET.rows[0].cells[0].innerText)) {
 
-        frame.src = infoET[i].etLink;
-        row.cells[0].appendChild(frame);
-    }
-    for (let i = 0, row; row = tableET.rows[i]; i++) {
-        let gish = document.getElementById(row.cells[0].innerText);
-        gish.onload = function () {
-            // console.log(gish.contentWindow.document.getElementById('auctionStartPrice').value);
-            let links = gish.contentWindow.document.getElementById("auctionDocuments").links;
-            for (var i = 0; i < links.length; i++) {
-                // console.log(links[i].title);
-                if (links[i].title.includes("Документация")) {
-                    console.log(row.cells[0].innerText + " " + "True");
-                } 
+        for (let i = 0, row; row = tableET.rows[i]; i++) {
+            const frame = document.createElement("iframe");
+            frame.id = row.cells[0].innerText;
+            frame.style.display = "none";
+            frame.onload = "access()";
+    
+            frame.src = infoET[i].etLink;
+            row.cells[0].appendChild(frame);
+        }
+        for (let i = 0, row; row = tableET.rows[i]; i++) {
+            let gish = document.getElementById(row.cells[0].innerText);
+            gish.onload = function () {
+                // console.log(gish.contentWindow.document.getElementById('auctionStartPrice').value);
+                let links = gish.contentWindow.document.links;
+                for (var i = 0; i < links.length; i++) {
+                    // console.log(links[i].title);
+                    if (links[i].title.includes("Документация")) {
+                        console.log(row.cells[0].innerText + " " + "True");
+                        row.cells[8].style.backgroundColor = "#59981A";
+                        // colorfullRowsOutput(okArray, "#59981A", "black");
+                    }
+                }
             }
         }
     }
-
-
+    //let vasko = document.getElementById(document.querySelector("tbody").rows[0].cells[0].innerText).contentWindow.document.querySelector("div.col-md-4.col-xs-12").links;
+    
     // function f3() {
     //     let footer = document.querySelector(".footer");
     //     let iframe = document.createElement("iframe");
