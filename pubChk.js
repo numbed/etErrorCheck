@@ -278,13 +278,13 @@ function main() {
 
     //auction front page info
     function f1() {
-        let duplicatedInfo = ("Дублирани: " + duplicatedArray.length + " | ");
+        let duplicatedInfo = ("Дублирани: " + duplicatedArray.length + " | Публикуване: ");
         document.getElementById("containerDupe").innerText = duplicatedInfo;
-        let expiredInfo = ("E: " + expiredArray.length + " | ");
+        let expiredInfo = ("Минали: " + expiredArray.length + " | ");
         document.getElementById("containerExpired").innerText = expiredInfo;
-        let warnInfo = ("W: " + warnArray.length + " | ");
+        let warnInfo = ("Днес: " + warnArray.length + " | ");
         document.getElementById("containerWarn").innerText = warnInfo;
-        let okInfo = ("OK: " + okArray.length) + " | ";
+        let okInfo = ("Предстоящи: " + okArray.length) + " | ";
         document.getElementById("containerOK").innerText = okInfo;
         let commInfo = ("Kомисии: " + commArray.length);
         document.getElementById("containderComm").innerText = commInfo;
