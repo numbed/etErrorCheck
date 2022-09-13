@@ -342,12 +342,9 @@ function main() {
 
 
     // testing
-    // for (let i = 0, row; row = tableET.rows[i]; i++) {
-    //     const k = document.createElement("span");
-    //     // console.log(row.cells[0].innerText);
-    //     k.id = row.cells[0].innerText;
-    //     row.cells[0].appendChild(k);
-    // }
+
+
+
     if (!document.getElementById(tableET.rows[0].cells[0].innerText)) {
 
         for (let i = 0, row; row = tableET.rows[i]; i++) {
@@ -355,7 +352,7 @@ function main() {
             frame.id = row.cells[0].innerText;
             frame.style.display = "none";
             frame.onload = "access()";
-    
+
             frame.src = infoET[i].etLink;
             row.cells[0].appendChild(frame);
         }
@@ -375,46 +372,13 @@ function main() {
             }
         }
     }
-    //let vasko = document.getElementById(document.querySelector("tbody").rows[0].cells[0].innerText).contentWindow.document.querySelector("div.col-md-4.col-xs-12").links;
-    
-    // function f3() {
-    //     let footer = document.querySelector(".footer");
-    //     let iframe = document.createElement("iframe");
-    //     for (i = 0; i < okArray.length; i++) {
-    //         iframe.id = i;
-    //         iframe.src = okArray[i].etLink;
-    //         footer.appendChild(iframe);
 
-    //         // let log = document.getElementById(i).onload = function () {document.getElementById(i).contentWindow.document.getElementById('auctionStartPrice').value;};
-    //         document.getElementById(i).onload = function () {
-    //             let gish = document.getElementById(i).contentWindow.document.getElementById('auctionStartPrice').value;
-    //             console.log(gish);
-
-    //         }
-
-    //         // document.getElementById(i).remove();
-
-
-    //     }
-    // }
-    // f3();
-
-    // function f2() {
-    //     if (document.getElementById("auctioniFrame") == null) {
-    //         for (i = 0; i < 5; i++) {
-    //             let footer = document.querySelector(".footer");
-    //             let iframe = document.createElement("iframe");
-    //             // iframe.style.display = "none";
-    //             let id = okArray[2].number;
-    //             iframe.id = id;
-    //             iframe.src = okArray[2].etLink;
-    //             footer.appendChild(iframe);
-    //             console.log(document.getElementById('auctioniFrame').contentWindow.document.getElementById('auctionStartPrice').value);
-    //         }
-    //     }
-    // }
-    // f2();
-
+                    // const el = gish.contentWindow.document.querySelector("select.form-control.commision");
+                    // if (el.value != "") {
+                    //     console.log(el.value);
+                    // } else {
+                    //     console.log("empty");
+                    // }
 
 
 
