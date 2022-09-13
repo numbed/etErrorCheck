@@ -277,7 +277,7 @@ function main() {
     }
 
     //auction front page info
-    function f1() {
+    function frontPageInfo() {
         let duplicatedInfo = ("Дублирани: " + duplicatedArray.length + " | Публикуване: ");
         document.getElementById("containerDupe").innerText = duplicatedInfo;
         let expiredInfo = ("Минали: " + expiredArray.length + " | ");
@@ -289,7 +289,7 @@ function main() {
         let commInfo = ("Kомисии: " + commArray.length);
         document.getElementById("containderComm").innerText = commInfo;
     }
-    f1();
+    frontPageInfo();
 
 
     function auctionTabOpen(array, text) {
@@ -344,44 +344,69 @@ function main() {
     // testing
 
 
-
-    if (!document.getElementById(tableET.rows[0].cells[0].innerText)) {
-
-        for (let i = 0, row; row = tableET.rows[i]; i++) {
-            const frame = document.createElement("iframe");
-            frame.id = row.cells[0].innerText;
-            frame.style.display = "none";
-            frame.onload = "access()";
-
-            frame.src = infoET[i].etLink;
-            row.cells[0].appendChild(frame);
+    function t1(array) {
+        let testArray = [];
+        if (array.length !== 0) {
+            for (i = 0; i < array.length; i++) {
+                if (array[i].number == tableET.rows[i].cells[0].innerText) {
+                    testArray.push(tableET.rows[i].cells[0].innerText);
+                    console.log(array[i].number);
+                }
+            }
+        } else {
+            console.log("empty array " + array);
         }
-        for (let i = 0, row; row = tableET.rows[i]; i++) {
-            let gish = document.getElementById(row.cells[0].innerText);
-            gish.onload = function () {
-                // console.log(gish.contentWindow.document.getElementById('auctionStartPrice').value);
-                let links = gish.contentWindow.document.links;
-                for (var i = 0; i < links.length; i++) {
-                    // console.log(links[i].title);
-                    if (links[i].title.includes("Документация")) {
-                        console.log(row.cells[0].innerText + " " + "True");
-                        row.cells[8].style.backgroundColor = "#59981A";
-                        // colorfullRowsOutput(okArray, "#59981A", "black");
+        console.log(testArray);
+
+    }
+    // console.log("okArray:");
+    // t1(okArray);
+    // console.log("expiredArray:");
+    // t1(expiredArray);
+    console.log("commArray:");
+    t1(commArray);
+
+
+
+    /** working
+
+        if (!document.getElementById(tableET.rows[0].cells[0].innerText)) {
+
+            for (let i = 0, row; row = tableET.rows[i]; i++) {
+                const frame = document.createElement("iframe");
+                frame.id = row.cells[0].innerText;
+                frame.style.display = "none";
+                frame.onload = "access()";
+
+                frame.src = infoET[i].etLink;
+                row.cells[0].appendChild(frame);
+            }
+            for (let i = 0, row; row = tableET.rows[i]; i++) {
+                let gish = document.getElementById(row.cells[0].innerText);
+                gish.onload = function () {
+                    // console.log(gish.contentWindow.document.getElementById('auctionStartPrice').value);
+                    let links = gish.contentWindow.document.links;
+                    for (var i = 0; i < links.length; i++) {
+                        // console.log(links[i].title);
+                        if (links[i].title.includes("Документация")) {
+                            console.log(row.cells[0].innerText + " " + "True");
+                            row.cells[8].style.backgroundColor = "#59981A";
+                            // colorfullRowsOutput(okArray, "#59981A", "black");
+                        }
                     }
                 }
             }
         }
-    }
 
-                    // const el = gish.contentWindow.document.querySelector("select.form-control.commision");
-                    // if (el.value != "") {
-                    //     console.log(el.value);
-                    // } else {
-                    //     console.log("empty");
-                    // }
-
+                        // const el = gish.contentWindow.document.querySelector("select.form-control.commision");
+                        // if (el.value != "") {
+                        //     console.log(el.value);
+                        // } else {
+                        //     console.log("empty");
+                        // }
 
 
+    */
     // end of testing
 
 }
