@@ -1,6 +1,6 @@
 {
-    "name": "UCDP Swiss Army Knife",
-    "description": "UCDP e-auctions Swiss Army Knife duplicate | type | deadline | commission date checks and etc.",
+    "name": "UCDP Multitool",
+    "description": "UCDP e-auctions Multitool duplicate | type | deadline | commission date checks and etc.",
     "version": "0.1",
     "manifest_version": 2,
     "permissions": [
@@ -12,10 +12,10 @@
         ]
     },
     "browser_action": {
-        "default_icon": "icon-1.png"
+        "default_icon": "/icons/forest.png"
     },
     "icons": {
-        "32": "UCDP_48.png",
-        "48": "UCDP_48.png"
+        "32": "/icons/UCDP_48.png",
+        "48": "/icons/UCDP_48.png"
     }
 }
