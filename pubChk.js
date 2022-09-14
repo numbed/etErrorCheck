@@ -344,27 +344,27 @@ function main() {
     // testing
 
 
-    function t1(array) {
-        let testArray = [];
-        if (array.length !== 0) {
-            for (i = 0; i < array.length; i++) {
-                if (array[i].number == tableET.rows[i].cells[0].innerText) {
-                    testArray.push(tableET.rows[i].cells[0].innerText);
-                    console.log(array[i].number);
-                }
-            }
-        } else {
-            console.log("empty array " + array);
-        }
-        console.log(testArray);
+    // function t1(array) {
+    //     let testArray = [];
+    //     if (array.length !== 0) {
+    //         for (i = 0; i < array.length; i++) {
+    //             if (array[i].number == tableET.rows[i].cells[0].innerText) {
+    //                 testArray.push(tableET.rows[i].cells[0].innerText);
+    //                 console.log(array[i].number);
+    //             }
+    //         }
+    //     } else {
+    //         console.log("empty array " + array);
+    //     }
+    //     console.log(testArray);
 
-    }
-    // console.log("okArray:");
-    // t1(okArray);
-    // console.log("expiredArray:");
-    // t1(expiredArray);
-    console.log("commArray:");
-    t1(commArray);
+    // }
+    // // console.log("okArray:");
+    // // t1(okArray);
+    // // console.log("expiredArray:");
+    // // t1(expiredArray);
+    // console.log("commArray:");
+    // t1(commArray);
 
 
 

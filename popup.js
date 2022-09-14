@@ -46,18 +46,27 @@ chrome.browserAction.onClicked.addListener((tab) => {
                     allFrames: true
                 });
             });
+        } else if (tab.url.includes("dsrv157")) {
+            chrome.tabs.query({
+                active: true
+            }, function (tabs) {
+                chrome.tabs.executeScript(tab.id, {
+                    file: "archimed.js",
+                    allFrames: true
+                });
+            });
         }
     });
 });
 
-chrome.browserAction.onClicked.addListener((tab) => {
-    chrome.tabs.query({
-        active: true
-    }, function (tabs) {
-        var tab = tabs[0];
-        chrome.tabs.executeScript(tab.id, {
-            file: "test.js;",
-            allFrames: true
-        });
-    });
-});
+// chrome.browserAction.onClicked.addListener((tab) => {
+//     chrome.tabs.query({
+//         active: true
+//     }, function (tabs) {
+//         var tab = tabs[0];
+//         chrome.tabs.executeScript(tab.id, {
+//             file: "test.js;",
+//             allFrames: true
+//         });
+//     });
+// });
