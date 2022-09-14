@@ -12,7 +12,7 @@
         ]
     },
     "browser_action": {
-        "default_icon": "/icons/forest.png"
+        "default_icon": "/icons/forest-2.png"
     },
     "icons": {
         "32": "/icons/UCDP_48.png",
