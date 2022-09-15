@@ -121,5 +121,38 @@ function auctionHistoryCheck() {
         console.log(todayAuctionsArray[i]);
 
     }
+
+//testing bellow
+if (!document.getElementById(historyTableET.rows[0].cells[0].innerText)) {
+
+    for (let i = 0, row; row = historyTableET.rows[i]; i++) {
+        const frame = document.createElement("iframe");
+        frame.id = row.cells[0].innerText;
+        // frame.style.display = "none";
+        // frame.onload = "access()";
+
+        frame.src = historyET[i].etLink;
+        row.cells[0].appendChild(frame);
+    }
+    for (let i = 0, row; row = historyTableET.rows[i]; i++) {
+        let gish = document.getElementById(row.cells[0].innerText);
+        gish.onload = function () {
+            // console.log(gish.contentWindow.document.getElementById('auctionStartPrice').value);
+            let links = gish.contentWindow.document.links;
+            for (var i = 0; i < links.length; i++) {
+                // console.log(links[i].title);
+                if (links[i].title.includes("Протокол")) {
+                    console.log(row.cells[0].innerText + " " + "True");
+                    // row.cells[8].style.backgroundColor = "#59981A";
+                    // colorfullRowsOutput(okArray, "#59981A", "black");
+                }
+            }
+        }
+    }
+}
+
+
+//end of testing
+
 }
 auctionHistoryCheck();
