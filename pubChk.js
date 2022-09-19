@@ -1,7 +1,7 @@
 function main() {
     let tableET = document.querySelector("tbody");
     let tableHead = document.querySelector("thead");
-    const infoET = {};
+    const infoET = [];
     const duplicatedArray = [];
     const expiredArray = [];
     const warnArray = [];
@@ -343,29 +343,42 @@ function main() {
 
     // testing
 
+    if (!document.getElementById(tableET.rows[0].cells[0].innerText)) {
 
-    // function t1(array) {
-    //     let testArray = [];
-    //     if (array.length !== 0) {
-    //         for (i = 0; i < array.length; i++) {
-    //             if (array[i].number == tableET.rows[i].cells[0].innerText) {
-    //                 testArray.push(tableET.rows[i].cells[0].innerText);
-    //                 console.log(array[i].number);
-    //             }
-    //         }
-    //     } else {
-    //         console.log("empty array " + array);
-    //     }
-    //     console.log(testArray);
+        for (let i = 0, row; row = tableET.rows[i]; i++) {
+            const frame = document.createElement("iframe");
+            frame.id = row.cells[0].innerText;
+            // frame.style.display = "none";
+            frame.onload = "access()";
 
-    // }
-    // // console.log("okArray:");
-    // // t1(okArray);
-    // // console.log("expiredArray:");
-    // // t1(expiredArray);
-    // console.log("commArray:");
-    // t1(commArray);
-
+            row.cells[0].appendChild(frame);
+        }
+    }
+    okArray.forEach(function (element) {
+        for (let i = 0, row; row = tableET.rows[i]; i++) {
+            if (element.number == tableET.rows[i].cells[0].innerText) {
+                console.log(element.number);
+                document.getElementById(element.number).src = element.etLink;
+            }
+        }
+    });
+    for (let i = 0, row; row = tableET.rows[i]; i++) {
+        let gish = document.getElementById(row.cells[0].innerText);
+        gish.onload = function () {
+            // console.log(gish.contentWindow.document.getElementById('auctionStartPrice').value);
+            let links = gish.contentWindow.document.links;
+            for (var i = 0; i < links.length; i++) {
+                // console.log(links[i].title);
+                if (links[i].title.includes("Документация")) {
+                    console.log(row.cells[0].innerText + " True");
+                    row.cells[8].style.backgroundColor = "#59981A";
+                    // colorfullRowsOutput(okArray, "#59981A", "black");
+                } else {
+                    console.log(row.cells[0].innerText + " False")
+                }
+            }
+        }
+    }
 
 
     /** working
