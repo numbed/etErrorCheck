@@ -69,7 +69,7 @@ function auctionHistoryCheck() {
     colorfullRowsOutput(todayAuctionsArray, "#2f4050", "white");
     colorfullRowsOutput(yesterdayAuctionsArray, "#D1462F", "white");
 
-    function auctionTabOpen(array,text) {
+    function auctionTabOpen(array, text) {
         if (array.length !== 0) {
             if (confirm('Проведени търгове ' + text + ': ' + array.length + "\r\nОтвори?")) {
                 console.log("OK");
@@ -79,8 +79,8 @@ function auctionHistoryCheck() {
             }
         }
     }
-    auctionTabOpen(todayAuctionsArray, "днес");
-    auctionTabOpen(yesterdayAuctionsArray, "вчера");
+    // auctionTabOpen(todayAuctionsArray, "днес");
+    // auctionTabOpen(yesterdayAuctionsArray, "вчера");
 
     //auction front page info styling
     let predmet = historyTableHead.rows[1].cells[3];
@@ -98,7 +98,7 @@ function auctionHistoryCheck() {
         const containerYesterdayAuctionsCount = document.createElement("span");
         containerYesterdayAuctionsCount.id = "containerYesterdayAuctionsCount";
         containerYesterdayAuctionsCount.style.color = "#D1462F";
-        
+
         div.appendChild(containerTodayAuctionsCount);
         div.appendChild(containerYesterdayAuctionsCount);
 
@@ -117,42 +117,77 @@ function auctionHistoryCheck() {
 
     console.log(Object.keys(todayAuctionsArray).length);
 
-    for (i = 0; i <= Object.keys(todayAuctionsArray).length; i++) {
-        console.log(todayAuctionsArray[i]);
+    //testing bellow
+    if (!document.getElementById(historyTableET.rows[0].cells[0].innerText)) {
 
+        for (let i = 0, row; row = historyTableET.rows[i]; i++) {
+            const frame = document.createElement("iframe");
+            frame.id = row.cells[0].innerText;
+            frame.style.display = "none";
+
+            row.cells[0].appendChild(frame);
+        }
     }
 
-//testing bellow
-if (!document.getElementById(historyTableET.rows[0].cells[0].innerText)) {
+    todayAuctionsArray.forEach(function (element) {
+        for (let i = 0, row; row = historyTableET.rows[i]; i++) {
+            if (element.number == historyTableET.rows[i].cells[0].innerText) {
+                document.getElementById(element.number).src = element.etLink;
 
-    for (let i = 0, row; row = historyTableET.rows[i]; i++) {
-        const frame = document.createElement("iframe");
-        frame.id = row.cells[0].innerText;
-        // frame.style.display = "none";
-        // frame.onload = "access()";
+                let gish = document.getElementById(row.cells[0].innerText);
+                gish.onload = function () {
+                    // console.log(gish.contentWindow.document.getElementById('auctionStartPrice').value);
+                    let links = gish.contentWindow.document.links;
+                    for (var i = 0; i < links.length; i++) {
+                        // console.log(links[i].title);
+                        if (links[i].title.includes("Протокол")) {
+                            console.log(row.cells[0].innerText + " True");
 
-        frame.src = historyET[i].etLink;
-        row.cells[0].appendChild(frame);
-    }
-    for (let i = 0, row; row = historyTableET.rows[i]; i++) {
-        let gish = document.getElementById(row.cells[0].innerText);
-        gish.onload = function () {
-            // console.log(gish.contentWindow.document.getElementById('auctionStartPrice').value);
-            let links = gish.contentWindow.document.links;
-            for (var i = 0; i < links.length; i++) {
-                // console.log(links[i].title);
-                if (links[i].title.includes("Протокол")) {
-                    console.log(row.cells[0].innerText + " " + "True");
-                    // row.cells[8].style.backgroundColor = "#59981A";
-                    // colorfullRowsOutput(okArray, "#59981A", "black");
+                            row.cells[8].style.backgroundColor = "#59981A";
+                            row.cells[7].innerText = row.cells[7].innerText + " | " + gish.contentWindow.document.querySelector("tbody").childElementCount;
+                            // colorfullRowsOutput(okArray, "#59981A", "black");
+
+                            return;
+                        }
+                    }
                 }
             }
         }
-    }
-}
+    });
+    
 
 
-//end of testing
+
+    // if (!document.getElementById(historyTableET.rows[0].cells[0].innerText)) {
+
+    //     for (let i = 0, row; row = historyTableET.rows[i]; i++) {
+    //         const frame = document.createElement("iframe");
+    //         frame.id = row.cells[0].innerText;
+    //         // frame.style.display = "none";
+    //         // frame.onload = "access()";
+
+    //         frame.src = historyET[i].etLink;
+    //         row.cells[0].appendChild(frame);
+    //     }
+    //     for (let i = 0, row; row = historyTableET.rows[i]; i++) {
+    //         let gish = document.getElementById(row.cells[0].innerText);
+    //         gish.onload = function () {
+    //             // console.log(gish.contentWindow.document.getElementById('auctionStartPrice').value);
+    //             let links = gish.contentWindow.document.links;
+    //             for (var i = 0; i < links.length; i++) {
+    //                 // console.log(links[i].title);
+    //                 if (links[i].title.includes("Протокол")) {
+    //                     console.log(row.cells[0].innerText + " " + "True");
+    //                     // row.cells[8].style.backgroundColor = "#59981A";
+    //                     // colorfullRowsOutput(okArray, "#59981A", "black");
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
+
+
+    //end of testing
 
 }
 auctionHistoryCheck();
