@@ -5,8 +5,8 @@ function main() {
     const duplicatedArray = [];
     const expiredArray = [];
     const warnArray = [];
-    const okArray = [];
-    const commArray = [];
+    const upcommingArray = [];
+    const commissionArray = [];
     let today = new Date();
 
     //collecting data from active tab table (infoET)
@@ -150,7 +150,7 @@ function main() {
         };
 
         if (commDate.setHours(0, 0, 0, 0) == today.setHours(0, 0, 0, 0)) {
-            commArray.push(commObj);
+            commissionArray.push(commObj);
         }
     }
 
@@ -175,7 +175,7 @@ function main() {
         } else if (ddlDate.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0)) {
             expiredArray.push(infoObj);
         } else {
-            okArray.push(infoObj);
+            upcommingArray.push(infoObj);
         }
     }
 
@@ -227,11 +227,11 @@ function main() {
         });
     }
 
-    colorfullRowsOutput(expiredArray, "#59981A", "white");
-    colorfullRowsOutput(commArray, "#2f4050", "white");
-    colorfullRowsOutput(warnArray, "#F8D210", "black");
-    colorfullRowsOutput(okArray, "#D1462F", "black");
-    colorfullRowsOutput(duplicatedArray, "#344e41", "white");
+    colorfullRowsOutput(expiredArray, "#59981A", "white"); //green
+    colorfullRowsOutput(commissionArray, "#2f4050", "white"); //dark blue
+    colorfullRowsOutput(warnArray, "#D1462F", "black"); //red
+    colorfullRowsOutput(upcommingArray, "#cf6617", "black"); //orange
+    colorfullRowsOutput(duplicatedArray, "#344e41", "white"); //dark something
 
     //auction front page info styling
     let predmet = tableHead.rows[1].cells[4];
@@ -249,7 +249,7 @@ function main() {
 
         const containerWarn = document.createElement("span");
         containerWarn.id = "containerWarn";
-        containerWarn.style.color = "#F8D210";
+        containerWarn.style.color = "#D1462F";
 
 
         const containerExpired = document.createElement("span");
@@ -259,19 +259,19 @@ function main() {
 
         const containerOK = document.createElement("span");
         containerOK.id = "containerOK";
-        containerOK.style.color = "#D1462F";
+        containerOK.style.color = "#cf6617";
 
 
-        const containderComm = document.createElement("span");
-        containderComm.id = "containderComm";
-        containderComm.style.color = "#2f4050";
+        const containerCommission = document.createElement("span");
+        containerCommission.id = "containerCommission";
+        containerCommission.style.color = "#2f4050";
 
 
         div.appendChild(containerDupe);
         div.appendChild(containerExpired);
-        div.appendChild(containerWarn);
         div.appendChild(containerOK);
-        div.appendChild(containderComm);
+        div.appendChild(containerWarn);
+        div.appendChild(containerCommission);
 
         tableHead.rows[1].cells[4].appendChild(div);
     }
@@ -284,10 +284,10 @@ function main() {
         document.getElementById("containerExpired").innerText = expiredInfo;
         let warnInfo = ("Днес: " + warnArray.length + " | ");
         document.getElementById("containerWarn").innerText = warnInfo;
-        let okInfo = ("Предстоящи: " + okArray.length) + " | ";
+        let okInfo = ("Предстоящи: " + upcommingArray.length) + " | ";
         document.getElementById("containerOK").innerText = okInfo;
-        let commInfo = ("Kомисии: " + commArray.length);
-        document.getElementById("containderComm").innerText = commInfo;
+        let commInfo = ("Kомисии: " + commissionArray.length);
+        document.getElementById("containerCommission").innerText = commInfo;
     }
     frontPageInfo();
 
@@ -303,7 +303,7 @@ function main() {
         }
     }
     auctionTabOpen(warnArray, "публкуване на документация");
-    auctionTabOpen(commArray, "назначаване на комисии");
+    auctionTabOpen(commissionArray, "назначаване на комисии");
 
     //console output function
     function auctionConsoleOutput(array, type) {
@@ -325,17 +325,17 @@ function main() {
         console.groupEnd();
     }
 
-    console.groupCollapsed("Deadlines: %c E: " + Object.keys(expiredArray).length + " | %c W: " + Object.keys(warnArray).length + " | %c OK: " + Object.keys(okArray).length, "color:red;", "color:orange;", "color:green;");
-    auctionConsoleOutput(expiredArray, "Expired");
-    auctionConsoleOutput(warnArray, "Warning");
-    auctionConsoleOutput(okArray, "OK");
+    console.groupCollapsed("Deadlines: %c Минали: " + Object.keys(expiredArray).length + " | %c Днес: " + Object.keys(warnArray).length + " | %c Предстоящи: " + Object.keys(upcommingArray).length, "color:red;", "color:orange;", "color:green;");
+    auctionConsoleOutput(expiredArray, "Минали");
+    auctionConsoleOutput(warnArray, "Днес");
+    auctionConsoleOutput(upcommingArray, "Предстоящи");
     console.groupEnd();
     console.groupCollapsed("Type check: наддаване: " + tArray.length + " | конкурс: " + kArray.length + " | ценово: " + cArray.length);
     auctionConsoleOutput(tArray, "наддаване");
     auctionConsoleOutput(kArray, "конкурс");
     auctionConsoleOutput(cArray, "еднократно ценово предложение");
     console.groupEnd();
-    auctionConsoleOutput(commArray, "Комисии");
+    auctionConsoleOutput(commissionArray, "Комисии");
     auctionConsoleOutput(duplicatedArray, "Duplicates");
 
 
@@ -348,16 +348,15 @@ function main() {
         for (let i = 0, row; row = tableET.rows[i]; i++) {
             const frame = document.createElement("iframe");
             frame.id = row.cells[0].innerText;
-            // frame.style.display = "none";
+            frame.style.display = "none";
             frame.onload = "access()";
 
             row.cells[0].appendChild(frame);
         }
     }
-    okArray.forEach(function (element) {
+    upcommingArray.forEach(function (element) {
         for (let i = 0, row; row = tableET.rows[i]; i++) {
             if (element.number == tableET.rows[i].cells[0].innerText) {
-                console.log(element.number);
                 document.getElementById(element.number).src = element.etLink;
             }
         }
@@ -365,16 +364,11 @@ function main() {
     for (let i = 0, row; row = tableET.rows[i]; i++) {
         let gish = document.getElementById(row.cells[0].innerText);
         gish.onload = function () {
-            // console.log(gish.contentWindow.document.getElementById('auctionStartPrice').value);
             let links = gish.contentWindow.document.links;
             for (var i = 0; i < links.length; i++) {
-                // console.log(links[i].title);
                 if (links[i].title.includes("Документация")) {
-                    console.log(row.cells[0].innerText + " True");
+                    console.log(row.cells[0].innerText + " - публикувани документи");
                     row.cells[8].style.backgroundColor = "#59981A";
-                    // colorfullRowsOutput(okArray, "#59981A", "black");
-                } else {
-                    console.log(row.cells[0].innerText + " False")
                 }
             }
         }
@@ -404,7 +398,7 @@ function main() {
                         if (links[i].title.includes("Документация")) {
                             console.log(row.cells[0].innerText + " " + "True");
                             row.cells[8].style.backgroundColor = "#59981A";
-                            // colorfullRowsOutput(okArray, "#59981A", "black");
+                            // colorfullRowsOutput(upcommingArray, "#59981A", "black");
                         }
                     }
                 }
