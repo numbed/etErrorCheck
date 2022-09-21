@@ -27,7 +27,7 @@ function main() {
             for (let i = 0, row; row = tableET.rows[i]; i++) {
                 const frame = document.createElement("iframe");
                 frame.id = row.cells[0].innerText;
-                // frame.style.display = "none";
+                frame.style.display = "none";
 
                 row.cells[0].appendChild(frame);
             }
