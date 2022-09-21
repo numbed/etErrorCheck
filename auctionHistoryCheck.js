@@ -18,15 +18,16 @@ function auctionHistoryCheck() {
             etLink: "https://auction.ucdp-smolian.com/au-admin/history/review/" + row.cells[0].innerText.slice(-4),
         };
 
+        //removed due to exessive loading time on the subpages, therefore slow execution of the script and crashing web browser, making following code obsolete
         //creating iframe for every row of the table without loading the according page
-        if (!document.getElementById(historyTableET.rows[0].cells[0].innerText)) {
-            for (let i = 0, row; row = historyTableET.rows[i]; i++) {
-                const frame = document.createElement("iframe");
-                frame.id = row.cells[0].innerText;
-                frame.style.display = "none";
-                row.cells[0].appendChild(frame);
-            }
-        }
+        // if (!document.getElementById(historyTableET.rows[0].cells[0].innerText)) {
+        //     for (let i = 0, row; row = historyTableET.rows[i]; i++) {
+        //         const frame = document.createElement("iframe");
+        //         frame.id = row.cells[0].innerText;
+        //         frame.style.display = "none";
+        //         row.cells[0].appendChild(frame);
+        //     }
+        // }
     }
 
     //historyET.obekt
@@ -111,40 +112,7 @@ function auctionHistoryCheck() {
     }
     frontPageAuctionInfo();
 
-    //loading iframes with auction page of the according arrays
-    iframeLoad(yesterdayAuctionsArray);
-    iframeLoad(todayAuctionsArray);
-
-    function iframeLoad(array) {
-        array.forEach(function (element) {
-            for (let i = 0, row; row = historyTableET.rows[i]; i++) {
-                if (element.number == historyTableET.rows[i].cells[0].innerText) {
-                    document.getElementById(element.number).src = element.etLink;
-                    let gish = document.getElementById(row.cells[0].innerText);
-                    gish.onload = function () {
-                        let links = gish.contentWindow.document.links;
-                        for (var i = 0; i < links.length; i++) {
-                            if (links[i].title.includes("Протокол")) {
-                                console.log(row.cells[0].innerText + " True");
-                                row.cells[8].style.backgroundColor = "#59981A";
-                                row.cells[7].innerText = row.cells[7].innerText + " | " + gish.contentWindow.document.querySelector("tbody").childElementCount;
-                                return;
-                            } else {
-                                row.cells[7].innerText = row.cells[7].innerText + " | " + gish.contentWindow.document.querySelector("tbody").childElementCount;
-                                return;
-                            }
-
-                        }
-                    };
-                }
-            }
-        });
-    }
-
     //open tabs for every auction in the according arrays
-    auctionTabOpen(todayAuctionsArray, "днес");
-    auctionTabOpen(yesterdayAuctionsArray, "вчера");
-
     function auctionTabOpen(array, text) {
         if (array.length !== 0) {
             if (confirm('Проведени търгове ' + text + ': ' + array.length + "\r\nОтвори?")) {
@@ -155,6 +123,44 @@ function auctionHistoryCheck() {
             }
         }
     }
+    auctionTabOpen(todayAuctionsArray, "днес");
+    auctionTabOpen(yesterdayAuctionsArray, "вчера");
+
+
+    /**
+     * 
+     * removed due to exessive loading time on the subpages, therefore slow execution of the script and crashing web browser
+
+        //loading iframes with auction page of the according arrays
+        function iframeLoad(array) {
+            array.forEach(function (element) {
+                for (let i = 0, row; row = historyTableET.rows[i]; i++) {
+                    if (element.number == historyTableET.rows[i].cells[0].innerText) {
+                        document.getElementById(element.number).src = element.etLink;
+                        let gish = document.getElementById(row.cells[0].innerText);
+                        gish.onload = function () {
+                            let links = gish.contentWindow.document.links;
+                            for (var i = 0; i < links.length; i++) {
+                                if (links[i].title.includes("Протокол")) {
+                                    console.log(row.cells[0].innerText + " True");
+                                    row.cells[8].style.backgroundColor = "#59981A";
+                                    row.cells[7].innerText = row.cells[7].innerText + " | " + gish.contentWindow.document.querySelector("tbody").childElementCount;
+                                    return;
+                                } else {
+                                    row.cells[7].innerText = row.cells[7].innerText + " | " + gish.contentWindow.document.querySelector("tbody").childElementCount;
+                                    return;
+                                }
+                            }
+                        };
+                    }
+                }
+            });
+        }
+        iframeLoad(yesterdayAuctionsArray);
+        iframeLoad(todayAuctionsArray);
+    *
+    */
+
 
     //testing bellow
 
