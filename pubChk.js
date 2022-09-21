@@ -22,6 +22,16 @@ function main() {
             obekt: objectSplit(row.cells[5].innerText),
             commission: commissionDate(row.cells[2].innerText)
         };
+        //creating iframe for every row of the table without loading the according page
+        if (!document.getElementById(tableET.rows[0].cells[0].innerText)) {
+            for (let i = 0, row; row = tableET.rows[i]; i++) {
+                const frame = document.createElement("iframe");
+                frame.id = row.cells[0].innerText;
+                // frame.style.display = "none";
+
+                row.cells[0].appendChild(frame);
+            }
+        }
     }
 
     function commissionDate(c) { //infoET.commission
@@ -241,31 +251,25 @@ function main() {
         div.style.textAlign = "center";
         div.style.fontStyle = "italic";
 
-
         const containerDupe = document.createElement("span");
         containerDupe.id = "containerDupe";
         containerDupe.style.color = "#344e41";
-
 
         const containerWarn = document.createElement("span");
         containerWarn.id = "containerWarn";
         containerWarn.style.color = "#D1462F";
 
-
         const containerExpired = document.createElement("span");
         containerExpired.id = "containerExpired";
         containerExpired.style.color = "#59981A";
-
 
         const containerOK = document.createElement("span");
         containerOK.id = "containerOK";
         containerOK.style.color = "#cf6617";
 
-
         const containerCommission = document.createElement("span");
         containerCommission.id = "containerCommission";
         containerCommission.style.color = "#2f4050";
-
 
         div.appendChild(containerDupe);
         div.appendChild(containerExpired);
@@ -291,7 +295,7 @@ function main() {
     }
     frontPageInfo();
 
-
+    //open tabs for every auction in the according arrays
     function auctionTabOpen(array, text) {
         if (array.length !== 0) {
             if (confirm('Търгове за ' + text + ': ' + array.length + "\r\nОтвори?")) {
@@ -304,6 +308,33 @@ function main() {
     }
     auctionTabOpen(warnArray, "публкуване на документация");
     auctionTabOpen(commissionArray, "назначаване на комисии");
+
+    //loading iframes with auction page of the according arrays
+    iframeLoad(upcommingArray);
+
+    function iframeLoad(array) {
+        array.forEach(function (element) {
+            for (let i = 0, row; row = tableET.rows[i]; i++) {
+                if (element.number == tableET.rows[i].cells[0].innerText) {
+                    document.getElementById(element.number).src = element.etLink;
+                }
+            }
+        });
+    }
+
+    //check if upcomming auctions have published documentation
+    for (let i = 0, row; row = tableET.rows[i]; i++) {
+        let gish = document.getElementById(row.cells[0].innerText);
+        gish.onload = function () {
+            let links = gish.contentWindow.document.links;
+            for (var i = 0; i < links.length; i++) {
+                if (links[i].title.includes("Документация")) {
+                    console.log(row.cells[0].innerText + " - публикувани документи");
+                    row.cells[8].style.backgroundColor = "#59981A";
+                }
+            }
+        }
+    }
 
     //console output function
     function auctionConsoleOutput(array, type) {
@@ -324,7 +355,6 @@ function main() {
         }
         console.groupEnd();
     }
-
     console.groupCollapsed("Deadlines: %c Минали: " + Object.keys(expiredArray).length + " | %c Днес: " + Object.keys(warnArray).length + " | %c Предстоящи: " + Object.keys(upcommingArray).length, "color:red;", "color:orange;", "color:green;");
     auctionConsoleOutput(expiredArray, "Минали");
     auctionConsoleOutput(warnArray, "Днес");
@@ -339,40 +369,9 @@ function main() {
     auctionConsoleOutput(duplicatedArray, "Duplicates");
 
 
-
-
     // testing
 
-    if (!document.getElementById(tableET.rows[0].cells[0].innerText)) {
 
-        for (let i = 0, row; row = tableET.rows[i]; i++) {
-            const frame = document.createElement("iframe");
-            frame.id = row.cells[0].innerText;
-            frame.style.display = "none";
-            frame.onload = "access()";
-
-            row.cells[0].appendChild(frame);
-        }
-    }
-    upcommingArray.forEach(function (element) {
-        for (let i = 0, row; row = tableET.rows[i]; i++) {
-            if (element.number == tableET.rows[i].cells[0].innerText) {
-                document.getElementById(element.number).src = element.etLink;
-            }
-        }
-    });
-    for (let i = 0, row; row = tableET.rows[i]; i++) {
-        let gish = document.getElementById(row.cells[0].innerText);
-        gish.onload = function () {
-            let links = gish.contentWindow.document.links;
-            for (var i = 0; i < links.length; i++) {
-                if (links[i].title.includes("Документация")) {
-                    console.log(row.cells[0].innerText + " - публикувани документи");
-                    row.cells[8].style.backgroundColor = "#59981A";
-                }
-            }
-        }
-    }
 
 
     /** working

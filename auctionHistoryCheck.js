@@ -17,7 +17,7 @@ function auctionHistoryCheck() {
             obekt: objectSplit(row.cells[2].innerText),
             etLink: "https://auction.ucdp-smolian.com/au-admin/history/review/" + row.cells[0].innerText.slice(-4),
         };
-                
+
         //creating iframe for every row of the table without loading the according page
         if (!document.getElementById(historyTableET.rows[0].cells[0].innerText)) {
             for (let i = 0, row; row = historyTableET.rows[i]; i++) {
@@ -114,6 +114,7 @@ function auctionHistoryCheck() {
     //loading iframes with auction page of the according arrays
     iframeLoad(yesterdayAuctionsArray);
     iframeLoad(todayAuctionsArray);
+
     function iframeLoad(array) {
         array.forEach(function (element) {
             for (let i = 0, row; row = historyTableET.rows[i]; i++) {
@@ -143,6 +144,7 @@ function auctionHistoryCheck() {
     //open tabs for every auction in the according arrays
     auctionTabOpen(todayAuctionsArray, "днес");
     auctionTabOpen(yesterdayAuctionsArray, "вчера");
+
     function auctionTabOpen(array, text) {
         if (array.length !== 0) {
             if (confirm('Проведени търгове ' + text + ': ' + array.length + "\r\nОтвори?")) {
@@ -153,7 +155,7 @@ function auctionHistoryCheck() {
             }
         }
     }
-    
+
     //testing bellow
 
     // if (!document.getElementById(historyTableET.rows[0].cells[0].innerText)) {
@@ -187,7 +189,7 @@ function auctionHistoryCheck() {
 
     //end of testing
 
-    
+
 
 }
 auctionHistoryCheck();
