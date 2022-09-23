@@ -240,7 +240,7 @@ function main() {
     colorfullRowsOutput(expiredArray, "#59981A", "white"); //green
     colorfullRowsOutput(commissionArray, "#2f4050", "white"); //dark blue
     colorfullRowsOutput(warnArray, "#D1462F", "black"); //red
-    colorfullRowsOutput(upcommingArray, "#cf6617", "black"); //orange
+    colorfullRowsOutput(upcommingArray, "#e88031", "black"); //orange
     colorfullRowsOutput(duplicatedArray, "#344e41", "white"); //dark something
 
     //auction front page info styling
@@ -265,7 +265,7 @@ function main() {
 
         const containerOK = document.createElement("span");
         containerOK.id = "containerOK";
-        containerOK.style.color = "#cf6617";
+        containerOK.style.color = "#e88031";
 
         const containerCommission = document.createElement("span");
         containerCommission.id = "containerCommission";
@@ -311,7 +311,7 @@ function main() {
 
     //loading iframes with auction page of the according arrays
     iframeLoad(upcommingArray);
-
+    iframeLoad(warnArray);
     function iframeLoad(array) {
         array.forEach(function (element) {
             for (let i = 0, row; row = tableET.rows[i]; i++) {
@@ -355,7 +355,7 @@ function main() {
         }
         console.groupEnd();
     }
-    console.groupCollapsed("Deadlines: %c Минали: " + Object.keys(expiredArray).length + " | %c Днес: " + Object.keys(warnArray).length + " | %c Предстоящи: " + Object.keys(upcommingArray).length, "color:red;", "color:orange;", "color:green;");
+    console.groupCollapsed("Deadlines: %c Минали: " + Object.keys(expiredArray).length + " | %c Днес: " + Object.keys(warnArray).length + " | %c Предстоящи: " + Object.keys(upcommingArray).length, "color:green;", "color:red;", "color:orange;");
     auctionConsoleOutput(expiredArray, "Минали");
     auctionConsoleOutput(warnArray, "Днес");
     auctionConsoleOutput(upcommingArray, "Предстоящи");
