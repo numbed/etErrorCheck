@@ -46,12 +46,32 @@ chrome.browserAction.onClicked.addListener((tab) => {
                     allFrames: true
                 });
             });
-        } else if (tab.url.includes("dsrv157")) {
+        } 
+        // else if (tab.url.includes("Document.aspx?")) {
+        //     chrome.tabs.query({
+        //         active: true
+        //     }, function (tabs) {
+        //         chrome.tabs.executeScript(tab.id, {
+        //             file: "archimed.js",
+        //             allFrames: true
+        //         });
+        //     });
+        // } 
+        else if (tab.url.includes("Documents.aspx")) {
             chrome.tabs.query({
                 active: true
             }, function (tabs) {
                 chrome.tabs.executeScript(tab.id, {
-                    file: "archimed.js",
+                    file: "archimedDocs.js",
+                    allFrames: true
+                });
+            });
+        } else if (tab.url.includes("Search.aspx")) {
+            chrome.tabs.query({
+                active: true
+            }, function (tabs) {
+                chrome.tabs.executeScript(tab.id, {
+                    file: "archimedSearch.js",
                     allFrames: true
                 });
             });
