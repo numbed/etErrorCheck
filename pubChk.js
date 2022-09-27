@@ -312,6 +312,8 @@ function main() {
     //loading iframes with auction page of the according arrays
     iframeLoad(upcommingArray);
     iframeLoad(warnArray);
+    iframeLoad(commissionArray);
+
     function iframeLoad(array) {
         array.forEach(function (element) {
             for (let i = 0, row; row = tableET.rows[i]; i++) {
@@ -320,6 +322,24 @@ function main() {
                 }
             }
         });
+    }
+
+    //check if commission is already assigned to the auction    
+    for (let i = 0, row; row = tableET.rows[i]; i++) {
+        let gish2 = document.getElementById(row.cells[0].innerText);
+        gish2.onload = function () {
+            const el = gish2.contentWindow.document.querySelector("select.form-control.commision");
+            const el2 = gish2.contentWindow.document.querySelector("div.form-control");
+            if (el) { //if not NULL and auction has offers
+                console.log(row.cells[0].innerText + " " + el.value);
+                row.cells[8].style.backgroundColor = "#9eb3c6";
+            } else { //if NULL and auction doesn't have offers checks if there is assigned commision || TO BE TESTED FOR ERRORS WITH NO COMMISSION ASSIGNED
+                if (el2.innerHTML != "") {
+                    row.cells[8].style.backgroundColor = "#9eb3c6";
+                    console.log("NULL " + el2.innerHTML);
+                }
+            }
+        }
     }
 
     //check if upcomming auctions have published documentation
@@ -404,15 +424,38 @@ function main() {
             }
         }
 
-                        // const el = gish.contentWindow.document.querySelector("select.form-control.commision");
-                        // if (el.value != "") {
-                        //     console.log(el.value);
-                        // } else {
-                        //     console.log("empty");
-                        // }
+        
+        
+        */
+    //check if commission is already assigned to the auction
+    //TO DO throws error if there are no offers in the auction
+    // for (let i = 0, row; row = tableET.rows[i]; i++) {
+    //     let gish2 = document.getElementById(row.cells[0].innerText);
+    //     gish2.onload = function () {
+    //         const el = gish2.contentWindow.document.querySelector("select.form-control.commision");
+    //         if (el.value != "") {
+    //             console.log(el.value);
+    //             row.cells[8].style.backgroundColor = "#9eb3c6";
+    //         } else if (el.value != "null") {
+    //             console.log("null");
+    //             const el2 = gish2.contentWindow.document.querySelector("div.form-control");
+    //             if (el2.innerHTML != "") {
+    //                 console.log("без оферти ->" + el2.innerHTML);
+    //                 row.cells[8].style.backgroundColor = "#9eb3c6";
+    //             } else {
+    //                 console.log("без оферти -> не е назначена комисия");
+    //             }
+    //         } else {
+    //             console.log("empty");
+
+    //         }
+    //     }
+    // }
 
 
-    */
+
+
+
     // end of testing
 
 }
