@@ -323,7 +323,21 @@ function main() {
             }
         });
     }
-
+    
+    //check if upcomming auctions have published documentation
+    for (let i = 0, row; row = tableET.rows[i]; i++) {
+        let gish = document.getElementById(row.cells[0].innerText);
+        gish.onload = function () {
+            let links = gish.contentWindow.document.links;
+            for (var i = 0; i < links.length; i++) {
+                if (links[i].title.includes("Документация")) {
+                    console.log(row.cells[0].innerText + " - публикувани документи");
+                    row.cells[8].style.backgroundColor = "#59981A";
+                }
+            }
+        }
+    }
+    
     //check if commission is already assigned to the auction    
     for (let i = 0, row; row = tableET.rows[i]; i++) {
         let gish2 = document.getElementById(row.cells[0].innerText);
@@ -341,21 +355,7 @@ function main() {
             }
         }
     }
-
-    //check if upcomming auctions have published documentation
-    for (let i = 0, row; row = tableET.rows[i]; i++) {
-        let gish = document.getElementById(row.cells[0].innerText);
-        gish.onload = function () {
-            let links = gish.contentWindow.document.links;
-            for (var i = 0; i < links.length; i++) {
-                if (links[i].title.includes("Документация")) {
-                    console.log(row.cells[0].innerText + " - публикувани документи");
-                    row.cells[8].style.backgroundColor = "#59981A";
-                }
-            }
-        }
-    }
-
+    
     //console output function
     function auctionConsoleOutput(array, type) {
         if (array.length !== 0) {
