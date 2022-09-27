@@ -24,7 +24,7 @@ chrome.browserAction.onClicked.addListener((tab) => {
                 active: true
             }, function (tabs) {
                 chrome.tabs.executeScript(tab.id, {
-                    file: "pubChk.js",
+                    file: "auctions.js",
                     allFrames: true
                 });
             });
