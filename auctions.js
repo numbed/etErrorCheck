@@ -34,7 +34,8 @@ function main() {
         }
     }
 
-    function commissionDate(c) { //infoET.commission
+    //infoET.commission
+    function commissionDate(c) {
         let d = c.split(" ");
         d = d[0].trim();
         d = d.split(".");
@@ -54,7 +55,8 @@ function main() {
         return output;
     }
 
-    function subjectCheck(s) { //infoET.subject
+    //infoET.subject
+    function subjectCheck(s) {
         let output;
         if (s.includes("действително")) {
             output = "ДД";
@@ -66,7 +68,8 @@ function main() {
         return output;
     }
 
-    function typeCheck(t) { //infoET.type
+    //infoET.type
+    function typeCheck(t) {
         let output;
         if (t.includes("конкурс")) {
             output = "к";
@@ -78,13 +81,15 @@ function main() {
         return output;
     }
 
-    function objectSplit(o) { //infoET.obekt
+    //infoET.obekt
+    function objectSplit(o) {
         let output = o.split("/");
         output = output[1].trim().split(" ").pop();
         return output;
     }
 
-    function tpSplit(t) { //infoET.TP
+    //infoET.TP
+    function tpSplit(t) {
         let output = t.split("/");
         output = output[0].trim().split(" ").pop();
         return output;
@@ -392,12 +397,7 @@ function main() {
     auctionConsoleOutput(commissionArray, "Комисии");
     auctionConsoleOutput(duplicatedArray, "Duplicates");
 
-
     // testing
-
-
-
-
     /** working
 
         if (!document.getElementById(tableET.rows[0].cells[0].innerText)) {
@@ -455,11 +455,6 @@ function main() {
     //         }
     //     }
     // }
-
-
-
-
-
     // end of testing
 
 }
