@@ -323,7 +323,7 @@ function main() {
             }
         });
     }
-    
+
     //check if upcomming auctions have published documentation
     for (let i = 0, row; row = tableET.rows[i]; i++) {
         let gish = document.getElementById(row.cells[0].innerText);
@@ -337,25 +337,29 @@ function main() {
             }
         }
     }
-    
+
     //check if commission is already assigned to the auction    
-    for (let i = 0, row; row = tableET.rows[i]; i++) {
-        let gish2 = document.getElementById(row.cells[0].innerText);
-        gish2.onload = function () {
-            const el = gish2.contentWindow.document.querySelector("select.form-control.commision");
-            const el2 = gish2.contentWindow.document.querySelector("div.form-control");
-            if (el) { //if not NULL and auction has offers
-                console.log(row.cells[0].innerText + " " + el.value);
-                row.cells[8].style.backgroundColor = "#9eb3c6";
-            } else { //if NULL and auction doesn't have offers checks if there is assigned commision || TO BE TESTED FOR ERRORS WITH NO COMMISSION ASSIGNED
-                if (el2.innerHTML != "") {
-                    row.cells[8].style.backgroundColor = "#9eb3c6";
-                    console.log("NULL " + el2.innerHTML);
+    commissionArray.forEach(function (element) {
+        for (let i = 0, row; row = tableET.rows[i]; i++) {
+            if (element.number == tableET.rows[i].cells[0].innerText) {
+                let gish2 = document.getElementById(row.cells[0].innerText);
+                gish2.onload = function () {
+                    const el = gish2.contentWindow.document.querySelector("select.form-control.commision");
+                    const el2 = gish2.contentWindow.document.querySelector("div.form-control");
+                    if (el) { //if not NULL and auction has offers
+                        console.log(row.cells[0].innerText + " " + el.value);
+                        row.cells[8].style.backgroundColor = "#9eb3c6";
+                    } else { //if NULL and auction doesn't have offers checks if there is assigned commision || TO BE TESTED FOR ERRORS WITH NO OFFERS AND NO COMMISSION ASSIGNED
+                        if (el2.innerHTML != "") {
+                            row.cells[8].style.backgroundColor = "#9eb3c6";
+                            console.log("NULL " + el2.innerHTML);
+                        }
+                    }
                 }
             }
         }
-    }
-    
+    });
+
     //console output function
     function auctionConsoleOutput(array, type) {
         if (array.length !== 0) {
