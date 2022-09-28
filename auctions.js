@@ -340,6 +340,11 @@ function main() {
                     row.cells[8].style.backgroundColor = "#59981A";
                 }
             }
+            //published documents counter
+            //TO DO -- removes button "Публикувай" -- needs fixing
+            row.cells[8].style.color = "white";
+            // row.cells[8].style.fontSize  = "10px";
+            row.cells[8].innerText = gish.contentWindow.document.querySelector("#auctionDocuments").querySelectorAll("a").length - 1;
         }
     }
 
@@ -398,6 +403,10 @@ function main() {
     auctionConsoleOutput(duplicatedArray, "Duplicates");
 
     // testing
+    //published documents counter
+    // row.cells[8].style.color = "white";
+    // row.cells[8].innerText = gish.contentWindow.document.querySelector("#auctionDocuments").querySelectorAll("a").length - 1;
+
     /** working
 
         if (!document.getElementById(tableET.rows[0].cells[0].innerText)) {
