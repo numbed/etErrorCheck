@@ -2,9 +2,13 @@ function main() {
     console.clear();
 
     let auctionsTable = document.querySelector("tbody");
+    document.querySelector("thead").rows[1].cells[3].innerText = "Краен срок за публикуване";
     const auctions = [];
     let today = new Date();
     let number, date, subject, branch;
+    let upcommingAuctionsArray = [];
+    let commissionAuctionsArray = [];
+    let objToPush = {};
 
     //collecting data from active tab table (auctions)
     function auctionDataCollect() {
@@ -159,48 +163,74 @@ function main() {
         auctions.forEach(function (element) {
             for (let i = 0, row; row = auctionsTable.rows[i]; i++) {
                 if ((element.number == row.cells[0].innerText) && (element.status == "commission")) {
-                    document.getElementById(element.number).src = element.etLink;
-                    let loadedIFrame = document.getElementById(element.number);
-                    loadedIFrame.onload = function () {
-                        const comm1 = loadedIFrame.contentWindow.document.querySelector("select.form-control.commision");
-                        const comm2 = loadedIFrame.contentWindow.document.querySelector("div.form-control");
+                    let lastCell = row.cells[8];
+                    let iFrame = document.getElementById(element.number);
+                    iFrame.src = element.etLink;
+                    iFrame.onload = function () {
+                        const comm1 = iFrame.contentWindow.document.querySelector("select.form-control.commision");
+                        const comm2 = iFrame.contentWindow.document.querySelector("div.form-control");
                         if (comm1) {
                             console.log("comm1");
-                            row.cells[8].style.backgroundColor = "#9eb3c6";
+                            lastCell.style.backgroundColor = "#9eb3c6";
                         } else if (!comm1) {
                             if (comm2.innerHMTL != "") {
                                 console.log("comm2");
-                                row.cells[8].style.backgroundColor = "#9eb3c6";
+                                lastCell.style.backgroundColor = "#9eb3c6";
                             }
                         } else {
-                            row.cells[8].style.backgroundColor = "#2f4050";
+                            lastCell.style.backgroundColor = "#2f4050";
                         }
                     }
                 }
             }
         });
-
     }
+    assingedCommissionCheck();
+
+    //check if upcomming auctions have published documentation
+    function upcommingAuctionsCheck() {
+        auctions.forEach(function (element) {
+            if (element.status == "upcomming" || element.status == "today") {
+                for (let i = 0, row; row = auctionsTable.rows[i]; i++) {
+                    if (element.number == row.cells[0].innerText) {
+                        let lastCell = row.cells[8];
+                        let iFrame = document.getElementById(element.number);
+                        iFrame.src = element.etLink;
+                        iFrame.onload = function () {
+                            let links = iFrame.contentWindow.document.links;
+                            for (i = 0; i < links.length; i++) {
+                                if (links[i].title.includes("Документация")) {
+                                    lastCell.style.backgroundColor = "#59981A";
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+    upcommingAuctionsCheck();
 
     //coloring auctions page
     function colorRow() {
         auctions.forEach(element => {
             for (let i = 0, row; row = auctionsTable.rows[i]; i++) {
                 if (row.cells[0].innerText == element.number) {
-                    if (!row.cells[2].innerHTML.includes(" | ")) {
+                    let dateCell = row.cells[3];
+                    let lastCell = row.cells[8];
+                    if (!dateCell.innerHTML.includes(" | ")) {
                         if (element.status == "passed") {
-                            row.cells[8].style.backgroundColor = "#59981A";
-                            row.cells[2].innerHTML = row.cells[2].innerHTML + (" | ") + element.deadline.fontcolor("#59981A").italics().bold();
+                            lastCell.style.backgroundColor = "#59981A";
+                            dateCell.innerHTML = element.deadline.fontcolor("#59981A").italics().bold();
                         } else if (element.status == "today") {
-                            row.cells[8].style.backgroundColor = "#D1462F";
-                            row.cells[2].innerHTML = row.cells[2].innerHTML + (" | ") + element.deadline.fontcolor("#D1462F").italics().bold();
+                            lastCell.style.backgroundColor = "#D1462F";
+                            dateCell.innerHTML = element.deadline.fontcolor("#D1462F").italics().bold();
                         } else if (element.status == "upcomming") {
-                            row.cells[8].style.backgroundColor = "#e88031";
-                            row.cells[2].innerHTML = row.cells[2].innerHTML + (" | ") + element.deadline.fontcolor("#e88031").italics().bold();
+                            lastCell.style.backgroundColor = "#e88031";
+                            dateCell.innerHTML = element.deadline.fontcolor("#e88031").italics().bold();
                         } else if (element.status == "commission") {
-                            // row.cells[8].style.backgroundColor = "#2f4050";
-                            assingedCommissionCheck();
-                            row.cells[2].innerHTML = row.cells[2].innerHTML + (" | ") + element.deadline.fontcolor("#2f4050").italics().bold();
+                            lastCell.style.backgroundColor = "#2f4050";
+                            dateCell.innerHTML = element.deadline.fontcolor("#2f4050").italics().bold();
                         }
                     }
                 }
@@ -209,9 +239,55 @@ function main() {
     }
     colorRow();
 
-    console.log(auctions[0].number + ' ' + auctions[0].status);
-    console.log(auctions[16].number + " " + auctions[16].status);
-    console.log(auctions[18].number + " " + auctions[18].status);
+    // pushing object into array that need to be opened in new tabs
+    // TO DO - only auctions with no published documentation
+    auctions.forEach(element => {
+        if (element.status == "today") {
+            objToPush = {
+                number: element.number,
+                etLink: element.etLink,
+            };
+            upcommingAuctionsArray.push(objToPush);
+        } else if (element.status == "commission") {
+            objToPush = {
+                number: element.number,
+                etLink: element.etLink,
+            };
+            commissionAuctionsArray.push(objToPush);
+        }
+    });
+
+    //open tabs for every auction in the according arrays
+    function auctionsTabOpen(array, text) {
+        if (array.length != 0) {
+            //removing second entry from the duplicated entries in the array
+            // for (let i = 0; i < array.length; i++) {
+            //     for (let j = 0; j < array.length; j++) {
+            //         if (i !== j) {
+            //             if (array[i].number == array[j].number) {
+            //                 array.splice(j, 1);
+            //             }
+            //         }
+            //     }
+            // }
+
+            if (confirm("Търгове за " + text + ': ' + array.length + "\r\nОтвори?")) {
+                for (i = 0; i < array.length; i++) {
+                    // window.open(array[i].etLink, '_blank');
+                }
+            }
+        }
+    }
+    auctionsTabOpen(upcommingAuctionsArray, "публикуване на документация");
+    auctionsTabOpen(commissionAuctionsArray, "назначаване на комисия");
+    console.log(upcommingAuctionsArray);
+
+
+
+
+    // console.log(auctions[0].number + ' ' + auctions[0].status);
+    // console.log(auctions[16].number + " " + auctions[16].status);
+    // console.log(auctions[18].number + " " + auctions[18].status);
 
 }
 main();
