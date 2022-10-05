@@ -265,7 +265,7 @@ function main() {
                 }
             });
         }
-        if (confirm("Отвори с краен срок за публикуване днес?")) {
+        if (confirm("Отвори търгове с краен срок за публикуване днес?")) {
             auctions.forEach(element => {
                 if (element.status == "today") {
                     window.open(element.etLink, "_blank");
