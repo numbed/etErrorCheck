@@ -24,7 +24,7 @@ chrome.browserAction.onClicked.addListener((tab) => {
                 active: true
             }, function (tabs) {
                 chrome.tabs.executeScript(tab.id, {
-                    file: "auctions.js",
+                    file: "auctions_v2.js",
                     allFrames: true
                 });
             });

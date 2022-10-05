@@ -200,7 +200,7 @@ function main() {
                             let links = iFrame.contentWindow.document.links;
                             for (i = 0; i < links.length; i++) {
                                 if (links[i].title.includes("Документация")) {
-                                    lastCell.style.backgroundColor = "#59981A";
+                                    lastCell.style.backgroundColor = "#81B622";
                                 }
                             }
                         }
@@ -211,6 +211,23 @@ function main() {
     }
     upcommingAuctionsCheck();
 
+    //checking for duplicated ET by date and branch (duplicatedArray)
+    function duplicatedCheck() {
+        auctions.forEach(element => {
+            for (let i = 0; i < auctions.length; i++) {
+                for (let j = 0; j < auctions.length; j++) {
+                    if (i !== j) {
+                        if (auctions[i].date === auctions[j].date && auctions[i].branch === auctions[j].branch) {
+                            auctionsTable.rows[i].style.backgroundColor = "#B21368";
+                            auctionsTable.rows[i].style.color = "#EFD3B5";
+                        }
+                    }
+                }
+            }
+        });
+    }
+    duplicatedCheck();
+
     //coloring auctions page
     function colorRow() {
         auctions.forEach(element => {
@@ -220,8 +237,8 @@ function main() {
                     let lastCell = row.cells[8];
                     if (!dateCell.innerHTML.includes(" | ")) {
                         if (element.status == "passed") {
-                            lastCell.style.backgroundColor = "#59981A";
-                            dateCell.innerHTML = element.deadline.fontcolor("#59981A").italics().bold();
+                            lastCell.style.backgroundColor = "#81B622";
+                            dateCell.innerHTML = element.deadline.fontcolor("#81B622").italics().bold();
                         } else if (element.status == "today") {
                             lastCell.style.backgroundColor = "#D1462F";
                             dateCell.innerHTML = element.deadline.fontcolor("#D1462F").italics().bold();
@@ -239,51 +256,100 @@ function main() {
     }
     colorRow();
 
-    // pushing object into array that need to be opened in new tabs
-    // TO DO - only auctions with no published documentation
-    auctions.forEach(element => {
-        if (element.status == "today") {
-            objToPush = {
-                number: element.number,
-                etLink: element.etLink,
-            };
-            upcommingAuctionsArray.push(objToPush);
-        } else if (element.status == "commission") {
-            objToPush = {
-                number: element.number,
-                etLink: element.etLink,
-            };
-            commissionAuctionsArray.push(objToPush);
-        }
-    });
-
-    //open tabs for every auction in the according arrays
-    function auctionsTabOpen(array, text) {
-        if (array.length != 0) {
-            //removing second entry from the duplicated entries in the array
-            // for (let i = 0; i < array.length; i++) {
-            //     for (let j = 0; j < array.length; j++) {
-            //         if (i !== j) {
-            //             if (array[i].number == array[j].number) {
-            //                 array.splice(j, 1);
-            //             }
-            //         }
-            //     }
-            // }
-
-            if (confirm("Търгове за " + text + ': ' + array.length + "\r\nОтвори?")) {
-                for (i = 0; i < array.length; i++) {
-                    // window.open(array[i].etLink, '_blank');
+    //open tabs for every auction with deadline or commission
+    function auctionsTabOpen() {
+        if (confirm("Отвори търгове за назначаване на комисии?")) {
+            auctions.forEach(element => {
+                if (element.status == "commission") {
+                    window.open(element.etLink, "_blank");
                 }
-            }
+            });
+        }
+        if (confirm("Отвори с краен срок за публикуване днес?")) {
+            auctions.forEach(element => {
+                if (element.status == "today") {
+                    window.open(element.etLink, "_blank");
+                }
+            });
+        }
+        if (confirm("Отвори предстоящи търгове?")) {
+            auctions.forEach(element => {
+                if (element.status == "upcomming") {
+                    window.open(element.etLink, "_blank");
+                }
+            });
         }
     }
-    auctionsTabOpen(upcommingAuctionsArray, "публикуване на документация");
-    auctionsTabOpen(commissionAuctionsArray, "назначаване на комисия");
-    console.log(upcommingAuctionsArray);
+    auctionsTabOpen();
 
+    //check if auction has published contract
+    function contractCheck() {
+        if (confirm("Проверка за публикувани договори?")) {
+            auctions.forEach(function (element) {
+                if (element.status == "passed") {
+                    for (let i = 0, row; row = auctionsTable.rows[i]; i++) {
+                        if (element.number == row.cells[0].innerText) {
+                            let lastCell = row.cells[8];
+                            let iFrame = document.getElementById(element.number);
+                            iFrame.src = element.etLink;
+                            iFrame.onload = function () {
+                                let links = iFrame.contentWindow.document.links;
+                                for (i = 0; i < links.length; i++) {
+                                    if (links[i].title.includes("Договор")) {
+                                        lastCell.style.backgroundColor = "#3D550C";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    }
+    contractCheck();
 
+    // pushing object into array that need to be opened in new tabs
+    // TO DO - only auctions with no published documentation
+    // auctions.forEach(element => {
+    //     if (element.status == "today") {
+    //         objToPush = {
+    //             number: element.number,
+    //             etLink: element.etLink,
+    //         };
+    //         upcommingAuctionsArray.push(objToPush);
+    //     } else if (element.status == "commission") {
+    //         objToPush = {
+    //             number: element.number,
+    //             etLink: element.etLink,
+    //         };
+    //         commissionAuctionsArray.push(objToPush);
+    //     }
+    // });
+    
+    //open tabs for every auction in the according arrays
+    // function auctionsTabOpen2(array, text) {
+    //     if (array.length != 0) {
+    //         //removing second entry from the duplicated entries in the array
+    //         // for (let i = 0; i < array.length; i++) {
+    //         //     for (let j = 0; j < array.length; j++) {
+    //         //         if (i !== j) {
+    //         //             if (array[i].number == array[j].number) {
+    //         //                 array.splice(j, 1);
+    //         //             }
+    //         //         }
+    //         //     }
+    //         // }
 
+    //         if (confirm("Търгове за " + text + ': ' + array.length + "\r\nОтвори?")) {
+    //             for (i = 0; i < array.length; i++) {
+    //                 window.open(array[i].etLink, '_blank');
+    //             }
+    //         }
+    //     }
+    // }
+    // auctionsTabOpen2(upcommingAuctionsArray, "публикуване на документация");
+    // auctionsTabOpen2(commissionAuctionsArray, "назначаване на комисия");
+    // console.log(upcommingAuctionsArray);
 
     // console.log(auctions[0].number + ' ' + auctions[0].status);
     // console.log(auctions[16].number + " " + auctions[16].status);
