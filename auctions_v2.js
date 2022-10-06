@@ -1,14 +1,11 @@
 function main() {
     console.clear();
-
+    //js new line in string?
     let auctionsTable = document.querySelector("tbody");
-    document.querySelector("thead").rows[1].cells[3].innerText = "Краен срок за публикуване";
+    document.querySelector("thead").rows[1].cells[3].innerText = "Краен срок\n за публикуване";
     const auctions = [];
     let today = new Date();
     let number, date, subject, branch;
-    let upcommingAuctionsArray = [];
-    let commissionAuctionsArray = [];
-    let objToPush = {};
 
     //collecting data from active tab table (auctions)
     function auctionDataCollect() {
@@ -255,32 +252,29 @@ function main() {
         });
     }
     colorRow();
-
+    
     //open tabs for every auction with deadline or commission
-    function auctionsTabOpen() {
-        if (confirm("Отвори търгове за назначаване на комисии?")) {
-            auctions.forEach(element => {
-                if (element.status == "commission") {
-                    window.open(element.etLink, "_blank");
-                }
-            });
-        }
-        if (confirm("Отвори търгове с краен срок за публикуване днес?")) {
-            auctions.forEach(element => {
-                if (element.status == "today") {
-                    window.open(element.etLink, "_blank");
-                }
-            });
-        }
-        if (confirm("Отвори предстоящи търгове?")) {
-            auctions.forEach(element => {
-                if (element.status == "upcomming") {
-                    window.open(element.etLink, "_blank");
-                }
-            });
+    function auctionsTabOpen(status, confirmText) {
+        const isFound = auctions.some(element => {
+            if (element.status == status) {
+                return true;
+            } else {
+                return false;
+            }
+        });
+        if (isFound) {
+            if (confirm(confirmText)) {
+                auctions.forEach(element => {
+                    if (element.status == status) {
+                        window.open(element.etLink, "_blank");
+                    }
+                });
+            }
         }
     }
-    auctionsTabOpen();
+    auctionsTabOpen("upcomming", "Отвори предстоящи търгове?");
+    auctionsTabOpen("today", "Отвори търгове с краен срок за публикуване днес?");
+    auctionsTabOpen("commission", "Отвори търгове за назначаване на комисии?");
 
     //check if auction has published contract
     function contractCheck() {
@@ -307,49 +301,6 @@ function main() {
         }
     }
     contractCheck();
-
-    // pushing object into array that need to be opened in new tabs
-    // TO DO - only auctions with no published documentation
-    // auctions.forEach(element => {
-    //     if (element.status == "today") {
-    //         objToPush = {
-    //             number: element.number,
-    //             etLink: element.etLink,
-    //         };
-    //         upcommingAuctionsArray.push(objToPush);
-    //     } else if (element.status == "commission") {
-    //         objToPush = {
-    //             number: element.number,
-    //             etLink: element.etLink,
-    //         };
-    //         commissionAuctionsArray.push(objToPush);
-    //     }
-    // });
-    
-    //open tabs for every auction in the according arrays
-    // function auctionsTabOpen2(array, text) {
-    //     if (array.length != 0) {
-    //         //removing second entry from the duplicated entries in the array
-    //         // for (let i = 0; i < array.length; i++) {
-    //         //     for (let j = 0; j < array.length; j++) {
-    //         //         if (i !== j) {
-    //         //             if (array[i].number == array[j].number) {
-    //         //                 array.splice(j, 1);
-    //         //             }
-    //         //         }
-    //         //     }
-    //         // }
-
-    //         if (confirm("Търгове за " + text + ': ' + array.length + "\r\nОтвори?")) {
-    //             for (i = 0; i < array.length; i++) {
-    //                 window.open(array[i].etLink, '_blank');
-    //             }
-    //         }
-    //     }
-    // }
-    // auctionsTabOpen2(upcommingAuctionsArray, "публикуване на документация");
-    // auctionsTabOpen2(commissionAuctionsArray, "назначаване на комисия");
-    // console.log(upcommingAuctionsArray);
 
     // console.log(auctions[0].number + ' ' + auctions[0].status);
     // console.log(auctions[16].number + " " + auctions[16].status);
