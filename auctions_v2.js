@@ -208,10 +208,16 @@ function main() {
     }
     upcommingAuctionsCheck();
 
-    //checking for duplicated ET by date and branch (duplicatedArray)
-    function duplicatedCheck() {
-        auctions.forEach(element => {
+    //error check for duplicates and wrong type of auction
+    function errorCheck() {
+        auctions.forEach(function () {
             for (let i = 0; i < auctions.length; i++) {
+                //auction type check
+                if (auctions[i].type == "к" || auctions[i].type == "ецп") {
+                    auctionsTable.rows[i].style.backgroundColor = "black";
+                    auctionsTable.rows[i].style.color = "white";
+                }
+                //duplicate check by date and branch
                 for (let j = 0; j < auctions.length; j++) {
                     if (i !== j) {
                         if (auctions[i].date === auctions[j].date && auctions[i].branch === auctions[j].branch) {
@@ -223,7 +229,7 @@ function main() {
             }
         });
     }
-    duplicatedCheck();
+    errorCheck();
 
     //coloring auctions page
     function colorRow() {
@@ -252,7 +258,7 @@ function main() {
         });
     }
     colorRow();
-    
+
     //open tabs for every auction with deadline or commission
     function auctionsTabOpen(status, confirmText) {
         const isFound = auctions.some(element => {
