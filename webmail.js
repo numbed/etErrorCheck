@@ -2,29 +2,92 @@ function webmail() {
     const attachments = document.querySelectorAll(".filename");
     const emailSubject = document.getElementById("compose-subject");
     const emailTo = document.getElementById("_to");
-    document.getElementById("composebody").value = (" ");
     let multiRecepients;
 
-    //collect data from attached files and fills according fields in the email compose page
-    //!!!only adds recepient of the last file attached!!!
-    //!!!SEND MULTIPLE FILES ONLY TO THE SAME RECIPIENT/RECIPIENTS!!!
-    attachments.forEach(element => {
-        let attached = element.innerText;
-        let lastIndex = attached.lastIndexOf("-");
-        let fileName = attached.slice(0, lastIndex);
-        emailSubject.value = emailSubject.value + fileName + ", ";
-        let recepient = attached.slice(lastIndex + 1).split(".")[0];
-        if (recepient.length >= 3) {
-            multiRecepients = recepient.split("_");
-            multiRecepients.forEach(el => {
-                emailTo.value = emailTo.value + tpEmail(el) + ", ";
-                console.log(tpEmail(el));
-            });
+    /**
+     * check if you are in compose email
+     * TRUE - sends email based on criteria
+     * FALSE - download multiple attachments from email
+     */
+    if (emailTo) {
+        document.getElementById("composebody").value = (" ");
+        /**
+         * collect data from attached files and fills according fields in the email compose page
+         * !!!only adds recepient of the last file attached!!!
+         * !!!SEND MULTIPLE FILES ONLY TO THE SAME RECIPIENT/RECIPIENTS!!!
+         */
+        attachments.forEach(element => {
+            let attached = element.innerText;
+            let lastIndex = attached.lastIndexOf("-");
+            let fileName = attached.slice(0, lastIndex);
+            emailSubject.value = emailSubject.value + fileName + ", ";
+            let recepient = attached.slice(lastIndex + 1).split(".")[0];
+            if (recepient.length >= 3) {
+                multiRecepients = recepient.split("_");
+                multiRecepients.forEach(el => {
+                    emailTo.value = emailTo.value + tpEmail(el) + ", ";
+                    console.log(tpEmail(el));
+                });
+            } else {
+                emailTo.value = emailTo.value + tpEmail(recepient) + ", ";
+                console.log(tpEmail(recepient));
+            }
+        });
+    } else {
+        console.log("downloading files");
+
+        let copyToClipboard = document.createElement("input");
+        copyToClipboard.className = "copyToClipboard";
+        document.body.appendChild(copyToClipboard);
+        copyToClipboard.value = window.location.href.split("/").pop();
+        copyToClipboard.select();
+        document.body.removeChild(copyToClipboard);
+
+        let arr = [];
+        attachments.forEach(el =>{
+            arr.push(el.href);
+        });
+
+        if (arr.length > 10) {
+            download(0, 9);
+            sleep(5000);
+            download(9, 19);
+            sleep(5000);
+            download(19, 29);
+            sleep(5000);
+            download(29, 39);
+            sleep(5000);
+            download(39, 49);
+            sleep(5000);
+            download(49, arr.length);
         } else {
-            emailTo.value = emailTo.value + tpEmail(recepient) + ", ";
-            console.log(tpEmail(recepient));
+            download(0, arr.length);
         }
-    });
+
+        function download(start, end) {
+            for (let n = start; n < end; n++) {
+                let x = arr[n];
+                let a = document.createElement("a");
+                a.href = x;
+                fileName = copyToClipboard.value + "_" + x.split("/").pop();
+                a.download = fileName;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(x);
+                a.remove();
+            }
+        }
+
+        function sleep(milliseconds) {
+            let start = new Date().getTime();
+            for (let i = 0; i < 1e7; i++) {
+                if ((new Date().getTime() - start) > milliseconds) {
+                    break;
+                }
+            }
+        }
+
+    }
 
     //list of predefined recepients
     //!!!TO DO!!!
