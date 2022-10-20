@@ -166,7 +166,7 @@ function main() {
                     iFrame.onload = function () {
                         const comm1 = iFrame.contentWindow.document.querySelector("select.form-control.commision");
                         const comm2 = iFrame.contentWindow.document.querySelector("div.form-control");
-                        if (comm1) {
+                        if (comm1.value != "") {
                             console.log("comm1");
                             lastCell.style.backgroundColor = "#9eb3c6";
                         } else if (!comm1) {
