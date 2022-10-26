@@ -244,12 +244,18 @@ function main() {
                             dateCell.innerHTML = element.deadline.fontcolor("#81B622").italics().bold();
                         } else if (element.status == "today") {
                             lastCell.style.backgroundColor = "#D1462F";
+                            row.style.color = "#D1462F";
+                            row.style.fontWeight = "bold";
                             dateCell.innerHTML = element.deadline.fontcolor("#D1462F").italics().bold();
                         } else if (element.status == "upcomming") {
                             lastCell.style.backgroundColor = "#e88031";
+                            row.style.color = "#e88031";
+                            row.style.fontWeight = "bold";
                             dateCell.innerHTML = element.deadline.fontcolor("#e88031").italics().bold();
                         } else if (element.status == "commission") {
                             lastCell.style.backgroundColor = "#2f4050";
+                            row.style.color = "#2f4050";
+                            row.style.fontWeight = "bold";
                             dateCell.innerHTML = element.deadline.fontcolor("#2f4050").italics().bold();
                         }
                     }
