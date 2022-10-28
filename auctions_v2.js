@@ -198,6 +198,8 @@ function main() {
                             for (i = 0; i < links.length; i++) {
                                 if (links[i].title.includes("Документация")) {
                                     lastCell.style.backgroundColor = "#81B622";
+                                    row.style.color = "#676a6c";
+                                    row.style.fontWeight = "normal";
                                 }
                             }
                         }
@@ -250,12 +252,12 @@ function main() {
                         } else if (element.status == "upcomming") {
                             lastCell.style.backgroundColor = "#e88031";
                             row.style.color = "#e88031";
-                            row.style.fontWeight = "bold";
+                            // row.style.fontWeight = "bold";
                             dateCell.innerHTML = element.deadline.fontcolor("#e88031").italics().bold();
                         } else if (element.status == "commission") {
                             lastCell.style.backgroundColor = "#2f4050";
                             row.style.color = "#2f4050";
-                            row.style.fontWeight = "bold";
+                            // row.style.fontWeight = "bold";
                             dateCell.innerHTML = element.deadline.fontcolor("#2f4050").italics().bold();
                         }
                     }
