@@ -215,7 +215,7 @@ function main() {
         auctions.forEach(function () {
             for (let i = 0; i < auctions.length; i++) {
                 //auction type check
-                if (auctions[i].type == "к" || auctions[i].type == "ецп") {
+                if (auctions[i].type == "к" || auctions[i].type == "ецп" || auctions[i].subject == "ДД") {
                     auctionsTable.rows[i].style.backgroundColor = "black";
                     auctionsTable.rows[i].style.color = "white";
                 }
