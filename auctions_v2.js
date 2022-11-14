@@ -219,6 +219,18 @@ function main() {
                     auctionsTable.rows[i].style.backgroundColor = "black";
                     auctionsTable.rows[i].style.color = "white";
                 }
+                if (auctions[i].subject == "K") {
+                    auctionsTable.rows[i].cells[4].innerHTML = "Електронен търг с наддаване за продажба на стояща дървесина на <b>корен</b>";
+
+                }
+                if (auctions[i].subject == "ДД") {
+                    auctionsTable.rows[i].cells[4].innerHTML = "Електронен търг с наддаване за продажба на <b>действително добити</b> количества";
+
+                }
+                if (auctions[i].subject == "П") {
+                    auctionsTable.rows[i].cells[4].innerHTML = "Електронен търг с наддаване за продажба на добита дървесина на <b>прогнозни</b> количества";
+
+                }
                 //duplicate check by date and branch
                 for (let j = 0; j < auctions.length; j++) {
                     if (i !== j) {
