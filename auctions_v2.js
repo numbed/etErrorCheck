@@ -283,13 +283,14 @@ function main() {
     function auctionsTabOpen(status, confirmText) {
         const isFound = auctions.some(element => {
             if (element.status == status) {
-                return true;
+                return true; 
             } else {
                 return false;
             }
         });
+        
         if (isFound) {
-            if (confirm(confirmText)) {
+            if (confirm(confirmText + " " + statusCounter(status))) {
                 auctions.forEach(element => {
                     if (element.status == status) {
                         window.open(element.etLink, "_blank");
@@ -298,6 +299,16 @@ function main() {
             }
         }
     }
+
+    //count number of auctions with specific status
+    function statusCounter(s){
+        let counter = 0;
+        auctions.forEach(element => {
+            if (element.status == s) {counter++;}
+        });
+        return counter;
+    }
+
     auctionsTabOpen("upcomming", "Отвори предстоящи търгове?");
     auctionsTabOpen("today", "Отвори търгове с краен срок за публикуване днес?");
     auctionsTabOpen("commission", "Отвори търгове за назначаване на комисии?");
