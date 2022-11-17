@@ -81,7 +81,7 @@ function main() {
     //auctions.object
     function objectCheck(o) {
         let output = o.split("/");
-        output = output[1].trim().split(" ").pop();
+        output = output[1].trim().split("№:").pop().trim();
         return output;
     }
 
@@ -220,15 +220,15 @@ function main() {
                     auctionsTable.rows[i].style.color = "white";
                 }
                 if (auctions[i].subject == "K") {
-                    auctionsTable.rows[i].cells[4].innerHTML = "Електронен търг с наддаване за продажба на стояща дървесина на <b>корен</b>";
+                    auctionsTable.rows[i].cells[4].innerHTML = "Електронен търг с наддаване за продажба на стояща дървесина на <b>КОРЕН</b>";
 
                 }
                 if (auctions[i].subject == "ДД") {
-                    auctionsTable.rows[i].cells[4].innerHTML = "Електронен търг с наддаване за продажба на <b>действително добити</b> количества";
+                    auctionsTable.rows[i].cells[4].innerHTML = "Електронен търг с наддаване за продажба на <b>ДЕЙСТВИТЕЛНО ДОБИТИ</b> количества";
 
                 }
                 if (auctions[i].subject == "П") {
-                    auctionsTable.rows[i].cells[4].innerHTML = "Електронен търг с наддаване за продажба на добита дървесина на <b>прогнозни</b> количества";
+                    auctionsTable.rows[i].cells[4].innerHTML = "Електронен търг с наддаване за продажба на добита дървесина на <b>ПРОГНОЗНИ</b> количества";
 
                 }
                 //duplicate check by date and branch
@@ -341,9 +341,41 @@ function main() {
     }
     contractCheck();
 
+    //table output today and upcomming auctions to console for copy purposes 
+    function tableOuput() {
+        let todayA = [];
+        let upcommingA = [];
+        auctions.forEach(el => {
+            if (el.status == "today") {
+                let obj = {
+                    number: el.number,
+                    branch: el.branch,
+                    subject: el.subject,
+                    object: el.object,
+                    deadline: el.deadline
+                }
+                todayA.push(obj);
+            }
+            if (el.status == "upcomming") {
+                let obj = {
+                    number: el.number,
+                    branch: el.branch,
+                    subject: el.subject,
+                    object: el.object,
+                    deadline: el.deadline
+                }
+                upcommingA.push(obj);
+            }
+        });
+        console.table(todayA);
+        console.table(upcommingA);
+    }
+    tableOuput();
+
     // console.log(auctions[0].number + ' ' + auctions[0].status);
     // console.log(auctions[16].number + " " + auctions[16].status);
     // console.log(auctions[18].number + " " + auctions[18].status);
+    //console.table(auctions);
 
 }
 main();
