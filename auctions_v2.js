@@ -215,9 +215,13 @@ function main() {
         auctions.forEach(function () {
             for (let i = 0; i < auctions.length; i++) {
                 //auction type check
-                if (auctions[i].type == "к" || auctions[i].type == "ецп" || auctions[i].subject == "ДД") {
+                if (auctions[i].type == "к" || auctions[i].type == "ецп") {
                     auctionsTable.rows[i].style.backgroundColor = "black";
                     auctionsTable.rows[i].style.color = "white";
+                }
+                if (auctions[i].subject == "ДД") {
+                    auctionsTable.rows[i].cells[4].style.backgroundColor = "black";
+                    auctionsTable.rows[i].cells[4].style.color = "white";
                 }
                 if (auctions[i].subject == "K") {
                     auctionsTable.rows[i].cells[4].innerHTML = "Електронен търг с наддаване за продажба на стояща дървесина на <b>КОРЕН</b>";
@@ -375,7 +379,7 @@ function main() {
     // console.log(auctions[0].number + ' ' + auctions[0].status);
     // console.log(auctions[16].number + " " + auctions[16].status);
     // console.log(auctions[18].number + " " + auctions[18].status);
-    //console.table(auctions);
+    // console.table(auctions);
 
 }
 main();
