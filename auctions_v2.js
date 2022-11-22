@@ -224,16 +224,13 @@ function main() {
                     auctionsTable.rows[i].cells[4].style.color = "white";
                 }
                 if (auctions[i].subject == "K") {
-                    auctionsTable.rows[i].cells[4].innerHTML = "Електронен търг с наддаване за продажба на стояща дървесина на <b>КОРЕН</b>";
-
+                    auctionsTable.rows[i].cells[4].innerHTML = "Електронен <b>ТЪРГ</b> с наддаване за продажба на стояща дървесина на <b>КОРЕН</b>";
                 }
                 if (auctions[i].subject == "ДД") {
-                    auctionsTable.rows[i].cells[4].innerHTML = "Електронен търг с наддаване за продажба на <b>ДЕЙСТВИТЕЛНО ДОБИТИ</b> количества";
-
+                    auctionsTable.rows[i].cells[4].innerHTML = "Електронен <b>ТЪРГ</b> с наддаване за продажба на <b>ДЕЙСТВИТЕЛНО ДОБИТИ</b> количества";
                 }
                 if (auctions[i].subject == "П") {
-                    auctionsTable.rows[i].cells[4].innerHTML = "Електронен търг с наддаване за продажба на добита дървесина на <b>ПРОГНОЗНИ</b> количества";
-
+                    auctionsTable.rows[i].cells[4].innerHTML = "Електронен <b>ТЪРГ</b> с наддаване за продажба на добита дървесина на <b>ПРОГНОЗНИ</b> количества";
                 }
                 //duplicate check by date and branch
                 for (let j = 0; j < auctions.length; j++) {
@@ -354,9 +351,9 @@ function main() {
                 let obj = {
                     number: el.number,
                     branch: el.branch,
-                    subject: el.subject,
+                    deadline: el.deadline,
                     object: el.object,
-                    deadline: el.deadline
+                    subject: el.subject
                 }
                 todayA.push(obj);
             }
