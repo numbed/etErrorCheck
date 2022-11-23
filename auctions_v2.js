@@ -361,9 +361,9 @@ function main() {
                 let obj = {
                     number: el.number,
                     branch: el.branch,
-                    subject: el.subject,
+                    deadline: el.deadline,
                     object: el.object,
-                    deadline: el.deadline
+                    subject: el.subject
                 }
                 upcommingA.push(obj);
             }
