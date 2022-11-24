@@ -12,7 +12,8 @@ function archimedDocs() {
 	        docs[i] = {
 	            number: docNumber(row.cells[0].innerText),
 	            date: docDate(row.cells[0].innerText),
-	            fullcell: row.cells[0].innerText
+	            fullcell: row.cells[0].innerText,
+				status: row.cells[4].innerText
 	        };
 	    }
 	
@@ -40,7 +41,7 @@ function archimedDocs() {
 	        
 	        };
 	
-	        if (ddlDate.setHours(0, 0, 0, 0) == today.setHours(0, 0, 0, 0)) {
+	        if (ddlDate.setHours(0, 0, 0, 0) == today.setHours(0, 0, 0, 0) && (docs[i].status.includes("Приключен") || docs[i].status.includes("Отговорен")) ) {
 	            todayArray.push(infoObj);
 	        }
 	    }
@@ -58,6 +59,8 @@ function archimedDocs() {
 	        }
 	    
 	        colorfullRowsOutput(todayArray, "#a5e566", "white"); //green
+
+			console.table(docs);
 	       
 }
 archimedDocs();
