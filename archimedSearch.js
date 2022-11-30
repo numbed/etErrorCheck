@@ -6,7 +6,9 @@ function archimedSearch() {
 	const docs = [];
 	const todayArray = [];
 	let today = new Date();
-	
+	let yesterday = new Date();
+	yesterday.setDate(yesterday.getDate() - 1);
+
 	//collecting data from active tab table (docs)
 	for (let i = 0, row; row = table.rows[i]; i++) {
 	    docs[i] = {
@@ -40,9 +42,13 @@ function archimedSearch() {
 	    
 	    };
 	
-	    if (ddlDate.setHours(0, 0, 0, 0) == today.setHours(0, 0, 0, 0)) {
-	        todayArray.push(infoObj);
-	    }
+		if (ddlDate.setHours(0, 0, 0, 0) == today.setHours(0, 0, 0, 0) && (docs[i].status.includes("Приключен") || docs[i].status.includes("Отговорен")) ) {
+			todayArray.push(infoObj);
+		}
+
+		if (ddlDate.setHours(0, 0, 0, 0) == yesterday.setHours(0, 0, 0, 0) && (docs[i].status.includes("Приключен") || docs[i].status.includes("Отговорен")) ) {
+			yesterdayArray.push(infoObj);
+		}
 	}
 	
 	    //coloring rows
@@ -58,6 +64,7 @@ function archimedSearch() {
 	    }
 	
 	    colorfullRowsOutput(todayArray, "#a5e566", "white"); //green
+	    colorfullRowsOutput(yesterdayArray, "#FFC300", "white"); //yellow
 	   
 }
 archimedSearch();
