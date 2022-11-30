@@ -5,6 +5,7 @@ function archimedSearch() {
 	let table = t[11];
 	const docs = [];
 	const todayArray = [];
+	const yesterdayArray = [];
 	let today = new Date();
 	let yesterday = new Date();
 	yesterday.setDate(yesterday.getDate() - 1);
@@ -14,7 +15,8 @@ function archimedSearch() {
 	    docs[i] = {
 	        number: docNumber(row.cells[0].innerText),
 	        date: docDate(row.cells[0].innerText),
-	        fullcell: row.cells[0].innerText
+	        fullcell: row.cells[0].innerText,
+			status: row.cells[4].innerText
 	    };
 	}
 	
@@ -39,14 +41,15 @@ function archimedSearch() {
 	        number: docs[i].number,
 	        date: docs[i].date,
 	        fullcell: docs[i].fullcell,
+			
 	    
 	    };
 	
-		if (ddlDate.setHours(0, 0, 0, 0) == today.setHours(0, 0, 0, 0) && (docs[i].status.includes("Приключен") || docs[i].status.includes("Отговорен")) ) {
+		if (ddlDate.setHours(0, 0, 0, 0) == today.setHours(0, 0, 0, 0) && docs[i].status.includes("Приключен") ) {
 			todayArray.push(infoObj);
 		}
 
-		if (ddlDate.setHours(0, 0, 0, 0) == yesterday.setHours(0, 0, 0, 0) && (docs[i].status.includes("Приключен") || docs[i].status.includes("Отговорен")) ) {
+		if (ddlDate.setHours(0, 0, 0, 0) == yesterday.setHours(0, 0, 0, 0) && docs[i].status.includes("Приключен")  ) {
 			yesterdayArray.push(infoObj);
 		}
 	}
