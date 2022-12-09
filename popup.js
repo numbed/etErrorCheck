@@ -19,12 +19,12 @@ chrome.browserAction.onClicked.addListener((tab) => {
         active: true
     }, function (tabs) {
         var tab = tabs[0];
-        if (tab.url.includes("/au-admin/auctions")) {
+        if (tab.url.includes("/form")) {
             chrome.tabs.query({
                 active: true
             }, function (tabs) {
                 chrome.tabs.executeScript(tab.id, {
-                    file: "auctions_v2.js",
+                    file: "auctionsCommission.js",
                     allFrames: true
                 });
             });
@@ -73,7 +73,17 @@ chrome.browserAction.onClicked.addListener((tab) => {
                     allFrames: true
                 });
             });
+        } else if (tab.url.includes("/au-admin/auctions")) {
+            chrome.tabs.query({
+                active: true
+            }, function (tabs) {
+                chrome.tabs.executeScript(tab.id, {
+                    file: "auctions_v2.js",
+                    allFrames: true
+                });
+            });
         }
+        
     });
 });
 
