@@ -2,7 +2,7 @@ function main() {
     console.clear();
     //js new line in string?
     let auctionsTable = document.querySelector("tbody");
-    document.querySelector("thead").rows[1].cells[3].innerText = "Краен срок\n за публикуване";
+    document.querySelector("thead").rows[1].cells[3].innerText = "Краен срок за записване\n" + "Краен срок за публикуване";
     const auctions = [];
     let today = new Date();
     let number, date, subject, branch;
@@ -256,22 +256,22 @@ function main() {
                     if (!dateCell.innerHTML.includes(" | ")) {
                         if (element.status == "passed") {
                             lastCell.style.backgroundColor = "#81B622";
-                            dateCell.innerHTML = element.deadline.fontcolor("#81B622").italics().bold();
+                            dateCell.innerHTML = dateCell.innerHTML + "<br>" + element.deadline.fontcolor("#81B622").italics().bold();
                         } else if (element.status == "today") {
                             lastCell.style.backgroundColor = "#D1462F";
                             row.style.color = "#D1462F";
                             row.style.fontWeight = "bold";
-                            dateCell.innerHTML = element.deadline.fontcolor("#D1462F").italics().bold();
+                            dateCell.innerHTML = dateCell.innerHTML + "<br>" + element.deadline.fontcolor("#D1462F").italics().bold();
                         } else if (element.status == "upcomming") {
                             lastCell.style.backgroundColor = "#e88031";
                             row.style.color = "#e88031";
                             // row.style.fontWeight = "bold";
-                            dateCell.innerHTML = element.deadline.fontcolor("#e88031").italics().bold();
+                            dateCell.innerHTML = dateCell.innerHTML + "<br>" + element.deadline.fontcolor("#e88031").italics().bold();
                         } else if (element.status == "commission") {
                             lastCell.style.backgroundColor = "#2f4050";
                             row.style.color = "#2f4050";
                             // row.style.fontWeight = "bold";
-                            dateCell.innerHTML = element.deadline.fontcolor("#2f4050").italics().bold();
+                            dateCell.innerHTML = dateCell.innerHTML + "<br>" + element.deadline.fontcolor("#2f4050").italics().bold();
                         }
                     }
                 }
