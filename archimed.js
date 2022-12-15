@@ -13,6 +13,7 @@ function archimed() {
 	    }
 	}
 	if (arr.length > 10) {
+		alert(arr.length);
 	    download(0, 9);
 	    sleep(5000);
 	    download(9, 19);
@@ -25,7 +26,8 @@ function archimed() {
 	    sleep(5000);
 	    download(49, arr.length);
 	} else {
-	    download(0, arr.length);
+		alert(arr.length);
+		download(0, arr.length);
 	}
 	
 	function download(start, end) {
@@ -50,5 +52,6 @@ function archimed() {
 	        }
 	    }
 	}
+
 }
 archimed();

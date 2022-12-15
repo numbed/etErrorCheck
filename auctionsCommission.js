@@ -33,13 +33,13 @@ function auctionsCommission() {
             input = "91,94,93,95,542";
             input = prompt(promptTitlefuntion(input), input);
         } else if (tp.value.includes("Хайтов")) {
-            input = "";
+            input = "471,144,398,424,545";
             input = prompt(promptTitlefuntion(input), input);
         } else if (tp.value.includes("Ардино")) {
             input = "";
             input = prompt(promptTitlefuntion(input), input);
         } else if (tp.value.includes("Асеновград")) {
-            input = "";
+            input = "161,164,166,498,499";
             input = prompt(promptTitlefuntion(input), input);
         } else if (tp.value.includes("Батак")) {
             input = "451,124,125,127,130";
@@ -69,19 +69,19 @@ function auctionsCommission() {
             input = "";
             input = prompt(promptTitlefuntion(input), input);
         } else if (tp.value.includes("Михалково")) {
-            input = "355,417,352,543,483";
+            input = "482,417,352,355,543";
             input = prompt(promptTitlefuntion(input), input);
         } else if (tp.value.includes("Момчилград")) {
             input = "";
             input = prompt(promptTitlefuntion(input), input);
         } else if (tp.value.includes("Пазарджик")) {
-            input = "";
+            input = "71,370,72,76,80";
             input = prompt(promptTitlefuntion(input), input);
         } else if (tp.value.includes("Панагюрище")) {
             input = "252,369,253,255,520";
             input = prompt(promptTitlefuntion(input), input);
         } else if (tp.value.includes("Пещера")) {
-            input = "";
+            input = "241,449,242,245,403";
             input = prompt(promptTitlefuntion(input), input);
         } else if (tp.value.includes("Пловдив")) {
             input = "";
@@ -126,7 +126,7 @@ function auctionsCommission() {
             input = "477,140,135,139,478";
             input = prompt(promptTitlefuntion(input), input);
         } else if (tp.value.includes("Кормисош")) {
-            input = "";
+            input = "510,420,265,269,465";
             input = prompt(promptTitlefuntion(input), input);
         } else if (tp.value.includes("Тракия")) {
             input = "";
