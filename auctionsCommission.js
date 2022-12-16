@@ -36,7 +36,7 @@ function auctionsCommission() {
             input = "471,144,398,424,545";
             input = prompt(promptTitlefuntion(input), input);
         } else if (tp.value.includes("Ардино")) {
-            input = "";
+            input = "21,22,23,29,463";
             input = prompt(promptTitlefuntion(input), input);
         } else if (tp.value.includes("Асеновград")) {
             input = "161,164,166,498,499";
@@ -45,13 +45,13 @@ function auctionsCommission() {
             input = "451,124,125,127,130";
             input = prompt(promptTitlefuntion(input), input);
         } else if (tp.value.includes("Борино")) {
-            input = "";
+            input = "111,114,117,119,120";
             input = prompt(promptTitlefuntion(input), input);
         } else if (tp.value.includes("Доспат")) {
-            input = "";
+            input = "221,223,225,226,229";
             input = prompt(promptTitlefuntion(input), input);
         } else if (tp.value.includes("Златоград")) {
-            input = "";
+            input = "321,323,322,324,372";
             input = prompt(promptTitlefuntion(input), input);
         } else if (tp.value.includes("Карлово")) {
             input = "331,410,332,333,335";
@@ -60,19 +60,16 @@ function auctionsCommission() {
             input = "41,44,42,43,45";
             input = prompt(promptTitlefuntion(input), input);
         } else if (tp.value.includes("Клисура")) {
-            input = "";
+            input = "504,419,275,279,469";
             input = prompt(promptTitlefuntion(input), input);
         } else if (tp.value.includes("Крумовград")) {
-            input = "";
-            input = prompt(promptTitlefuntion(input), input);
-        } else if (tp.value.includes("Крумовград")) {
-            input = "";
+            input = "181,462,186,491,495";
             input = prompt(promptTitlefuntion(input), input);
         } else if (tp.value.includes("Михалково")) {
             input = "482,417,352,355,543";
             input = prompt(promptTitlefuntion(input), input);
         } else if (tp.value.includes("Момчилград")) {
-            input = "";
+            input = "51,458,52,53,522";
             input = prompt(promptTitlefuntion(input), input);
         } else if (tp.value.includes("Пазарджик")) {
             input = "71,370,72,76,80";
@@ -84,7 +81,7 @@ function auctionsCommission() {
             input = "241,449,242,245,403";
             input = prompt(promptTitlefuntion(input), input);
         } else if (tp.value.includes("Пловдив")) {
-            input = "";
+            input = "282,409,285,512,524";
             input = prompt(promptTitlefuntion(input), input);
         } else if (tp.value.includes("Първомай")) {
             input = "173,502,175,176,457";
@@ -96,13 +93,13 @@ function auctionsCommission() {
             input = "231,235,236,234,237";
             input = prompt(promptTitlefuntion(input), input);
         } else if (tp.value.includes("Селище")) {
-            input = "";
+            input = "347,481,472,473,517";
             input = prompt(promptTitlefuntion(input), input);
         } else if (tp.value.includes("Славейно")) {
             input = "201,518,202,207,531";
             input = prompt(promptTitlefuntion(input), input);
         } else if (tp.value.includes("Смилян")) {
-            input = "";
+            input = "311,501,320,401,411";
             input = prompt(promptTitlefuntion(input), input);
         } else if (tp.value.includes("Смолян")) {
             input = "32,37,33,36,38";
@@ -114,10 +111,10 @@ function auctionsCommission() {
             input = "61,391,63,65,68";
             input = prompt(promptTitlefuntion(input), input);
         } else if (tp.value.includes("лъка")) {
-            input = "";
+            input = "452,155,152,373,390";
             input = prompt(promptTitlefuntion(input), input);
         } else if (tp.value.includes("Борово")) {
-            input = "";
+            input = "106,105,103,107,464";
             input = prompt(promptTitlefuntion(input), input);
         } else if (tp.value.includes("Женда")) {
             input = "301,378,305,309,540";
@@ -129,13 +126,13 @@ function auctionsCommission() {
             input = "510,420,265,269,465";
             input = prompt(promptTitlefuntion(input), input);
         } else if (tp.value.includes("Тракия")) {
-            input = "";
+            input = "291,404,292,296,299";
             input = prompt(promptTitlefuntion(input), input);
         } else if (tp.value.includes("Чепино")) {
             input = "192,194,196,197,200";
             input = prompt(promptTitlefuntion(input), input);
         } else if (tp.value.includes("поляна")) {
-            input = "";
+            input = "219,213,212,214,393";
             input = prompt(promptTitlefuntion(input), input);
         } else {
             input = prompt("Въведете членове на комисията:");
