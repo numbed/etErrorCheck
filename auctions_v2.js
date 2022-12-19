@@ -372,30 +372,29 @@ function main() {
     function tableOuput() {
         let todayA = [];
         let upcommingA = [];
+        let passedA = [];
         auctions.forEach(el => {
+            let obj = {
+                number: el.number,
+                branch: el.branch,
+                deadline: el.deadline,
+                date: el.date.split(" ")[0].trim(),
+                object: el.object,
+                subject: el.subject
+            }
             if (el.status == "today") {
-                let obj = {
-                    number: el.number,
-                    branch: el.branch,
-                    deadline: el.deadline,
-                    object: el.object,
-                    subject: el.subject
-                }
                 todayA.push(obj);
             }
             if (el.status == "upcomming") {
-                let obj = {
-                    number: el.number,
-                    branch: el.branch,
-                    deadline: el.deadline,
-                    object: el.object,
-                    subject: el.subject
-                }
                 upcommingA.push(obj);
+            }
+            if (el.status == "passed") {
+                passedA.push(obj);
             }
         });
         console.table(todayA);
         console.table(upcommingA);
+        console.table(passedA);
     }
     tableOuput();
 
