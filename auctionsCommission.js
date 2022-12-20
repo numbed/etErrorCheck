@@ -48,7 +48,7 @@ function auctionsCommission() {
             input = "111,114,117,119,120";
             input = prompt(promptTitlefuntion(input), input);
         } else if (tp.value.includes("Доспат")) {
-            input = "221,223,225,226,229";
+            input = "227,223,221,225,229";
             input = prompt(promptTitlefuntion(input), input);
         } else if (tp.value.includes("Златоград")) {
             input = "321,323,322,324,372";
@@ -120,7 +120,7 @@ function auctionsCommission() {
             input = "301,378,305,309,540";
             input = prompt(promptTitlefuntion(input), input);
         } else if (tp.value.includes("Извора")) {
-            input = "477,140,135,139,478";
+            input = "478,140,135,137,139";
             input = prompt(promptTitlefuntion(input), input);
         } else if (tp.value.includes("Кормисош")) {
             input = "510,420,265,269,465";

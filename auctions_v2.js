@@ -343,30 +343,30 @@ function main() {
     }
     contractCheck();
 
-        //shows last uploaded file 
-        function lastFileUploaded() {
-            if (confirm("Покажи последния публикуван файл?")) {
-                auctions.forEach(function (element) {
-                    if (element.status == "passed") {
-                        for (let i = 0, row; row = auctionsTable.rows[i]; i++) {
-                            if (element.number == row.cells[0].innerText) {
-                                let titleCell = row.cells[5];
-                                let lastCell = row.cells[8];
-                                let iFrame = document.getElementById(element.number);
-                                iFrame.src = element.etLink;
-                                iFrame.onload = function () {
-                                    let uploadedDocs = iFrame.contentWindow.document.querySelector("#auctionDocuments");
-                                    let links = uploadedDocs.querySelectorAll('a');
-                                    let outputText = links[1].title.split(".")[0].italics() + "<br>" + links[1].innerHTML.split("/")[1].split(" ")[1].italics().bold();
-                                    titleCell.innerHTML = outputText;
-                                }
+    //shows last uploaded file 
+    function lastFileUploaded() {
+        if (confirm("Покажи последния публикуван файл?")) {
+            auctions.forEach(function (element) {
+                if (element.status == "passed") {
+                    for (let i = 0, row; row = auctionsTable.rows[i]; i++) {
+                        if (element.number == row.cells[0].innerText) {
+                            let titleCell = row.cells[5];
+                            let lastCell = row.cells[8];
+                            let iFrame = document.getElementById(element.number);
+                            iFrame.src = element.etLink;
+                            iFrame.onload = function () {
+                                let uploadedDocs = iFrame.contentWindow.document.querySelector("#auctionDocuments");
+                                let links = uploadedDocs.querySelectorAll('a');
+                                let outputText = links[1].title.split(".")[0].italics() + "<br>" + links[1].innerHTML.split("/")[1].split(" ")[1].italics().bold();
+                                titleCell.innerHTML = outputText;
                             }
                         }
                     }
-                });
-            }
+                }
+            });
         }
-        lastFileUploaded();
+    }
+    lastFileUploaded();
 
     //table output today and upcomming auctions to console for copy purposes 
     function tableOuput() {
