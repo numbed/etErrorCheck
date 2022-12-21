@@ -343,7 +343,7 @@ function main() {
     }
     contractCheck();
 
-    //shows last uploaded file 
+    //shows last uploaded file for passed auctions
     function lastFileUploaded() {
         if (confirm("Покажи последния публикуван файл?")) {
             auctions.forEach(function (element) {
