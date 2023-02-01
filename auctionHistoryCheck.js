@@ -16,6 +16,7 @@ function auctionHistoryCheck() {
             TP: row.cells[1].innerText,
             obekt: objectSplit(row.cells[2].innerText),
             etLink: "https://auction.ucdp-smolian.com/au-admin/history/review/" + row.cells[0].innerText.slice(-4),
+            etLink2: "https://auction.ucdp-smolian.com/au-admin/auctions/form/" + row.cells[0].innerText.slice(-4),
         };
 
         //removed due to exessive loading time on the subpages, therefore slow execution of the script and crashing web browser, making following code obsolete
@@ -57,6 +58,8 @@ function auctionHistoryCheck() {
             TP: historyET[i].TP,
             obekt: historyET[i].obekt,
             etLink: historyET[i].etLink,
+            etLink2: historyET[i].etLink2,
+
         };
         let yesterday = new Date();
         yesterday.setDate(yesterday.getDate() - 1);
@@ -112,10 +115,10 @@ function auctionHistoryCheck() {
     }
     frontPageAuctionInfo();
 
-    //open tabs for every auction in the according arrays
+    //open history tabs for every auction in the according arrays
     function auctionTabOpen(array, text) {
         if (array.length !== 0) {
-            if (confirm('Проведени търгове ' + text + ': ' + array.length + "\r\nОтвори?")) {
+            if (confirm('СПРАВКА\nПроведени търгове ' + text + ': ' + array.length + "\r\nОтвори?")) {
                 console.log("OK");
                 for (i = 0; i < array.length; i++) {
                     window.open(array[i].etLink, '_blank');
@@ -126,6 +129,19 @@ function auctionHistoryCheck() {
     auctionTabOpen(todayAuctionsArray, "днес");
     auctionTabOpen(yesterdayAuctionsArray, "вчера");
 
+    //open form tabs for every auction in the according arrays
+    function auctionTabOpen2(array, text) {
+        if (array.length !== 0) {
+            if (confirm('ПРОЦЕДУРИ\nПроведени търгове ' + text + ': ' + array.length + "\r\nОтвори?")) {
+                console.log("OK");
+                for (i = 0; i < array.length; i++) {
+                    window.open(array[i].etLink2, '_blank');
+                }
+            }
+        }
+    }
+    auctionTabOpen2(todayAuctionsArray, "днес");
+    auctionTabOpen2(yesterdayAuctionsArray, "вчера");
 
     /**
      * 
