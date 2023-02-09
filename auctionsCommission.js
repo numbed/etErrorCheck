@@ -102,7 +102,7 @@ function auctionsCommission() {
             input = "311,501,320,401,411";
             input = prompt(promptTitlefuntion(input), input);
         } else if (tp.value.includes("Смолян")) {
-            input = "32,37,33,36,38";
+            input = "31,37,32,33,36";
             input = prompt(promptTitlefuntion(input), input);
         } else if (tp.value.includes("Триград")) {
             input = "87,83,82,441,489";
