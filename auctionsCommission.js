@@ -1,15 +1,18 @@
-function commDateCheck() {
+function commDateCheck() { //need tweaking (auction date is next day after commission !temp fix - currDate.day +1)
     let today = new Date();
     let auctionDate = document.querySelector("#auctionDueDate").value;
     let m = (today.getMonth() + 1);
     if (m < 10) {
         m = "0" + m;
     }
-    let currDate = today.getDate() + "." + m + "." + today.getFullYear();
-
+    let currDate = (today.getDate()+1) + "." + m + "." + today.getFullYear(); 
+    console.log(auctionDate);
+    console.log(currDate);
+    console.log(m);
     if (auctionDate == currDate) {
         console.log("True");
         auctionsCommission();
+        pubOrder(); // to be removed when obsolete
     } else {
         console.log("False");
         pubOrder();
@@ -18,11 +21,11 @@ function commDateCheck() {
 }
 commDateCheck();
 
-if (confirm("Назначаване на комисия?") == true) {
-    auctionsCommission();
-} else if (confirm("Въведи заповед за откриване?") == true) {
-    pubOrder();
-}
+// if (confirm("Назначаване на комисия?") == true) {
+//     auctionsCommission();
+// } else if (confirm("Въведи заповед за откриване?") == true) {
+//     pubOrder();
+// }
 
 function auctionsCommission() {
     console.log("auctionsCommission");
@@ -57,7 +60,7 @@ function auctionsCommission() {
         let coDate = document.querySelector("#coDate");
 
         if (tp.value.includes("Алабак")) {
-            input = "91,94,93,95,542";
+            input = "541,548,95";
             input = prompt(promptTitlefuntion(input), input);
             coNumber.value = "З-02-" + prompt("Номер на заповед за комисия:");
         } else if (tp.value.includes("Хайтов")) {
@@ -125,7 +128,7 @@ function auctionsCommission() {
             input = prompt(promptTitlefuntion(input), input);
             coNumber.value = "З-18-" + prompt("Номер на заповед за комисия:");
         } else if (tp.value.includes("Пловдив")) {
-            input = "282,409,285,512,524";
+            input = "282,409,523";
             input = prompt(promptTitlefuntion(input), input);
             coNumber.value = "З-19-" + prompt("Номер на заповед за комисия:");
         } else if (tp.value.includes("Първомай")) {
@@ -279,11 +282,11 @@ function pubOrder() {
         if (links[i].title.includes("Заповед")) {
             order = links[i].title;
             order = order.split(".")[0].split(" ")[3];
-
-            console.log(order);
+            orderDate = links[i].innerHTML;
+            orderDate = orderDate.split("/")[1].split(" ")[1];
         }
     }
     ooNumber.value = order;
     // ooNumber.value = ooNumber.value + prompt("Номер на заповед за откриване");
-    ooDate.value = today.getDate() + "." + (today.getMonth() + 1) + "." + today.getFullYear();
+    ooDate.value = orderDate;
 }
