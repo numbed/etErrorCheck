@@ -60,7 +60,7 @@ function auctionsCommission() {
         let coDate = document.querySelector("#coDate");
 
         if (tp.value.includes("Алабак")) {
-            input = "541,548,95";
+            input = "91,548,95";
             input = prompt(promptTitlefuntion(input), input);
             coNumber.value = "З-02-" + prompt("Номер на заповед за комисия:");
         } else if (tp.value.includes("Хайтов")) {
@@ -76,7 +76,7 @@ function auctionsCommission() {
             input = prompt(promptTitlefuntion(input), input);
             coNumber.value = "З-05-" + prompt("Номер на заповед за комисия:");
         } else if (tp.value.includes("Батак")) {
-            input = "451,124,125,127,130";
+            input = "122,124,130";
             input = prompt(promptTitlefuntion(input), input);
             coNumber.value = "З-06-" + prompt("Номер на заповед за комисия:");
         } else if (tp.value.includes("Борино")) {
@@ -96,7 +96,7 @@ function auctionsCommission() {
             input = prompt(promptTitlefuntion(input), input);
             coNumber.value = "З-10-" + prompt("Номер на заповед за комисия:");
         } else if (tp.value.includes("Кирково")) {
-            input = "41,44,42,43,45";
+            input = "41,44,50";
             input = prompt(promptTitlefuntion(input), input);
             coNumber.value = "З-11-" + prompt("Номер на заповед за комисия:");
         } else if (tp.value.includes("Клисура")) {
@@ -116,11 +116,11 @@ function auctionsCommission() {
             input = prompt(promptTitlefuntion(input), input);
             coNumber.value = "З-15-" + prompt("Номер на заповед за комисия:");
         } else if (tp.value.includes("Пазарджик")) {
-            input = "71,370,72,76,80";
+            input = "71,370,72";
             input = prompt(promptTitlefuntion(input), input);
             coNumber.value = "З-16-" + prompt("Номер на заповед за комисия:");
         } else if (tp.value.includes("Панагюрище")) {
-            input = "252,369,253,255,520";
+            input = "252,369,256";
             input = prompt(promptTitlefuntion(input), input);
             coNumber.value = "З-17-" + prompt("Номер на заповед за комисия:");
         } else if (tp.value.includes("Пещера")) {
@@ -136,7 +136,7 @@ function auctionsCommission() {
             input = prompt(promptTitlefuntion(input), input);
             coNumber.value = "З-20-" + prompt("Номер на заповед за комисия:");
         } else if (tp.value.includes("Ракитово")) {
-            input = "359,412,361,363,366";
+            input = "359,412,365";
             input = prompt(promptTitlefuntion(input), input);
             coNumber.value = "З-21-" + prompt("Номер на заповед за комисия:");
         } else if (tp.value.includes("Родопи")) {
@@ -281,7 +281,7 @@ function pubOrder() {
     for (i = 0; i < links.length; i++) {
         if (links[i].title.includes("Заповед")) {
             order = links[i].title;
-            order = order.split(".")[0].split(" ")[3];
+            order = order.split(".")[0].split("Заповед")[1].trim();
             orderDate = links[i].innerHTML;
             orderDate = orderDate.split("/")[1].split(" ")[1];
         }
