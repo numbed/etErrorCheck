@@ -215,22 +215,21 @@ function main() {
         auctions.forEach(function () {
             for (let i = 0; i < auctions.length; i++) {
                 //auction type check
-                if (auctions[i].type == "к" || auctions[i].type == "ецп") {
-                    auctionsTable.rows[i].style.backgroundColor = "black";
-                    auctionsTable.rows[i].style.color = "white";
-                }
                 if (auctions[i].subject == "ДД") {
-                    auctionsTable.rows[i].cells[4].style.backgroundColor = "black";
+                    auctionsTable.rows[i].cells[4].style.backgroundColor = "#355E3B";
                     auctionsTable.rows[i].cells[4].style.color = "white";
                 }
                 if (auctions[i].subject == "K") {
-                    auctionsTable.rows[i].cells[4].innerHTML = "Електронен <b>ТЪРГ</b> с наддаване за продажба на стояща дървесина на <b>КОРЕН</b>";
-                }
-                if (auctions[i].subject == "ДД") {
-                    auctionsTable.rows[i].cells[4].innerHTML = "Електронен <b>ТЪРГ</b> с наддаване за продажба на <b>ДЕЙСТВИТЕЛНО ДОБИТИ</b> количества";
+                    auctionsTable.rows[i].cells[4].style.backgroundColor = "#228B22";
+                    auctionsTable.rows[i].cells[4].style.color = "white";
                 }
                 if (auctions[i].subject == "П") {
-                    auctionsTable.rows[i].cells[4].innerHTML = "Електронен <b>ТЪРГ</b> с наддаване за продажба на добита дървесина на <b>ПРОГНОЗНИ</b> количества";
+                    auctionsTable.rows[i].cells[4].style.backgroundColor = "#4CBB17";
+                    auctionsTable.rows[i].cells[4].style.color = "white";
+                }
+                if (auctions[i].type == "к" || auctions[i].type == "ецп") {
+                    auctionsTable.rows[i].style.backgroundColor = "black";
+                    auctionsTable.rows[i].style.color = "white";
                 }
                 //duplicate check by date and branch
                 for (let j = 0; j < auctions.length; j++) {
@@ -397,6 +396,22 @@ function main() {
         console.table(passedA);
     }
     tableOuput();
+
+    //subjectText caps change
+    function subjectText() {
+        for (let i = 0, row; row = auctionsTable.rows[i]; i++) {
+
+            row.cells[4].innerHTML = row.cells[4].innerHTML.replace('конкурс', '<b>КОНКУРС</b>');
+            row.cells[4].innerHTML = row.cells[4].innerHTML.replace('търг', '<b>ТЪРГ</b>');
+            row.cells[4].innerHTML = row.cells[4].innerHTML.replace('ценово', '<b>ЦЕНОВО</b>');
+
+            row.cells[4].innerHTML = row.cells[4].innerHTML.replace('добив', '<b>ДОБИВ</b>');
+            row.cells[4].innerHTML = row.cells[4].innerHTML.replace('корен', '<b>КОРЕН</b>');
+            row.cells[4].innerHTML = row.cells[4].innerHTML.replace('действително добити', '<b>ДЕЙСТВИТЕЛНО ДОБИТИ</b>');
+            row.cells[4].innerHTML = row.cells[4].innerHTML.replace('прогнозни', '<b>ПРОГНОЗНИ</b>');
+        }
+    }
+    subjectText();
 
     // console.log(auctions[0].number + ' ' + auctions[0].status);
     // console.log(auctions[16].number + " " + auctions[16].status);
