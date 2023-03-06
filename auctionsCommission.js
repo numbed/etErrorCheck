@@ -158,7 +158,7 @@ function auctionsCommission() {
                 input = prompt(promptTitlefuntion(input), input);
                 coNumber.value = "З-24-" + prompt("Номер на заповед за комисия:");
             } else if (tp.value.includes("Смилян")) {
-                input = "311,501,320,401,411";
+                input = "401,501,411";
                 input = prompt(promptTitlefuntion(input), input);
                 coNumber.value = "З-25-" + prompt("Номер на заповед за комисия:");
             } else if (tp.value.includes("Смолян")) {
@@ -278,22 +278,25 @@ function newAuction() {
 
 //needs changes for the new auctions!!!!
 function pubOrder() {
-    console.log("---pubOrder");
-    let order;
-    let today = new Date();
-    ooNumber = document.querySelector("#ooNumber");
-    ooDate = document.querySelector("#ooDate");
-    // ooNumber.value = ooNumber.value + prompt("Номер на заповед за откриване");
-    let links = document.links;
-    for (i = 0; i < links.length; i++) {
-        if (links[i].title.includes("Заповед")) {
-            order = links[i].title;
-            order = order.split(".")[0].split("Заповед")[1].trim();
-            orderDate = links[i].innerHTML;
-            orderDate = orderDate.split("/")[1].split(" ")[1];
+    if (confirm("Вземи номер на заповед за откриване?") == true) {
+
+        console.log("---pubOrder");
+        let order;
+        let today = new Date();
+        ooNumber = document.querySelector("#ooNumber");
+        ooDate = document.querySelector("#ooDate");
+        // ooNumber.value = ooNumber.value + prompt("Номер на заповед за откриване");
+        let links = document.links;
+        for (i = 0; i < links.length; i++) {
+            if (links[i].title.includes("Заповед")) {
+                order = links[i].title;
+                order = order.split(".")[0].split("Заповед")[1].trim();
+                orderDate = links[i].innerHTML;
+                orderDate = orderDate.split("/")[1].split(" ")[1];
+            }
         }
+        ooNumber.value = order;
+        // ooNumber.value = ooNumber.value + prompt("Номер на заповед за откриване");
+        ooDate.value = orderDate;
     }
-    ooNumber.value = order;
-    // ooNumber.value = ooNumber.value + prompt("Номер на заповед за откриване");
-    ooDate.value = orderDate;
 }
