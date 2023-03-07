@@ -19,7 +19,7 @@ function commDateCheck() {
         pubOrder(); // to be removed when obsolete
     } else {
         console.log("False");
-        // auctionsCommission();
+        auctionsCommission();
         pubOrder();
     }
 

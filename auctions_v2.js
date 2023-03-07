@@ -101,17 +101,24 @@ function main() {
         let deadlineDate = new Date(d[2], d[1] - 1, d[0]);
         let deadline = new Date();
 
-        if (firstDate.getDay() == 1) {
+        if (firstDate.getDay() == 1 || firstDate.getDay() == 4) {
             deadline = firstDate.getDate() - 20;
-        } else if (firstDate.getDay() == 2) {
+        } else if (firstDate.getDay() == 2 || firstDate.getDay() == 5) {
             deadline = firstDate.getDate() - 18;
         } else if (firstDate.getDay() == 3) {
             deadline = firstDate.getDate() - 19;
-        } else if (firstDate.getDay() == 4) {
-            deadline = firstDate.getDate() - 20;
-        } else if (firstDate.getDay() == 5) {
-            deadline = firstDate.getDate() - 18;
-        } else if (firstDate.getDay() == 6 || firstDate.getDay() == 0) {}
+        }
+        // if (firstDate.getDay() == 1) {
+        //     deadline = firstDate.getDate() - 20;
+        // } else if (firstDate.getDay() == 2) {
+        //     deadline = firstDate.getDate() - 18;
+        // } else if (firstDate.getDay() == 3) {
+        //     deadline = firstDate.getDate() - 19;
+        // } else if (firstDate.getDay() == 4) {
+        //     deadline = firstDate.getDate() - 20;
+        // } else if (firstDate.getDay() == 5) {
+        //     deadline = firstDate.getDate() - 18;
+        // } else if (firstDate.getDay() == 6 || firstDate.getDay() == 0) {}
 
         deadlineDate.setDate(deadline);
         let output = new Date();
