@@ -73,7 +73,7 @@ function archimedDocs() {
 	    
 	        colorfullRowsOutput(todayArray, "#a5e566", "white"); //green
 	        colorfullRowsOutput(yesterdayArray, "#FFC300", "white"); //yellow
-	        colorfullRowsOutput(olderArray, "#FFB6C1", "white"); //light pink
+	        colorfullRowsOutput(olderArray, "#F3CFC6", "white"); //Millennial pink
 
 			console.table(olderArray);
 	       
