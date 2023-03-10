@@ -6,6 +6,7 @@ function archimedDocs() {
 	    const docs = [];
 	    const todayArray = [];
 	    const yesterdayArray = [];
+	    const olderArray = [];
 	    let today = new Date();
 		let yesterday = new Date();
         yesterday.setDate(yesterday.getDate() - 1);
@@ -49,8 +50,13 @@ function archimedDocs() {
 	        }
 
 			if (ddlDate.setHours(0, 0, 0, 0) == yesterday.setHours(0, 0, 0, 0) && (docs[i].status.includes("Приключен") || docs[i].status.includes("Отговорен")) ) {
-	            yesterdayArray.push(infoObj);
-	        }
+				yesterdayArray.push(infoObj);
+			}
+
+			if (ddlDate.setHours(0, 0, 0, 0) < yesterday.setHours(0, 0, 0, 0) && (docs[i].status.includes("Приключен") || docs[i].status.includes("Отговорен")) ) {
+				console.log("older docs");
+				olderArray.push(infoObj);
+			}
 	    }
 	
 	        //coloring rows
@@ -67,8 +73,9 @@ function archimedDocs() {
 	    
 	        colorfullRowsOutput(todayArray, "#a5e566", "white"); //green
 	        colorfullRowsOutput(yesterdayArray, "#FFC300", "white"); //yellow
+	        colorfullRowsOutput(olderArray, "#FFB6C1", "white"); //light pink
 
-			console.table(docs);
+			console.table(olderArray);
 	       
 }
 archimedDocs();
