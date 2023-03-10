@@ -329,6 +329,7 @@ function main() {
                 if (element.status == "passed") {
                     for (let i = 0, row; row = auctionsTable.rows[i]; i++) {
                         if (element.number == row.cells[0].innerText) {
+                            let titleCell = row.cells[5];
                             let lastCell = row.cells[8];
                             let iFrame = document.getElementById(element.number);
                             iFrame.src = element.etLink;
@@ -337,7 +338,8 @@ function main() {
                                 for (i = 0; i < links.length; i++) {
                                     if (links[i].title.includes("Договор")) {
                                         lastCell.style.backgroundColor = "#3D550C";
-                                        row.cells[5].innerText = links[i].title;
+                                        let outputText = links[i].title.split(".")[0].italics() + "<br>" + links[i].innerHTML.split("/")[1].split(" ")[1].italics().bold();
+                                        titleCell.innerHTML = outputText;
                                     }
                                 }
                             }
@@ -364,6 +366,12 @@ function main() {
                                 let uploadedDocs = iFrame.contentWindow.document.querySelector("#auctionDocuments");
                                 let links = uploadedDocs.querySelectorAll('a');
                                 let outputText = links[1].title.split(".")[0].italics() + "<br>" + links[1].innerHTML.split("/")[1].split(" ")[1].italics().bold();
+                                for (i = 0; i < links.length; i++) {
+                                    if (links[i].title.includes("Договор")) {
+                                        lastCell.style.backgroundColor = "#3D550C";
+                                        row.cells[5].innerText = links[i].title;
+                                    }
+                                }
                                 titleCell.innerHTML = outputText;
                             }
                         }
