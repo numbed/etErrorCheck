@@ -355,7 +355,7 @@ function main() {
     function lastFileUploaded() {
         if (confirm("Покажи последния публикуван файл?")) {
             auctions.forEach(function (element) {
-                if (element.status == "passed") {
+                if (element.status == "passed" || element.status == "today" || element.status == "upcomming" ) {
                     for (let i = 0, row; row = auctionsTable.rows[i]; i++) {
                         if (element.number == row.cells[0].innerText) {
                             let titleCell = row.cells[5];
