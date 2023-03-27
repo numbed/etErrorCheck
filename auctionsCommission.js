@@ -49,7 +49,7 @@ function auctionsCommission() {
             input = prompt(promptTitlefuntion(input), input);
             coNumber.value = "З-04-" + prompt("Номер на заповед за комисия:");
         } else if (tp.value.includes("Асеновград")) {
-            input = "161,164,166,498,499";
+            input = "161,164,166";
             input = prompt(promptTitlefuntion(input), input);
             coNumber.value = "З-05-" + prompt("Номер на заповед за комисия:");
         } else if (tp.value.includes("Батак")) {
@@ -137,19 +137,19 @@ function auctionsCommission() {
             input = prompt(promptTitlefuntion(input), input);
             coNumber.value = "З-26-" + prompt("Номер на заповед за комисия:");
         } else if (tp.value.includes("Триград")) {
-            input = "87,83,82,441,489";
+            input = "87,83,82";
             input = prompt(promptTitlefuntion(input), input);
             coNumber.value = "З-27-" + prompt("Номер на заповед за комисия:");
         } else if (tp.value.includes("Хисар")) {
-            input = "61,391,63,65,68";
+            input = "61,391,63";
             input = prompt(promptTitlefuntion(input), input);
             coNumber.value = "З-28-" + prompt("Номер на заповед за комисия:");
         } else if (tp.value.includes("лъка")) {
-            input = "452,155,152,373,390";
+            input = "452,155,152";
             input = prompt(promptTitlefuntion(input), input);
             coNumber.value = "З-29-" + prompt("Номер на заповед за комисия:");
         } else if (tp.value.includes("Борово")) {
-            input = "106,105,103,107,464";
+            input = "106,105,103";
             input = prompt(promptTitlefuntion(input), input);
             coNumber.value = "З-30-" + prompt("Номер на заповед за комисия:");
         } else if (tp.value.includes("Женда")) {
@@ -165,7 +165,7 @@ function auctionsCommission() {
             input = prompt(promptTitlefuntion(input), input);
             coNumber.value = "З-33-" + prompt("Номер на заповед за комисия:");
         } else if (tp.value.includes("Тракия")) {
-            input = "291,404,292,296,299";
+            input = "291,404,292";
             input = prompt(promptTitlefuntion(input), input);
             coNumber.value = "З-34-" + prompt("Номер на заповед за комисия:");
         } else if (tp.value.includes("Чепино")) {
