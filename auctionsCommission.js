@@ -231,3 +231,21 @@ function pubOrder() {
         ooDate.value = orderDate;
     }
 }
+
+//naming uploaded documents when commission is assigned
+//WORK IN PROGRESS
+function docNames() {
+    let docTable = document.querySelectorAll("tbody")[4];
+    let docLinks = docTable.querySelectorAll("a");
+    let docInput = docTable.querySelectorAll("select");
+    for (i = 0; i < docLinks.length; i++) {
+        if (docLinks[i].title.includes("Заповед")) {
+            docInput[i].value = "openOrder";
+            docInput[i].selected = "selected";
+        } else if (docLinks[i].title.includes("Документация")) {
+            docInput[i].value = "document";
+        }
+    }
+
+}
+docNames();
