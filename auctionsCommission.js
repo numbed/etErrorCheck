@@ -165,7 +165,7 @@ function auctionsCommission() {
             input = prompt(promptTitlefuntion(input), input);
             coNumber.value = "З-33-" + prompt("Номер на заповед за комисия:");
         } else if (tp.value.includes("Тракия")) {
-            input = "291,404,292";
+            input = "291,404,544";
             input = prompt(promptTitlefuntion(input), input);
             coNumber.value = "З-34-" + prompt("Номер на заповед за комисия:");
         } else if (tp.value.includes("Чепино")) {
@@ -248,4 +248,3 @@ function docNames() {
     }
 
 }
-docNames();
