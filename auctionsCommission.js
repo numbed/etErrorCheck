@@ -133,7 +133,7 @@ function auctionsCommission() {
             input = prompt(promptTitlefuntion(input), input);
             coNumber.value = "З-25-" + prompt("Номер на заповед за комисия:");
         } else if (tp.value.includes("Смолян")) {
-            input = "31,37,32,33,36";
+            input = "36,37,33";
             input = prompt(promptTitlefuntion(input), input);
             coNumber.value = "З-26-" + prompt("Номер на заповед за комисия:");
         } else if (tp.value.includes("Триград")) {
