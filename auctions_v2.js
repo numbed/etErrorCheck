@@ -397,7 +397,13 @@ function main() {
                                 let uploadedDocs = iFrame.contentWindow.document.querySelector("#auctionOrder");
                                 let links = uploadedDocs.querySelectorAll('a');
                                 let linksCount = links.length - 1;
-                                let outputText = "(" + linksCount + ") " + links[1].title.split(".")[0].italics() + "<br>" + links[1].innerHTML.split("/")[1].split(" ")[1].italics().bold();
+                                const orderLinks = [];
+                                for (i = 1; i < links.length; i++) {
+                                    orderLinks.push(links[i].title.split(".")[0]);
+                                }
+                                let orderText =  orderLinks;
+                                console.log(orderText);
+                                let outputDate = links[1].innerHTML.split("/")[1].split(" ")[1].italics().bold();
                                 for (i = 0; i < links.length; i++) {
                                     if (links[i].title.includes("Заповед")) {
                                         row.cells[5].innerText = links[i].title;
@@ -405,7 +411,7 @@ function main() {
                                         row.cells[5].style.color = "white";
                                     }
                                 }
-                                titleCell.innerHTML = outputText;
+                                titleCell.innerHTML = orderLinks.join("\n") + "\n" +  outputDate;
                             }
                         }
                     }
