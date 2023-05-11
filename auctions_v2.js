@@ -390,7 +390,6 @@ function main() {
                     for (let i = 0, row; row = auctionsTable.rows[i]; i++) {
                         if (element.number == row.cells[0].innerText) {
                             let titleCell = row.cells[5];
-                            let lastCell = row.cells[8];
                             let iFrame = document.getElementById(element.number);
                             iFrame.src = element.etLink;
                             iFrame.onload = function () {
@@ -411,7 +410,7 @@ function main() {
                                         row.cells[5].style.color = "white";
                                     }
                                 }
-                                titleCell.innerHTML = orderLinks.join("\n") + "\n" +  outputDate;
+                                titleCell.innerHTML = orderLinks.join("<br>") + "<br>" + outputDate;
                             }
                         }
                     }
