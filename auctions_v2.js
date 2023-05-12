@@ -386,7 +386,7 @@ function main() {
     function pubOrderCheck() {
         if (confirm("Проверка заповеди купувач?")) {
             auctions.forEach(function (element) {
-                if (element.status == "passed" || element.status == "today" || element.status == "upcomming" ) {
+                if (element.status == "passed" || element.status == "today" || element.status == "upcomming") {
                     for (let i = 0, row; row = auctionsTable.rows[i]; i++) {
                         if (element.number == row.cells[0].innerText) {
                             let titleCell = row.cells[5];
@@ -400,7 +400,7 @@ function main() {
                                 for (i = 1; i < links.length; i++) {
                                     orderLinks.push(links[i].title.split(".")[0]);
                                 }
-                                let orderText =  orderLinks;
+                                let orderText = orderLinks;
                                 console.log(orderText);
                                 let outputDate = links[1].innerHTML.split("/")[1].split(" ")[1].italics().bold();
                                 for (i = 0; i < links.length; i++) {
@@ -419,6 +419,77 @@ function main() {
         }
     }
     pubOrderCheck();
+
+
+    //fileCheckTestFunction work in progress
+    function fileCheckTestFunction() {
+        if (confirm("fileCheckTestFunction?")) {
+            auctions.forEach(function (element) {
+                if (element.status == "passed" || element.status == "today" || element.status == "upcomming") {
+                    for (let i = 0, row; row = auctionsTable.rows[i]; i++) {
+                        if (element.number == row.cells[0].innerText) {
+                            let titleCell = row.cells[5];
+                            let iFrame = document.getElementById(element.number);
+                            iFrame.src = element.etLink;
+                            iFrame.onload = function () {
+                                let firstOrder = iFrame.contentWindow.document.querySelector("#auctionOrder").querySelectorAll("a");
+                                let secOrder = iFrame.contentWindow.document.querySelector("#auctionSecOrder").querySelectorAll("a");
+
+                                if (secOrder.length > 1) {
+                                    orderCheckF(secOrder, "second");
+                                } else if (firstOrder.length > 1) {
+                                    orderCheckF(firstOrder, "first");
+                                } else {
+                                    orderCheckF("no orders");
+                                }
+
+                                function orderCheckF(fileField, text) {
+                                    let outputDate = fileField[1].innerHTML.split("/")[1].split(" ")[1].italics().bold();
+                                    const fileArray = [];
+                                    const fileA = [];
+                                    for (i = 1; i < fileField.length; i++) {
+                                        fileArray.push(fileField[i].title.split(".")[0]);
+                                        let fTitle = fileField[i].title.split(".")[0];
+                                        fileA.push("<a href=" + fileField[i].href +" title=" + fTitle + " download=" + fileField[i].title + ">" +   fileField[i].title + "</a>");
+                                        if (fileField[i].title.includes("Заповед")) {
+                                            row.cells[5].style.backgroundColor = "#81B622";
+                                            row.cells[5].style.color = "white";
+                                        }
+                                    }
+                                    console.log(fileArray);
+                                    console.log(fileA);
+                                    titleCell.innerHTML = fileA.join("<br>") + "<br>" + outputDate;
+                                    
+                                }
+
+                                // let uploadedDocs = iFrame.contentWindow.document.querySelector("#auctionOrder");
+                                // let links = uploadedDocs.querySelectorAll('a');
+                                // let linksCount = links.length - 1;
+                                // const orderLinks = [];
+                                // for (i = 1; i < links.length; i++) {
+                                //     orderLinks.push(links[i].title.split(".")[0]);
+                                // }
+                                // let orderText =  orderLinks;
+                                // console.log(orderText);
+                                // let outputDate = links[1].innerHTML.split("/")[1].split(" ")[1].italics().bold();
+                                // for (i = 0; i < links.length; i++) {
+                                //     if (links[i].title.includes("Заповед")) {
+                                //         row.cells[5].innerText = links[i].title;
+                                //         row.cells[5].style.backgroundColor = "#81B622";
+                                //         row.cells[5].style.color = "white";
+                                //     }
+                                // }
+                                // titleCell.innerHTML = orderLinks.join("<br>") + "<br>" + outputDate;
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    }
+    fileCheckTestFunction();
+    // fileCheckTestFunction end
+
 
     //table output today and upcomming auctions to console for copy purposes 
     function tableOuput() {
