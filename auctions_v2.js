@@ -440,7 +440,7 @@ function main() {
                                 } else if (firstOrder.length > 1) {
                                     orderCheckF(firstOrder, "first");
                                 } else {
-                                    orderCheckF("no orders");
+                                    console.log("no result orders");
                                 }
 
                                 function orderCheckF(fileField, text) {
@@ -450,16 +450,20 @@ function main() {
                                     for (i = 1; i < fileField.length; i++) {
                                         fileArray.push(fileField[i].title.split(".")[0]);
                                         let fTitle = fileField[i].title.split(".")[0];
-                                        fileA.push("<a href=" + fileField[i].href +" title='" + fTitle + "' download='" + fileField[i].title + "'>" +   fileField[i].title + "</a>");
+                                        fileA.push("<a href=" + fileField[i].href + " title='" + fTitle + "' download='" + fileField[i].title + "' name='alink' >" + fileField[i].title + "</a>");
                                         if (fileField[i].title.includes("Заповед")) {
                                             row.cells[5].style.backgroundColor = "#81B622";
                                             row.cells[5].style.color = "white";
                                         }
+                                        let newLinks = document.getElementsByName("alink");
+                                        newLinks.forEach(element => {
+                                            element.style.color = "white";
+                                        });
                                     }
-                                    console.log(fileArray);
-                                    console.log(fileA);
+                                    console.log(text);
+                                    console.log(fileField);
                                     titleCell.innerHTML = fileA.join("<br>") + "<br>" + outputDate;
-                                    
+
                                 }
 
                                 // let uploadedDocs = iFrame.contentWindow.document.querySelector("#auctionOrder");
