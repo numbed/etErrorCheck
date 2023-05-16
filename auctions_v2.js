@@ -450,7 +450,7 @@ function main() {
                                     for (i = 1; i < fileField.length; i++) {
                                         fileArray.push(fileField[i].title.split(".")[0]);
                                         let fTitle = fileField[i].title.split(".")[0];
-                                        fileA.push("<a href=" + fileField[i].href +" title=" + fTitle + " download=" + fileField[i].title + ">" +   fileField[i].title + "</a>");
+                                        fileA.push("<a href=" + fileField[i].href +" title='" + fTitle + "' download='" + fileField[i].title + "'>" +   fileField[i].title + "</a>");
                                         if (fileField[i].title.includes("Заповед")) {
                                             row.cells[5].style.backgroundColor = "#81B622";
                                             row.cells[5].style.color = "white";
