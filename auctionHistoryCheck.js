@@ -16,19 +16,10 @@ function auctionHistoryCheck() {
             TP: row.cells[1].innerText,
             obekt: objectSplit(row.cells[2].innerText),
             etLink: "https://auction.ucdp-smolian.com/au-admin/history/review/" + row.cells[0].innerText.slice(-4),
-            etLink2: "https://auction.ucdp-smolian.com/au-admin/auctions/form/" + row.cells[0].innerText.slice(-4),
+            auctionFormLink: "https://auction.ucdp-smolian.com/au-admin/auctions/form/" + row.cells[0].innerText.slice(-4),
+            auctionHistoryLink: row.cells[8].getElementsByTagName("a")[0].href.split("/").pop()
         };
 
-        //removed due to exessive loading time on the subpages, therefore slow execution of the script and crashing web browser, making following code obsolete
-        //creating iframe for every row of the table without loading the according page
-        // if (!document.getElementById(historyTableET.rows[0].cells[0].innerText)) {
-        //     for (let i = 0, row; row = historyTableET.rows[i]; i++) {
-        //         const frame = document.createElement("iframe");
-        //         frame.id = row.cells[0].innerText;
-        //         frame.style.display = "none";
-        //         row.cells[0].appendChild(frame);
-        //     }
-        // }
     }
 
     //historyET.obekt
@@ -58,7 +49,8 @@ function auctionHistoryCheck() {
             TP: historyET[i].TP,
             obekt: historyET[i].obekt,
             etLink: historyET[i].etLink,
-            etLink2: historyET[i].etLink2,
+            auctionFormLink: historyET[i].auctionFormLink,
+            auctionHistoryLink: historyET[i].auctionHistoryLink,
 
         };
         let yesterday = new Date();
@@ -126,8 +118,8 @@ function auctionHistoryCheck() {
             }
         }
     }
-    auctionTabOpen(todayAuctionsArray, "днес");
-    auctionTabOpen(yesterdayAuctionsArray, "вчера");
+    // auctionTabOpen(todayAuctionsArray, "днес");
+    // auctionTabOpen(yesterdayAuctionsArray, "вчера");
 
     //open form tabs for every auction in the according arrays
     function auctionTabOpen2(array, text) {
@@ -135,7 +127,7 @@ function auctionHistoryCheck() {
             if (confirm('ПРОЦЕДУРИ\nПроведени търгове ' + text + ': ' + array.length + "\r\nОтвори?")) {
                 console.log("OK");
                 for (i = 0; i < array.length; i++) {
-                    window.open(array[i].etLink2, '_blank');
+                    window.open(array[i].auctionFormLink, '_blank');
                 }
             }
         }
@@ -143,75 +135,22 @@ function auctionHistoryCheck() {
     auctionTabOpen2(todayAuctionsArray, "днес");
     auctionTabOpen2(yesterdayAuctionsArray, "вчера");
 
-    /**
-     * 
-     * removed due to exessive loading time on the subpages, therefore slow execution of the script and crashing web browser
-
-        //loading iframes with auction page of the according arrays
-        function iframeLoad(array) {
-            array.forEach(function (element) {
-                for (let i = 0, row; row = historyTableET.rows[i]; i++) {
-                    if (element.number == historyTableET.rows[i].cells[0].innerText) {
-                        document.getElementById(element.number).src = element.etLink;
-                        let gish = document.getElementById(row.cells[0].innerText);
-                        gish.onload = function () {
-                            let links = gish.contentWindow.document.links;
-                            for (var i = 0; i < links.length; i++) {
-                                if (links[i].title.includes("Протокол")) {
-                                    console.log(row.cells[0].innerText + " True");
-                                    row.cells[8].style.backgroundColor = "#59981A";
-                                    row.cells[7].innerText = row.cells[7].innerText + " | " + gish.contentWindow.document.querySelector("tbody").childElementCount;
-                                    return;
-                                } else {
-                                    row.cells[7].innerText = row.cells[7].innerText + " | " + gish.contentWindow.document.querySelector("tbody").childElementCount;
-                                    return;
-                                }
-                            }
-                        };
-                    }
+    //direct open for protocol and 1st buyer order
+    function tabOpenProtocolandOrder(array, text) {
+        if (array.length !== 0) {
+            if (confirm('Заличени протоколи и заповеди за първи купувач\n\nПроведени търгове ' + text + ': ' + array.length + "\r\nОтвори?")) {
+                console.log("OK");
+                let order = "https://auction.ucdp-smolian.com/au-admin/history/erasedOrder/";
+                let protocol = "https://auction.ucdp-smolian.com/au-admin/history/erasedProtocol/";
+                for (i = 0; i < array.length; i++) {
+                    window.open(protocol + array[i].auctionHistoryLink + "/" + array[i].date, '_blank');
+                    window.open(order + array[i].auctionHistoryLink + "/" + array[i].date + "/?t=b", '_blank');
                 }
-            });
+            }
         }
-        iframeLoad(yesterdayAuctionsArray);
-        iframeLoad(todayAuctionsArray);
-    *
-    */
-
-
-    //testing bellow
-
-    // if (!document.getElementById(historyTableET.rows[0].cells[0].innerText)) {
-
-    //     for (let i = 0, row; row = historyTableET.rows[i]; i++) {
-    //         const frame = document.createElement("iframe");
-    //         frame.id = row.cells[0].innerText;
-    //         // frame.style.display = "none";
-    //         // frame.onload = "access()";
-
-    //         frame.src = historyET[i].etLink;
-    //         row.cells[0].appendChild(frame);
-    //     }
-    //     for (let i = 0, row; row = historyTableET.rows[i]; i++) {
-    //         let gish = document.getElementById(row.cells[0].innerText);
-    //         gish.onload = function () {
-    //             // console.log(gish.contentWindow.document.getElementById('auctionStartPrice').value);
-    //             let links = gish.contentWindow.document.links;
-    //             for (var i = 0; i < links.length; i++) {
-    //                 // console.log(links[i].title);
-    //                 if (links[i].title.includes("Протокол")) {
-    //                     console.log(row.cells[0].innerText + " " + "True");
-    //                     // row.cells[8].style.backgroundColor = "#59981A";
-    //                     // colorfullRowsOutput(okArray, "#59981A", "black");
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
-
-
-    //end of testing
-
-
+    }
+    tabOpenProtocolandOrder(todayAuctionsArray, "днес");
+    tabOpenProtocolandOrder(yesterdayAuctionsArray, "вчера");
 
 }
 auctionHistoryCheck();
