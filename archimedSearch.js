@@ -6,6 +6,7 @@ function archimedSearch() {
 	const docs = [];
 	const todayArray = [];
 	const yesterdayArray = [];
+	const olderArray= [];
 	let today = new Date();
 	let yesterday = new Date();
 	yesterday.setDate(yesterday.getDate() - 1);
@@ -45,12 +46,17 @@ function archimedSearch() {
 	    
 	    };
 	
-		if (ddlDate.setHours(0, 0, 0, 0) == today.setHours(0, 0, 0, 0) && docs[i].status.includes("Приключен") ) {
+		if (ddlDate.setHours(0, 0, 0, 0) == today.setHours(0, 0, 0, 0) && (docs[i].status.includes("Приключен") || docs[i].status.includes("Отговорен")) ) {
 			todayArray.push(infoObj);
 		}
 
-		if (ddlDate.setHours(0, 0, 0, 0) == yesterday.setHours(0, 0, 0, 0) && docs[i].status.includes("Приключен")  ) {
+		if (ddlDate.setHours(0, 0, 0, 0) == yesterday.setHours(0, 0, 0, 0) && (docs[i].status.includes("Приключен") || docs[i].status.includes("Отговорен")) ) {
 			yesterdayArray.push(infoObj);
+		}
+
+		if (ddlDate.setHours(0, 0, 0, 0) < yesterday.setHours(0, 0, 0, 0) && (docs[i].status.includes("Приключен") || docs[i].status.includes("Отговорен")) ) {
+			console.log("older docs");
+			olderArray.push(infoObj);
 		}
 	}
 	
@@ -68,6 +74,7 @@ function archimedSearch() {
 	
 	    colorfullRowsOutput(todayArray, "#a5e566", "white"); //green
 	    colorfullRowsOutput(yesterdayArray, "#FFC300", "white"); //yellow
+		colorfullRowsOutput(olderArray, "#F3CFC6", "white"); //Millennial pink
 	   
 }
 archimedSearch();
