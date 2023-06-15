@@ -148,16 +148,23 @@ function auctionHistoryCheck() {
                 console.log("OK");
                 let order = "https://auction.ucdp-smolian.com/au-admin/history/erasedOrder/";
                 let protocol = "https://auction.ucdp-smolian.com/au-admin/history/erasedProtocol/";
-                for (i = 0; i < array.length; i++) {
-                    window.open(protocol + array[i].auctionHistoryLink + "/" + array[i].date, '_blank');
-                    window.open(order + array[i].auctionHistoryLink + "/" + array[i].date + "/?t=b", '_blank');
+                if (text == "утре") {
+                    for (i = 0; i < array.length; i++) {
+                        window.open(protocol + array[i].auctionHistoryLink + "/" + array[i].date, '_blank');
+                        window.open(order + array[i].auctionHistoryLink + "/" + array[i].date + "/?t=c", '_blank');
+                    }
+                } else {
+                    for (i = 0; i < array.length; i++) {
+                        window.open(protocol + array[i].auctionHistoryLink + "/" + array[i].date, '_blank');
+                        window.open(order + array[i].auctionHistoryLink + "/" + array[i].date + "/?t=b", '_blank');
+                    }
                 }
             }
         }
     }
     tabOpenProtocolandOrder(todayAuctionsArray, "днес");
     tabOpenProtocolandOrder(yesterdayAuctionsArray, "вчера");
-    // tabOpenProtocolandOrder(tomorrowAuctionsArray, "утре");
+    tabOpenProtocolandOrder(tomorrowAuctionsArray, "утре");
 
 }
 auctionHistoryCheck();
