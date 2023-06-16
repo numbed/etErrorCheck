@@ -1,7 +1,9 @@
 if (confirm("Назначаване на комисия?") == true) {
     auctionsCommission();
-} else {
+} else if (confirm("Вземи номер на заповед за откриване?") == true) {
     pubOrder();
+} else if (confirm("Текст за основание за прекратяване на процедура?")) {
+    cancelOrder();
 }
 
 function auctionsCommission() {
@@ -210,26 +212,23 @@ function auctionsCommission() {
 
 //needs changes for the new auctions!!!!
 function pubOrder() {
-    if (confirm("Вземи номер на заповед за откриване?") == true) {
-
-        console.log("---pubOrder");
-        let order;
-        let today = new Date();
-        ooNumber = document.querySelector("#ooNumber");
-        ooDate = document.querySelector("#ooDate");
-        // ooNumber.value = ooNumber.value + prompt("Номер на заповед за откриване");
-        let links = document.links;
-        for (i = 0; i < links.length; i++) {
-            if (links[i].title.includes("Заповед")) {
-                order = links[i].title;
-                order = order.split(".")[0].split("Заповед")[1].trim();
-                orderDate = links[i].innerHTML;
-                orderDate = orderDate.split("/")[1].split(" ")[1];
-            }
+    console.log("---pubOrder");
+    let order;
+    let today = new Date();
+    ooNumber = document.querySelector("#ooNumber");
+    ooDate = document.querySelector("#ooDate");
+    // ooNumber.value = ooNumber.value + prompt("Номер на заповед за откриване");
+    let links = document.links;
+    for (i = 0; i < links.length; i++) {
+        if (links[i].title.includes("Заповед")) {
+            order = links[i].title;
+            order = order.split(".")[0].split("Заповед")[1].trim();
+            orderDate = links[i].innerHTML;
+            orderDate = orderDate.split("/")[1].split(" ")[1];
         }
-        ooNumber.value = order;
-        ooDate.value = orderDate;
     }
+    ooNumber.value = order;
+    ooDate.value = orderDate;
 }
 
 //naming uploaded documents when commission is assigned
@@ -247,4 +246,21 @@ function docNames() {
         }
     }
 
+}
+
+//gets the needed text for canceling order in OS clipboard.
+function cancelOrder() {
+    console.log("---cancelOrder");
+    let docTable = document.querySelectorAll("tbody")[4].querySelectorAll("a");
+    for (i = 0; i< docTable.length; i++) {
+        if (docTable[i].innerHTML.includes("прекратяване")) {
+            let order, date, tp, textToCopy;
+            order = docTable[i].title.split(".")[0].split(" ").pop();
+            date = docTable[i].innerText.split('/')[1].trim().split(" ")[0];
+            tp = document.getElementById("auctionTitle").value.split('/')[0].trim();
+            textToCopy = "Заповед №" + order + "/" + date + "г. на Директора на " + tp +".";
+            navigator.clipboard.writeText(textToCopy);
+            alert(textToCopy + "\n\n!!!\nтекстът е поставен в clipboard-а на ОС!\nПРОВЕРЕТЕ КОРЕКТНОСТТА НА ДАТАТА И ПРОМЕНЕТЕ ПРИ НЕОБХОДИМОСТ.\n!!!");
+        }
+    }
 }
