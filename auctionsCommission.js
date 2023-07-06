@@ -113,9 +113,9 @@ function auctionsCommission() {
         } else if (tp.value.includes("Първомай")) {
             input = "173,502,457";
             input = prompt(promptTitlefuntion(input), input);
-            coNumber.value = "З-20-" + prompt("Номер на заповед за комисия:");
+            coNumber.value = "З-20-" + prompt("Номер на заповед за комисия:");с
         } else if (tp.value.includes("Ракитово")) {
-            input = "359,412,365";
+            input = "359,553,365";
             input = prompt(promptTitlefuntion(input), input);
             coNumber.value = "З-21-" + prompt("Номер на заповед за комисия:");
         } else if (tp.value.includes("Родопи")) {
@@ -123,7 +123,7 @@ function auctionsCommission() {
             input = prompt(promptTitlefuntion(input), input);
             coNumber.value = "З-22-" + prompt("Номер на заповед за комисия:");
         } else if (tp.value.includes("Селище")) {
-            input = "347,481,472";
+            input = "347,396,472";
             input = prompt(promptTitlefuntion(input), input);
             coNumber.value = "З-23-" + prompt("Номер на заповед за комисия:");
         } else if (tp.value.includes("Славейно")) {
