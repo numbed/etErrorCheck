@@ -213,6 +213,8 @@ function main() {
                                 }
                             }
 
+                            
+                            
                             let woodsInfoTable = iFrame.contentWindow.document.querySelector("tbody");
                             let big = woodsInfoTable.querySelector('input[name="data[woodInfo][big][0]"]').value
                             let medium = woodsInfoTable.querySelector('input[name="data[woodInfo][mid][0]"]').value
@@ -222,12 +224,20 @@ function main() {
                             let total = woodsInfoTable.querySelector('input[name="data[woodInfo][total][0]"]').value
                             let bidStep = iFrame.contentWindow.document.querySelector("#аuctionBidStep").value
                             let guarantee = iFrame.contentWindow.document.querySelector("#аuctionGuarantee").value
-
+                            
                             let tooltip = "количество: " + "\nедра: " + big + "\nсредна: " + medium + "\nдребна: " + small + "\nозм: " + ozm + "\nогрев: " + fire + "\n------------------" + "\nобщо: " + total + "\n\nстъпка: " + bidStep + "\nгаранция: " + guarantee;
-                            let woodsInfo = "Е: " + big + "| С: " + medium + "| Д: " + small + "| ОЗМ: " + ozm + "| ОГРЕВ: " + fire +  "| общо: " + total;
+                            let woodsInfo = "Е: " + big + " | С: " + medium + " | Д: " + small + " | ОЗМ: " + ozm + " | ОГРЕВ: " + fire +  " | общо: " + total;
                             linkCell.querySelector('a').setAttribute('title', tooltip);
                             subjectCell.innerHTML += "<br>" + woodsInfo;
-                            priceCell.innerText += "\n" + "с: " + bidStep + "| г: " + guarantee;
+                            priceCell.innerText += "\n" + "с: " + bidStep + " | г: " + guarantee;
+                            
+                            // const woodSpan = document.createElement('span');
+                            // const newLine = document.createElement('br');
+                            // woodSpan.className = "tooltip";
+                            // // woodSpan.style.
+                            // woodSpan.textContent = woodsInfo;
+                            // subjectCell.appendChild(newLine);
+                            // subjectCell.appendChild(woodSpan);
                         }
                     }
                 }
