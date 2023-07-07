@@ -199,6 +199,8 @@ function main() {
                     if (element.number == row.cells[0].innerText) {
                         let lastCell = row.cells[8];
                         let linkCell = row.cells[7];
+                        let priceCell = row.cells[6];
+                        let subjectCell = row.cells[4];
                         let iFrame = document.getElementById(element.number);
                         iFrame.src = element.etLink;
                         iFrame.onload = function () {
@@ -211,18 +213,21 @@ function main() {
                                 }
                             }
 
-                            let woodsInfo = iFrame.contentWindow.document.querySelector("tbody");
-                            let big = woodsInfo.querySelector('input[name="data[woodInfo][big][0]"]').value
-                            let medium = woodsInfo.querySelector('input[name="data[woodInfo][mid][0]"]').value
-                            let small = woodsInfo.querySelector('input[name="data[woodInfo][small][0]"]').value
-                            let ozm = woodsInfo.querySelector('input[name="data[woodInfo][ozm][0]"]').value
-                            let fire = woodsInfo.querySelector('input[name="data[woodInfo][firewood][0]"]').value
-                            let total = woodsInfo.querySelector('input[name="data[woodInfo][total][0]"]').value
+                            let woodsInfoTable = iFrame.contentWindow.document.querySelector("tbody");
+                            let big = woodsInfoTable.querySelector('input[name="data[woodInfo][big][0]"]').value
+                            let medium = woodsInfoTable.querySelector('input[name="data[woodInfo][mid][0]"]').value
+                            let small = woodsInfoTable.querySelector('input[name="data[woodInfo][small][0]"]').value
+                            let ozm = woodsInfoTable.querySelector('input[name="data[woodInfo][ozm][0]"]').value
+                            let fire = woodsInfoTable.querySelector('input[name="data[woodInfo][firewood][0]"]').value
+                            let total = woodsInfoTable.querySelector('input[name="data[woodInfo][total][0]"]').value
                             let bidStep = iFrame.contentWindow.document.querySelector("#аuctionBidStep").value
                             let guarantee = iFrame.contentWindow.document.querySelector("#аuctionGuarantee").value
 
                             let tooltip = "количество: " + "\nедра: " + big + "\nсредна: " + medium + "\nдребна: " + small + "\nозм: " + ozm + "\nогрев: " + fire + "\n------------------" + "\nобщо: " + total + "\n\nстъпка: " + bidStep + "\nгаранция: " + guarantee;
+                            let woodsInfo = "Е: " + big + "| С: " + medium + "| Д: " + small + "| ОЗМ: " + ozm + "| ОГРЕВ: " + fire +  "| общо: " + total;
                             linkCell.querySelector('a').setAttribute('title', tooltip);
+                            subjectCell.innerHTML += "<br>" + woodsInfo;
+                            priceCell.innerText += "\n" + "с: " + bidStep + "| г: " + guarantee;
                         }
                     }
                 }
