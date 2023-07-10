@@ -232,8 +232,7 @@ function main() {
             }
         });
     }
-    upcommingAuctionsCheck();
-
+    
     //check if upcomming auctions have published documentation
     function upcommingAuctionsCheck2() {
         auctions.forEach(function (element) {
@@ -249,13 +248,13 @@ function main() {
                         iFrame.onload = function () {
                             // let links = iFrame.contentWindow.document.links;
                             // for (i = 0; i < links.length; i++) {
-                            //     if (links[i].title.includes("Документация")) {
-                            //         lastCell.style.backgroundColor = "#81B622";
+                                //     if (links[i].title.includes("Документация")) {
+                                    //         lastCell.style.backgroundColor = "#81B622";
                             //         row.style.color = "#676a6c";
                             //         row.style.fontWeight = "normal";
                             //     }
                             // }
-                                                 
+                            
                             let woodsInfoTable = iFrame.contentWindow.document.querySelector("tbody");
                             let big = woodsInfoTable.querySelector('input[name="data[woodInfo][big][0]"]').value;
                             let medium = woodsInfoTable.querySelector('input[name="data[woodInfo][mid][0]"]').value;
@@ -265,7 +264,7 @@ function main() {
                             let total = woodsInfoTable.querySelector('input[name="data[woodInfo][total][0]"]').value;
                             let bidStep = iFrame.contentWindow.document.querySelector("#аuctionBidStep").value;
                             let guarantee = iFrame.contentWindow.document.querySelector("#аuctionGuarantee").value;
-                                                        
+                            
                             let woodsInfo = "Е: " + big + " | С: " + medium + " | Д: " + small + " | ОЗМ: " + ozm + " | ОГРЕВ: " + fire +  " | общо: " + total;
                             const woodSpan = document.createElement('span');
                             woodSpan.className = "tt";
@@ -277,7 +276,7 @@ function main() {
                             priceSpan.className = "tt";
                             priceSpan.textContent = priceInfo;
                             priceCell.appendChild(priceSpan);
-                                                        
+                            
                             // let tooltip = "количество: " + "\nедра: " + big + "\nсредна: " + medium + "\nдребна: " + small + "\nозм: " + ozm + "\nогрев: " + fire + "\n------------------" + "\nобщо: " + total + "\n\nстъпка: " + bidStep + "\nгаранция: " + guarantee;
                             // linkCell.querySelector('a').setAttribute('title', tooltip);
                             // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -287,7 +286,7 @@ function main() {
                             let docs = iFrame.contentWindow.document.querySelector("#auctionDocuments").querySelectorAll("a");
                             let firstOrder = iFrame.contentWindow.document.querySelector("#auctionOrder").querySelectorAll("a");
                             let secOrder = iFrame.contentWindow.document.querySelector("#auctionSecOrder").querySelectorAll("a");
-                                                        
+                            
                             let docsTT = "Документи:\n";
                             docs.forEach((el, index) => {if (index === 0) return; docsTT += el.innerHTML +"\n";});
                             let firstTT = "-------------------\nЗаповед 1ви купувач:\n";
@@ -301,11 +300,12 @@ function main() {
                         }
                     }
                 }
-            // }
-        });
-    }
-    upcommingAuctionsCheck2();
-
+                // }
+            });
+        }
+        upcommingAuctionsCheck2();
+        upcommingAuctionsCheck();
+        
     //document.head - add mousover tooltip on cells 
     document.head.insertAdjacentHTML("beforeend", `<style>
         td.hidden-xs {
