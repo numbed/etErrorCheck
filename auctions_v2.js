@@ -162,35 +162,6 @@ function main() {
     }
     iframeCreation();
 
-    //check if commission is already assigned to the auction 
-    function assingedCommissionCheck() {
-        auctions.forEach(function (element) {
-            for (let i = 0, row; row = auctionsTable.rows[i]; i++) {
-                if ((element.number == row.cells[0].innerText) && (element.status == "commission")) {
-                    let lastCell = row.cells[8];
-                    let iFrame = document.getElementById(element.number);
-                    iFrame.src = element.etLink;
-                    iFrame.onload = function () {
-                        const comm1 = iFrame.contentWindow.document.querySelector("select.form-control.commision");
-                        const comm2 = iFrame.contentWindow.document.querySelector("div.form-control");
-                        if (comm1.value != "") {
-                            console.log("comm1");
-                            lastCell.style.backgroundColor = "#9eb3c6";
-                        } else if (!comm1) {
-                            if (comm2.innerHMTL != "") {
-                                console.log("comm2");
-                                lastCell.style.backgroundColor = "#9eb3c6";
-                            }
-                        } else {
-                            lastCell.style.backgroundColor = "#2f4050";
-                        }
-                    }
-                }
-            }
-        });
-    }
-    assingedCommissionCheck();
-
     //check if upcomming auctions have published documentation
     function upcommingAuctionsCheck() {
         auctions.forEach(function (element) {
@@ -212,33 +183,49 @@ function main() {
                                     row.style.fontWeight = "normal";
                                 }
                             }
-
+                                                 
+                            // let woodsInfoTable = iFrame.contentWindow.document.querySelector("tbody");
+                            // let big = woodsInfoTable.querySelector('input[name="data[woodInfo][big][0]"]').value;
+                            // let medium = woodsInfoTable.querySelector('input[name="data[woodInfo][mid][0]"]').value;
+                            // let small = woodsInfoTable.querySelector('input[name="data[woodInfo][small][0]"]').value;
+                            // let ozm = woodsInfoTable.querySelector('input[name="data[woodInfo][ozm][0]"]').value;
+                            // let fire = woodsInfoTable.querySelector('input[name="data[woodInfo][firewood][0]"]').value;
+                            // let total = woodsInfoTable.querySelector('input[name="data[woodInfo][total][0]"]').value;
+                            // let bidStep = iFrame.contentWindow.document.querySelector("#аuctionBidStep").value;
+                            // let guarantee = iFrame.contentWindow.document.querySelector("#аuctionGuarantee").value;
+                                                        
+                            // let woodsInfo = "Е: " + big + " | С: " + medium + " | Д: " + small + " | ОЗМ: " + ozm + " | ОГРЕВ: " + fire +  " | общо: " + total;
+                            // const woodSpan = document.createElement('span');
+                            // woodSpan.className = "tt";
+                            // woodSpan.textContent = woodsInfo;
+                            // subjectCell.appendChild(woodSpan);
                             
+                            // let priceInfo = "стъпка: " + bidStep + " \nгаранция: " + guarantee;
+                            // const priceSpan = document.createElement('span');
+                            // priceSpan.className = "tt";
+                            // priceSpan.textContent = priceInfo;
+                            // priceCell.appendChild(priceSpan);
+                                                        
+                            // // let tooltip = "количество: " + "\nедра: " + big + "\nсредна: " + medium + "\nдребна: " + small + "\nозм: " + ozm + "\nогрев: " + fire + "\n------------------" + "\nобщо: " + total + "\n\nстъпка: " + bidStep + "\nгаранция: " + guarantee;
+                            // // linkCell.querySelector('a').setAttribute('title', tooltip);
+                            // // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                            // // Tooltips with all uploaded files 
+                            // // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                            // // let iFrame = document.getElementById('ЕТ03156');
+                            // let docs = iFrame.contentWindow.document.querySelector("#auctionDocuments").querySelectorAll("a");
+                            // let firstOrder = iFrame.contentWindow.document.querySelector("#auctionOrder").querySelectorAll("a");
+                            // let secOrder = iFrame.contentWindow.document.querySelector("#auctionSecOrder").querySelectorAll("a");
+                                                        
+                            // let docsTT = "Документи:\n";
+                            // docs.forEach((el, index) => {if (index === 0) return; docsTT += el.innerHTML +"\n";});
+                            // let firstTT = "-------------------\nЗаповед 1ви купувач:\n";
+                            // firstOrder.forEach((el, index) => {if (index === 0) return; firstTT += el.innerHTML +"\n"; console.log(el.innerText);});
+                            // let secTT = "-------------------\nЗаповед 2ри купувач:\n";
+                            // secOrder.forEach((el, index) => {if (index === 0) return; secTT += el.innerHTML +"\n"; console.log(el.innerText);});
                             
-                            let woodsInfoTable = iFrame.contentWindow.document.querySelector("tbody");
-                            let big = woodsInfoTable.querySelector('input[name="data[woodInfo][big][0]"]').value
-                            let medium = woodsInfoTable.querySelector('input[name="data[woodInfo][mid][0]"]').value
-                            let small = woodsInfoTable.querySelector('input[name="data[woodInfo][small][0]"]').value
-                            let ozm = woodsInfoTable.querySelector('input[name="data[woodInfo][ozm][0]"]').value
-                            let fire = woodsInfoTable.querySelector('input[name="data[woodInfo][firewood][0]"]').value
-                            let total = woodsInfoTable.querySelector('input[name="data[woodInfo][total][0]"]').value
-                            let bidStep = iFrame.contentWindow.document.querySelector("#аuctionBidStep").value
-                            let guarantee = iFrame.contentWindow.document.querySelector("#аuctionGuarantee").value
-                            
-                            let tooltip = "количество: " + "\nедра: " + big + "\nсредна: " + medium + "\nдребна: " + small + "\nозм: " + ozm + "\nогрев: " + fire + "\n------------------" + "\nобщо: " + total + "\n\nстъпка: " + bidStep + "\nгаранция: " + guarantee;
-                            let woodsInfo = "Е: " + big + " | С: " + medium + " | Д: " + small + " | ОЗМ: " + ozm + " | ОГРЕВ: " + fire +  " | общо: " + total;
-                            linkCell.querySelector('a').setAttribute('title', tooltip);
-                            let priceInfo = "стъпка: " + bidStep + " \nгаранция: " + guarantee;
-                            
-                            const woodSpan = document.createElement('span');
-                            woodSpan.className = "tt";
-                            woodSpan.textContent = woodsInfo;
-                            subjectCell.appendChild(woodSpan);
-
-                            const priceSpan = document.createElement('span');
-                            priceSpan.className = "tt";
-                            priceSpan.textContent = priceInfo;
-                            priceCell.appendChild(priceSpan);
+                            // let tooltip = docsTT + firstTT + secTT;
+                            // linkCell.querySelector('a').setAttribute('title', tooltip);
+                            // // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                         }
                     }
                 }
@@ -246,6 +233,78 @@ function main() {
         });
     }
     upcommingAuctionsCheck();
+
+    //check if upcomming auctions have published documentation
+    function upcommingAuctionsCheck2() {
+        auctions.forEach(function (element) {
+            // if (element.status == "upcomming" || element.status == "today") {
+                for (let i = 0, row; row = auctionsTable.rows[i]; i++) {
+                    if (element.number == row.cells[0].innerText) {
+                        let lastCell = row.cells[8];
+                        let linkCell = row.cells[7];
+                        let priceCell = row.cells[6];
+                        let subjectCell = row.cells[4];
+                        let iFrame = document.getElementById(element.number);
+                        iFrame.src = element.etLink;
+                        iFrame.onload = function () {
+                            // let links = iFrame.contentWindow.document.links;
+                            // for (i = 0; i < links.length; i++) {
+                            //     if (links[i].title.includes("Документация")) {
+                            //         lastCell.style.backgroundColor = "#81B622";
+                            //         row.style.color = "#676a6c";
+                            //         row.style.fontWeight = "normal";
+                            //     }
+                            // }
+                                                 
+                            let woodsInfoTable = iFrame.contentWindow.document.querySelector("tbody");
+                            let big = woodsInfoTable.querySelector('input[name="data[woodInfo][big][0]"]').value;
+                            let medium = woodsInfoTable.querySelector('input[name="data[woodInfo][mid][0]"]').value;
+                            let small = woodsInfoTable.querySelector('input[name="data[woodInfo][small][0]"]').value;
+                            let ozm = woodsInfoTable.querySelector('input[name="data[woodInfo][ozm][0]"]').value;
+                            let fire = woodsInfoTable.querySelector('input[name="data[woodInfo][firewood][0]"]').value;
+                            let total = woodsInfoTable.querySelector('input[name="data[woodInfo][total][0]"]').value;
+                            let bidStep = iFrame.contentWindow.document.querySelector("#аuctionBidStep").value;
+                            let guarantee = iFrame.contentWindow.document.querySelector("#аuctionGuarantee").value;
+                                                        
+                            let woodsInfo = "Е: " + big + " | С: " + medium + " | Д: " + small + " | ОЗМ: " + ozm + " | ОГРЕВ: " + fire +  " | общо: " + total;
+                            const woodSpan = document.createElement('span');
+                            woodSpan.className = "tt";
+                            woodSpan.textContent = woodsInfo;
+                            subjectCell.appendChild(woodSpan);
+                            
+                            let priceInfo = "стъпка: " + bidStep + " \nгаранция: " + guarantee;
+                            const priceSpan = document.createElement('span');
+                            priceSpan.className = "tt";
+                            priceSpan.textContent = priceInfo;
+                            priceCell.appendChild(priceSpan);
+                                                        
+                            // let tooltip = "количество: " + "\nедра: " + big + "\nсредна: " + medium + "\nдребна: " + small + "\nозм: " + ozm + "\nогрев: " + fire + "\n------------------" + "\nобщо: " + total + "\n\nстъпка: " + bidStep + "\nгаранция: " + guarantee;
+                            // linkCell.querySelector('a').setAttribute('title', tooltip);
+                            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                            // Tooltips with all uploaded files 
+                            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                            // let iFrame = document.getElementById('ЕТ03156');
+                            let docs = iFrame.contentWindow.document.querySelector("#auctionDocuments").querySelectorAll("a");
+                            let firstOrder = iFrame.contentWindow.document.querySelector("#auctionOrder").querySelectorAll("a");
+                            let secOrder = iFrame.contentWindow.document.querySelector("#auctionSecOrder").querySelectorAll("a");
+                                                        
+                            let docsTT = "Документи:\n";
+                            docs.forEach((el, index) => {if (index === 0) return; docsTT += el.innerHTML +"\n";});
+                            let firstTT = "-------------------\nЗаповед 1ви купувач:\n";
+                            firstOrder.forEach((el, index) => {if (index === 0) return; firstTT += el.innerHTML +"\n"; console.log(el.innerText);});
+                            let secTT = "-------------------\nЗаповед 2ри купувач:\n";
+                            secOrder.forEach((el, index) => {if (index === 0) return; secTT += el.innerHTML +"\n"; console.log(el.innerText);});
+                            
+                            let tooltip = docsTT + firstTT + secTT;
+                            linkCell.querySelector('a').setAttribute('title', tooltip);
+                            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                        }
+                    }
+                }
+            // }
+        });
+    }
+    upcommingAuctionsCheck2();
 
     //document.head - add mousover tooltip on cells 
     document.head.insertAdjacentHTML("beforeend", `<style>
@@ -268,6 +327,35 @@ function main() {
             display:block;
         }
     </style>`);
+
+        //check if commission is already assigned to the auction 
+        function assingedCommissionCheck() {
+            auctions.forEach(function (element) {
+                for (let i = 0, row; row = auctionsTable.rows[i]; i++) {
+                    if ((element.number == row.cells[0].innerText) && (element.status == "commission")) {
+                        let lastCell = row.cells[8];
+                        let iFrame = document.getElementById(element.number);
+                        iFrame.src = element.etLink;
+                        iFrame.onload = function () {
+                            const comm1 = iFrame.contentWindow.document.querySelector("select.form-control.commision");
+                            const comm2 = iFrame.contentWindow.document.querySelector("div.form-control");
+                            if (comm1.value != "") {
+                                console.log("comm1");
+                                lastCell.style.backgroundColor = "#9eb3c6";
+                            } else if (!comm1) {
+                                if (comm2.innerHMTL != "") {
+                                    console.log("comm2");
+                                    lastCell.style.backgroundColor = "#9eb3c6";
+                                }
+                            } else {
+                                lastCell.style.backgroundColor = "#2f4050";
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        assingedCommissionCheck();
 
     //error check for duplicates and wrong type of auction
     function errorCheck() {
@@ -488,25 +576,7 @@ function main() {
 
                                 }
 
-                            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                            // Tooltips with all uploaded files 
-                            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                            // let iFrame = document.getElementById('ЕТ03156');
-                            let docs = iFrame.contentWindow.document.querySelector("#auctionDocuments").querySelectorAll("a");
-                            // let firstOrder = iFrame.contentWindow.document.querySelector("#auctionOrder").querySelectorAll("a");
-                            // let secOrder = iFrame.contentWindow.document.querySelector("#auctionSecOrder").querySelectorAll("a");
-                            
-                            
-                            let docsTT = "Документи:\n";
-                            docs.forEach((el, index) => {if (index === 0) return; docsTT += el.innerText +"\n";});
-                            let firstTT = "-------------------\nЗаповед 1ви купувач:\n";
-                            firstOrder.forEach((el, index) => {if (index === 0) return; firstTT += el.innerText +"\n";});
-                            let secTT = "-------------------\nЗаповед 2ри купувач:\n";
-                            secOrder.forEach((el, index) => {if (index === 0) return; secTT += el.innerText +"\n";});
-                            
-                            let tooltip = docsTT + firstTT + secTT;
-                            linkCell.querySelector('a').setAttribute('title', tooltip);
-                            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
                             }
                         }
                     }
