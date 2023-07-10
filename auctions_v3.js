@@ -1,6 +1,6 @@
 function main() {
     console.clear();
-    //js new line in string?
+    console.log("auctions_v3");
     let auctionsTable = document.querySelector("tbody");
     document.querySelector("thead").rows[1].cells[3].innerText = "Краен срок за записване\n" + "Краен срок за публикуване";
     const auctions = [];
@@ -108,17 +108,6 @@ function main() {
         } else if (firstDate.getDay() == 3) {
             deadline = firstDate.getDate() - 19;
         }
-        // if (firstDate.getDay() == 1) {
-        //     deadline = firstDate.getDate() - 20;
-        // } else if (firstDate.getDay() == 2) {
-        //     deadline = firstDate.getDate() - 18;
-        // } else if (firstDate.getDay() == 3) {
-        //     deadline = firstDate.getDate() - 19;
-        // } else if (firstDate.getDay() == 4) {
-        //     deadline = firstDate.getDate() - 20;
-        // } else if (firstDate.getDay() == 5) {
-        //     deadline = firstDate.getDate() - 18;
-        // } else if (firstDate.getDay() == 6 || firstDate.getDay() == 0) {}
 
         deadlineDate.setDate(deadline);
         let output = new Date();
@@ -161,6 +150,11 @@ function main() {
         }
     }
     iframeCreation();
+
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //ABOVE auction info gathering & iframe creation
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 
     //check if commission is already assigned to the auction 
     function assingedCommissionCheck() {
@@ -213,32 +207,51 @@ function main() {
                                 }
                             }
 
+                            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                            // Tooltips with all uploaded files 
+                            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                            // let iFrame = document.getElementById('ЕТ03156');
+                            // let docs = iFrame.contentWindow.document.querySelector("#auctionDocuments").querySelectorAll("a");
+                            // let firstOrder = iFrame.contentWindow.document.querySelector("#auctionOrder").querySelectorAll("a");
+                            // let secOrder = iFrame.contentWindow.document.querySelector("#auctionSecOrder").querySelectorAll("a");
                             
                             
+                            // let docsTT = "-------------------\nauctionDocs\n";
+                            // docs.forEach((el, index) => {if (index === 0) return; docsTT += el.innerText +"\n";});
+                            // let firstTT = "-------------------\n1st Ord\n";
+                            // firstOrder.forEach((el, index) => {if (index === 0) return; firstTT += el.innerText +"\n";});
+                            // let secTT = "-------------------\n2nd Ord\n";
+                            // secOrder.forEach((el, index) => {if (index === 0) return; secTT += el.innerText +"\n";});
+                            
+                            // let tooltip = docsTT + firstTT + secTT;
+                            // let table = document.querySelector('tbody');
+                            // table.rows[10].cells[7].querySelector('a').setAttribute('title', tooltip);
+                            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
                             let woodsInfoTable = iFrame.contentWindow.document.querySelector("tbody");
-                            let big = woodsInfoTable.querySelector('input[name="data[woodInfo][big][0]"]').value
-                            let medium = woodsInfoTable.querySelector('input[name="data[woodInfo][mid][0]"]').value
-                            let small = woodsInfoTable.querySelector('input[name="data[woodInfo][small][0]"]').value
-                            let ozm = woodsInfoTable.querySelector('input[name="data[woodInfo][ozm][0]"]').value
-                            let fire = woodsInfoTable.querySelector('input[name="data[woodInfo][firewood][0]"]').value
-                            let total = woodsInfoTable.querySelector('input[name="data[woodInfo][total][0]"]').value
-                            let bidStep = iFrame.contentWindow.document.querySelector("#аuctionBidStep").value
-                            let guarantee = iFrame.contentWindow.document.querySelector("#аuctionGuarantee").value
+                            let big = woodsInfoTable.querySelector('input[name="data[woodInfo][big][0]"]').value;
+                            let medium = woodsInfoTable.querySelector('input[name="data[woodInfo][mid][0]"]').value;
+                            let small = woodsInfoTable.querySelector('input[name="data[woodInfo][small][0]"]').value;
+                            let ozm = woodsInfoTable.querySelector('input[name="data[woodInfo][ozm][0]"]').value;
+                            let fire = woodsInfoTable.querySelector('input[name="data[woodInfo][firewood][0]"]').value;
+                            let total = woodsInfoTable.querySelector('input[name="data[woodInfo][total][0]"]').value;
+                            let bidStep = iFrame.contentWindow.document.querySelector("#аuctionBidStep").value;
+                            let guarantee = iFrame.contentWindow.document.querySelector("#аuctionGuarantee").value;
                             
                             let tooltip = "количество: " + "\nедра: " + big + "\nсредна: " + medium + "\nдребна: " + small + "\nозм: " + ozm + "\nогрев: " + fire + "\n------------------" + "\nобщо: " + total + "\n\nстъпка: " + bidStep + "\nгаранция: " + guarantee;
                             let woodsInfo = "Е: " + big + " | С: " + medium + " | Д: " + small + " | ОЗМ: " + ozm + " | ОГРЕВ: " + fire +  " | общо: " + total;
                             linkCell.querySelector('a').setAttribute('title', tooltip);
-                            let priceInfo = "стъпка: " + bidStep + " \nгаранция: " + guarantee;
+                            // subjectCell.innerHTML += "<br>" + woodsInfo;
+                            priceCell.innerText += "\n" + "с: " + bidStep + " | г: " + guarantee;
                             
                             const woodSpan = document.createElement('span');
-                            woodSpan.className = "tt";
+                            const newLine = document.createElement('br');
+                            woodSpan.id = "tooltips";
+                            // woodSpan.style.
                             woodSpan.textContent = woodsInfo;
+                            subjectCell.appendChild(newLine);
                             subjectCell.appendChild(woodSpan);
-
-                            const priceSpan = document.createElement('span');
-                            priceSpan.className = "tt";
-                            priceSpan.textContent = priceInfo;
-                            priceCell.appendChild(priceSpan);
                         }
                     }
                 }
@@ -246,28 +259,6 @@ function main() {
         });
     }
     upcommingAuctionsCheck();
-
-    //document.head - add mousover tooltip on cells 
-    document.head.insertAdjacentHTML("beforeend", `<style>
-        td.hidden-xs {
-            position: relative;
-        }
-        .tt{
-            display: none;
-            position: absolute; 
-            z-index: 100;
-            border: 1px;
-            background-color: white;
-            border: 1px solid green;
-            padding: 3px;
-            color: green; 
-            top: 20px; 
-            left: 20px;
-        }
-        td.hidden-xs:hover span.tt{
-            display:block;
-        }
-    </style>`);
 
     //error check for duplicates and wrong type of auction
     function errorCheck() {
@@ -403,6 +394,37 @@ function main() {
     }
     contractCheck();
 
+    // //shows last uploaded file for passed auctions
+    // function lastFileUploaded() {
+    //     if (confirm("Покажи последния публикуван файл?")) {
+    //         auctions.forEach(function (element) {
+    //             if (element.status == "passed" || element.status == "today" || element.status == "upcomming" ) {
+    //                 for (let i = 0, row; row = auctionsTable.rows[i]; i++) {
+    //                     if (element.number == row.cells[0].innerText) {
+    //                         let titleCell = row.cells[5];
+    //                         let lastCell = row.cells[8];
+    //                         let iFrame = document.getElementById(element.number);
+    //                         iFrame.src = element.etLink;
+    //                         iFrame.onload = function () {
+    //                             let uploadedDocs = iFrame.contentWindow.document.querySelector("#auctionDocuments");
+    //                             let links = uploadedDocs.querySelectorAll('a');
+    //                             let outputText = links[1].title.split(".")[0].italics() + "<br>" + links[1].innerHTML.split("/")[1].split(" ")[1].italics().bold();
+    //                             for (i = 0; i < links.length; i++) {
+    //                                 if (links[i].title.includes("Договор")) {
+    //                                     lastCell.style.backgroundColor = "#3D550C";
+    //                                     row.cells[5].innerText = links[i].title;
+    //                                 }
+    //                             }
+    //                             titleCell.innerHTML = outputText;
+    //                         }
+    //                     }
+    //                 }
+    //             }
+    //         });
+    //     }
+    // }
+    // lastFileUploaded();
+
     //shows last uploaded file for passed auctions
     function pubOrderCheck() {
         if (confirm("Проверка заповеди купувач?")) {
@@ -450,7 +472,6 @@ function main() {
                     for (let i = 0, row; row = auctionsTable.rows[i]; i++) {
                         if (element.number == row.cells[0].innerText) {
                             let titleCell = row.cells[5];
-                            let linkCell = row.cells[7];
                             let iFrame = document.getElementById(element.number);
                             iFrame.src = element.etLink;
                             iFrame.onload = function () {
@@ -488,25 +509,24 @@ function main() {
 
                                 }
 
-                            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                            // Tooltips with all uploaded files 
-                            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                            // let iFrame = document.getElementById('ЕТ03156');
-                            let docs = iFrame.contentWindow.document.querySelector("#auctionDocuments").querySelectorAll("a");
-                            // let firstOrder = iFrame.contentWindow.document.querySelector("#auctionOrder").querySelectorAll("a");
-                            // let secOrder = iFrame.contentWindow.document.querySelector("#auctionSecOrder").querySelectorAll("a");
-                            
-                            
-                            let docsTT = "Документи:\n";
-                            docs.forEach((el, index) => {if (index === 0) return; docsTT += el.innerText +"\n";});
-                            let firstTT = "-------------------\nЗаповед 1ви купувач:\n";
-                            firstOrder.forEach((el, index) => {if (index === 0) return; firstTT += el.innerText +"\n";});
-                            let secTT = "-------------------\nЗаповед 2ри купувач:\n";
-                            secOrder.forEach((el, index) => {if (index === 0) return; secTT += el.innerText +"\n";});
-                            
-                            let tooltip = docsTT + firstTT + secTT;
-                            linkCell.querySelector('a').setAttribute('title', tooltip);
-                            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                                // let uploadedDocs = iFrame.contentWindow.document.querySelector("#auctionOrder");
+                                // let links = uploadedDocs.querySelectorAll('a');
+                                // let linksCount = links.length - 1;
+                                // const orderLinks = [];
+                                // for (i = 1; i < links.length; i++) {
+                                //     orderLinks.push(links[i].title.split(".")[0]);
+                                // }
+                                // let orderText =  orderLinks;
+                                // console.log(orderText);
+                                // let outputDate = links[1].innerHTML.split("/")[1].split(" ")[1].italics().bold();
+                                // for (i = 0; i < links.length; i++) {
+                                //     if (links[i].title.includes("Заповед")) {
+                                //         row.cells[5].innerText = links[i].title;
+                                //         row.cells[5].style.backgroundColor = "#81B622";
+                                //         row.cells[5].style.color = "white";
+                                //     }
+                                // }
+                                // titleCell.innerHTML = orderLinks.join("<br>") + "<br>" + outputDate;
                             }
                         }
                     }
@@ -563,8 +583,6 @@ function main() {
         }
     }
     subjectText();
-
-
 
     // console.log(auctions[0].number + ' ' + auctions[0].status);
     // console.log(auctions[16].number + " " + auctions[16].status);
