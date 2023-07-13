@@ -159,7 +159,7 @@ function main() {
                 const frame = document.createElement('iframe');
                 frame.id = numberCell.innerText;
                 frame.src = "https://auction.ucdp-smolian.com/au-admin/auctions/form/" + numberCell.innerText.slice(-4);
-                // frame.style.display = "none";
+                frame.style.display = "none";
                 numberCell.appendChild(frame);
             }
         }
@@ -185,17 +185,6 @@ function main() {
                 priceSpan.className = "tt";
                 priceSpan.textContent = priceInfo;
                 priceCell.appendChild(priceSpan);
-
-                // let docs = iFrame.contentDocument.querySelector("#auctionDocuments").querySelectorAll('a');
-                // let docsTT = "Документи:\n";
-                // docs.forEach((el, index) => {
-                //     if (index === 0) return;
-                //     docsTT += el.innerHTML + "\n";
-                // });
-                // let tooltip = docsTT;
-                // console.log(numberCell.innerText + "\n" + tooltip);
-                // linkCell.querySelector('a').setAttribute('title', tooltip);
-
             }
         }
         delay(2500).then(() => cellTooltip());
@@ -209,6 +198,7 @@ function main() {
                 for (let i = 0, row; row = aucTable.rows[i]; i++) {
                     if (element.number == row.cells[0].innerText) {
                         let lastCell = row.cells[8];
+                        let linkCell = row.cells[7];
                         let iFrame = document.getElementById(element.number);
                         let links = iFrame.contentWindow.document.links;
                         for (i = 0; i < links.length; i++) {
@@ -216,6 +206,7 @@ function main() {
                                 lastCell.style.backgroundColor = "#81B622";
                                 row.style.color = "";
                                 row.style.fontWeight = "normal";
+                                element.status = "published";
                             }
                         }
                     }
@@ -225,8 +216,148 @@ function main() {
     }
     delay(2500).then(() => publishedDocsCheck());
 
+    //open tabs for every auction with deadline or commission
+    function auctionsTabOpen(status, confirmText) {
+        const isFound = auctions.some(element => {
+            if (element.status == status) {
+                return true;
+            } else {
+                return false;
+            }
+        });
 
-    //still under construction
+        if (isFound) {
+            if (confirm(confirmText + " " + statusCounter(status))) {
+                auctions.forEach(element => {
+                    if (element.status == status) {
+                        window.open(element.etLink, "_blank");
+                    }
+                });
+            }
+        }
+    }
+
+    //count number of auctions with specific status
+    function statusCounter(s) {
+        let counter = 0;
+        auctions.forEach(element => {
+            if (element.status == s) {
+                counter++;
+            }
+        });
+        return counter;
+    }
+    delay(4500).then(() => auctionsTabOpen("upcomming", "Отвори предстоящи търгове?"));
+    delay(4500).then(() => auctionsTabOpen("today", "Отвори търгове с краен срок за публикуване днес?"));
+    delay(4500).then(() => auctionsTabOpen("commission", "Отвори търгове за назначаване на комисии?"));
+
+    //error check for duplicates and wrong type of auction
+    //MAYBE IT NEEDS SOME TWEAKING
+    function errorCheck() {
+        auctions.forEach(function () {
+            for (let i = 0; i < auctions.length; i++) {
+                //auction type check
+                if (auctions[i].subject == "ДД") {
+                    aucTable.rows[i].cells[4].style.backgroundColor = "#355E3B";
+                    aucTable.rows[i].cells[4].style.color = "white";
+                }
+                if (auctions[i].subject == "K") {
+                    aucTable.rows[i].cells[4].style.backgroundColor = "#228B22";
+                    aucTable.rows[i].cells[4].style.color = "white";
+                }
+                if (auctions[i].subject == "П") {
+                    aucTable.rows[i].cells[4].style.backgroundColor = "#4CBB17";
+                    aucTable.rows[i].cells[4].style.color = "white";
+                }
+                if (auctions[i].type == "к" || auctions[i].type == "ецп") {
+                    aucTable.rows[i].style.backgroundColor = "black";
+                    aucTable.rows[i].style.color = "white";
+                }
+                //duplicate check by date and branch
+                for (let j = 0; j < auctions.length; j++) {
+                    if (i !== j) {
+                        if (auctions[i].date === auctions[j].date && auctions[i].branch === auctions[j].branch) {
+                            aucTable.rows[i].style.backgroundColor = "#B21368";
+                            aucTable.rows[i].style.color = "#EFD3B5";
+                        }
+                    }
+                }
+            }
+        });
+    }
+    errorCheck();
+    
+    //check if commission is already assigned to the auction 
+    //MAYBE IT NEEDS SOME TWEAKING
+    function assingedCommissionCheck() {
+        auctions.forEach(function (element) {
+            for (let i = 0, row; row = aucTable.rows[i]; i++) {
+                if ((element.number == row.cells[0].innerText) && (element.status == "commission")) {
+                    let lastCell = row.cells[8];
+                    let iFrame = document.getElementById(element.number);
+                    iFrame.src = element.etLink;
+                    iFrame.onload = function () {
+                        const comm1 = iFrame.contentWindow.document.querySelector("select.form-control.commision");
+                        const comm2 = iFrame.contentWindow.document.querySelector("div.form-control");
+                        if (comm1.value != "") {
+                            console.log("comm1");
+                            lastCell.style.backgroundColor = "#9eb3c6";
+                        } else if (!comm1) {
+                            if (comm2.innerHMTL != "") {
+                                console.log("comm2");
+                                lastCell.style.backgroundColor = "#9eb3c6";
+                            }
+                        } else {
+                            lastCell.style.backgroundColor = "#2f4050";
+                        }
+                    }
+                }
+            }
+        });
+    }
+    assingedCommissionCheck();
+
+    function delay(time) {
+        return new Promise(resolve => setTimeout(resolve, time));
+    }
+
+    //document.head - add mousover tooltip on cells 
+    document.head.insertAdjacentHTML("beforeend", `<style>
+    td.hidden-xs {
+        position: relative;
+    }
+    .tt{
+        display: none;
+        position: absolute; 
+        z-index: 100;
+        border: 1px;
+        background-color: white;
+        border: 1px solid green;
+        padding: 3px;
+        color: green; 
+        top: 20px; 
+        left: 20px;
+    }
+        td.hidden-xs:hover .tt{
+            display:block;
+        }
+    </style>`);
+
+
+
+
+    //under construction
+    //under construction
+    function iframeDocs(id, text) {
+        let docs = iFrame.contentDocument.querySelector(id).querySelectorAll('a');
+        let docsText = text + "\n";
+        docs.forEach((el, index) => {
+            if (index === 0) return;
+            docsText += el.innerHTML + "\n";
+        });
+        return docsText;
+    }
+
     function previewTooltip() {
         console.log("previewTooltip()");
         for (let i = 0, row; row = aucTable.rows[i]; i++) {
@@ -243,49 +374,13 @@ function main() {
             let tooltip = docsTT;
             console.log(numberCell.innerText + "\n" + tooltip);
             linkCell.querySelector('a').setAttribute('title', tooltip);
-            // function iframeDocs(id, text) {
-            //     let docs = iFrame.contentDocument.querySelector(id).querySelectorAll('a');
-            //         let docsText = text + "\n";
-            //         docs.forEach((el, index) => {
-            //             if (index === 0) return;
-            //             docsText += el.innerHTML + "\n";
-            //         });
-            //         return docsText;
-            // }
-
-            // let tooltip = iframeDocs('#auctionDocuments', "Документи:");
-            // console.log(numberCell.innerText);
-            // console.log(tooltip);
-            // linkCell.querySelector('a').setAttribute('title', tooltip);
         }
     }
-    delay(5000).then(() => previewTooltip());
+    // delay(5000).then(() => previewTooltip());
+    //under construction
+    //under construction
 
-    function delay(time) {
-        return new Promise(resolve => setTimeout(resolve, time));
-    }
 
-    //document.head - add mousover tooltip on cells 
-    document.head.insertAdjacentHTML("beforeend", `<style>
-        td.hidden-xs {
-            position: relative;
-        }
-        .tt{
-            display: none;
-            position: absolute; 
-            z-index: 100;
-            border: 1px;
-            background-color: white;
-            border: 1px solid green;
-            padding: 3px;
-            color: green; 
-            top: 20px; 
-            left: 20px;
-        }
-        td.hidden-xs:hover .tt{
-            display:block;
-        }
-    </style>`);
 
 }
 main();
