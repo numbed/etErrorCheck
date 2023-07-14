@@ -1,35 +1,75 @@
-if (confirm("Назначаване на комисия?") == true) {
+if (commDateCheck() === true) {
     auctionsCommission();
-} else if (confirm("Вземи номер на заповед за откриване?") == true) {
+} else if (commDateCheck() === false) {
     pubOrder();
-} else if (confirm("Текст за основание за прекратяване на процедура?")) {
-    cancelOrder();
+}
+
+function cancelOrderCheck() {
+    console.log("cancelOrderCheck()");
+    let docField = document.querySelector("#auctionDocuments").querySelectorAll('a');
+    for (let i = 0; i < docField.length; i++) {
+        if (docField[i].innerHTML.includes("прекратяване")) {
+            let order, date, tp, textToCopy;
+            order = docField[i].title.split(".")[0].split(" ").pop();
+            date = docField[i].innerText.split('/')[1].trim().split(" ")[0];
+            tp = document.querySelector("#auctionTitle").value.split('/')[0].trim();
+            textToCopy = "Заповед №" + order + "/" + date + "г. на Директора на " + tp + ".";
+            navigator.clipboard.writeText(textToCopy);
+            alert(textToCopy + "\n\n!!!\nтекстът е поставен в clipboard-а на ОС!\nПРОВЕРЕТЕ КОРЕКТНОСТТА НА ДАТАТА И ПРОМЕНЕТЕ ПРИ НЕОБХОДИМОСТ.\n!!!");
+        }
+    }
+}
+cancelOrderCheck();
+
+function pubOrderCheck() {
+    console.log("pubOrderCheck()");
+    let pubOrderField = document.querySelector("#ooNumber").value;
+    if (pubOrderField.length <= 5) {
+        pubOrder();
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function commDateCheck() {
+    console.log("commDateCheck()");
+    let dateField = document.querySelector("#auctionDueDate").value;
+    let today = new Date();
+    let commDateSTR = commissionDate(dateField).split(".");
+    let commDate = new Date(commDateSTR[2], commDateSTR[1] - 1, commDateSTR[0]);
+
+    function commissionDate(aucDate) {
+        let d = aucDate.split(".");
+        let firstDate = new Date(d[2], d[1] - 1, d[0]);
+        let cDate = new Date(d[2], d[1] - 1, d[0]);
+        let date = new Date();
+
+        if (firstDate.getDay() == 1) {
+            date = firstDate.getDate() - 3;
+        } else {
+            date = firstDate.getDate() - 1;
+        }
+
+        cDate.setDate(date);
+        let output = new Date();
+        output = cDate.getDate() + "." + (cDate.getMonth() + 1) + "." + cDate.getFullYear();
+        return output;
+    }
+
+    if (commDate.setHours(0, 0, 0, 0) === today.setHours(0, 0, 0, 0)) {
+        return true;
+    } else {
+        return false;
+    }
+
 }
 
 function auctionsCommission() {
     console.log("---auctionsCommission");
-    let date = document.querySelector("input[name='data[dueDate]']");
-    let today = new Date();
-
-    //needss work to ensure that only works for auctions that are set for tommorow and additional check if auction is on monday
-    function dateCheck(d) {
-        let dateString = d.value.split(".");
-        let deadline = new Date(dateString[2], dateString[1] - 1, dateString[0]);
-        let output;
-
-        if (deadline.setHours(0, 0, 0, 0) > today.setHours(0, 0, 0, 0)) {
-            output = "today";
-            commission();
-        } else {
-            output = "not today";
-        }
-
-        return output;
-    }
-    dateCheck(date);
+    pubOrderCheck();
 
     function commission() {
-
         let chairman = document.querySelector("select[name='data[commision][][chairman]']");
         let consult = document.querySelector("select[name='data[commision][][jurisconsult]']");
         let member = document.querySelectorAll("select[name='data[commision][][member]']");
@@ -113,7 +153,8 @@ function auctionsCommission() {
         } else if (tp.value.includes("Първомай")) {
             input = "173,502,457";
             input = prompt(promptTitlefuntion(input), input);
-            coNumber.value = "З-20-" + prompt("Номер на заповед за комисия:");с
+            coNumber.value = "З-20-" + prompt("Номер на заповед за комисия:");
+            с
         } else if (tp.value.includes("Ракитово")) {
             input = "359,553,365";
             input = prompt(promptTitlefuntion(input), input);
@@ -207,6 +248,7 @@ function auctionsCommission() {
         // member[2].value = commissionUsers[4].trim();
         coDate.value = today.getDate() + "." + (today.getMonth() + 1) + "." + today.getFullYear();
     }
+    commission();
 }
 
 
@@ -214,10 +256,8 @@ function auctionsCommission() {
 function pubOrder() {
     console.log("---pubOrder");
     let order;
-    let today = new Date();
     ooNumber = document.querySelector("#ooNumber");
     ooDate = document.querySelector("#ooDate");
-    // ooNumber.value = ooNumber.value + prompt("Номер на заповед за откриване");
     let links = document.links;
     for (i = 0; i < links.length; i++) {
         if (links[i].title.includes("Заповед")) {
@@ -246,21 +286,4 @@ function docNames() {
         }
     }
 
-}
-
-//gets the needed text for canceling order in OS clipboard.
-function cancelOrder() {
-    console.log("---cancelOrder");
-    let docTable = document.querySelectorAll("tbody")[4].querySelectorAll("a");
-    for (i = 0; i< docTable.length; i++) {
-        if (docTable[i].innerHTML.includes("прекратяване")) {
-            let order, date, tp, textToCopy;
-            order = docTable[i].title.split(".")[0].split(" ").pop();
-            date = docTable[i].innerText.split('/')[1].trim().split(" ")[0];
-            tp = document.getElementById("auctionTitle").value.split('/')[0].trim();
-            textToCopy = "Заповед №" + order + "/" + date + "г. на Директора на " + tp +".";
-            navigator.clipboard.writeText(textToCopy);
-            alert(textToCopy + "\n\n!!!\nтекстът е поставен в clipboard-а на ОС!\nПРОВЕРЕТЕ КОРЕКТНОСТТА НА ДАТАТА И ПРОМЕНЕТЕ ПРИ НЕОБХОДИМОСТ.\n!!!");
-        }
-    }
 }
