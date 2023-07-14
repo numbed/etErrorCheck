@@ -144,7 +144,7 @@ function main() {
             let deadlineDateString = dead.split(".");
             let deadline = new Date(deadlineDateString[2], deadlineDateString[1] - 1, deadlineDateString[0]);
             let commissionDateString = comm.split(".");
-            let commission = new Date(commissionDateString[2], commissionDateString[1] - 1, commissionDateString[0]);
+            let commission = new Date( );
             let output;
 
             if (deadline.setHours(0, 0, 0, 0) == today.setHours(0, 0, 0, 0)) {
