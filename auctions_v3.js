@@ -5,10 +5,37 @@ function main() {
     const auctions = [];
     let today = new Date();
 
+    function delay(time) {
+        return new Promise(resolve => setTimeout(resolve, time));
+    }
+
+    //document.head - add mousover tooltip on cells 
+    document.head.insertAdjacentHTML("beforeend", `<style>
+        td.hidden-xs {
+            position: relative;
+        }
+        .tt{
+            display: none;
+            position: absolute; 
+            z-index: 100;
+            border: 1px;
+            background-color: white;
+            border: 1px solid green;
+            padding: 3px;
+            color: green; 
+            top: 20px; 
+            left: 20px;
+        }
+            td.hidden-xs:hover .tt{
+                display:block;
+            }
+        </style>`);
+
     //auction table cell variable assing & auction array fill & visual changes
     for (let i = 0, row; row = aucTable.rows[i]; i++) {
         let numberCell = row.cells[0];
         let dateCell = row.cells[2];
+        let endDateCell = row.cells[3];
         let subjectCell = row.cells[4];
         let branchCell = row.cells[5];
         let priceCell = row.cells[6];
@@ -139,7 +166,7 @@ function main() {
             function coloring(color) {
                 lastCell.style.backgroundColor = color;
                 row.style.color = color;
-                dateCell.innerHTML = dateCell.innerHTML + "<br>" + calculateDeadline(dateCell.innerText).fontcolor(color).italics().bold();
+                endDateCell.innerHTML = endDateCell.innerHTML + "<br>" + calculateDeadline(dateCell.innerText).fontcolor(color).italics().bold();
             }
             return output;
         }
@@ -190,6 +217,7 @@ function main() {
         delay(2500).then(() => cellTooltip());
     }
 
+
     //check if upcomming auctions have published documentation
     function publishedDocsCheck() {
         console.log('publishedDocsCheck()');
@@ -214,42 +242,7 @@ function main() {
             }
         });
     }
-    delay(2500).then(() => publishedDocsCheck());
-
-    //open tabs for every auction with deadline or commission
-    function auctionsTabOpen(status, confirmText) {
-        const isFound = auctions.some(element => {
-            if (element.status == status) {
-                return true;
-            } else {
-                return false;
-            }
-        });
-
-        if (isFound) {
-            if (confirm(confirmText + " " + statusCounter(status))) {
-                auctions.forEach(element => {
-                    if (element.status == status) {
-                        window.open(element.etLink, "_blank");
-                    }
-                });
-            }
-        }
-    }
-
-    //count number of auctions with specific status
-    function statusCounter(s) {
-        let counter = 0;
-        auctions.forEach(element => {
-            if (element.status == s) {
-                counter++;
-            }
-        });
-        return counter;
-    }
-    delay(4500).then(() => auctionsTabOpen("upcomming", "Отвори предстоящи търгове?"));
-    delay(4500).then(() => auctionsTabOpen("today", "Отвори търгове с краен срок за публикуване днес?"));
-    delay(4500).then(() => auctionsTabOpen("commission", "Отвори търгове за назначаване на комисии?"));
+    delay(4500).then(() => publishedDocsCheck());
 
     //error check for duplicates and wrong type of auction
     //MAYBE IT NEEDS SOME TWEAKING
@@ -286,22 +279,23 @@ function main() {
         });
     }
     errorCheck();
-    
+
     //check if commission is already assigned to the auction 
     //MAYBE IT NEEDS SOME TWEAKING
     function assingedCommissionCheck() {
         auctions.forEach(function (element) {
             for (let i = 0, row; row = aucTable.rows[i]; i++) {
                 if ((element.number == row.cells[0].innerText) && (element.status == "commission")) {
+                    console.log(element.number + " " + element.status);
                     let lastCell = row.cells[8];
                     let iFrame = document.getElementById(element.number);
-                    iFrame.src = element.etLink;
                     iFrame.onload = function () {
                         const comm1 = iFrame.contentWindow.document.querySelector("select.form-control.commision");
                         const comm2 = iFrame.contentWindow.document.querySelector("div.form-control");
                         if (comm1.value != "") {
                             console.log("comm1");
                             lastCell.style.backgroundColor = "#9eb3c6";
+                            element.status = "assignedCommission";
                         } else if (!comm1) {
                             if (comm2.innerHMTL != "") {
                                 console.log("comm2");
@@ -317,31 +311,45 @@ function main() {
     }
     assingedCommissionCheck();
 
-    function delay(time) {
-        return new Promise(resolve => setTimeout(resolve, time));
+    //open tabs for every auction with deadline or commission
+    function auctionsTabOpen(status, confirmText) {
+        const isFound = auctions.some(element => {
+            if (element.status == status) {
+                return true;
+            } else {
+                return false;
+            }
+        });
+
+        if (isFound) {
+            console.log("auctionsTabOpen(" + status + ")");
+            if (confirm(confirmText + " " + statusCounter(status))) {
+                auctions.forEach(element => {
+                    if (element.status == status) {
+                        window.open(element.etLink, "_blank");
+                    }
+                });
+            }
+        }
     }
 
-    //document.head - add mousover tooltip on cells 
-    document.head.insertAdjacentHTML("beforeend", `<style>
-    td.hidden-xs {
-        position: relative;
+    //count number of auctions with specific status
+    function statusCounter(s) {
+        let counter = 0;
+        auctions.forEach(element => {
+            if (element.status == s) {
+                counter++;
+            }
+        });
+        return counter;
     }
-    .tt{
-        display: none;
-        position: absolute; 
-        z-index: 100;
-        border: 1px;
-        background-color: white;
-        border: 1px solid green;
-        padding: 3px;
-        color: green; 
-        top: 20px; 
-        left: 20px;
-    }
-        td.hidden-xs:hover .tt{
-            display:block;
-        }
-    </style>`);
+    delay(5500).then(() => auctionsTabOpen("upcomming", "Отвори предстоящи търгове?"));
+    delay(5500).then(() => auctionsTabOpen("today", "Отвори търгове с краен срок за публикуване днес?"));
+    delay(5500).then(() => auctionsTabOpen("commission", "Отвори търгове за назначаване на комисии?"));
+
+
+
+
 
 
 
