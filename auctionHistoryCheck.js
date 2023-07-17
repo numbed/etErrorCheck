@@ -54,10 +54,16 @@ function auctionHistoryCheck() {
             auctionHistoryLink: historyET[i].auctionHistoryLink,
 
         };
-        let yesterday = new Date();
         let tomorrow = new Date();
         tomorrow.setDate(today.getDate() + 1);
-        yesterday.setDate(yesterday.getDate() - 1);
+        
+        let yesterday = new Date();
+        if (today.getDay() === 1) {
+            yesterday.setDate(yesterday.getDate() - 3);
+        } else{
+            yesterday.setDate(yesterday.getDate() - 1);
+        }
+        
         if (dateBid.setHours(0, 0, 0, 0) == today.setHours(0, 0, 0, 0)) {
             todayAuctionsArray.push(dateBidObj);
         } else if (dateBid.setHours(0, 0, 0, 0) == yesterday.setHours(0, 0, 0, 0)) {
@@ -137,9 +143,9 @@ function auctionHistoryCheck() {
             }
         }
     }
-    auctionTabOpen2(todayAuctionsArray, "днес");
-    auctionTabOpen2(yesterdayAuctionsArray, "вчера");
-    auctionTabOpen2(tomorrowAuctionsArray, "утре");
+    auctionTabOpen2(todayAuctionsArray, "ДНЕС");
+    auctionTabOpen2(yesterdayAuctionsArray, "ВЧЕРА");
+    auctionTabOpen2(tomorrowAuctionsArray, "УТРЕ");
 
     //direct open for protocol and 1st buyer order
     function tabOpenProtocolandOrder(array, text) {
@@ -162,9 +168,9 @@ function auctionHistoryCheck() {
             }
         }
     }
-    tabOpenProtocolandOrder(todayAuctionsArray, "днес");
-    tabOpenProtocolandOrder(yesterdayAuctionsArray, "вчера");
-    tabOpenProtocolandOrder(tomorrowAuctionsArray, "утре");
+    tabOpenProtocolandOrder(todayAuctionsArray, "ДНЕС");
+    tabOpenProtocolandOrder(yesterdayAuctionsArray, "ВЧЕРА");
+    tabOpenProtocolandOrder(tomorrowAuctionsArray, "УТРЕ");
 
 }
 auctionHistoryCheck();
