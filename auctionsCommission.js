@@ -1,25 +1,10 @@
+cancelOrderCheck();
+
 if (commDateCheck() === true) {
     auctionsCommission();
 } else if (commDateCheck() === false) {
     pubOrder();
 }
-
-function cancelOrderCheck() {
-    console.log("cancelOrderCheck()");
-    let docField = document.querySelector("#auctionDocuments").querySelectorAll('a');
-    for (let i = 0; i < docField.length; i++) {
-        if (docField[i].innerHTML.includes("прекратяване")) {
-            let order, date, tp, textToCopy;
-            order = docField[i].title.split(".")[0].split(" ").pop();
-            date = docField[i].innerText.split('/')[1].trim().split(" ")[0];
-            tp = document.querySelector("#auctionTitle").value.split('/')[0].trim();
-            textToCopy = "Заповед №" + order + "/" + date + "г. на Директора на " + tp + ".";
-            navigator.clipboard.writeText(textToCopy);
-            alert(textToCopy + "\n\n!!!\nтекстът е поставен в clipboard-а на ОС!\nПРОВЕРЕТЕ КОРЕКТНОСТТА НА ДАТАТА И ПРОМЕНЕТЕ ПРИ НЕОБХОДИМОСТ.\n!!!");
-        }
-    }
-}
-cancelOrderCheck();
 
 function pubOrderCheck() {
     console.log("pubOrderCheck()");
@@ -68,6 +53,7 @@ function commDateCheck() {
 function auctionsCommission() {
     console.log("---auctionsCommission");
     pubOrderCheck();
+    let today = new Date();
 
     function commission() {
         let chairman = document.querySelector("select[name='data[commision][][chairman]']");
@@ -154,7 +140,6 @@ function auctionsCommission() {
             input = "173,502,457";
             input = prompt(promptTitlefuntion(input), input);
             coNumber.value = "З-20-" + prompt("Номер на заповед за комисия:");
-            с
         } else if (tp.value.includes("Ракитово")) {
             input = "359,553,365";
             input = prompt(promptTitlefuntion(input), input);
@@ -180,7 +165,7 @@ function auctionsCommission() {
             input = prompt(promptTitlefuntion(input), input);
             coNumber.value = "З-26-" + prompt("Номер на заповед за комисия:");
         } else if (tp.value.includes("Триград")) {
-            input = "87,83,82";
+            input = "87,554,82";
             input = prompt(promptTitlefuntion(input), input);
             coNumber.value = "З-27-" + prompt("Номер на заповед за комисия:");
         } else if (tp.value.includes("Хисар")) {
@@ -247,8 +232,25 @@ function auctionsCommission() {
         // member[1].value = commissionUsers[3].trim();
         // member[2].value = commissionUsers[4].trim();
         coDate.value = today.getDate() + "." + (today.getMonth() + 1) + "." + today.getFullYear();
+        console.log(coDate);
     }
     commission();
+}
+
+function cancelOrderCheck() {
+    console.log("cancelOrderCheck()");
+    let docField = document.querySelector("#auctionDocuments").querySelectorAll('a');
+    for (let i = 0; i < docField.length; i++) {
+        if (docField[i].innerHTML.includes("прекратяване")) {
+            let order, date, tp, textToCopy;
+            order = docField[i].title.split(".")[0].split(" ").pop();
+            date = docField[i].innerText.split('/')[1].trim().split(" ")[0];
+            tp = document.querySelector("#auctionTitle").value.split('/')[0].trim();
+            textToCopy = "Заповед №" + order + "/" + date + "г. на Директора на " + tp + ".";
+            navigator.clipboard.writeText(textToCopy);
+            alert(textToCopy + "\n\n!!!\nтекстът е поставен в clipboard-а на ОС!\nПРОВЕРЕТЕ КОРЕКТНОСТТА НА ДАТАТА И ПРОМЕНЕТЕ ПРИ НЕОБХОДИМОСТ.\n!!!");
+        }
+    }
 }
 
 
