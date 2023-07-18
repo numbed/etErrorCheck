@@ -154,7 +154,7 @@ function auctionHistoryCheck() {
                 console.log("OK");
                 let order = "https://auction.ucdp-smolian.com/au-admin/history/erasedOrder/";
                 let protocol = "https://auction.ucdp-smolian.com/au-admin/history/erasedProtocol/";
-                if (text == "утре") {
+                if (text == "УТРЕ") {
                     for (i = 0; i < array.length; i++) {
                         window.open(protocol + array[i].auctionHistoryLink + "/" + array[i].date, '_blank');
                         window.open(order + array[i].auctionHistoryLink + "/" + array[i].date + "/?t=c", '_blank');
