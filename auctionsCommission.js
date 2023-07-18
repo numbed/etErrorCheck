@@ -3,7 +3,7 @@ cancelOrderCheck();
 if (commDateCheck() === true) {
     auctionsCommission();
 } else if (commDateCheck() === false) {
-    pubOrder();
+    pubOrderCheck();
 }
 
 function pubOrderCheck() {
