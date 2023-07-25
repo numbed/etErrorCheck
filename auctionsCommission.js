@@ -9,7 +9,7 @@ if (commDateCheck() === true) {
 function pubOrderCheck() {
     console.log("pubOrderCheck()");
     let pubOrderField = document.querySelector("#ooNumber").value;
-    if (pubOrderField.length <= 5) {
+    if (pubOrderField.length <= 5 || pubOrderField === "undefined") {
         pubOrder();
         return true;
     } else {
@@ -260,17 +260,18 @@ function pubOrder() {
     let order;
     ooNumber = document.querySelector("#ooNumber");
     ooDate = document.querySelector("#ooDate");
-    let links = document.links;
-    for (i = 0; i < links.length; i++) {
-        if (links[i].title.includes("Заповед")) {
-            order = links[i].title;
-            order = order.split(".")[0].split("Заповед")[1].trim();
-            orderDate = links[i].innerHTML;
-            orderDate = orderDate.split("/")[1].split(" ")[1];
+    let docs = document.querySelector("#auctionDocuments").querySelectorAll('td');
+    for (i = 0; i < docs.length; i++) {
+        if (docs[i].innerText.includes("Заповед")) {
+            order = docs[i].innerText;
+            order = order.split('.')[0].split("Заповед")[1].trim();
+            console.log(order);
         }
     }
+    let today = new Date();
     ooNumber.value = order;
-    ooDate.value = orderDate;
+    ooDate.value = today.getDate().toString() + "." + (today.getMonth() + 1).toString() + "." + today.getFullYear().toString();
+    document.querySelector('button.btn.btn-success').click();
 }
 
 //naming uploaded documents when commission is assigned
