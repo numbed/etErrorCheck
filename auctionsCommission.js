@@ -270,6 +270,10 @@ function pubOrder() {
     //     }
     // }
     let docs = document.querySelector("#auctionDocuments").querySelectorAll('td');
+    if (docs.length ===1 ) {
+        console.log("no docs uploaded");
+        docs = document.querySelector("#auctionDocuments").querySelectorAll('td');
+    }
     for (i = 0; i < docs.length; i++) {
         if (docs[i].innerText.includes("Заповед")) {
             order = docs[i].innerText;
