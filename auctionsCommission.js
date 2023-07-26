@@ -270,7 +270,7 @@ function pubOrder() {
     //     }
     // }
     let docs = document.querySelector("#auctionDocuments").querySelectorAll('td');
-    if (docs.length ===1 ) {
+    if (docs.length === 1 ) {
         console.log("no docs uploaded");
         docs = document.querySelector("#auctionDocuments").querySelectorAll('td');
     }
@@ -279,6 +279,7 @@ function pubOrder() {
             order = docs[i].innerText;
             order = order.split('.')[0].split("Заповед")[1].trim();
             console.log(order);
+            break;
         }
     }
     let today = new Date();
