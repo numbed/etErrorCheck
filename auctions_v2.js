@@ -1,3 +1,12 @@
+function iframeExists() {
+    console.log("iframeExists()");
+    let frames = document.querySelectorAll('iframe');
+    if (frames.length === 0) {
+        main();
+    }
+}
+iframeExists();
+
 function main() {
     console.clear();
     //js new line in string?
@@ -648,4 +657,3 @@ function main() {
     // console.table(auctions);
 
 }
-main();
