@@ -9,7 +9,7 @@ if (commDateCheck() === true) {
 function pubOrderCheck() {
     console.log("pubOrderCheck()");
     let pubOrderField = document.querySelector("#ooNumber").value;
-    if (pubOrderField.length <= 5 || pubOrderField === "undefined") {
+    if (pubOrderField.length <= 5 || pubOrderField === "undefined" || pubOrderField === "за откриване") {
         pubOrder();
         return true;
     } else {
@@ -260,16 +260,7 @@ function pubOrder() {
     let order;
     ooNumber = document.querySelector("#ooNumber");
     ooDate = document.querySelector("#ooDate");
-    // let links = document.links;
-    // for (i = 0; i < links.length; i++) {
-    //     if (links[i].title.includes("Заповед")) {
-    //         order = links[i].title;
-    //         order = order.split(".")[0].split("Заповед")[1].trim();
-    //         orderDate = links[i].innerHTML;
-    //         orderDate = orderDate.split("/")[1].split(" ")[1];
-    //     }
-    // }
-    let docs = document.querySelector("#auctionDocuments").querySelectorAll('td');
+    let docs = document.querySelector("#auctionDocuments").querySelectorAll('a');
     if (docs.length === 1 ) {
         console.log("no docs uploaded");
         docs = document.querySelector("#auctionDocuments").querySelectorAll('td');
