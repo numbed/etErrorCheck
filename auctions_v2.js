@@ -1,12 +1,4 @@
-function iframeExists() {
-    console.log("iframeExists()");
-    let frames = document.querySelectorAll('iframe');
-    if (frames.length === 0) {
-        main();
-    }
-}
-iframeExists();
-
+console.clear();
 
 //clicks all auction publish buttons if present
 function auctionPublish() {
@@ -16,12 +8,25 @@ function auctionPublish() {
         btns.forEach(el => {
             el.click();
         })
+    } else {
+        console.log("no auctions for publishing");
+        iframeExists();
     }
 }
 auctionPublish();
 
+
+function iframeExists() {
+    console.log("iframeExists()");
+    let frames = document.querySelectorAll('iframe');
+    if (frames.length === 0) {
+        main();
+    }
+}
+
+
+
 function main() {
-    console.clear();
     //js new line in string?
     let auctionsTable = document.querySelector("tbody");
     document.querySelector("thead").rows[1].cells[3].innerText = "Краен срок за записване\n" + "Краен срок за публикуване";
