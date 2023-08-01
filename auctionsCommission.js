@@ -65,7 +65,7 @@ function auctionsCommission() {
         let coDate = document.querySelector("#coDate");
 
         if (tp.value.includes("Алабак")) {
-            input = "91,548,95";
+            input = "541,548,95";
             input = prompt(promptTitlefuntion(input), input);
             coNumber.value = "З-03-" + prompt("Номер на заповед за комисия:");
         } else if (tp.value.includes("Хайтов")) {
