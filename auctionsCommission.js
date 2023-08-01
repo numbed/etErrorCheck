@@ -1,9 +1,26 @@
 cancelOrderCheck();
+auctionSave();
+
 
 if (commDateCheck() === true) {
     auctionsCommission();
 } else if (commDateCheck() === false) {
     pubOrderCheck();
+}
+
+//removes the need to populate TITLE and DESCRIPTION input fields before saving new auction
+function auctionSave() {
+    console.log("auctionSave()");
+    if (document.querySelector('#auctionTitle').value === "") {
+        let tt = document.querySelectorAll(".form-group.has-feedback button");
+        tt.forEach(el => {
+            el.click();
+        });
+        document.querySelector('button.btn.btn-success').click();
+    } else {
+        console.log("error");
+    }
+    
 }
 
 function pubOrderCheck() {
@@ -261,7 +278,7 @@ function pubOrder() {
     ooNumber = document.querySelector("#ooNumber");
     ooDate = document.querySelector("#ooDate");
     let docs = document.querySelector("#auctionDocuments").querySelectorAll('a');
-    if (docs.length === 1 ) {
+    if (docs.length === 1) {
         console.log("no docs uploaded");
         docs = document.querySelector("#auctionDocuments").querySelectorAll('td');
     }
