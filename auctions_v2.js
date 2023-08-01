@@ -7,6 +7,19 @@ function iframeExists() {
 }
 iframeExists();
 
+
+//clicks all auction publish buttons if present
+function auctionPublish() {
+    console.log("auctionPublish()");
+    let btns = document.querySelector('tbody').querySelectorAll('button');
+    if (btns.length != 0) {
+        btns.forEach(el => {
+            el.click();
+        })
+    }
+}
+auctionPublish();
+
 function main() {
     console.clear();
     //js new line in string?
