@@ -158,11 +158,13 @@ function auctionHistoryCheck() {
                     for (i = 0; i < array.length; i++) {
                         window.open(protocol + array[i].auctionHistoryLink + "/" + array[i].date, '_blank');
                         window.open(order + array[i].auctionHistoryLink + "/" + array[i].date + "/?t=c", '_blank');
+                        window.open(array[i].auctionFormLink, '_blank');
                     }
                 } else {
                     for (i = 0; i < array.length; i++) {
                         window.open(protocol + array[i].auctionHistoryLink + "/" + array[i].date, '_blank');
                         window.open(order + array[i].auctionHistoryLink + "/" + array[i].date + "/?t=b", '_blank');
+                        window.open(array[i].auctionFormLink, '_blank');
                     }
                 }
             }
