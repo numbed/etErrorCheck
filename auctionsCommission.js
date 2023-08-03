@@ -4,6 +4,7 @@ auctionSave();
 
 if (commDateCheck() === true) {
     auctionsCommission();
+    docNames(); //TESTING
 } else if (commDateCheck() === false) {
     pubOrderCheck();
 }
@@ -20,7 +21,7 @@ function auctionSave() {
     } else {
         console.log("error");
     }
-    
+
 }
 
 function pubOrderCheck() {
@@ -297,19 +298,31 @@ function pubOrder() {
     document.querySelector('button.btn.btn-success').click();
 }
 
-//naming uploaded documents when commission is assigned
-//WORK IN PROGRESS
+// naming uploaded documents when commission is assigned
+// WORK IN PROGRESS
+// NEEDS TESTING AND MODIFICATIONS FOR OTHER TYPE OF DOCUMENTS & differentiating DIFFERENTIATING BETWEEN ORDERS
 function docNames() {
     let docTable = document.querySelectorAll("tbody")[4];
     let docLinks = docTable.querySelectorAll("a");
     let docInput = docTable.querySelectorAll("select");
     for (i = 0; i < docLinks.length; i++) {
+        let parentTr = docLinks[i].closest('tr');
+
+        let trID = parentTr.className.split('-')[2];
+        const inputElement = document.createElement("input");
+        inputElement.type = "hidden";
+        inputElement.name = "fileType[" + trID + "]";
+
         if (docLinks[i].title.includes("Заповед")) {
             docInput[i].value = "openOrder";
-            docInput[i].selected = "selected";
+            inputElement.value = "openOrder";
         } else if (docLinks[i].title.includes("Документация")) {
             docInput[i].value = "document";
+            inputElement.value = "document";
         }
+
+        parentTr.appendChild(inputElement);
+        // docInput[i].disabled = "disabled"; //stays commented during testing DOES NOT affect workflow of the platform
     }
 
 }
