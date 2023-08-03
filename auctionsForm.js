@@ -10,7 +10,15 @@ if (commDateCheck() === true) {
     pubOrderCheck();
 }
 
-//removes the need to populate TITLE and DESCRIPTION input fields before saving new auction
+
+let documentsSelectFields = document.querySelectorAll("tbody")[4].querySelectorAll("select");
+if (documentsSelectFields.length !=0) {
+    docNames(); //TESTING
+}
+
+
+
+    //removes the need to populate TITLE and DESCRIPTION input fields before saving new auction
 function auctionSave() {
     console.log("auctionSave()");
     if (document.querySelector('#auctionTitle').value === "" || document.querySelector('#auctionDescription').value === "") {
@@ -301,7 +309,7 @@ function pubOrder() {
 
 // naming uploaded documents when commission is assigned
 // WORK IN PROGRESS
-// NEEDS TESTING AND MODIFICATIONS FOR OTHER TYPE OF DOCUMENTS & differentiating DIFFERENTIATING BETWEEN ORDERS
+// NEEDS TESTING AND MODIFICATIONS FOR OTHER TYPE OF DOCUMENTS & DIFFERENTIATING BETWEEN ORDERS
 function docNames() {
     let docTable = document.querySelectorAll("tbody")[4];
     let docLinks = docTable.querySelectorAll("a");
@@ -315,15 +323,39 @@ function docNames() {
         inputElement.name = "fileType[" + trID + "]";
 
         if (docLinks[i].title.includes("Заповед")) {
-            docInput[i].value = "openOrder";
-            inputElement.value = "openOrder";
-        } else if (docLinks[i].title.includes("Документация")) {
+            if (i === 0) {
+                docInput[i].value = "order";
+                inputElement.value = "order";
+            } else if (i === 1) {
+                docInput[i].value = "buyerOrder";
+                inputElement.value = "buyerOrder";
+            } else {
+                docInput[i].value = "openOrder";
+                inputElement.value = "openOrder";
+            }
+        }
+
+        if (docLinks[i].title.includes("Документация")) {
             docInput[i].value = "document";
             inputElement.value = "document";
+        } 
+
+        if (docLinks[i].title.includes("Протокол")) {
+            docInput[i].value = "protocol";
+            inputElement.value = "protocol";
+        }
+
+        if (docLinks[i].title.includes("Договор")) {
+            docInput[i].value = "contract";
+            inputElement.value = "contract";
+        }
+
+        if (docLinks[i].title.includes("ДС")) {
+            docInput[i].value = "agreement";
+            inputElement.value = "agreement";
         }
 
         parentTr.appendChild(inputElement);
         // docInput[i].disabled = "disabled"; //stays commented during testing DOES NOT affect workflow of the platform
     }
-
 }
