@@ -1,3 +1,4 @@
+console.log("auctionForm");
 cancelOrderCheck();
 auctionSave();
 
@@ -12,7 +13,7 @@ if (commDateCheck() === true) {
 //removes the need to populate TITLE and DESCRIPTION input fields before saving new auction
 function auctionSave() {
     console.log("auctionSave()");
-    if (document.querySelector('#auctionTitle').value === "") {
+    if (document.querySelector('#auctionTitle').value === "" || document.querySelector('#auctionDescription').value === "") {
         let tt = document.querySelectorAll(".form-group.has-feedback button");
         tt.forEach(el => {
             el.click();
