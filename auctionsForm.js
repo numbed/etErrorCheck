@@ -1,3 +1,4 @@
+// NEEDS REWORKING FOR OLRDER AUCTIONS AND MAKING SURE THAT NAMING ORDERS AND NAMING FILES WORKS CORRECTLY
 console.log("auctionForm");
 cancelOrderCheck();
 auctionSave();
@@ -328,8 +329,13 @@ function docNames() {
                 docInput[i].value = "openOrder";
                 inputElement.value = "openOrder";
             } else if (i === 0) {
-                docInput[i].value = "order";
-                inputElement.value = "order";
+                if (firstByuerDocs.length === 2) {
+                    docInput[i].value = "order";
+                    inputElement.value = "order";
+                } else {
+                    docInput[i].value = "openOrder";
+                    inputElement.value = "openOrder";
+                }
             } else if (i === 1) {
                 docInput[i].value = "buyerOrder";
                 inputElement.value = "buyerOrder";
@@ -351,7 +357,7 @@ function docNames() {
             docInput[i].value = "agreement";
             inputElement.value = "agreement";
         }
-        
+
         if (docLinks[i].title.includes("Уведомление")) {
             docInput[i].value = "contractStop";
             inputElement.value = "contractStop";
