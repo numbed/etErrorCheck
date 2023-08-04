@@ -12,7 +12,8 @@ if (commDateCheck() === true) {
 
 
 let documentsSelectFields = document.querySelectorAll("tbody")[4].querySelectorAll("select");
-if (documentsSelectFields.length != 0) {
+let firstByuerDocs = document.querySelectorAll("tbody")[5];
+if (documentsSelectFields.length != 0 & firstByuerDocs != 0) {
     docNames(); //TESTING
 }
 
@@ -334,25 +335,26 @@ function docNames() {
                 inputElement.value = "buyerOrder";
             }
         }
-
         if (docLinks[i].title.includes("Документация")) {
             docInput[i].value = "document";
             inputElement.value = "document";
         }
-
         if (docLinks[i].title.includes("Протокол")) {
             docInput[i].value = "protocol";
             inputElement.value = "protocol";
         }
-
         if (docLinks[i].title.includes("Договор")) {
             docInput[i].value = "contract";
             inputElement.value = "contract";
         }
-
         if (docLinks[i].title.includes("ДС")) {
             docInput[i].value = "agreement";
             inputElement.value = "agreement";
+        }
+        
+        if (docLinks[i].title.includes("Уведомление")) {
+            docInput[i].value = "contractStop";
+            inputElement.value = "contractStop";
         }
 
         parentTr.appendChild(inputElement);
