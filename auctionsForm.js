@@ -12,13 +12,13 @@ if (commDateCheck() === true) {
 
 
 let documentsSelectFields = document.querySelectorAll("tbody")[4].querySelectorAll("select");
-if (documentsSelectFields.length !=0) {
+if (documentsSelectFields.length != 0) {
     docNames(); //TESTING
 }
 
 
 
-    //removes the need to populate TITLE and DESCRIPTION input fields before saving new auction
+//removes the need to populate TITLE and DESCRIPTION input fields before saving new auction
 function auctionSave() {
     console.log("auctionSave()");
     if (document.querySelector('#auctionTitle').value === "" || document.querySelector('#auctionDescription').value === "") {
@@ -323,22 +323,22 @@ function docNames() {
         inputElement.name = "fileType[" + trID + "]";
 
         if (docLinks[i].title.includes("Заповед")) {
-            if (i === 0) {
+            if (docLinks.length <= 2) {
+                docInput[i].value = "openOrder";
+                inputElement.value = "openOrder";
+            } else if (i === 0) {
                 docInput[i].value = "order";
                 inputElement.value = "order";
             } else if (i === 1) {
                 docInput[i].value = "buyerOrder";
                 inputElement.value = "buyerOrder";
-            } else {
-                docInput[i].value = "openOrder";
-                inputElement.value = "openOrder";
             }
         }
 
         if (docLinks[i].title.includes("Документация")) {
             docInput[i].value = "document";
             inputElement.value = "document";
-        } 
+        }
 
         if (docLinks[i].title.includes("Протокол")) {
             docInput[i].value = "protocol";
