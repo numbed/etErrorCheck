@@ -1,6 +1,6 @@
 console.log("auctionForm");
 cancelOrderCheck();
-auctionSave();
+// auctionSave();
 
 
 if (commDateCheck() === true) {
@@ -13,7 +13,7 @@ if (commDateCheck() === true) {
 
 let documentsSelectFields = document.querySelectorAll("tbody")[4].querySelectorAll("select");
 let firstByuerDocs = document.querySelectorAll("tbody")[5];
-if (documentsSelectFields.length != 0 & firstByuerDocs != 0) {
+if (documentsSelectFields.length != 0 & firstByuerDocs.length != 0) {
     docNames(); //TESTING
 }
 
@@ -22,7 +22,7 @@ if (documentsSelectFields.length != 0 & firstByuerDocs != 0) {
 //removes the need to populate TITLE and DESCRIPTION input fields before saving new auction
 function auctionSave() {
     console.log("auctionSave()");
-    if (document.querySelector('#auctionTitle').value === "" || document.querySelector('#auctionDescription').value === "") {
+    if ((document.querySelector('#auctionTitle').value === "" || document.querySelector('#auctionDescription').value === "") & firstByuerDocs.length === 0) {
         let tt = document.querySelectorAll(".form-group.has-feedback button");
         tt.forEach(el => {
             el.click();
