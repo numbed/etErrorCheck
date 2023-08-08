@@ -6,7 +6,7 @@ auctionSave();
 
 if (commDateCheck() === true) {
     auctionsCommission();
-    docNames(); //TESTING
+    // docNames(); //TESTING
 } else if (commDateCheck() === false) {
     pubOrderCheck();
 }
@@ -15,7 +15,7 @@ if (commDateCheck() === true) {
 let documentsSelectFields = document.querySelectorAll("tbody")[4].querySelectorAll("select");
 let firstByuerDocs = document.querySelectorAll("tbody")[5];
 if (documentsSelectFields.length != 0 & firstByuerDocs.length != 0) {
-    docNames(); //TESTING
+    // docNames(); //TESTING
 }
 
 
