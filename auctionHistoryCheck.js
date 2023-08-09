@@ -56,14 +56,14 @@ function auctionHistoryCheck() {
         };
         let tomorrow = new Date();
         tomorrow.setDate(today.getDate() + 1);
-        
+
         let yesterday = new Date();
         if (today.getDay() === 1) {
             yesterday.setDate(yesterday.getDate() - 3);
-        } else{
+        } else {
             yesterday.setDate(yesterday.getDate() - 1);
         }
-        
+
         if (dateBid.setHours(0, 0, 0, 0) == today.setHours(0, 0, 0, 0)) {
             todayAuctionsArray.push(dateBidObj);
         } else if (dateBid.setHours(0, 0, 0, 0) == yesterday.setHours(0, 0, 0, 0)) {
@@ -85,6 +85,73 @@ function auctionHistoryCheck() {
     }
     colorfullRowsOutput(todayAuctionsArray, "#2f4050", "white");
     colorfullRowsOutput(yesterdayAuctionsArray, "#D1462F", "white");
+
+    //creating iframes for every auction on page
+    function iframeCreation() {
+        for (let i = 0, row; row = historyTableET.rows[i]; i++) {
+            if (!document.getElementById(historyTableET.rows[0].cells[0].innerText)) {
+                for (let i = 0, row; row = historyTableET.rows[i]; i++) {
+                    const frame = document.createElement("iframe");
+                    frame.id = row.cells[0].innerText;
+                    frame.style.display = "none";
+                    frame.src = "https://auction.ucdp-smolian.com/au-admin/history/review/" + row.cells[0].innerText.slice(-4);
+                    row.cells[0].appendChild(frame);
+                }
+            }
+        }
+    }
+    iframeCreation();
+
+    //checks if auction has confirmed requests
+    function requestsCheck(array) {
+        array.forEach(element => {
+            for (let i = 0, row; row = historyTableET.rows[i]; i++) {
+                if (element.number === row.cells[0].innerText) {
+                    let lastCell = row.cells[8];
+                    let iFrame = document.getElementById(element.number);
+                    iFrame.src = element.etLink;
+                    iFrame.onload = function () {
+                        let requests = iFrame.contentWindow.document.querySelectorAll('tbody')[4].querySelectorAll('tr');
+                        console.log (element.number + " " + requests.length);
+                        if (requests.length === 0) {
+                            lastCell.style.backgroundColor = "#fa2a07";
+                        }
+                    }
+
+                }
+            }
+        });
+    }
+    requestsCheck(todayAuctionsArray);
+
+
+    // function upcommingAuctionsCheck() {
+    //     auctions.forEach(function (element) {
+    //             if (element.status == "upcomming" || element.status == "today") {
+    //                 for (let i = 0, row; row = auctionsTable.rows[i]; i++) {
+    //                     if (element.number == row.cells[0].innerText) {
+    //                         let lastCell = row.cells[8];
+    //                         let linkCell = row.cells[7];
+    //                         let priceCell = row.cells[6];
+    //                         let subjectCell = row.cells[4];
+    //                         let iFrame = document.getElementById(element.number);
+    //                         iFrame.src = element.etLink;
+    //                         iFrame.onload = function () {
+    //                             let links = iFrame.contentWindow.document.links;
+    //                             for (i = 0; i < links.length; i++) {
+    //                                 if (links[i].title.includes("Документация")) {
+    //                                     lastCell.style.backgroundColor = "#81B622";
+    //                                     row.style.color = "#676a6c";
+    //                                     row.style.fontWeight = "normal";
+    //                                 }
+    //                             }
+    //                         }
+    //                     }
+    //                 }
+    //             });
+    //     }
+    // }
+
 
     //auction front page info styling
     let predmet = historyTableHead.rows[1].cells[3];
