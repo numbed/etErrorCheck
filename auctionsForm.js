@@ -2,21 +2,21 @@
 console.log("auctionForm");
 cancelOrderCheck();
 auctionSave();
-
+docNames();
 
 if (commDateCheck() === true) {
     auctionsCommission();
-    docNames(); //TESTING
+    // docNames(); //TESTING
 } else if (commDateCheck() === false) {
     pubOrderCheck();
 }
 
 
-let documentsSelectFields = document.querySelectorAll("tbody")[4].querySelectorAll("select");
-let firstByuerDocs = document.querySelectorAll("tbody")[5];
-if (documentsSelectFields.length != 0 & firstByuerDocs.length != 0) {
-    docNames(); //TESTING
-}
+// let documentsSelectFields = document.querySelectorAll("tbody")[4].querySelectorAll("select");
+// // let firstByuerDocs = document.querySelectorAll("tbody")[5].querySelectorAll("a");
+// if (documentsSelectFields.length != 0) {
+//     docNames(); //TESTING
+// }
 
 
 
@@ -83,6 +83,34 @@ function auctionsCommission() {
     console.log("---auctionsCommission");
     pubOrderCheck();
     let today = new Date();
+    commission();
+    docNamingInAuctionsCommission(); //ADDED document naming function because sth is not working in docNames()
+
+    function docNamingInAuctionsCommission() {
+        let docTable = document.querySelectorAll("tbody")[4];
+        let docLinks = docTable.querySelectorAll("a");
+        let docInput = docTable.querySelectorAll("select");
+        for (i = 0; i < docInput.length; i++) {
+            let parentTr = docLinks[i].closest('tr');
+            let parentTd = docLinks[i].closest('td');
+
+            let trID = parentTr.className.split('-')[2];
+            const inputElement = document.createElement("input");
+            inputElement.type = "hidden";
+            inputElement.name = "fileType[" + trID + "]";
+
+            if (docLinks[i].title.includes("Заповед")) {
+                docInput[i].value = "openOrder";
+                inputElement.value = "openOrder";
+            }
+            if (docLinks[i].title.includes("Документация")) {
+                docInput[i].value = "document";
+                inputElement.value = "document";
+            }
+            parentTd.appendChild(inputElement);
+            // docInput[i].disabled = "disabled"; //stays commented during testing DOES NOT affect workflow of the platform
+        }
+    }
 
     function commission() {
         let chairman = document.querySelector("select[name='data[commision][][chairman]']");
@@ -263,7 +291,7 @@ function auctionsCommission() {
         coDate.value = today.getDate() + "." + (today.getMonth() + 1) + "." + today.getFullYear();
         console.log(coDate);
     }
-    commission();
+    // commission();
 }
 
 function cancelOrderCheck() {
@@ -296,7 +324,7 @@ function pubOrder() {
         docs = document.querySelector("#auctionDocuments").querySelectorAll('td');
         ooDate.value = today.getDate().toString() + "." + (today.getMonth() + 1).toString() + "." + today.getFullYear().toString();
     } else {
-        ooDate.value = docs[docs.length-1].innerHTML.split("/")[1].trim().split(" ")[0];
+        ooDate.value = docs[docs.length - 1].innerHTML.split("/")[1].trim().split(" ")[0];
     }
     for (i = 0; i < docs.length; i++) {
         if (docs[i].innerHTML.includes("Заповед")) {
@@ -311,8 +339,8 @@ function pubOrder() {
         }
     }
     ooNumber.value = order;
-    
-    if (document.querySelector("#auctionDocuments").querySelectorAll('a').length === 1){
+
+    if (document.querySelector("#auctionDocuments").querySelectorAll('a').length === 1) {
         document.querySelector('button.btn.btn-success').click();
     }
 }
@@ -321,8 +349,12 @@ function pubOrder() {
 // WORK IN PROGRESS
 // NEEDS TESTING AND MODIFICATIONS FOR OTHER TYPE OF DOCUMENTS & DIFFERENTIATING BETWEEN ORDERS
 function docNames() {
+    console.log("-------------------------------------------------------docNames()");
+    let firstByuerDocs = document.querySelectorAll("tbody")[5].querySelectorAll('a');
+    console.log(firstByuerDocs.length);
     let docTable = document.querySelectorAll("tbody")[4];
     let docLinks = docTable.querySelectorAll("a");
+    console.log(docLinks.length);
     let docInput = docTable.querySelectorAll("select");
     for (i = 0; i < docInput.length; i++) {
         let parentTr = docLinks[i].closest('tr');
@@ -333,23 +365,66 @@ function docNames() {
         inputElement.type = "hidden";
         inputElement.name = "fileType[" + trID + "]";
 
-        if (docLinks[i].title.includes("Заповед")) {
-            if (docLinks.length <= 2) {
+        if (docLinks.length <= 2) { //NOT WORKING FOR SOME REASON NEEDS MORE TESTING
+            if (docLinks[i].title.includes("Заповед")) {
                 docInput[i].value = "openOrder";
                 inputElement.value = "openOrder";
-            } else if (i === 0) {
-                if (firstByuerDocs.length === 2) {
-                    docInput[i].value = "order";
-                    inputElement.value = "order";
-                } else {
-                    docInput[i].value = "openOrder";
-                    inputElement.value = "openOrder";
+            }
+        } else {
+            if (!!document.querySelectorAll('table')[7]) {
+                console.log("Заявки - OK");
+                if (docLinks[i].title.includes("Заповед")) {
+                    if (firstByuerDocs.length === 1) {
+                        docInput[i].value = "buyerOrder";
+                        inputElement.value = "buyerOrder";
+                    } else if (firstByuerDocs.length === 2) {
+                        if (i === 0) {
+                            docInput[i].value = "order";
+                            inputElement.value = "order";
+                        }
+                        if (i === 1) {
+                            docInput[i].value = "buyerOrder";
+                            inputElement.value = "buyerOrder";
+                        }
+                    }
                 }
-            } else if (i === 1) {
-                docInput[i].value = "buyerOrder";
-                inputElement.value = "buyerOrder";
+            } else {
+                console.log("Заявки - NONE");
+                if (docLinks[i].title.includes("Заповед")) {
+                    if (docLinks.length === 4) {
+                        docInput[i].value = "closeOrder";
+                        inputElement.value = "closeOrder";
+                    } else if (docLinks.length === 5) {
+                        if (i === 0) {
+                            docInput[i].value = "order";
+                            inputElement.value = "order";
+                        }
+                        if (i === 1) {
+                            docInput[i].value = "closeOrder";
+                            inputElement.value = "closeOrder";
+                        }
+                    }
+                }
             }
         }
+        // if (docLinks[i].title.includes("Заповед")) {
+        //     if (docLinks.length <= 2) {
+        //         docInput[i].value = "openOrder";
+        //         inputElement.value = "openOrder";
+        //     } else if (i === 0) {
+        //         if (firstByuerDocs.length === 2) {
+        //             docInput[i].value = "order";
+        //             inputElement.value = "order";
+        //         } else {
+        //             docInput[i].value = "openOrder";
+        //             inputElement.value = "openOrder";
+        //         }
+        //     } else if (i === 1) {
+        //         docInput[i].value = "buyerOrder";
+        //         inputElement.value = "buyerOrder";
+        //     }
+        // }
+
         if (docLinks[i].title.includes("Документация")) {
             docInput[i].value = "document";
             inputElement.value = "document";
@@ -375,4 +450,5 @@ function docNames() {
         parentTd.appendChild(inputElement);
         // docInput[i].disabled = "disabled"; //stays commented during testing DOES NOT affect workflow of the platform
     }
+
 }
