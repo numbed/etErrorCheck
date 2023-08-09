@@ -6,7 +6,7 @@ auctionSave();
 
 if (commDateCheck() === true) {
     auctionsCommission();
-    // docNames(); //TESTING
+    docNames(); //TESTING
 } else if (commDateCheck() === false) {
     pubOrderCheck();
 }
@@ -15,7 +15,7 @@ if (commDateCheck() === true) {
 let documentsSelectFields = document.querySelectorAll("tbody")[4].querySelectorAll("select");
 let firstByuerDocs = document.querySelectorAll("tbody")[5];
 if (documentsSelectFields.length != 0 & firstByuerDocs.length != 0) {
-    // docNames(); //TESTING
+    docNames(); //TESTING
 }
 
 
@@ -38,7 +38,7 @@ function auctionSave() {
 function pubOrderCheck() {
     console.log("pubOrderCheck()");
     let pubOrderField = document.querySelector("#ooNumber").value;
-    if (pubOrderField.length <= 5 || pubOrderField === "undefined" || pubOrderField === "за откриване") {
+    if (pubOrderField.length <= 5 || pubOrderField === "undefined" || pubOrderField.includes("откриване")) {
         pubOrder();
         return true;
     } else {
@@ -286,6 +286,7 @@ function cancelOrderCheck() {
 //needs changes for the new auctions!!!!
 function pubOrder() {
     console.log("---pubOrder");
+    let today = new Date();
     let order;
     ooNumber = document.querySelector("#ooNumber");
     ooDate = document.querySelector("#ooDate");
@@ -293,20 +294,27 @@ function pubOrder() {
     if (docs.length === 1) {
         console.log("no docs uploaded");
         docs = document.querySelector("#auctionDocuments").querySelectorAll('td');
+        ooDate.value = today.getDate().toString() + "." + (today.getMonth() + 1).toString() + "." + today.getFullYear().toString();
+    } else {
+        ooDate.value = docs[docs.length-1].innerHTML.split("/")[1].trim().split(" ")[0];
     }
     for (i = 0; i < docs.length; i++) {
-        if (docs[i].innerText.includes("Заповед")) {
-            order = docs[i].innerText;
+        if (docs[i].innerHTML.includes("Заповед")) {
+            if (docs[i].innerHTML.includes("откриване")) {
+                order = docs[i].title;
+            } else {
+                order = docs[i].innerHTML;
+            }
             order = order.split('.')[0].split("Заповед")[1].trim();
             console.log(order);
             break;
         }
     }
-    let today = new Date();
-
     ooNumber.value = order;
-    ooDate.value = today.getDate().toString() + "." + (today.getMonth() + 1).toString() + "." + today.getFullYear().toString();
-    document.querySelector('button.btn.btn-success').click();
+    
+    if (document.querySelector("#auctionDocuments").querySelectorAll('a').length === 1){
+        document.querySelector('button.btn.btn-success').click();
+    }
 }
 
 // naming uploaded documents when commission is assigned
@@ -316,8 +324,9 @@ function docNames() {
     let docTable = document.querySelectorAll("tbody")[4];
     let docLinks = docTable.querySelectorAll("a");
     let docInput = docTable.querySelectorAll("select");
-    for (i = 0; i < docLinks.length; i++) {
+    for (i = 0; i < docInput.length; i++) {
         let parentTr = docLinks[i].closest('tr');
+        let parentTd = docLinks[i].closest('td');
 
         let trID = parentTr.className.split('-')[2];
         const inputElement = document.createElement("input");
@@ -363,7 +372,7 @@ function docNames() {
             inputElement.value = "contractStop";
         }
 
-        parentTr.appendChild(inputElement);
+        parentTd.appendChild(inputElement);
         // docInput[i].disabled = "disabled"; //stays commented during testing DOES NOT affect workflow of the platform
     }
 }
