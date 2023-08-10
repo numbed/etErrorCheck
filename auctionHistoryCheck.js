@@ -1,3 +1,6 @@
+//added new requestsCheck() callings 
+//added new colorfullRowsOutput() for next day auctions
+
 function auctionHistoryCheck() {
     console.log("Auctions history check");
 
@@ -84,6 +87,7 @@ function auctionHistoryCheck() {
         });
     }
     colorfullRowsOutput(todayAuctionsArray, "#2f4050", "white");
+    colorfullRowsOutput(tomorrowAuctionsArray, "#2307fa", "white");
     colorfullRowsOutput(yesterdayAuctionsArray, "#D1462F", "white");
 
     //creating iframes for every auction on page
@@ -123,6 +127,8 @@ function auctionHistoryCheck() {
         });
     }
     requestsCheck(todayAuctionsArray);
+    requestsCheck(yesterdayAuctionsArray);
+    requestsCheck(tomorrowAuctionsArray);
 
 
     // function upcommingAuctionsCheck() {

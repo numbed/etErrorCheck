@@ -1,8 +1,7 @@
 // NEEDS REWORKING FOR OLRDER AUCTIONS AND MAKING SURE THAT NAMING ORDERS AND NAMING FILES WORKS CORRECTLY
+// docNames(); PROBLEM WITH THE FUNCTION - DOES NOT CONTINUE AFTER EXECUTION
 console.log("auctionForm");
 cancelOrderCheck();
-auctionSave();
-docNames();
 
 if (commDateCheck() === true) {
     auctionsCommission();
@@ -10,6 +9,8 @@ if (commDateCheck() === true) {
 } else if (commDateCheck() === false) {
     pubOrderCheck();
 }
+auctionSave();
+docNames(); //PROBLEM WITH THE FUNCTION - DOES NOT CONTINUE AFTER EXECUTION
 
 
 // let documentsSelectFields = document.querySelectorAll("tbody")[4].querySelectorAll("select");
@@ -22,17 +23,34 @@ if (commDateCheck() === true) {
 
 //removes the need to populate TITLE and DESCRIPTION input fields before saving new auction
 function auctionSave() {
-    console.log("auctionSave()");
+    console.log("-------------------------------------------------------auctionSave()");
     if (document.querySelector('#auctionTitle').value === "" || document.querySelector('#auctionDescription').value === "") {
         let tt = document.querySelectorAll(".form-group.has-feedback button");
         tt.forEach(el => {
             el.click();
         });
+        guaranteeCalc();
         document.querySelector('button.btn.btn-success').click();
     } else {
-        console.log("error");
+        console.log("save button not clicked");
     }
 
+    //auto calculation of guarantee
+    function guaranteeCalc() {
+        let moneyInput = document.querySelector("#auctionStartPrice").value;
+        let guarantee = document.querySelector('#аuctionGuarantee');
+            var result2 = Math.min(Number(moneyInput) * 0.05, moneyInput);
+
+            if (result2 > 999) {
+                result2 = Math.floor(result2 / 100) * 100; // round to the nearest hundred
+            } else if (result2 > 200 && result2 < 999) {
+                result2 = Math.floor(result2 / 10) * 10; // round to the nearest ten
+            } else {
+                result2 = Math.floor(result2 / 1) * 1;
+            }
+
+        guarantee.value = result2.toFixed(2);
+    }
 }
 
 function pubOrderCheck() {
@@ -407,23 +425,6 @@ function docNames() {
                 }
             }
         }
-        // if (docLinks[i].title.includes("Заповед")) {
-        //     if (docLinks.length <= 2) {
-        //         docInput[i].value = "openOrder";
-        //         inputElement.value = "openOrder";
-        //     } else if (i === 0) {
-        //         if (firstByuerDocs.length === 2) {
-        //             docInput[i].value = "order";
-        //             inputElement.value = "order";
-        //         } else {
-        //             docInput[i].value = "openOrder";
-        //             inputElement.value = "openOrder";
-        //         }
-        //     } else if (i === 1) {
-        //         docInput[i].value = "buyerOrder";
-        //         inputElement.value = "buyerOrder";
-        //     }
-        // }
 
         if (docLinks[i].title.includes("Документация")) {
             docInput[i].value = "document";
