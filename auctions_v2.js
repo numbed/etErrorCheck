@@ -687,7 +687,7 @@ function main() {
     }
     subjectText();
 
-    //checking for unnamed files, two or more files named "Заповед за откриване" no contracts, and checks if auction without contract has canceling order
+    //checking for unnamed files, "perfOrder" two or more files named "Заповед за откриване" no contracts, and checks if auction without contract has canceling order
     function checkForUnnamedFiles() {
         let noContractArray = [];
         let cancelOrderArray = [];
@@ -708,6 +708,10 @@ function main() {
                     link: auctionLink
                 }
                 cancelOrderArray.push(obj);
+            }
+            if (titleCell.includes('изпълнител')) {
+                alert(row.cells[0].innerText + " Заповед за изпълнител");
+                window.open(auctionLink, "_blank");
             }
             if (!titleCell.includes("Договор") && !titleCell.includes("прекратяване")) {
                 let obj = {
