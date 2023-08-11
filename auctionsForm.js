@@ -1,5 +1,7 @@
 // NEEDS REWORKING FOR OLRDER AUCTIONS AND MAKING SURE THAT NAMING ORDERS AND NAMING FILES WORKS CORRECTLY
 // docNames(); PROBLEM WITH THE FUNCTION - DOES NOT CONTINUE AFTER EXECUTION
+// +++ ADDDED docRename() & check if there are select fields in #auctionDocuments
+
 console.log("auctionForm");
 cancelOrderCheck();
 
@@ -19,6 +21,46 @@ docNames(); //PROBLEM WITH THE FUNCTION - DOES NOT CONTINUE AFTER EXECUTION
 //     docNames(); //TESTING
 // }
 
+//checking if there are select field in #auctionDocuments and runs docsRename() if there are none
+let docsSelect = document.querySelector("#auctionDocuments").querySelectorAll('select');
+if (docsSelect.length === 0) {
+    docsRename();
+} else {
+    console.log("number of select fields: " + docsSelect.length);
+}
+
+//add option to rename documents if there are no select fields in #auctionDocuments
+function docsRename() {
+    console.log("-------------------------------------------------------docRename()");
+    if (confirm("RENAME documents?")) {
+        console.log('no select fields');
+        let docs = document.querySelector("#auctionDocuments").querySelectorAll('a');
+        docs.forEach((el, index) => {
+            if (index != 0) {
+                el.innerHTML = "[" + index + "] " + el.innerHTML;
+            }
+        })
+        let docsIDS = prompt("enter document ids:");
+        if (docsIDS.includes(',') || docsIDS.includes('.')) {
+            docsIDS = docsIDS.split(/[,.]/);
+        }
+
+        for (i = 0; i < docsIDS.length; i++) {
+            docs.forEach((el, index) => {
+                if (index == docsIDS[i]) {
+                    let parentTr = docs[docsIDS[i]].closest('tr');
+                    let parentTd = docs[docsIDS[i]].closest('td');
+                    let trID = parentTr.className.split('-')[2];
+                    const inputElement = document.createElement("input");
+                    inputElement.type = "hidden";
+                    inputElement.name = "fileType[" + trID + "]";
+                    parentTd.appendChild(inputElement);
+                    el.innerHTML = "---RENAMING--- " + " " + el.innerHTML + " " + trID;
+                }
+            })
+        }
+    }
+}
 
 
 //removes the need to populate TITLE and DESCRIPTION input fields before saving new auction
@@ -39,15 +81,15 @@ function auctionSave() {
     function guaranteeCalc() {
         let moneyInput = document.querySelector("#auctionStartPrice").value;
         let guarantee = document.querySelector('#аuctionGuarantee');
-            var result2 = Math.min(Number(moneyInput) * 0.05, moneyInput);
+        var result2 = Math.min(Number(moneyInput) * 0.05, moneyInput);
 
-            if (result2 > 999) {
-                result2 = Math.floor(result2 / 100) * 100; // round to the nearest hundred
-            } else if (result2 > 200 && result2 < 999) {
-                result2 = Math.floor(result2 / 10) * 10; // round to the nearest ten
-            } else {
-                result2 = Math.floor(result2 / 1) * 1;
-            }
+        if (result2 > 999) {
+            result2 = Math.floor(result2 / 100) * 100; // round to the nearest hundred
+        } else if (result2 > 200 && result2 < 999) {
+            result2 = Math.floor(result2 / 10) * 10; // round to the nearest ten
+        } else {
+            result2 = Math.floor(result2 / 1) * 1;
+        }
 
         guarantee.value = result2.toFixed(2);
     }
