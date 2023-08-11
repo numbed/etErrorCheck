@@ -1,4 +1,10 @@
 console.clear();
+//UPDATED fileCheckTestFunction() now shows all files in #auctionDocuments
+//+++ ADDED checkForUnnamedFiles() line 691 ---- checking for unnamed files, two or more files named "Заповед за откриване" no contracts, and checks if auction without contract has canceling order
+
+function delay(time) {
+    return new Promise(resolve => setTimeout(resolve, time));
+}
 
 //clicks all auction publish buttons if present
 function auctionPublish() {
@@ -577,24 +583,38 @@ function main() {
                             iFrame.onload = function () {
                                 let firstOrder = iFrame.contentWindow.document.querySelector("#auctionOrder").querySelectorAll("a");
                                 let secOrder = iFrame.contentWindow.document.querySelector("#auctionSecOrder").querySelectorAll("a");
+                                let documentsList = iFrame.contentWindow.document.querySelector("#auctionDocuments").querySelectorAll("a");
 
-                                if (secOrder.length > 1) {
-                                    orderCheckF(secOrder, "second");
-                                } else if (firstOrder.length > 1) {
-                                    orderCheckF(firstOrder, "first");
-                                } else {
-                                    console.log("no result orders");
+                                // console.log(element.number + "-------------------------------------------------");
+                                function documentCheck() {
+                                    documentsList.forEach((element, index) => {
+                                        if (index != 0) {
+                                            let fileA = [];
+                                            fileA.push(element.innerHTML);
+                                            // console.log(fileA.join("\n"));
+                                            titleCell.innerHTML += "<br><b>" + fileA;
+                                        }
+                                    });
                                 }
+                                documentCheck();
+
+                                // if (secOrder.length > 1) {
+                                //     orderCheckF(secOrder, "second");
+                                // } else if (firstOrder.length > 1) {
+                                //     orderCheckF(firstOrder, "first");
+                                // } else {
+                                //     console.log("no result orders");
+                                // }
 
                                 function orderCheckF(fileField, text) {
                                     let outputDate = fileField[1].innerHTML.split("/")[1].split(" ")[1].italics().bold();
                                     const fileArray = [];
                                     const fileA = [];
                                     for (i = 1; i < fileField.length; i++) {
-                                        fileArray.push(fileField[i].title.split(".")[0]);
-                                        let fTitle = fileField[i].title.split(".")[0];
-                                        fileA.push("<a href=" + fileField[i].href + " title='" + fTitle + "' download='" + fileField[i].title + "' name='alink' >" + fileField[i].title + "</a>");
-                                        if (fileField[i].title.includes("Заповед")) {
+                                        fileArray.push(element.title.split(".")[0]);
+                                        let fTitle = element.title.split(".")[0];
+                                        fileA.push("<a href=" + element.href + " title='" + fTitle + "' download='" + element.title + "' name='alink' >" + element.title + "</a>");
+                                        if (element.title.includes("Заповед")) {
                                             row.cells[5].style.backgroundColor = "#81B622";
                                             row.cells[5].style.color = "white";
                                         }
@@ -667,8 +687,46 @@ function main() {
     }
     subjectText();
 
+    //checking for unnamed files, two or more files named "Заповед за откриване" no contracts, and checks if auction without contract has canceling order
+    function checkForUnnamedFiles() {
+        let noContractArray = [];
+        let cancelOrderArray = [];
+        for (let i = 0, row; row = auctionsTable.rows[i]; i++) {
+            let titleCell = row.cells[5].innerHTML;
+            let auctionLink = row.cells[7].querySelector('a').href;
+            if (titleCell.includes('pdf')) {
+                alert(row.cells[0].innerText + " unnamed files");
+                window.open(auctionLink, "_blank");
+            }
+            if ((titleCell.match(/откриване/g) || []).length > 1) {
+                alert(row.cells[0].innerText + " more than one 'Заповед за откриване'" + " [" + (titleCell.match(/откриване/g) || []).length + "]");
+                window.open(auctionLink, "_blank");
+            }
+            if (titleCell.includes("прекратяване")) {
+                let obj = {
+                    number: row.cells[0].innerText,
+                    link: auctionLink
+                }
+                cancelOrderArray.push(obj);
+            }
+            if (!titleCell.includes("Договор") && !titleCell.includes("прекратяване")) {
+                let obj = {
+                    number: row.cells[0].innerText,
+                    link: auctionLink
+                }
+                noContractArray.push(obj);
+            }
+        }
+        if (noContractArray.length > 0) {
+            if (confirm("Open [" + noContractArray.length + "] auctions without CONTRACTS?")) {
+                noContractArray.forEach(el => {
+                    window.open(el.link, "_blank");
+                });
+            }
+        }
+    }
 
-
+    delay(8500).then(() => checkForUnnamedFiles());
     // console.log(auctions[0].number + ' ' + auctions[0].status);
     // console.log(auctions[16].number + " " + auctions[16].status);
     // console.log(auctions[18].number + " " + auctions[18].status);
