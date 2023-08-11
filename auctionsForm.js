@@ -1,9 +1,14 @@
 // NEEDS REWORKING FOR OLRDER AUCTIONS AND MAKING SURE THAT NAMING ORDERS AND NAMING FILES WORKS CORRECTLY
 // docNames(); PROBLEM WITH THE FUNCTION - DOES NOT CONTINUE AFTER EXECUTION
-// +++ ADDDED docRename() & check if there are select fields in #auctionDocuments
+// docRename() code reworked to show uploaded docs ID before confirm dialog for renaming
+// +++ ADDED delay()
 
 console.log("auctionForm");
 cancelOrderCheck();
+
+function delay(time) {
+    return new Promise(resolve => setTimeout(resolve, time));
+}
 
 if (commDateCheck() === true) {
     auctionsCommission();
@@ -32,32 +37,36 @@ if (docsSelect.length === 0) {
 //add option to rename documents if there are no select fields in #auctionDocuments
 function docsRename() {
     console.log("-------------------------------------------------------docRename()");
-    if (confirm("RENAME documents?")) {
-        console.log('no select fields');
-        let docs = document.querySelector("#auctionDocuments").querySelectorAll('a');
-        docs.forEach((el, index) => {
-            if (index != 0) {
-                el.innerHTML = "[" + index + "] " + el.innerHTML;
-            }
-        })
-        let docsIDS = prompt("enter document ids:");
-        if (docsIDS.includes(',') || docsIDS.includes('.')) {
-            docsIDS = docsIDS.split(/[,.]/);
+    console.log('no select fields');
+    let docs = document.querySelector("#auctionDocuments").querySelectorAll('a');
+    docs.forEach((el, index) => {
+        if (index != 0) {
+            el.innerHTML = "[" + index + "] " + el.innerHTML;
         }
+    })
 
-        for (i = 0; i < docsIDS.length; i++) {
-            docs.forEach((el, index) => {
-                if (index == docsIDS[i]) {
-                    let parentTr = docs[docsIDS[i]].closest('tr');
-                    let parentTd = docs[docsIDS[i]].closest('td');
-                    let trID = parentTr.className.split('-')[2];
-                    const inputElement = document.createElement("input");
-                    inputElement.type = "hidden";
-                    inputElement.name = "fileType[" + trID + "]";
-                    parentTd.appendChild(inputElement);
-                    el.innerHTML = "---RENAMING--- " + " " + el.innerHTML + " " + trID;
-                }
-            })
+    delay(1000).then(() => rename());
+    function rename() {
+        if (confirm("RENAME documents?")) {
+            let docsIDS = prompt("enter document ids:");
+            if (docsIDS.includes(',') || docsIDS.includes('.')) {
+                docsIDS = docsIDS.split(/[,.]/);
+            }
+
+            for (i = 0; i < docsIDS.length; i++) {
+                docs.forEach((el, index) => {
+                    if (index == docsIDS[i]) {
+                        let parentTr = docs[docsIDS[i]].closest('tr');
+                        let parentTd = docs[docsIDS[i]].closest('td');
+                        let trID = parentTr.className.split('-')[2];
+                        const inputElement = document.createElement("input");
+                        inputElement.type = "hidden";
+                        inputElement.name = "fileType[" + trID + "]";
+                        parentTd.appendChild(inputElement);
+                        el.innerHTML = "---RENAMING--- " + " " + el.innerHTML + " " + trID;
+                    }
+                })
+            }
         }
     }
 }
