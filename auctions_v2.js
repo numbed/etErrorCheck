@@ -8,7 +8,7 @@ function delay(time) {
 
 //clicks all auction publish buttons if present
 function auctionPublish() {
-    console.log("auctionPublish()");
+    console.log("-------------------------------------------------------auctionPublish()");
     let btns = document.querySelector('tbody').querySelectorAll('button');
     if (btns.length != 0) {
         btns.forEach(el => {
@@ -23,7 +23,7 @@ auctionPublish();
 
 
 function iframeExists() {
-    console.log("iframeExists()");
+    console.log("-------------------------------------------------------iframeExists()");
     let frames = document.querySelectorAll('iframe');
     if (frames.length === 0) {
         main();
@@ -33,6 +33,7 @@ function iframeExists() {
 
 
 function main() {
+    console.log("-------------------------------------------------------main()");
     //js new line in string?
     let auctionsTable = document.querySelector("tbody");
     document.querySelector("thead").rows[1].cells[3].innerText = "Краен срок за записване\n" + "Краен срок за публикуване";
@@ -42,6 +43,7 @@ function main() {
 
     //collecting data from active tab table (auctions)
     function auctionDataCollect() {
+        console.log("-------------------------------------------------------auctionDataCollect()");
         for (let i = 0, row; row = auctionsTable.rows[i]; i++) {
             number = row.cells[0].innerText;
             date = row.cells[2].innerText;
@@ -182,6 +184,7 @@ function main() {
 
     //creating iframes for every auction on page
     function iframeCreation() {
+        console.log("-------------------------------------------------------iframeCreation()");
         for (let i = 0, row; row = auctionsTable.rows[i]; i++) {
             if (!document.getElementById(auctionsTable.rows[0].cells[0].innerText)) {
                 for (let i = 0, row; row = auctionsTable.rows[i]; i++) {
@@ -197,6 +200,7 @@ function main() {
 
     //check if upcomming auctions have published documentation
     function upcommingAuctionsCheck() {
+        console.log("-------------------------------------------------------upcommingAuctionsCheck()");
         auctions.forEach(function (element) {
             if (element.status == "upcomming" || element.status == "today") {
                 for (let i = 0, row; row = auctionsTable.rows[i]; i++) {
@@ -268,6 +272,7 @@ function main() {
 
     //check if upcomming auctions have published documentation
     function upcommingAuctionsCheck2() {
+        console.log("-------------------------------------------------------upcommingAuctionsCheck2()");
         auctions.forEach(function (element) {
             // if (element.status == "upcomming" || element.status == "today") {
             for (let i = 0, row; row = auctionsTable.rows[i]; i++) {
@@ -372,6 +377,7 @@ function main() {
 
     //check if commission is already assigned to the auction 
     function assingedCommissionCheck() {
+        console.log("-------------------------------------------------------assingedCommissionCheck()");
         auctions.forEach(function (element) {
             for (let i = 0, row; row = auctionsTable.rows[i]; i++) {
                 if ((element.number == row.cells[0].innerText) && (element.status == "commission")) {
@@ -398,6 +404,7 @@ function main() {
 
     //error check for duplicates and wrong type of auction
     function errorCheck() {
+        console.log("-------------------------------------------------------errorCheck()");
         auctions.forEach(function () {
             for (let i = 0; i < auctions.length; i++) {
                 //auction type check
