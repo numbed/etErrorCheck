@@ -1,5 +1,5 @@
 // NEEDS REWORKING FOR OLRDER AUCTIONS AND MAKING SURE THAT NAMING ORDERS AND NAMING FILES WORKS CORRECTLY
-// docNames(); PROBLEM WITH THE FUNCTION - DOES NOT CONTINUE AFTER EXECUTION
+// docNames(); PROBLEM WITH THE FUNCTION - DOES NOT WORK FOR AUCTION CANCELING -- MAYBE ERRORS COMES FROM IF ELSE @line 13
 // docRename() code reworked to show uploaded docs ID before confirm dialog for renaming
 // +++ ADDED delay()
 
@@ -16,8 +16,8 @@ if (commDateCheck() === true) {
 } else if (commDateCheck() === false) {
     pubOrderCheck();
 }
+docNames(); //PROBLEM WITH THE FUNCTION - DOES NOT WORK FOR AUCTION CANCELING -- MAYBE ERRORS COMES FROM IF ELSE @line 13
 auctionSave();
-docNames(); //PROBLEM WITH THE FUNCTION - DOES NOT CONTINUE AFTER EXECUTION
 
 
 // let documentsSelectFields = document.querySelectorAll("tbody")[4].querySelectorAll("select");
