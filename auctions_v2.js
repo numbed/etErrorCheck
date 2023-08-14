@@ -508,7 +508,6 @@ function main() {
     auctionsTabOpen("today", "Отвори търгове с краен срок за публикуване днес?");
     auctionsTabOpen("commission", "Отвори търгове за назначаване на комисии?");
 
- 
     //fileCheckTestFunction work in progress
     function fileCheckTestFunction() {
         console.log("-------------------------------------------------------fileCheckTestFunction()");
@@ -581,11 +580,54 @@ function main() {
         }
     }
     fileCheckTestFunction();
-    // fileCheckTestFunction end
-
+    
+    //checking for unnamed files, "perfOrder" two or more files named "Заповед за откриване" no contracts, and checks if auction without contract has canceling order
+    function checkForUnnamedFiles() {
+        console.log("-------------------------------------------------------checkForUnnamedFiles()");
+        let noContractArray = [];
+        let cancelOrderArray = [];
+        for (let i = 0, row; row = auctionsTable.rows[i]; i++) {
+            let titleCell = row.cells[5].innerHTML;
+            let auctionLink = row.cells[7].querySelector('a').href;
+            if (titleCell.includes('pdf')) {
+                alert(row.cells[0].innerText + " unnamed files");
+                window.open(auctionLink, "_blank");
+            }
+            if ((titleCell.match(/откриване/g) || []).length > 1) {
+                alert(row.cells[0].innerText + " more than one 'Заповед за откриване'" + " [" + (titleCell.match(/откриване/g) || []).length + "]");
+                window.open(auctionLink, "_blank");
+            }
+            if (titleCell.includes("прекратяване")) {
+                let obj = {
+                    number: row.cells[0].innerText,
+                    link: auctionLink
+                }
+                cancelOrderArray.push(obj);
+            }
+            if (titleCell.includes('изпълнител')) {
+                alert(row.cells[0].innerText + " Заповед за изпълнител");
+                window.open(auctionLink, "_blank");
+            }
+            if (!titleCell.includes("Договор") && !titleCell.includes("прекратяване")) {
+                let obj = {
+                    number: row.cells[0].innerText,
+                    link: auctionLink
+                }
+                noContractArray.push(obj);
+            }
+        }
+        if (noContractArray.length > 0) {
+            if (confirm("Open [" + noContractArray.length + "] auctions without CONTRACTS?")) {
+                noContractArray.forEach(el => {
+                    window.open(el.link, "_blank");
+                });
+            }
+        }
+    }
 
     //table output today and upcomming auctions to console for copy purposes 
     function tableOuput() {
+        console.log("-------------------------------------------------------tableOuput()");
         let todayA = [];
         let upcommingA = [];
         let passedA = [];
@@ -630,49 +672,7 @@ function main() {
     }
     subjectText();
 
-    //checking for unnamed files, "perfOrder" two or more files named "Заповед за откриване" no contracts, and checks if auction without contract has canceling order
-    function checkForUnnamedFiles() {
-        console.log("-------------------------------------------------------checkForUnnamedFiles()");
-        let noContractArray = [];
-        let cancelOrderArray = [];
-        for (let i = 0, row; row = auctionsTable.rows[i]; i++) {
-            let titleCell = row.cells[5].innerHTML;
-            let auctionLink = row.cells[7].querySelector('a').href;
-            if (titleCell.includes('pdf')) {
-                alert(row.cells[0].innerText + " unnamed files");
-                window.open(auctionLink, "_blank");
-            }
-            if ((titleCell.match(/откриване/g) || []).length > 1) {
-                alert(row.cells[0].innerText + " more than one 'Заповед за откриване'" + " [" + (titleCell.match(/откриване/g) || []).length + "]");
-                window.open(auctionLink, "_blank");
-            }
-            if (titleCell.includes("прекратяване")) {
-                let obj = {
-                    number: row.cells[0].innerText,
-                    link: auctionLink
-                }
-                cancelOrderArray.push(obj);
-            }
-            if (titleCell.includes('изпълнител')) {
-                alert(row.cells[0].innerText + " Заповед за изпълнител");
-                window.open(auctionLink, "_blank");
-            }
-            if (!titleCell.includes("Договор") && !titleCell.includes("прекратяване")) {
-                let obj = {
-                    number: row.cells[0].innerText,
-                    link: auctionLink
-                }
-                noContractArray.push(obj);
-            }
-        }
-        if (noContractArray.length > 0) {
-            if (confirm("Open [" + noContractArray.length + "] auctions without CONTRACTS?")) {
-                noContractArray.forEach(el => {
-                    window.open(el.link, "_blank");
-                });
-            }
-        }
-    }
+
 
 
     // console.log(auctions[0].number + ' ' + auctions[0].status);
