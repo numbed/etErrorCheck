@@ -116,7 +116,7 @@ function auctionHistoryCheck() {
                     iFrame.src = element.etLink;
                     iFrame.onload = function () {
                         let requests = iFrame.contentWindow.document.querySelectorAll('tbody')[4].querySelectorAll('tr');
-                        console.log (element.number + " " + requests.length);
+                        console.log(element.number + " " + requests.length);
                         if (requests.length === 0) {
                             lastCell.style.backgroundColor = "#fa2a07";
                         }
@@ -228,9 +228,10 @@ function auctionHistoryCheck() {
                 let order = "https://auction.ucdp-smolian.com/au-admin/history/erasedOrder/";
                 let protocol = "https://auction.ucdp-smolian.com/au-admin/history/erasedProtocol/";
                 if (text == "УТРЕ") {
+                    let erasedDate = new Date().getDate() + "." + (new Date().getMonth()+1) + "." + new Date().getFullYear();
                     for (i = 0; i < array.length; i++) {
-                        window.open(protocol + array[i].auctionHistoryLink + "/" + array[i].date, '_blank');
-                        window.open(order + array[i].auctionHistoryLink + "/" + array[i].date + "/?t=c", '_blank');
+                        window.open(protocol + array[i].auctionHistoryLink + "/" + erasedDate, '_blank');
+                        window.open(order + array[i].auctionHistoryLink + "/" + erasedDate + "/?t=c", '_blank');
                         window.open(array[i].auctionFormLink, '_blank');
                     }
                 } else {
