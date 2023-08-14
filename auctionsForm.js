@@ -5,7 +5,7 @@
 
 console.log("-------------------------------------------------------auctionForm");
 
-let documentsSelectFields = document.querySelectorAll("tbody")[4].querySelectorAll("select");
+let documentsSelectFields = document.querySelector("#auctionDocuments").querySelectorAll("select");
 if (documentsSelectFields.length != 0) {
     docNames(); //TESTING
 }
@@ -27,9 +27,10 @@ if (commDateCheck() === true) {
 }
 auctionSave();
 
-//checking if there are select field in #auctionDocuments and runs docsRename() if there are none
+//checking if there are select fields in #auctionDocuments and runs docsRename() if there are none
 let docsSelect = document.querySelector("#auctionDocuments").querySelectorAll('select');
-if (docsSelect.length === 0) {
+let docsUploaded = document.querySelector("#auctionDocuments").querySelectorAll('a');
+if (docsSelect.length === 0 && docsUploaded.length > 1) {
     docsRename();
 } else {
     console.log("number of select fields: " + docsSelect.length);
