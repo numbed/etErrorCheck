@@ -3,7 +3,12 @@
 // docRename() code reworked to show uploaded docs ID before confirm dialog for renaming
 // +++ ADDED delay()
 
-console.log("auctionForm");
+console.log("-------------------------------------------------------auctionForm");
+
+let documentsSelectFields = document.querySelectorAll("tbody")[4].querySelectorAll("select");
+if (documentsSelectFields.length != 0) {
+    docNames(); //TESTING
+}
 cancelOrderCheck();
 
 function delay(time) {
@@ -14,17 +19,13 @@ if (commDateCheck() === true) {
     auctionsCommission();
     // docNames(); //TESTING
 } else if (commDateCheck() === false) {
-    pubOrderCheck();
+    let pubOrderField = document.querySelector("#ooNumber").value;
+    if (pubOrderField.length <= 5 || pubOrderField === "undefined" || pubOrderField.includes("откриване")) {
+        pubOrder();
+        // return true;
+    }
 }
 auctionSave();
-docNames(); //PROBLEM WITH THE FUNCTION - DOES NOT CONTINUE AFTER EXECUTION
-
-
-// let documentsSelectFields = document.querySelectorAll("tbody")[4].querySelectorAll("select");
-// // let firstByuerDocs = document.querySelectorAll("tbody")[5].querySelectorAll("a");
-// if (documentsSelectFields.length != 0) {
-//     docNames(); //TESTING
-// }
 
 //checking if there are select field in #auctionDocuments and runs docsRename() if there are none
 let docsSelect = document.querySelector("#auctionDocuments").querySelectorAll('select');
@@ -71,7 +72,6 @@ function docsRename() {
     }
 }
 
-
 //removes the need to populate TITLE and DESCRIPTION input fields before saving new auction
 function auctionSave() {
     console.log("-------------------------------------------------------auctionSave()");
@@ -105,18 +105,16 @@ function auctionSave() {
 }
 
 function pubOrderCheck() {
-    console.log("pubOrderCheck()");
+    console.log("-------------------------------------------------------pubOrderCheck()");
     let pubOrderField = document.querySelector("#ooNumber").value;
     if (pubOrderField.length <= 5 || pubOrderField === "undefined" || pubOrderField.includes("откриване")) {
         pubOrder();
-        return true;
-    } else {
-        return false;
+        // return true;
     }
 }
 
 function commDateCheck() {
-    console.log("commDateCheck()");
+    console.log("-------------------------------------------------------commDateCheck()");
     let dateField = document.querySelector("#auctionDueDate").value;
     let today = new Date();
     let commDateSTR = commissionDate(dateField).split(".");
@@ -149,7 +147,7 @@ function commDateCheck() {
 }
 
 function auctionsCommission() {
-    console.log("---auctionsCommission");
+    console.log("-------------------------------------------------------auctionsCommission");
     pubOrderCheck();
     let today = new Date();
     commission();
@@ -364,7 +362,7 @@ function auctionsCommission() {
 }
 
 function cancelOrderCheck() {
-    console.log("cancelOrderCheck()");
+    console.log("-------------------------------------------------------cancelOrderCheck()");
     let docField = document.querySelector("#auctionDocuments").querySelectorAll('a');
     for (let i = 0; i < docField.length; i++) {
         if (docField[i].innerHTML.includes("прекратяване")) {
@@ -379,10 +377,9 @@ function cancelOrderCheck() {
     }
 }
 
-
 //needs changes for the new auctions!!!!
 function pubOrder() {
-    console.log("---pubOrder");
+    console.log("-------------------------------------------------------pubOrder");
     let today = new Date();
     let order;
     ooNumber = document.querySelector("#ooNumber");
