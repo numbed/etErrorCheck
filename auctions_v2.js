@@ -501,77 +501,12 @@ function main() {
     auctionsTabOpen("today", "Отвори търгове с краен срок за публикуване днес?");
     auctionsTabOpen("commission", "Отвори търгове за назначаване на комисии?");
 
-    //check if auction has published contract
-    function contractCheck() {
-        if (confirm("Проверка за публикувани договори?")) {
-            auctions.forEach(function (element) {
-                if (element.status == "passed") {
-                    for (let i = 0, row; row = auctionsTable.rows[i]; i++) {
-                        if (element.number == row.cells[0].innerText) {
-                            let titleCell = row.cells[5];
-                            let lastCell = row.cells[8];
-                            let iFrame = document.getElementById(element.number);
-                            iFrame.src = element.etLink;
-                            iFrame.onload = function () {
-                                let links = iFrame.contentWindow.document.links;
-                                for (i = 0; i < links.length; i++) {
-                                    if (links[i].title.includes("Договор")) {
-                                        lastCell.style.backgroundColor = "#3D550C";
-                                        let outputText = links[i].title.split(".")[0].italics() + "<br>" + links[i].innerHTML.split("/")[1].split(" ")[1].italics().bold();
-                                        titleCell.innerHTML = outputText;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        }
-    }
-    contractCheck();
-
-    //shows last uploaded file for passed auctions
-    function pubOrderCheck() {
-        if (confirm("Проверка заповеди купувач?")) {
-            auctions.forEach(function (element) {
-                if (element.status == "passed" || element.status == "today" || element.status == "upcomming") {
-                    for (let i = 0, row; row = auctionsTable.rows[i]; i++) {
-                        if (element.number == row.cells[0].innerText) {
-                            let titleCell = row.cells[5];
-                            let iFrame = document.getElementById(element.number);
-                            iFrame.src = element.etLink;
-                            iFrame.onload = function () {
-                                let uploadedDocs = iFrame.contentWindow.document.querySelector("#auctionOrder");
-                                let links = uploadedDocs.querySelectorAll('a');
-                                let linksCount = links.length - 1;
-                                const orderLinks = [];
-                                for (i = 1; i < links.length; i++) {
-                                    orderLinks.push(links[i].title.split(".")[0]);
-                                }
-                                let orderText = orderLinks;
-                                console.log(orderText);
-                                let outputDate = links[1].innerHTML.split("/")[1].split(" ")[1].italics().bold();
-                                for (i = 0; i < links.length; i++) {
-                                    if (links[i].title.includes("Заповед")) {
-                                        row.cells[5].innerText = links[i].title;
-                                        row.cells[5].style.backgroundColor = "#81B622";
-                                        row.cells[5].style.color = "white";
-                                    }
-                                }
-                                titleCell.innerHTML = orderLinks.join("<br>") + "<br>" + outputDate;
-                            }
-                        }
-                    }
-                }
-            });
-        }
-    }
-    pubOrderCheck();
-
-
+ 
     //fileCheckTestFunction work in progress
     function fileCheckTestFunction() {
+        console.log("-------------------------------------------------------fileCheckTestFunction()");
         if (confirm("fileCheckTestFunction?")) {
+            console.log("----------------------------CONFIRMED------------------fileCheckTestFunction()");
             auctions.forEach(function (element) {
                 if (element.status == "passed" || element.status == "today" || element.status == "upcomming") {
                     for (let i = 0, row; row = auctionsTable.rows[i]; i++) {
@@ -635,6 +570,7 @@ function main() {
                     }
                 }
             });
+            delay(12500).then(() => checkForUnnamedFiles());
         }
     }
     fileCheckTestFunction();
@@ -689,6 +625,7 @@ function main() {
 
     //checking for unnamed files, "perfOrder" two or more files named "Заповед за откриване" no contracts, and checks if auction without contract has canceling order
     function checkForUnnamedFiles() {
+        console.log("-------------------------------------------------------checkForUnnamedFiles()");
         let noContractArray = [];
         let cancelOrderArray = [];
         for (let i = 0, row; row = auctionsTable.rows[i]; i++) {
@@ -730,7 +667,7 @@ function main() {
         }
     }
 
-    delay(8500).then(() => checkForUnnamedFiles());
+
     // console.log(auctions[0].number + ' ' + auctions[0].status);
     // console.log(auctions[16].number + " " + auctions[16].status);
     // console.log(auctions[18].number + " " + auctions[18].status);
