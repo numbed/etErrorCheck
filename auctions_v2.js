@@ -2,6 +2,29 @@ console.clear();
 //UPDATED fileCheckTestFunction() now shows all files in #auctionDocuments
 //+++ ADDED checkForUnnamedFiles() line 691 ---- checking for unnamed files, two or more files named "Заповед за откриване" no contracts, and checks if auction without contract has canceling order
 
+
+//document.head - add mousover tooltip on cells 
+document.head.insertAdjacentHTML("beforeend", `<style>
+        td.hidden-xs {
+            position: relative;
+        }
+        .tt{
+            display: none;
+            position: absolute; 
+            z-index: 100;
+            border: 1px;
+            background-color: white;
+            border: 1px solid green;
+            padding: 3px;
+            color: green; 
+            top: 20px; 
+            left: 20px;
+        }
+            td.hidden-xs:hover .tt{
+                display:block;
+            }
+        </style>`);
+
 function delay(time) {
     return new Promise(resolve => setTimeout(resolve, time));
 }
@@ -343,6 +366,7 @@ function main() {
 
                         let tooltip = docsTT + firstTT + secTT;
                         linkCell.querySelector('a').setAttribute('title', tooltip);
+                        console.log("🚀 ~ file: auctions_v2.js:369 ~ tooltip:", tooltip)
                         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                     }
                 }
@@ -517,7 +541,9 @@ function main() {
                 if (element.status == "passed" || element.status == "today" || element.status == "upcomming") {
                     for (let i = 0, row; row = auctionsTable.rows[i]; i++) {
                         if (element.number == row.cells[0].innerText) {
+                            let subjectCell = row.cells[4];
                             let titleCell = row.cells[5];
+                            let priceCell = row.cells[6];
                             let linkCell = row.cells[7];
                             let iFrame = document.getElementById(element.number);
                             iFrame.src = element.etLink;
@@ -570,7 +596,30 @@ function main() {
 
                                 }
 
+                                //showing woodsIinfo, bidding step, on front page
+                                function cellTooltip() {
+                                    console.log("-------------------------------------------------------cellTooltip()");
+                                    let woodsInfoTable = iFrame.contentWindow.document.querySelector("tbody");
+                                    let woodsVolumes = woodsInfoTable.querySelectorAll('input[name*="data[woodInfo]"]');
 
+                                    let bidStep = iFrame.contentWindow.document.querySelector("#аuctionBidStep").value;
+                                    let guarantee = iFrame.contentWindow.document.querySelector("#аuctionGuarantee").value;
+
+                                    let woodsInfo = "Е: " + woodsVolumes[1].value + " | С: " + woodsVolumes[2].value + " | Д: " + woodsVolumes[3].value + " | ОЗМ: " + woodsVolumes[4].value + " | ОГРЕВ: " + woodsVolumes[5].value + " | общо: " + woodsVolumes[6].value;
+                                    subjectCell.innerHTML +="<br><b>" + woodsInfo;
+                                    const woodSpan = document.createElement('span');
+                                    woodSpan.className = "tt";
+                                    woodSpan.textContent = woodsInfo;
+                                    subjectCell.appendChild(woodSpan);
+
+                                    let priceInfo = "\nстъпка: " + bidStep + "<br>"+" \nгаранция: " + guarantee;
+                                    priceCell.innerHTML +="<br><b>" + priceInfo;
+                                    // const priceSpan = document.createElement('span');
+                                    // priceSpan.className = "tt";
+                                    // priceSpan.textContent = priceInfo;
+                                    // priceCell.appendChild(priceSpan);
+                                }
+                                cellTooltip();
                             }
                         }
                     }
@@ -580,7 +629,7 @@ function main() {
         }
     }
     fileCheckTestFunction();
-    
+
     //checking for unnamed files, "perfOrder" two or more files named "Заповед за откриване" no contracts, and checks if auction without contract has canceling order
     function checkForUnnamedFiles() {
         console.log("-------------------------------------------------------checkForUnnamedFiles()");
