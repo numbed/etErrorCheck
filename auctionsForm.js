@@ -1,9 +1,9 @@
 // NEEDS REWORKING FOR OLRDER AUCTIONS AND MAKING SURE THAT NAMING ORDERS AND NAMING FILES WORKS CORRECTLY
-// docNames(); PROBLEM WITH THE FUNCTION - DOES NOT WORK FOR AUCTION CANCELING -- MAYBE ERRORS COMES FROM IF ELSE @line 13
+// docNames(); PROBLEM WITH THE FUNCTION - DOES NOT WORK FOR AUCTION CANCELING -- MAYBE ERRORS COME FROM DOC NAMING IN auctionsCommission();
 // docRename() code reworked to show uploaded docs ID before confirm dialog for renaming
 // +++ ADDED delay()
 
-console.log("auctionForm");
+console.log("-------------------------------------------------------auctionsForm");
 cancelOrderCheck();
 
 function delay(time) {
@@ -11,12 +11,12 @@ function delay(time) {
 }
 
 if (commDateCheck() === true) {
+    docNames(); //TESTING
     auctionsCommission();
-    // docNames(); //TESTING
 } else if (commDateCheck() === false) {
     pubOrderCheck();
 }
-docNames(); //PROBLEM WITH THE FUNCTION - DOES NOT WORK FOR AUCTION CANCELING -- MAYBE ERRORS COMES FROM IF ELSE @line 13
+docNames(); //PROBLEM WITH THE FUNCTION - DOES NOT WORK FOR AUCTION CANCELING -- MAYBE ERRORS COME FROM DOC NAMING IN auctionsCommission();
 auctionSave();
 
 
@@ -31,20 +31,19 @@ let docsSelect = document.querySelector("#auctionDocuments").querySelectorAll('s
 if (docsSelect.length === 0) {
     docsRename();
 } else {
-    console.log("number of select fields: " + docsSelect.length);
+    console.log("🚀 ~ file: auctionsForm.js:32 ~ number of select fields: ", docsSelect.length);
 }
 
 //add option to rename documents if there are no select fields in #auctionDocuments
 function docsRename() {
     console.log("-------------------------------------------------------docRename()");
-    console.log('no select fields');
     let docs = document.querySelector("#auctionDocuments").querySelectorAll('a');
     docs.forEach((el, index) => {
         if (index != 0) {
             el.innerHTML = "[" + index + "] " + el.innerHTML;
         }
     })
-
+    
     delay(1000).then(() => rename());
     function rename() {
         if (confirm("RENAME documents?")) {
@@ -52,7 +51,7 @@ function docsRename() {
             if (docsIDS.includes(',') || docsIDS.includes('.')) {
                 docsIDS = docsIDS.split(/[,.]/);
             }
-
+            
             for (i = 0; i < docsIDS.length; i++) {
                 docs.forEach((el, index) => {
                     if (index == docsIDS[i]) {
@@ -69,6 +68,7 @@ function docsRename() {
             }
         }
     }
+    console.log("------------------------END----------------------------docRename()");
 }
 
 
@@ -85,13 +85,13 @@ function auctionSave() {
     } else {
         console.log("save button not clicked");
     }
-
+    
     //auto calculation of guarantee
     function guaranteeCalc() {
         let moneyInput = document.querySelector("#auctionStartPrice").value;
         let guarantee = document.querySelector('#аuctionGuarantee');
         var result2 = Math.min(Number(moneyInput) * 0.05, moneyInput);
-
+        
         if (result2 > 999) {
             result2 = Math.floor(result2 / 100) * 100; // round to the nearest hundred
         } else if (result2 > 200 && result2 < 999) {
@@ -102,44 +102,47 @@ function auctionSave() {
 
         guarantee.value = result2.toFixed(2);
     }
+    console.log("------------------------END----------------------------auctionSave()");
 }
 
 function pubOrderCheck() {
-    console.log("pubOrderCheck()");
+    console.log("-------------------------------------------------------pubOrderCheck()");
     let pubOrderField = document.querySelector("#ooNumber").value;
     if (pubOrderField.length <= 5 || pubOrderField === "undefined" || pubOrderField.includes("откриване")) {
         pubOrder();
-        return true;
+        // return true;
     } else {
-        return false;
+        // return false;
     }
+    console.log("------------------------END----------------------------pubOrderCheck()");
 }
 
 function commDateCheck() {
-    console.log("commDateCheck()");
+    console.log("-------------------------------------------------------commDateCheck()");
     let dateField = document.querySelector("#auctionDueDate").value;
     let today = new Date();
     let commDateSTR = commissionDate(dateField).split(".");
     let commDate = new Date(commDateSTR[2], commDateSTR[1] - 1, commDateSTR[0]);
-
+    
     function commissionDate(aucDate) {
         let d = aucDate.split(".");
         let firstDate = new Date(d[2], d[1] - 1, d[0]);
         let cDate = new Date(d[2], d[1] - 1, d[0]);
         let date = new Date();
-
+        
         if (firstDate.getDay() == 1) {
             date = firstDate.getDate() - 3;
         } else {
             date = firstDate.getDate() - 1;
         }
-
+        
         cDate.setDate(date);
         let output = new Date();
         output = cDate.getDate() + "." + (cDate.getMonth() + 1) + "." + cDate.getFullYear();
         return output;
     }
-
+    
+    console.log("------------------------END----------------------------commDateCheck()");
     if (commDate.setHours(0, 0, 0, 0) === today.setHours(0, 0, 0, 0)) {
         return true;
     } else {
@@ -149,12 +152,12 @@ function commDateCheck() {
 }
 
 function auctionsCommission() {
-    console.log("---auctionsCommission");
+    console.log("-------------------------------------------------------auctionsCommission");
     pubOrderCheck();
     let today = new Date();
     commission();
     docNamingInAuctionsCommission(); //ADDED document naming function because sth is not working in docNames()
-
+    
     function docNamingInAuctionsCommission() {
         let docTable = document.querySelectorAll("tbody")[4];
         let docLinks = docTable.querySelectorAll("a");
@@ -162,12 +165,12 @@ function auctionsCommission() {
         for (i = 0; i < docInput.length; i++) {
             let parentTr = docLinks[i].closest('tr');
             let parentTd = docLinks[i].closest('td');
-
+            
             let trID = parentTr.className.split('-')[2];
             const inputElement = document.createElement("input");
             inputElement.type = "hidden";
             inputElement.name = "fileType[" + trID + "]";
-
+            
             if (docLinks[i].title.includes("Заповед")) {
                 docInput[i].value = "openOrder";
                 inputElement.value = "openOrder";
@@ -180,7 +183,7 @@ function auctionsCommission() {
             // docInput[i].disabled = "disabled"; //stays commented during testing DOES NOT affect workflow of the platform
         }
     }
-
+    
     function commission() {
         let chairman = document.querySelector("select[name='data[commision][][chairman]']");
         let consult = document.querySelector("select[name='data[commision][][jurisconsult]']");
@@ -189,7 +192,7 @@ function auctionsCommission() {
         let tp = document.querySelector("input[name='data[title]']");
         let coNumber = document.querySelector("#coNumber");
         let coDate = document.querySelector("#coDate");
-
+        
         if (tp.value.includes("Алабак")) {
             input = "541,548,95";
             input = prompt(promptTitlefuntion(input), input);
@@ -334,11 +337,11 @@ function auctionsCommission() {
             coNumber.value = "З-01-" + prompt("Номер на заповед за комисия:");
             input = prompt("Въведете членове на комисията:");
         }
-
+        
         function promptTitlefuntion(ids) {
             let commUsers = ids.split(",");
             title = "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t" + tp.value.split("/")[0] + " " + document.querySelector("input[name='data[woodInfo][number][0]']").value + "\nНазначете комисия в състав: \n" + "ПРЕДСЕДАТЕЛ:" + name(commUsers[0]) + "\nЮРИСТ:" + name(commUsers[1]) + "\nЧЛЕНОВЕ:" + "\n" + name(commUsers[2]);
-
+            
             function name(n) {
                 for (i = 1; i < chairman.length; i++) {
                     const el = chairman[i];
@@ -351,7 +354,7 @@ function auctionsCommission() {
         }
 
         let commissionUsers = input.split(",");
-
+        
         chairman.value = commissionUsers[0].trim();
         consult.value = commissionUsers[1].trim();
         member[0].value = commissionUsers[2].trim();
@@ -361,13 +364,14 @@ function auctionsCommission() {
         console.log(coDate);
     }
     // commission();
+    console.log("------------------------END----------------------------auctionsCommission");
 }
 
 function cancelOrderCheck() {
-    console.log("cancelOrderCheck()");
+    console.log("-------------------------------------------------------cancelOrderCheck()");
     let docField = document.querySelector("#auctionDocuments").querySelectorAll('a');
     for (let i = 0; i < docField.length; i++) {
-        if (docField[i].innerHTML.includes("прекратяване")) {
+        if (docField[i].innerHTML.includes("Заповед за прекратяване")) {
             let order, date, tp, textToCopy;
             order = docField[i].title.split(".")[0].split(" ").pop();
             date = docField[i].innerText.split('/')[1].trim().split(" ")[0];
@@ -377,12 +381,13 @@ function cancelOrderCheck() {
             alert(textToCopy + "\n\n!!!\nтекстът е поставен в clipboard-а на ОС!\nПРОВЕРЕТЕ КОРЕКТНОСТТА НА ДАТАТА И ПРОМЕНЕТЕ ПРИ НЕОБХОДИМОСТ.\n!!!");
         }
     }
+    console.log("------------------------END----------------------------cancelOrderCheck()");
 }
 
 
 //needs changes for the new auctions!!!!
 function pubOrder() {
-    console.log("---pubOrder");
+    console.log("-------------------------------------------------------pubOrder");
     let today = new Date();
     let order;
     ooNumber = document.querySelector("#ooNumber");
@@ -408,10 +413,11 @@ function pubOrder() {
         }
     }
     ooNumber.value = order;
-
+    
     if (document.querySelector("#auctionDocuments").querySelectorAll('a').length === 1) {
         document.querySelector('button.btn.btn-success').click();
     }
+    console.log("------------------------END----------------------------pubOrder");
 }
 
 // naming uploaded documents when commission is assigned
@@ -420,20 +426,20 @@ function pubOrder() {
 function docNames() {
     console.log("-------------------------------------------------------docNames()");
     let firstByuerDocs = document.querySelectorAll("tbody")[5].querySelectorAll('a');
-    console.log(firstByuerDocs.length);
+    console.log("🚀 ~ file: auctionsForm.js:430 ~ docNames ~ firstByuerDocs:", firstByuerDocs.length)
     let docTable = document.querySelectorAll("tbody")[4];
     let docLinks = docTable.querySelectorAll("a");
-    console.log(docLinks.length);
+    console.log("🚀 ~ file: auctionsForm.js:433 ~ docNames ~ docLinks:", docLinks.length)
     let docInput = docTable.querySelectorAll("select");
     for (i = 0; i < docInput.length; i++) {
         let parentTr = docLinks[i].closest('tr');
         let parentTd = docLinks[i].closest('td');
-
+        
         let trID = parentTr.className.split('-')[2];
         const inputElement = document.createElement("input");
         inputElement.type = "hidden";
         inputElement.name = "fileType[" + trID + "]";
-
+        
         if (docLinks.length <= 2) { //NOT WORKING FOR SOME REASON NEEDS MORE TESTING
             if (docLinks[i].title.includes("Заповед")) {
                 docInput[i].value = "openOrder";
@@ -493,14 +499,15 @@ function docNames() {
             docInput[i].value = "agreement";
             inputElement.value = "agreement";
         }
-
+        
         if (docLinks[i].title.includes("Уведомление")) {
             docInput[i].value = "contractStop";
             inputElement.value = "contractStop";
         }
-
+        
         parentTd.appendChild(inputElement);
         // docInput[i].disabled = "disabled"; //stays commented during testing DOES NOT affect workflow of the platform
     }
-
+    
+    console.log("------------------------END----------------------------docNames()");
 }
