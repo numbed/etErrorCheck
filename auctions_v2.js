@@ -555,8 +555,8 @@ function main() {
                                 // console.log(element.number + "-------------------------------------------------");
                                 function documentCheck() {
                                     documentsList.forEach((element, index) => {
+                                        let fileA = [];
                                         if (index != 0) {
-                                            let fileA = [];
                                             fileA.push(element.innerHTML);
                                             // console.log(fileA.join("\n"));
                                             titleCell.innerHTML += "<br><b>" + fileA;

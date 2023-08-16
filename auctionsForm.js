@@ -11,7 +11,7 @@ function delay(time) {
 }
 
 if (commDateCheck() === true) {
-    docNames(); //TESTING
+    // docNames(); //TESTING    
     auctionsCommission();
 } else if (commDateCheck() === false) {
     pubOrderCheck();
@@ -38,25 +38,32 @@ if (docsSelect.length === 0) {
 function docsRename() {
     console.log("-------------------------------------------------------docRename()");
     let docs = document.querySelector("#auctionDocuments").querySelectorAll('a');
+    let promptValue = "";
     docs.forEach((el, index) => {
         if (index != 0) {
+            if (el.innerHTML.includes('изпълнител')) {
+                console.log("🚀 ~ file: auctionsForm.js:45 ~ docs.forEach ~ el.innerHTML.includes:", index, el.innerHTML);
+                promptValue = index;
+            }
             el.innerHTML = "[" + index + "] " + el.innerHTML;
         }
     })
-    
+
     delay(1000).then(() => rename());
+
     function rename() {
         if (confirm("RENAME documents?")) {
-            let docsIDS = prompt("enter document ids:");
-            if (docsIDS.includes(',') || docsIDS.includes('.')) {
-                docsIDS = docsIDS.split(/[,.]/);
+            let docIDS = prompt("enter document ids:", promptValue);
+            if (docIDS.includes(',') || docIDS.includes('.')) {
+                docIDS = docIDS.split(/[,.]/);
             }
-            
-            for (i = 0; i < docsIDS.length; i++) {
+
+            for (i = 0; i < docIDS.length; i++) {
                 docs.forEach((el, index) => {
-                    if (index == docsIDS[i]) {
-                        let parentTr = docs[docsIDS[i]].closest('tr');
-                        let parentTd = docs[docsIDS[i]].closest('td');
+                    if (index == docIDS[i]) {
+                        console.log("🚀 ~ file: auctionsForm.js:58 ~ docs.forEach ~ docIDS[i]:", i)
+                        let parentTr = docs[docIDS[i]].closest('tr');
+                        let parentTd = docs[docIDS[i]].closest('td');
                         let trID = parentTr.className.split('-')[2];
                         const inputElement = document.createElement("input");
                         inputElement.type = "hidden";
@@ -66,6 +73,19 @@ function docsRename() {
                     }
                 })
             }
+            // if (docIDS !="") {
+            //     if (isNaN(docIDS)) {
+            //         if (!isNaN(docIDS[0])) {
+            //             console.log("🚀 ~ file: Untitled-1:2 ~ docsIDS:", docIDS);
+            //             document.querySelector('button.btn.btn-success').click();
+            //         } else {
+            //             console.log("🚀 ~ file: Untitled-1:2 ~ docsIDS:", "NaN");
+            //         }
+            //     } else {
+            //         console.log("🚀 ~ file: Untitled-1:2 ~ docsIDS:", docIDS);
+            //         document.querySelector('button.btn.btn-success').click();
+            //     }
+            // }
         }
     }
     console.log("------------------------END----------------------------docRename()");
@@ -85,13 +105,13 @@ function auctionSave() {
     } else {
         console.log("save button not clicked");
     }
-    
+
     //auto calculation of guarantee
     function guaranteeCalc() {
         let moneyInput = document.querySelector("#auctionStartPrice").value;
         let guarantee = document.querySelector('#аuctionGuarantee');
         var result2 = Math.min(Number(moneyInput) * 0.05, moneyInput);
-        
+
         if (result2 > 999) {
             result2 = Math.floor(result2 / 100) * 100; // round to the nearest hundred
         } else if (result2 > 200 && result2 < 999) {
@@ -123,25 +143,25 @@ function commDateCheck() {
     let today = new Date();
     let commDateSTR = commissionDate(dateField).split(".");
     let commDate = new Date(commDateSTR[2], commDateSTR[1] - 1, commDateSTR[0]);
-    
+
     function commissionDate(aucDate) {
         let d = aucDate.split(".");
         let firstDate = new Date(d[2], d[1] - 1, d[0]);
         let cDate = new Date(d[2], d[1] - 1, d[0]);
         let date = new Date();
-        
+
         if (firstDate.getDay() == 1) {
             date = firstDate.getDate() - 3;
         } else {
             date = firstDate.getDate() - 1;
         }
-        
+
         cDate.setDate(date);
         let output = new Date();
         output = cDate.getDate() + "." + (cDate.getMonth() + 1) + "." + cDate.getFullYear();
         return output;
     }
-    
+
     console.log("------------------------END----------------------------commDateCheck()");
     if (commDate.setHours(0, 0, 0, 0) === today.setHours(0, 0, 0, 0)) {
         return true;
@@ -156,8 +176,9 @@ function auctionsCommission() {
     pubOrderCheck();
     let today = new Date();
     commission();
+    // docNames();
     docNamingInAuctionsCommission(); //ADDED document naming function because sth is not working in docNames()
-    
+
     function docNamingInAuctionsCommission() {
         let docTable = document.querySelectorAll("tbody")[4];
         let docLinks = docTable.querySelectorAll("a");
@@ -165,12 +186,12 @@ function auctionsCommission() {
         for (i = 0; i < docInput.length; i++) {
             let parentTr = docLinks[i].closest('tr');
             let parentTd = docLinks[i].closest('td');
-            
+
             let trID = parentTr.className.split('-')[2];
             const inputElement = document.createElement("input");
             inputElement.type = "hidden";
             inputElement.name = "fileType[" + trID + "]";
-            
+
             if (docLinks[i].title.includes("Заповед")) {
                 docInput[i].value = "openOrder";
                 inputElement.value = "openOrder";
@@ -183,7 +204,7 @@ function auctionsCommission() {
             // docInput[i].disabled = "disabled"; //stays commented during testing DOES NOT affect workflow of the platform
         }
     }
-    
+
     function commission() {
         let chairman = document.querySelector("select[name='data[commision][][chairman]']");
         let consult = document.querySelector("select[name='data[commision][][jurisconsult]']");
@@ -192,7 +213,7 @@ function auctionsCommission() {
         let tp = document.querySelector("input[name='data[title]']");
         let coNumber = document.querySelector("#coNumber");
         let coDate = document.querySelector("#coDate");
-        
+
         if (tp.value.includes("Алабак")) {
             input = "541,548,95";
             input = prompt(promptTitlefuntion(input), input);
@@ -337,11 +358,11 @@ function auctionsCommission() {
             coNumber.value = "З-01-" + prompt("Номер на заповед за комисия:");
             input = prompt("Въведете членове на комисията:");
         }
-        
+
         function promptTitlefuntion(ids) {
             let commUsers = ids.split(",");
             title = "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t" + tp.value.split("/")[0] + " " + document.querySelector("input[name='data[woodInfo][number][0]']").value + "\nНазначете комисия в състав: \n" + "ПРЕДСЕДАТЕЛ:" + name(commUsers[0]) + "\nЮРИСТ:" + name(commUsers[1]) + "\nЧЛЕНОВЕ:" + "\n" + name(commUsers[2]);
-            
+
             function name(n) {
                 for (i = 1; i < chairman.length; i++) {
                     const el = chairman[i];
@@ -354,7 +375,7 @@ function auctionsCommission() {
         }
 
         let commissionUsers = input.split(",");
-        
+
         chairman.value = commissionUsers[0].trim();
         consult.value = commissionUsers[1].trim();
         member[0].value = commissionUsers[2].trim();
@@ -413,7 +434,7 @@ function pubOrder() {
         }
     }
     ooNumber.value = order;
-    
+
     if (document.querySelector("#auctionDocuments").querySelectorAll('a').length === 1) {
         auctionSave();
     }
@@ -434,12 +455,12 @@ function docNames() {
     for (i = 0; i < docInput.length; i++) {
         let parentTr = docLinks[i].closest('tr');
         let parentTd = docLinks[i].closest('td');
-        
+
         let trID = parentTr.className.split('-')[2];
         const inputElement = document.createElement("input");
         inputElement.type = "hidden";
         inputElement.name = "fileType[" + trID + "]";
-        
+
         if (docLinks.length <= 2) { //NOT WORKING FOR SOME REASON NEEDS MORE TESTING
             if (docLinks[i].title.includes("Заповед")) {
                 docInput[i].value = "openOrder";
@@ -499,15 +520,16 @@ function docNames() {
             docInput[i].value = "agreement";
             inputElement.value = "agreement";
         }
-        
+
         if (docLinks[i].title.includes("Уведомление")) {
             docInput[i].value = "contractStop";
             inputElement.value = "contractStop";
         }
-        
+
         parentTd.appendChild(inputElement);
         // docInput[i].disabled = "disabled"; //stays commented during testing DOES NOT affect workflow of the platform
+        document.querySelector('button.btn.btn-success').click();
     }
-    
+
     console.log("------------------------END----------------------------docNames()");
 }
