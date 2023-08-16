@@ -638,6 +638,15 @@ function main() {
         for (let i = 0, row; row = auctionsTable.rows[i]; i++) {
             let titleCell = row.cells[5].innerHTML;
             let auctionLink = row.cells[7].querySelector('a').href;
+            let info = [];
+            let obj = {}
+            function docNameErrorCheck(type, text, link) {
+                if (titleCell.includes(type)) {
+                    console.log("🚀 ~ file: auctions_v2.js:645 ~ docNameErrorCheck ~ type:", type, text, link);
+                }
+            }
+            docNameErrorCheck('pdf', "unnamed files", auctionLink);
+
             if (titleCell.includes('pdf')) {
                 alert(row.cells[0].innerText + " unnamed files");
                 window.open(auctionLink, "_blank");
