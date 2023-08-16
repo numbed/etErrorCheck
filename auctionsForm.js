@@ -436,7 +436,8 @@ function pubOrder() {
     ooNumber.value = order;
 
     if (document.querySelector("#auctionDocuments").querySelectorAll('a').length === 1) {
-        auctionSave();
+        document.querySelector('button.btn.btn-success').click();
+        // auctionSave();
     }
     console.log("------------------------END----------------------------pubOrder");
 }

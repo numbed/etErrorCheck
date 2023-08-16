@@ -366,7 +366,6 @@ function main() {
 
                         let tooltip = docsTT + firstTT + secTT;
                         linkCell.querySelector('a').setAttribute('title', tooltip);
-                        console.log("🚀 ~ file: auctions_v2.js:369 ~ tooltip:", tooltip)
                         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                     }
                 }
@@ -534,6 +533,7 @@ function main() {
 
     //fileCheckTestFunction work in progress
     function fileCheckTestFunction() {
+        let loadedIframesCounter = 0;
         console.log("-------------------------------------------------------fileCheckTestFunction()");
         if (confirm("fileCheckTestFunction?")) {
             console.log("----------------------------CONFIRMED------------------fileCheckTestFunction()");
@@ -548,6 +548,7 @@ function main() {
                             let iFrame = document.getElementById(element.number);
                             iFrame.src = element.etLink;
                             iFrame.onload = function () {
+                                loadedIframesCounter += 1;
                                 let firstOrder = iFrame.contentWindow.document.querySelector("#auctionOrder").querySelectorAll("a");
                                 let secOrder = iFrame.contentWindow.document.querySelector("#auctionSecOrder").querySelectorAll("a");
                                 let documentsList = iFrame.contentWindow.document.querySelector("#auctionDocuments").querySelectorAll("a");
@@ -606,26 +607,30 @@ function main() {
                                     let guarantee = iFrame.contentWindow.document.querySelector("#аuctionGuarantee").value;
 
                                     let woodsInfo = "Е: " + woodsVolumes[1].value + " | С: " + woodsVolumes[2].value + " | Д: " + woodsVolumes[3].value + " | ОЗМ: " + woodsVolumes[4].value + " | ОГРЕВ: " + woodsVolumes[5].value + " | общо: " + woodsVolumes[6].value;
-                                    subjectCell.innerHTML +="<br><b>" + woodsInfo;
+                                    subjectCell.innerHTML += "<br><b>" + woodsInfo;
                                     const woodSpan = document.createElement('span');
                                     woodSpan.className = "tt";
                                     woodSpan.textContent = woodsInfo;
                                     subjectCell.appendChild(woodSpan);
 
-                                    let priceInfo = "\nстъпка: " + bidStep + "<br>"+" \nгаранция: " + guarantee;
-                                    priceCell.innerHTML +="<br><b>" + priceInfo;
+                                    let priceInfo = "\nстъпка: " + bidStep + "<br>" + " \nгаранция: " + guarantee;
+                                    priceCell.innerHTML += "<br><b>" + priceInfo;
                                     // const priceSpan = document.createElement('span');
                                     // priceSpan.className = "tt";
                                     // priceSpan.textContent = priceInfo;
                                     // priceCell.appendChild(priceSpan);
                                 }
                                 cellTooltip();
+                                //ensures that all frames are loaded *****TESTING*****
+                                if (loadedIframesCounter === auctions.length) {
+                                    checkForUnnamedFiles();
+                                }
                             }
+
                         }
                     }
                 }
             });
-            delay(12500).then(() => checkForUnnamedFiles());
         }
     }
     fileCheckTestFunction();
@@ -633,29 +638,39 @@ function main() {
     //checking for unnamed files, "perfOrder" two or more files named "Заповед за откриване" no contracts, and checks if auction without contract has canceling order
     function checkForUnnamedFiles() {
         console.log("-------------------------------------------------------checkForUnnamedFiles()");
-        let noContractArray = [];
+        let docsWithNameErrorsArray = [];
         let cancelOrderArray = [];
         for (let i = 0, row; row = auctionsTable.rows[i]; i++) {
             let titleCell = row.cells[5].innerHTML;
             let auctionLink = row.cells[7].querySelector('a').href;
             let info = [];
             let obj = {}
-            function docNameErrorCheck(type, text, link) {
-                if (titleCell.includes(type)) {
-                    console.log("🚀 ~ file: auctions_v2.js:645 ~ docNameErrorCheck ~ type:", type, text, link);
-                }
-            }
-            docNameErrorCheck('pdf', "unnamed files", auctionLink);
 
-            if (titleCell.includes('pdf')) {
-                alert(row.cells[0].innerText + " unnamed files");
-                window.open(auctionLink, "_blank");
+
+            if (titleCell.includes('pdf') || titleCell.includes('rar')) {
+                obj = {
+                    number: row.cells[0].innerText,
+                    error: "неименувани документи",
+                    link: auctionLink,
+                    count: (titleCell.includes('pdf') || []).length
+                }
+                docsWithNameErrorsArray.push(obj);
+                // alert(row.cells[0].innerText + " unnamed files");
+                // window.open(auctionLink, "_blank");
             }
             if ((titleCell.match(/откриване/g) || []).length > 1) {
-                alert(row.cells[0].innerText + " more than one 'Заповед за откриване'" + " [" + (titleCell.match(/откриване/g) || []).length + "]");
-                window.open(auctionLink, "_blank");
+                obj = {
+                    number: row.cells[0].innerText,
+                    error: "Заповед за откриване",
+                    link: auctionLink,
+                    count: (titleCell.match(/откриване/g) || []).length
+                }
+                docsWithNameErrorsArray.push(obj);
+                // alert(row.cells[0].innerText + " more than one 'Заповед за откриване'" + " [" + (titleCell.match(/откриване/g) || []).length + "]");
+                // window.open(auctionLink, "_blank");
             }
             if (titleCell.includes("прекратяване")) {
+
                 let obj = {
                     number: row.cells[0].innerText,
                     link: auctionLink
@@ -663,20 +678,58 @@ function main() {
                 cancelOrderArray.push(obj);
             }
             if (titleCell.includes('изпълнител')) {
-                alert(row.cells[0].innerText + " Заповед за изпълнител");
-                window.open(auctionLink, "_blank");
+                obj = {
+                    number: row.cells[0].innerText,
+                    error: "Заповед за изпълнител",
+                    link: auctionLink,
+                    count: (titleCell.includes('изпълнител') || []).length
+                }
+                docsWithNameErrorsArray.push(obj);
+                // alert(row.cells[0].innerText + " Заповед за изпълнител");
+                // window.open(auctionLink, "_blank");
             }
             if (!titleCell.includes("Договор") && !titleCell.includes("прекратяване")) {
-                let obj = {
+                obj = {
                     number: row.cells[0].innerText,
-                    link: auctionLink
+                    error: "липсва договор",
+                    link: auctionLink,
+                    count: ((!titleCell.includes("Договор") && !titleCell.includes("прекратяване")) || []).length
                 }
-                noContractArray.push(obj);
+                docsWithNameErrorsArray.push(obj);
+                // let obj = {
+                //     number: row.cells[0].innerText,
+                //     link: auctionLink
+                // }
+                // docsWithNameErrorsArray.push(obj);
             }
         }
-        if (noContractArray.length > 0) {
-            if (confirm("Open [" + noContractArray.length + "] auctions without CONTRACTS?")) {
-                noContractArray.forEach(el => {
+
+        //checks if there are auctions with errors stored in the array
+        if (docsWithNameErrorsArray.length > 0) {
+            let confirmText = "";
+            docsWithNameErrorsArray.forEach(el => {
+                if (el.count != undefined) {
+                    confirmText += "\n" + el.number + " - " + el.error + " - " + el.count;
+                } else {
+                    confirmText += "\n" + el.number + " - " + el.error;
+                }
+            });
+
+            //removing duplicate numbers so that each auction tab is only opened once
+            let newArray = [];
+            let uniqueObject = {};
+            for (let i in docsWithNameErrorsArray) {
+                let objNumber = docsWithNameErrorsArray[i]['number'];
+                uniqueObject[objNumber] = docsWithNameErrorsArray[i];
+            }
+            for (i in uniqueObject) {
+                newArray.push(uniqueObject[i]);
+            }
+
+            //tab opening after confirmation
+            if (confirm("[" + docsWithNameErrorsArray.length + "]" + confirmText)) {
+                console.log("🚀 ~ file: auctions_v2.js:732 ~ checkForUnnamedFiles ~ newArray:", newArray)
+                newArray.forEach(el => {
                     window.open(el.link, "_blank");
                 });
             }
