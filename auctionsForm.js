@@ -73,19 +73,19 @@ function docsRename() {
                     }
                 })
             }
-            // if (docIDS !="") {
-            //     if (isNaN(docIDS)) {
-            //         if (!isNaN(docIDS[0])) {
-            //             console.log("🚀 ~ file: Untitled-1:2 ~ docsIDS:", docIDS);
-            //             document.querySelector('button.btn.btn-success').click();
-            //         } else {
-            //             console.log("🚀 ~ file: Untitled-1:2 ~ docsIDS:", "NaN");
-            //         }
-            //     } else {
-            //         console.log("🚀 ~ file: Untitled-1:2 ~ docsIDS:", docIDS);
-            //         document.querySelector('button.btn.btn-success').click();
-            //     }
-            // }
+            if (docIDS !="") {
+                if (isNaN(docIDS)) {
+                    if (!isNaN(docIDS[0])) {
+                        console.log("🚀 ~ file: Untitled-1:2 ~ docsIDS:", docIDS);
+                        document.querySelector('button.btn.btn-success').click();
+                    } else {
+                        console.log("🚀 ~ file: Untitled-1:2 ~ docsIDS:", "NaN");
+                    }
+                } else {
+                    console.log("🚀 ~ file: Untitled-1:2 ~ docsIDS:", docIDS);
+                    document.querySelector('button.btn.btn-success').click();
+                }
+            }
         }
     }
     console.log("------------------------END----------------------------docRename()");
