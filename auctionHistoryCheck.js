@@ -16,6 +16,7 @@ function auctionHistoryCheck() {
     for (let i = 0, row; row = historyTableET.rows[i]; i++) {
         historyET[i] = {
             number: row.cells[0].innerText,
+            status: statusCheck(row.className),
             date: dateSplit(row.cells[4].innerText),
             TP: row.cells[1].innerText,
             obekt: objectSplit(row.cells[2].innerText),
@@ -24,6 +25,17 @@ function auctionHistoryCheck() {
             auctionHistoryLink: row.cells[8].getElementsByTagName("a")[0].href.split("/").pop()
         };
 
+    }
+
+    //historyET.status
+    function statusCheck(o) {
+        let output = "";
+        if (o === "danger") {
+            output = "danger";
+        } else {
+            output = 'none';
+        }
+        return output;
     }
 
     //historyET.obekt
@@ -49,6 +61,7 @@ function auctionHistoryCheck() {
         let dateBidObj = {};
         dateBidObj = {
             number: historyET[i].number,
+            status: historyET[i].status,
             date: historyET[i].date,
             TP: historyET[i].TP,
             obekt: historyET[i].obekt,
@@ -216,30 +229,50 @@ function auctionHistoryCheck() {
             }
         }
     }
-    auctionTabOpen2(todayAuctionsArray, "ДНЕС");
-    auctionTabOpen2(yesterdayAuctionsArray, "ВЧЕРА");
-    auctionTabOpen2(tomorrowAuctionsArray, "УТРЕ");
+    // auctionTabOpen2(todayAuctionsArray, "ДНЕС");
+    // auctionTabOpen2(yesterdayAuctionsArray, "ВЧЕРА");
+    // auctionTabOpen2(tomorrowAuctionsArray, "УТРЕ");
 
     //direct open for protocol and 1st buyer order
     function tabOpenProtocolandOrder(array, text) {
         if (array.length !== 0) {
-            if (confirm('Заличени протоколи и заповеди за първи купувач\n\nПроведени търгове ' + text + ': ' + array.length + "\r\nОтвори?")) {
+            arrayStatusCounter = 0;
+            array.forEach(el => {
+                if (el.status === "none") {
+                    arrayStatusCounter++;
+                }
+            })
+            if (confirm('Заличени протоколи и заповеди за първи купувач\n\nПроведени търгове ' + text + ': ' + arrayStatusCounter + "\r\nОтвори?")) {
                 console.log("OK");
                 let order = "https://auction.ucdp-smolian.com/au-admin/history/erasedOrder/";
                 let protocol = "https://auction.ucdp-smolian.com/au-admin/history/erasedProtocol/";
                 if (text == "УТРЕ") {
-                    let erasedDate = new Date().getDate() + "." + (new Date().getMonth()+1) + "." + new Date().getFullYear();
-                    for (i = 0; i < array.length; i++) {
-                        window.open(protocol + array[i].auctionHistoryLink + "/" + erasedDate, '_blank');
-                        window.open(order + array[i].auctionHistoryLink + "/" + erasedDate + "/?t=c", '_blank');
-                        window.open(array[i].auctionFormLink, '_blank');
-                    }
+                    let erasedDate = new Date().getDate() + "." + (new Date().getMonth() + 1) + "." + new Date().getFullYear();
+                    array.forEach(el => {
+                        if (el.status === 'none') {
+                            window.open(protocol + el.auctionHistoryLink + "/" + erasedDate, '_blank');
+                            window.open(order + el.auctionHistoryLink + "/" + erasedDate + "/?t=c", '_blank');
+                            window.open(el.auctionFormLink, '_blank');
+                        }
+                    })
+                    // for (i = 0; i < array.length; i++) {
+                    //     window.open(protocol + array[i].auctionHistoryLink + "/" + erasedDate, '_blank');
+                    //     window.open(order + array[i].auctionHistoryLink + "/" + erasedDate + "/?t=c", '_blank');
+                    //     window.open(array[i].auctionFormLink, '_blank');
+                    // }
                 } else {
-                    for (i = 0; i < array.length; i++) {
-                        window.open(protocol + array[i].auctionHistoryLink + "/" + array[i].date, '_blank');
-                        window.open(order + array[i].auctionHistoryLink + "/" + array[i].date + "/?t=b", '_blank');
-                        window.open(array[i].auctionFormLink, '_blank');
-                    }
+                    array.forEach(el => {
+                        if (el.status === 'none') {
+                            window.open(protocol + el.auctionHistoryLink + "/" + el.date, '_blank');
+                            window.open(order + el.auctionHistoryLink + "/" + el.date + "/?t=b", '_blank');
+                            window.open(el.auctionFormLink, '_blank');
+                        }
+                    })
+                    // for (i = 0; i < array.length; i++) {
+                    //     window.open(protocol + array[i].auctionHistoryLink + "/" + array[i].date, '_blank');
+                    //     window.open(order + array[i].auctionHistoryLink + "/" + array[i].date + "/?t=b", '_blank');
+                    //     window.open(array[i].auctionFormLink, '_blank');
+                    // }
                 }
             }
         }
