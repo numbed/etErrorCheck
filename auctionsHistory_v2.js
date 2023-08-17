@@ -4,13 +4,57 @@ let today = new Date();
 let table = document.querySelector('tbody').querySelectorAll('tr');
 let tableHeader = document.querySelector('thead');
 let auctions = [];
+// const count = {};
+/*auctions object keys
+ {  number: bidStatus: {future | today | past} status: {danger | ""}   date:   TP:   obekt:   etLink:   auctionFormLink:   auctionHistoryLink: } 
+*/
 
+arrayPopulate();
+console.log("🚀 ~ file: auctionsHistory_v2.js:12 ~ auctions:", auctions)
+frontPageStyling();
+tabOpen();
 
-auctionArrayPopulate();
-auctionsFrontPageStyling();
+function tabOpen() {
+    let order = "https://auction.ucdp-smolian.com/au-admin/history/erasedOrder/";
+    let protocol = "https://auction.ucdp-smolian.com/au-admin/history/erasedProtocol/";
+    let erasedDate = new Date().getDate() + "." + (new Date().getMonth() + 1) + "." + new Date().getFullYear();
+
+    if (confirm('Заличени протоколи и заповеди за първи купувач\nПроведени търгове: ' + (auctions.length - arrayCounter().danger) + "\r\nОтвори?")) {
+        if (arrayCounter().future > 0) {
+            if (confirm("FUTURE?")) {
+                newTab('future', 'c', erasedDate);
+            }
+        }
+        if (arrayCounter().today > 0) {
+            if (confirm("TODAY?")) {
+                newTab('today', 'b');
+            }
+        }
+        if (arrayCounter().past > 0) {
+            if (confirm("PAST?")) {
+                newTab('past', 'b');
+            }
+        }
+    }
+
+    function newTab(bidStatus, orderType, date) {
+        auctions.forEach(el => {
+            if (el.status === 'danger') {} else {
+                if (el.bidStatus === bidStatus) {
+                    if (date === undefined) {
+                        date = el.date;
+                    }
+                    console.log("🚀 ~ file: auctionsHistory_v2.js:29 ~ newTab ~ el.status:", el.number, el.date, el.bidStatus, bidStatus, orderType, date);
+                    // window.open(protocol + el.auctionHistoryLink + "/" + date, '_blank');
+                    // window.open(order + el.auctionHistoryLink + "/" + date + "/?t="+ orderType, '_blank');
+                }
+            }
+        })
+    }
+}
 
 //populating auctions[]
-function auctionArrayPopulate() {
+function arrayPopulate() {
     table.forEach(el => {
         let object = {
             number: el.cells[0].innerText,
@@ -59,11 +103,10 @@ function auctionArrayPopulate() {
         }
     }
     auctionBidStatusAdd();
-    console.log("🚀 ~ file: Untitled-1:19 ~ auctions:", auctions);
 }
 
-//auction front page info styling
-function auctionsFrontPageStyling() {
+//auction history front page info styling
+function frontPageStyling() {
 
     //coloring auctions page
     function colorfullRowsOutput(bidStatus, color, color2) {
@@ -86,50 +129,52 @@ function auctionsFrontPageStyling() {
             div.style.fontStyle = "italic";
             div.innerText = ("Проведени търгове: ");
 
-            const containerTodayAuctionsCount = document.createElement("span");
-            containerTodayAuctionsCount.id = "containerTodayAuctionsCount";
-            containerTodayAuctionsCount.style.color = "#2f4050";
-
-            const containerYesterdayAuctionsCount = document.createElement("span");
-            containerYesterdayAuctionsCount.id = "containerYesterdayAuctionsCount";
-            containerYesterdayAuctionsCount.style.color = "#D1462F";
-
-            const containerFutureAuctionsCount = document.createElement("span");
-            containerFutureAuctionsCount.id = "containerFutureAuctionsCount";
-            containerFutureAuctionsCount.style.color = "#2307fa";
-
-            div.appendChild(containerFutureAuctionsCount);
-            div.appendChild(containerTodayAuctionsCount);
-            div.appendChild(containerYesterdayAuctionsCount);
+            //appending child elements to tableHeader newly created div#auctionsOutput
+            function appendChildMultiple(parent, elementName, color) {
+                //check function argument is an element
+                if (parent.nodeType !== undefined) {
+                    const span = document.createElement("span");
+                    span.id = elementName;
+                    span.style.color = color;
+                    //finally append child to parent
+                    parent.appendChild(span);
+                }
+            }
+            appendChildMultiple(div, "futureBidStatus", "#2307fa"); //blue
+            appendChildMultiple(div, "spanSeparator");
+            appendChildMultiple(div, "todayBidStatus", "#2f4050"); //black
+            appendChildMultiple(div, "spanSeparator", );
+            appendChildMultiple(div, "pastBidStatus", "#D1462F"); //red
 
             tableHeader.rows[1].cells[3].appendChild(div);
 
+            //bidStatus counter frontpage info in tableHeader
             function frontPageAuctionInfo() {
-                let futureCount =0;
-                let todayCount=0;
-                let pastCount = 0;
-                auctions.forEach(el => {
-                    if (el.bidStatus === 'future') {
-                        futureCount++;
-                    }
-                    if (el.bidStatus === 'today') {
-                        todayCount++;
-                    }
-                    if (el.bidStatus === 'past') {
-                        pastCount++;
-                    }
-
-                })
-
-                let futureInfo = ("бъдещи: " + futureCount + " | ");
-                let todayInfo = ("днешни: " + todayCount + " | ");
-                let yesterdayInfo = ("минали: " + pastCount);
-                document.getElementById("containerTodayAuctionsCount").innerText = todayInfo;
-                document.getElementById("containerYesterdayAuctionsCount").innerText = yesterdayInfo;
-                document.getElementById("containerFutureAuctionsCount").innerText = futureInfo;
+                let futureInfo = ("бъдещи: " + arrayCounter().future);
+                let todayInfo = ("днешни: " + arrayCounter().today);
+                let yesterdayInfo = ("минали: " + arrayCounter().past);
+                document.getElementById("futureBidStatus").innerText = futureInfo;
+                document.getElementById("todayBidStatus").innerText = todayInfo;
+                document.getElementById("pastBidStatus").innerText = yesterdayInfo;
+                document.querySelectorAll("#spanSeparator").forEach(el => {
+                    el.innerText = " | ";
+                });
             }
             frontPageAuctionInfo();
         }
     }
     tableHeaderInfo();
+
+
+    //end
+}
+
+//arrayCounter counter
+function arrayCounter() {
+    const count = {};
+    auctions.forEach(el => {
+        count[el.bidStatus] = (count[el.bidStatus] || 0) + 1;
+        count[el.status] = (count[el.status] || 0) + 1;
+    });
+    return count;
 }
