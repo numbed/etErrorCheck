@@ -106,23 +106,25 @@ function auctionSave() {
         console.log("save button not clicked");
     }
 
-    //auto calculation of guarantee
-    function guaranteeCalc() {
-        let moneyInput = document.querySelector("#auctionStartPrice").value;
-        let guarantee = document.querySelector('#аuctionGuarantee');
-        var result2 = Math.min(Number(moneyInput) * 0.05, moneyInput);
-
-        if (result2 > 999) {
-            result2 = Math.floor(result2 / 100) * 100; // round to the nearest hundred
-        } else if (result2 > 200 && result2 < 999) {
-            result2 = Math.floor(result2 / 10) * 10; // round to the nearest ten
-        } else {
-            result2 = Math.floor(result2 / 1) * 1;
-        }
-
-        guarantee.value = result2.toFixed(2);
-    }
     console.log("------------------------END----------------------------auctionSave()");
+}
+//auto calculation of guarantee
+function guaranteeCalc() {
+    console.log("-------------------------------------------------------guaranteeCalc()");
+    let moneyInput = document.querySelector("#auctionStartPrice").value;
+    let guarantee = document.querySelector('#аuctionGuarantee');
+    var result2 = Math.min(Number(moneyInput) * 0.05, moneyInput);
+
+    if (result2 > 999) {
+        result2 = Math.floor(result2 / 100) * 100; // round to the nearest hundred
+    } else if (result2 > 200 && result2 < 999) {
+        result2 = Math.floor(result2 / 10) * 10; // round to the nearest ten
+    } else {
+        result2 = Math.floor(result2 / 1) * 1;
+    }
+
+    guarantee.value = result2.toFixed(2);
+    console.log("🚀 ~ file: auctionsForm.js:124 ~ guaranteeCalc ~ result2:", result2)
 }
 
 function pubOrderCheck() {
@@ -436,8 +438,8 @@ function pubOrder() {
     ooNumber.value = order;
 
     if (document.querySelector("#auctionDocuments").querySelectorAll('a').length === 1) {
-        document.querySelector('button.btn.btn-success').click();
-        // auctionSave();
+        auctionSave();
+        // document.querySelector('button.btn.btn-success').click();
     }
     console.log("------------------------END----------------------------pubOrder");
 }
