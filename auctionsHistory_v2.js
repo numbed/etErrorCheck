@@ -6,50 +6,44 @@ let tableHeader = document.querySelector('thead');
 let auctions = [];
 // const count = {};
 /*auctions object keys
- {  number: bidStatus: {future | today | past} status: {danger | ""}   date:   TP:   obekt:   etLink:   auctionFormLink:   auctionHistoryLink: } 
+{  number: bidStatus: {future | today | past} status: {danger | ""}  date:  TP:  obekt:  etLink:  auctionFormLink:  auctionHistoryLink: } 
 */
 
 arrayPopulate();
-console.log("🚀 ~ file: auctionsHistory_v2.js:12 ~ auctions:", auctions)
+iframeCreation();
 frontPageStyling();
-tabOpen();
+// tabOpen();
+//creating iframes for every auction that is not in "danger"
+function iframeCreation() {
 
-function tabOpen() {
-    let order = "https://auction.ucdp-smolian.com/au-admin/history/erasedOrder/";
-    let protocol = "https://auction.ucdp-smolian.com/au-admin/history/erasedProtocol/";
-    let erasedDate = new Date().getDate() + "." + (new Date().getMonth() + 1) + "." + new Date().getFullYear();
-
-    if (confirm('Заличени протоколи и заповеди за първи купувач\nПроведени търгове: ' + (auctions.length - arrayCounter().danger) + "\r\nОтвори?")) {
-        if (arrayCounter().future > 0) {
-            if (confirm("FUTURE?")) {
-                newTab('future', 'c', erasedDate);
-            }
-        }
-        if (arrayCounter().today > 0) {
-            if (confirm("TODAY?")) {
-                newTab('today', 'b');
-            }
-        }
-        if (arrayCounter().past > 0) {
-            if (confirm("PAST?")) {
-                newTab('past', 'b');
-            }
-        }
-    }
-
-    function newTab(bidStatus, orderType, date) {
-        auctions.forEach(el => {
-            if (el.status === 'danger') {} else {
-                if (el.bidStatus === bidStatus) {
-                    if (date === undefined) {
-                        date = el.date;
+    //creating iFrame elements if there are none
+    //MUST DO - creating of the iFrame has to happen only once, and script should run without page refreshing
+    if (document.querySelectorAll("iFrame").length === 0) {
+        let framesLoadedCounter = 0;
+        let orders;
+        auctions.forEach((el, index) => {
+            if (el.status != 'danger') {
+                const iFrame = document.createElement('iFrame');
+                iFrame.id = el.number;
+                iFrame.style.display = 'none';
+                table[index].cells[0].appendChild(iFrame);
+                iFrame.src = el.etLink;
+                iFrame.onload = function () {
+                    framesLoadedCounter += 1;
+                    orders = iFrame.contentWindow.document.querySelectorAll("label")[10].closest('div').querySelectorAll('tr');
+                    if (orders.length > 0) {
+                        el.numberOfOrders = orders.length;
+                        table[index].cells[8].style.backgroundColor = "green";
                     }
-                    console.log("🚀 ~ file: auctionsHistory_v2.js:29 ~ newTab ~ el.status:", el.number, el.date, el.bidStatus, bidStatus, orderType, date);
-                    // window.open(protocol + el.auctionHistoryLink + "/" + date, '_blank');
-                    // window.open(order + el.auctionHistoryLink + "/" + date + "/?t="+ orderType, '_blank');
+
+                    //ensures that all frames are loaded before executing tabOpen();
+                    if (notInDangerTotal() === framesLoadedCounter) {
+                        console.log("🚀 ~ file: auctionsHistory_v2.js:7 ~ auctions:", auctions)
+                        // tabOpen();
+                    }
                 }
             }
-        })
+        });
     }
 }
 
@@ -76,7 +70,7 @@ function arrayPopulate() {
     });
 
     //adding bidStatus to auctions[]
-    function auctionBidStatusAdd(params) {
+    function auctionBidStatusAdd() {
         auctions.forEach(el => {
             el.bidStatus = bidStatusCheck(el.date);
         });
@@ -95,7 +89,7 @@ function arrayPopulate() {
 
             if (firstDate.setHours(0, 0, 0, 0) == today.setHours(0, 0, 0, 0)) {
                 return 'today';
-            } else if (firstDate.setHours(0, 0, 0, 0) == yesterday.setHours(0, 0, 0, 0)) {
+            } else if (firstDate.setHours(0, 0, 0, 0) <= yesterday.setHours(0, 0, 0, 0)) {
                 return 'past';
             } else if (firstDate.setHours(0, 0, 0, 0) >= tomorrow.setHours(0, 0, 0, 0)) {
                 return 'future';
@@ -103,6 +97,38 @@ function arrayPopulate() {
         }
     }
     auctionBidStatusAdd();
+}
+//creating iframes for every auction that is not in "danger"
+function iframeCreation() {
+
+    //creating iFrame elements if there are none
+    //MUST DO - creating of the iFrame has to happen only once, and script should run without page refreshing
+    if (document.querySelectorAll("iFrame").length === 0) {
+        let framesLoadedCounter = 0;
+        let orders;
+        auctions.forEach((el, index) => {
+            if (el.status != 'danger') {
+                const iFrame = document.createElement('iFrame');
+                iFrame.id = el.number;
+                iFrame.style.display = 'none';
+                table[index].cells[0].appendChild(iFrame);
+                iFrame.src = el.etLink;
+                iFrame.onload = function () {
+                    framesLoadedCounter += 1;
+                    orders = iFrame.contentWindow.document.querySelectorAll("label")[10].closest('div').querySelectorAll('tr');
+                    if (orders.length > 0) {
+                        el.numberOfOrders = orders.length;
+                        table[index].cells[8].style.backgroundColor = "green";
+                    }
+
+                    //ensures that all frames are loaded before executing tabOpen();
+                    if (notInDangerTotal() === framesLoadedCounter) {
+                        tabOpen();
+                    }
+                }
+            }
+        });
+    }
 }
 
 //auction history front page info styling
@@ -116,9 +142,9 @@ function frontPageStyling() {
             }
         });
     }
-    colorfullRowsOutput("future", "#2307fa", "white");
-    colorfullRowsOutput("today", "#2f4050", "white");
-    colorfullRowsOutput("past", "#D1462F", "white");
+    colorfullRowsOutput("future", "#2307fa", "white"); //blue
+    colorfullRowsOutput("today", "#e4ed85", "white"); //yellow
+    colorfullRowsOutput("past", "#D1462F", "white"); //red
 
     function tableHeaderInfo() {
         let info = tableHeader.rows[1].cells[3];
@@ -165,11 +191,52 @@ function frontPageStyling() {
     }
     tableHeaderInfo();
 
-
     //end
 }
 
-//arrayCounter counter
+function tabOpen() {
+    let order = "https://auction.ucdp-smolian.com/au-admin/history/erasedOrder/";
+    let protocol = "https://auction.ucdp-smolian.com/au-admin/history/erasedProtocol/";
+    let erasedDate = new Date().getDate() + "." + (new Date().getMonth() + 1) + "." + new Date().getFullYear();
+
+    //NEEDS CHECK if future, today, past auctions allready has documents ---- MAYBE CHANGES SHOULD BE MADE in auctionsNotInDanger()
+    if (notInDangerTotal() > 0) {
+        if (confirm('Заличени протоколи и заповеди за първи купувач\nПроведени търгове: ' + notInDangerTotal() + " бр.\r\nОтвори?")) {
+            if (auctionsNotInDanger().future > 0) {
+                if (confirm("Бъдещи търгове: " + auctionsNotInDanger().future + " бр.\nОтвори?")) {
+                    newTab('future', 'c', erasedDate);
+                }
+            }
+            if (auctionsNotInDanger().today > 0) {
+                if (confirm("Днешни търгове: " + auctionsNotInDanger().today + " бр.\nОтвори?")) {
+                    newTab('today', 'b');
+                }
+            }
+            if (auctionsNotInDanger().past > 0) {
+                if (confirm("Минали търгове: " + auctionsNotInDanger().past + " бр.\nОтвори?")) {
+                    newTab('past', 'b');
+                }
+            }
+        }
+    }
+
+    function newTab(bidStatus, orderType, date) {
+        auctions.forEach(el => {
+            if (el.status === 'danger') {} else {
+                if (el.bidStatus === bidStatus && el.numberOfOrders === 0) {
+                    if (date === undefined) {
+                        date = el.date;
+                    }
+                    window.open(protocol + el.auctionHistoryLink + "/" + date, '_blank');
+                    window.open(order + el.auctionHistoryLink + "/" + date + "/?t=" + orderType, '_blank');
+                    window.open(el.auctionFormLink, '_blank');
+                }
+            }
+        })
+    }
+}
+
+//status & bidStatus counter for all auctions  
 function arrayCounter() {
     const count = {};
     auctions.forEach(el => {
@@ -177,4 +244,30 @@ function arrayCounter() {
         count[el.status] = (count[el.status] || 0) + 1;
     });
     return count;
+}
+
+//counter for auctions that are not in "danger"
+//check for uploaded files to be added - will not count auctions that have already uploaded results (solution with iframes check)
+function auctionsNotInDanger() {
+    const count = {};
+    auctions.forEach(el => {
+        if (el.status != "danger") {
+            count[el.bidStatus] = (count[el.bidStatus] || 0) + 1;
+        }
+    });
+    return count;
+}
+
+function notInDangerTotal() {
+    let output = 0;
+    if (!isNaN(auctionsNotInDanger().future)) {
+        output += Number(auctionsNotInDanger().future);
+    }
+    if (!isNaN(auctionsNotInDanger().today)) {
+        output += Number(auctionsNotInDanger().today);
+    }
+    if (!isNaN(auctionsNotInDanger().past)) {
+        output += Number(auctionsNotInDanger().past);
+    }
+    return output;
 }
