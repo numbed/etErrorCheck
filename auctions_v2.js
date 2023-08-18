@@ -444,6 +444,7 @@ function main() {
                     auctionsTable.rows[i].cells[4].style.color = "white";
                 }
                 if (auctions[i].type == "к" || auctions[i].type == "ецп") {
+                    console.log("🚀 ~ file: auctions_v2.js:454 ~ auctions[i].branch:", auctions[i].number, auctions[i].branch, auctions[i].type)
                     auctionsTable.rows[i].style.backgroundColor = "black";
                     auctionsTable.rows[i].style.color = "white";
                 }
@@ -451,6 +452,7 @@ function main() {
                 for (let j = 0; j < auctions.length; j++) {
                     if (i !== j) {
                         if (auctions[i].date === auctions[j].date && auctions[i].branch === auctions[j].branch) {
+                            console.log("🚀 ~ file: auctions_v2.js:454 ~ auctions[i].branch:", auctions[i].number,"/", auctions[j].number, auctions[i].branch, auctions[j].branch)
                             auctionsTable.rows[i].style.backgroundColor = "#B21368";
                             auctionsTable.rows[i].style.color = "#EFD3B5";
                         }
