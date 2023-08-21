@@ -9,7 +9,7 @@ let tableHeader = document.querySelector('thead');
 let auctions = [];
 let framesLoadedCounter = 0;
 /*auctions object keys
-{  number: bidStatus: {future | today | past} status: {danger | ""}  date:  TP:  obekt:  etLink:  auctionFormLink:  auctionHistoryLink: } 
+{  number: bidStatus: {future | today | past} status: {danger | ""}  date:  TP:  obekt:  auctionFormLink:  auctionHistoryLink: } 
 */
 
 arrayPopulate();
@@ -30,7 +30,7 @@ function iframeCreation() {
                 iFrame.id = el.number;
                 iFrame.style.display = 'none';
                 table[index].cells[0].appendChild(iFrame);
-                iFrame.src = el.etLink;
+                iFrame.src = el.auctionHistoryLink;
                 iFrame.onload = function () {
                     framesLoadedCounter += 1;
                     orders = iFrame.contentWindow.document.querySelectorAll("label")[10].closest('div').querySelectorAll('tr');
@@ -58,7 +58,6 @@ function arrayPopulate() {
             date: dateSplit(el.cells[4].innerHTML), //table.date
             TP: el.cells[1].innerText,
             obekt: el.cells[2].innerText.split("/")[1].trim().split(' ').pop(),
-            etLink: "https://auction.ucdp-smolian.com/au-admin/history/review/" + el.cells[0].innerText.slice(-4),
             auctionFormLink: "https://auction.ucdp-smolian.com/au-admin/auctions/form/" + el.cells[0].innerText.slice(-4),
             auctionHistoryLink: el.cells[8].getElementsByTagName("a")[0].href.split("/").pop(),
         }
