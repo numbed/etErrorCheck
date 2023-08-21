@@ -9,7 +9,7 @@ let tableHeader = document.querySelector('thead');
 let auctions = [];
 let framesLoadedCounter = 0;
 /*auctions object keys
-{  number: bidStatus: {future | today | past} status: {danger | ""}  date:  TP:  obekt:  auctionFormLink:  auctionHistoryLink: } 
+{  number: bidStatus: {future | today | past} status: {danger | ""}  date:  TP:  obekt:  auctionFormLink:  auctionLink: } 
 */
 
 arrayPopulate();
@@ -19,6 +19,7 @@ frontPageStyling();
 //creating iframes for every auction that is not in "danger"
 
 function iframeCreation() {
+console.log("🚀 ~ file: auctionsHistory_v2.js:22 ~ iframeCreation ~ iframeCreation:")
 
     //creating iFrame elements if there are none
     //MUST DO - creating of the iFrame has to happen only once, and script should run without page refreshing
@@ -30,7 +31,7 @@ function iframeCreation() {
                 iFrame.id = el.number;
                 iFrame.style.display = 'none';
                 table[index].cells[0].appendChild(iFrame);
-                iFrame.src = el.auctionHistoryLink;
+                iFrame.src = el.auctionHistoryFormLink;
                 iFrame.onload = function () {
                     framesLoadedCounter += 1;
                     orders = iFrame.contentWindow.document.querySelectorAll("label")[10].closest('div').querySelectorAll('tr');
@@ -40,6 +41,7 @@ function iframeCreation() {
                     }
 
                     //ensures that all frames are loaded before executing tabOpen();
+                    console.log("🚀 ~ file: auctionsHistory_v2.js:44 ~ auctions.forEach ~ framesLoadedCounter:", framesLoadedCounter,notInDangerTotal())
                     if (framesLoadedCounter === notInDangerTotal()) {
                         tabOpen();
                     }
@@ -60,7 +62,8 @@ function arrayPopulate() {
             TP: el.cells[1].innerText,
             obekt: el.cells[2].innerText.split("/")[1].trim().split(' ').pop(),
             auctionFormLink: "https://auction.ucdp-smolian.com/au-admin/auctions/form/" + el.cells[0].innerText.slice(-4),
-            auctionHistoryLink: el.cells[8].getElementsByTagName("a")[0].href.split("/").pop(),
+            auctionHistoryFormLink: "https://auction.ucdp-smolian.com/au-admin/history/review/" + el.cells[0].innerText.slice(-4),
+            auctionLink: el.cells[8].getElementsByTagName("a")[0].href.split("/").pop(),
         }
         //table.date
         function dateSplit(input) {
@@ -197,8 +200,8 @@ function tabOpen() {
                     }
                     if (el.numberOfOrders === undefined) {
                         console.table(el.number, el.numberOfOrders, bidStatus, orderType, date);
-                        window.open(protocol + el.auctionHistoryLink + "/" + date, '_blank');
-                        window.open(order + el.auctionHistoryLink + "/" + date + "/?t=" + orderType, '_blank');
+                        window.open(protocol + el.auctionLink + "/" + date, '_blank');
+                        window.open(order + el.auctionLink + "/" + date + "/?t=" + orderType, '_blank');
                         window.open(el.auctionFormLink, '_blank');
                     }
                 }
