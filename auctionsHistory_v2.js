@@ -1,25 +1,28 @@
+//21.08.23 PROCEEDS TO REALTIME TESTING
+//21.08.23 NEEDS WORK WITH auction uploaded orders, and correct notInDangerTotal() output in confirm dialogs
+
 console.clear();
 console.log("history check v2");
 let today = new Date();
 let table = document.querySelector('tbody').querySelectorAll('tr');
 let tableHeader = document.querySelector('thead');
 let auctions = [];
-// const count = {};
+let framesLoadedCounter = 0;
 /*auctions object keys
 {  number: bidStatus: {future | today | past} status: {danger | ""}  date:  TP:  obekt:  etLink:  auctionFormLink:  auctionHistoryLink: } 
 */
 
 arrayPopulate();
-iframeCreation();
+iframeCreation(); // <---- tabOpen();
 frontPageStyling();
-// tabOpen();
+
 //creating iframes for every auction that is not in "danger"
+
 function iframeCreation() {
 
     //creating iFrame elements if there are none
     //MUST DO - creating of the iFrame has to happen only once, and script should run without page refreshing
     if (document.querySelectorAll("iFrame").length === 0) {
-        let framesLoadedCounter = 0;
         let orders;
         auctions.forEach((el, index) => {
             if (el.status != 'danger') {
@@ -37,9 +40,8 @@ function iframeCreation() {
                     }
 
                     //ensures that all frames are loaded before executing tabOpen();
-                    if (notInDangerTotal() === framesLoadedCounter) {
-                        console.log("🚀 ~ file: auctionsHistory_v2.js:7 ~ auctions:", auctions)
-                        // tabOpen();
+                    if (framesLoadedCounter === notInDangerTotal()) {
+                        tabOpen();
                     }
                 }
             }
@@ -97,38 +99,6 @@ function arrayPopulate() {
         }
     }
     auctionBidStatusAdd();
-}
-//creating iframes for every auction that is not in "danger"
-function iframeCreation() {
-
-    //creating iFrame elements if there are none
-    //MUST DO - creating of the iFrame has to happen only once, and script should run without page refreshing
-    if (document.querySelectorAll("iFrame").length === 0) {
-        let framesLoadedCounter = 0;
-        let orders;
-        auctions.forEach((el, index) => {
-            if (el.status != 'danger') {
-                const iFrame = document.createElement('iFrame');
-                iFrame.id = el.number;
-                iFrame.style.display = 'none';
-                table[index].cells[0].appendChild(iFrame);
-                iFrame.src = el.etLink;
-                iFrame.onload = function () {
-                    framesLoadedCounter += 1;
-                    orders = iFrame.contentWindow.document.querySelectorAll("label")[10].closest('div').querySelectorAll('tr');
-                    if (orders.length > 0) {
-                        el.numberOfOrders = orders.length;
-                        table[index].cells[8].style.backgroundColor = "green";
-                    }
-
-                    //ensures that all frames are loaded before executing tabOpen();
-                    if (notInDangerTotal() === framesLoadedCounter) {
-                        tabOpen();
-                    }
-                }
-            }
-        });
-    }
 }
 
 //auction history front page info styling
@@ -204,16 +174,19 @@ function tabOpen() {
         if (confirm('Заличени протоколи и заповеди за първи купувач\nПроведени търгове: ' + notInDangerTotal() + " бр.\r\nОтвори?")) {
             if (auctionsNotInDanger().future > 0) {
                 if (confirm("Бъдещи търгове: " + auctionsNotInDanger().future + " бр.\nОтвори?")) {
+                    // console.log("🚀 ~ file: auctionsHistory_v2.js:208 ~ tabOpen ~ future:")
                     newTab('future', 'c', erasedDate);
                 }
             }
             if (auctionsNotInDanger().today > 0) {
                 if (confirm("Днешни търгове: " + auctionsNotInDanger().today + " бр.\nОтвори?")) {
+                    // console.log("🚀 ~ file: auctionsHistory_v2.js:213 ~ tabOpen ~ today:")
                     newTab('today', 'b');
                 }
             }
             if (auctionsNotInDanger().past > 0) {
                 if (confirm("Минали търгове: " + auctionsNotInDanger().past + " бр.\nОтвори?")) {
+                    // console.log("🚀 ~ file: auctionsHistory_v2.js:218 ~ tabOpen ~ past:")
                     newTab('past', 'b');
                 }
             }
@@ -223,13 +196,16 @@ function tabOpen() {
     function newTab(bidStatus, orderType, date) {
         auctions.forEach(el => {
             if (el.status === 'danger') {} else {
-                if (el.bidStatus === bidStatus && el.numberOfOrders === 0) {
+                if (el.bidStatus === bidStatus) {
                     if (date === undefined) {
                         date = el.date;
                     }
-                    window.open(protocol + el.auctionHistoryLink + "/" + date, '_blank');
-                    window.open(order + el.auctionHistoryLink + "/" + date + "/?t=" + orderType, '_blank');
-                    window.open(el.auctionFormLink, '_blank');
+                    if (el.numberOfOrders === undefined) {
+                        console.table(el.number, el.numberOfOrders, bidStatus, orderType, date);
+                        window.open(protocol + el.auctionHistoryLink + "/" + date, '_blank');
+                        window.open(order + el.auctionHistoryLink + "/" + date + "/?t=" + orderType, '_blank');
+                        window.open(el.auctionFormLink, '_blank');
+                    }
                 }
             }
         })
@@ -252,11 +228,14 @@ function auctionsNotInDanger() {
     const count = {};
     auctions.forEach(el => {
         if (el.status != "danger") {
+            // if (el.numberOfOrders === undefined) { //NOT WORKING FOR NOW, NEEDS MORE TESTING | CHECK ADDED IN newTab()
             count[el.bidStatus] = (count[el.bidStatus] || 0) + 1;
+            // }
         }
     });
     return count;
 }
+console.log("🚀 ~ file: auctionsHistory_v2.js:232 ~ auctionsNotInDanger ~ auctionsNotInDanger():", auctionsNotInDanger())
 
 function notInDangerTotal() {
     let output = 0;
