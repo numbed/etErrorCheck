@@ -1,394 +1,61 @@
-function main() {
-    console.log("auctions v3");
-    let aucTable = document.querySelector("tbody");
-    document.querySelector("thead").rows[1].cells[3].innerText = "Краен срок за записване\n" + "Краен срок за публикуване";
-    const auctions = [];
-    let today = new Date();
+console.clear();
+console.log("auctions v3");
+let today = new Date();
+let table = document.querySelector('tbody').querySelectorAll('tr');
+let tableHeader = document.querySelector('thead');
+let auctions = [];
+let framesLoadedCounter = 0;
 
-    function delay(time) {
-        return new Promise(resolve => setTimeout(resolve, time));
-    }
+arrayPopulate();
+console.log("🚀 ~ file: auctions_v3.js:10 ~ auctions:", auctions)
 
-    //document.head - add mousover tooltip on cells 
-    document.head.insertAdjacentHTML("beforeend", `<style>
-        td.hidden-xs {
-            position: relative;
+//populating auctions[]
+function arrayPopulate() {
+    table.forEach(el => {
+        let object = {
+            number: el.cells[0].innerText,
+            status: el.className,
+            date: dateSplit(el.cells[3].innerHTML), //table.date
+            TP: el.cells[1].innerText,
+            obekt: el.cells[5].innerText.split("/")[1].trim().split(' ').pop(),
+            auctionFormLink: "https://auction.ucdp-smolian.com/au-admin/auctions/form/" + el.cells[0].innerText.slice(-4),
+            auctionHistoryLink: "https://auction.ucdp-smolian.com/au-admin/history/review/" + el.cells[0].innerText.slice(-4),
         }
-        .tt{
-            display: none;
-            position: absolute; 
-            z-index: 100;
-            border: 1px;
-            background-color: white;
-            border: 1px solid green;
-            padding: 3px;
-            color: green; 
-            top: 20px; 
-            left: 20px;
+        //table.date
+        function dateSplit(input) {
+            let dateInput = input.split(' ')[0].trim().split('.');
+            let firstDate = new Date(dateInput[2], dateInput[1] - 1, dateInput[0]);
+            return firstDate.getDate() + "." + (firstDate.getMonth() + 1) + "." + firstDate.getFullYear();
         }
-            td.hidden-xs:hover .tt{
-                display:block;
-            }
-        </style>`);
+        auctions.push(object);
+    });
 
-    //auction table cell variable assing & auction array fill & visual changes
-    for (let i = 0, row; row = aucTable.rows[i]; i++) {
-        let numberCell = row.cells[0];
-        let dateCell = row.cells[2];
-        let endDateCell = row.cells[3];
-        let subjectCell = row.cells[4];
-        let branchCell = row.cells[5];
-        let priceCell = row.cells[6];
-        let linkCell = row.cells[7];
-        let lastCell = row.cells[8];
+    //adding bidStatus to auctions[]
+    function auctionBidStatusAdd() {
+        auctions.forEach(el => {
+            el.bidStatus = bidStatusCheck(el.date);
+        });
 
-        auctions[i] = {
-            number: numberCell.innerText,
-            date: dateCell.innerText,
-            deadline: calculateDeadline(dateCell.innerText),
-            type: typeCheck(subjectCell.innerText),
-            subject: subjectCheck(subjectCell.innerText),
-            branch: branchCheck(branchCell.innerText),
-            etLink: "https://auction.ucdp-smolian.com/au-admin/auctions/form/" + numberCell.innerText.slice(-4),
-            object: objectCheck(branchCell.innerText),
-            commission: commissionDate(dateCell.innerText),
-            status: statusCheck(calculateDeadline(dateCell.innerText), commissionDate(dateCell.innerText))
-        };
+        function bidStatusCheck(input) {
+            let firstDate = new Date(input.split(' ')[0].trim().split('.')[2], input.split(' ')[0].trim().split('.')[1] - 1, input.split(' ')[0].trim().split('.')[0]);
+            let tomorrow = new Date();
+            tomorrow.setDate(today.getDate() + 1);
+            let yesterday = new Date();
 
-        //auctions.commission
-        function commissionDate(c) {
-            let d = c.split(" ");
-            d = d[0].trim();
-            d = d.split(".");
-            let firstDate = new Date(d[2], d[1] - 1, d[0]);
-            let commDate = new Date(d[2], d[1] - 1, d[0]);
-            let date = new Date();
-
-            if (firstDate.getDay() == 1) {
-                date = firstDate.getDate() - 3;
+            if (today.getDay() === 1) {
+                yesterday.setDate(yesterday.getDate() - 3);
             } else {
-                date = firstDate.getDate() - 1;
+                yesterday.setDate(yesterday.getDate() - 1);
             }
 
-            commDate.setDate(date);
-            let output = new Date();
-            output = commDate.getDate() + "." + (commDate.getMonth() + 1) + "." + commDate.getFullYear();
-            return output;
-        }
-
-        //auctions.subject
-        function subjectCheck(s) {
-            let output;
-            if (s.includes("действително")) {
-                output = "ДД";
-            } else if (s.includes("корен")) {
-                output = "K";
-            } else if (s.includes("прогнозни")) {
-                output = "П";
-            }
-            return output;
-        }
-
-        //auctions.type
-        function typeCheck(t) {
-            let output;
-            if (t.includes("конкурс")) {
-                output = "к";
-            } else if (t.includes("наддаване")) {
-                output = "т";
-            } else if (t.includes("ценово")) {
-                output = "ецп";
-            }
-            return output;
-        }
-
-        //auctions.object
-        function objectCheck(o) {
-            let output = o.split("/");
-            output = output[1].trim().split("№:").pop().trim();
-            return output;
-        }
-
-        //auctions.branch
-        function branchCheck(t) {
-            let output = t.split("/");
-            output = output[0].trim().split(" ").pop();
-            return output;
-        }
-
-        //auctions.deadline
-        function calculateDeadline(date) {
-            let d = date.split(" ");
-            d = d[0].trim();
-            d = d.split(".");
-            let firstDate = new Date(d[2], d[1] - 1, d[0]);
-            let deadlineDate = new Date(d[2], d[1] - 1, d[0]);
-            let deadline = new Date();
-
-            if (firstDate.getDay() == 1 || firstDate.getDay() == 4) {
-                deadline = firstDate.getDate() - 20;
-            } else if (firstDate.getDay() == 2 || firstDate.getDay() == 5) {
-                deadline = firstDate.getDate() - 18;
-            } else if (firstDate.getDay() == 3) {
-                deadline = firstDate.getDate() - 19;
-            }
-
-            deadlineDate.setDate(deadline);
-            let output = new Date();
-            output = deadlineDate.getDate() + "." + (deadlineDate.getMonth() + 1) + "." + deadlineDate.getFullYear();
-            return output;
-        }
-
-        //auctions.status & inicial cell coloring
-        function statusCheck(dead, comm) {
-            let deadlineDateString = dead.split(".");
-            let deadline = new Date(deadlineDateString[2], deadlineDateString[1] - 1, deadlineDateString[0]);
-            let commissionDateString = comm.split(".");
-            let commission = new Date( );
-            let output;
-
-            if (deadline.setHours(0, 0, 0, 0) == today.setHours(0, 0, 0, 0)) {
-                output = "today";
-                row.style.fontWeight = "bold";
-                coloring("#D1462F");
-            } else if (deadline.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0) && commission.setHours(0, 0, 0, 0) == today.setHours(0, 0, 0, 0)) {
-                output = "commission";
-                coloring("#2f4050");
-            } else if (deadline.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0)) {
-                output = "passed";
-                coloring("#81B622");
-                row.style.color = "";
-            } else {
-                output = "upcomming";
-                coloring("#e88031");
-            }
-
-            function coloring(color) {
-                lastCell.style.backgroundColor = color;
-                row.style.color = color;
-                endDateCell.innerHTML = endDateCell.innerHTML + "<br>" + calculateDeadline(dateCell.innerText).fontcolor(color).italics().bold();
-            }
-            return output;
-        }
-
-        //subjectText caps change
-        subjectCell.innerHTML = subjectCell.innerHTML.replace('конкурс', '<b>КОНКУРС</b>');
-        subjectCell.innerHTML = subjectCell.innerHTML.replace('търг', '<b>ТЪРГ</b>');
-        subjectCell.innerHTML = subjectCell.innerHTML.replace('ценово', '<b>ЦЕНОВО</b>');
-        subjectCell.innerHTML = subjectCell.innerHTML.replace('добив', '<b>ДОБИВ</b>');
-        subjectCell.innerHTML = subjectCell.innerHTML.replace('корен', '<b>КОРЕН</b>');
-        subjectCell.innerHTML = subjectCell.innerHTML.replace('действително добити', '<b>ДЕЙСТВИТЕЛНО ДОБИТИ</b>');
-        subjectCell.innerHTML = subjectCell.innerHTML.replace('прогнозни', '<b>ПРОГНОЗНИ</b>');
-
-        //creating iframes for every auction on page
-        function iframeCreation() {
-            if (!document.getElementById(numberCell.innerText)) {
-                const frame = document.createElement('iframe');
-                frame.id = numberCell.innerText;
-                frame.src = "https://auction.ucdp-smolian.com/au-admin/auctions/form/" + numberCell.innerText.slice(-4);
-                frame.style.display = "none";
-                numberCell.appendChild(frame);
-            }
-        }
-        iframeCreation();
-
-        function cellTooltip() {
-            let iFrame = document.getElementById(numberCell.innerText);
-            iFrame.onload = function () {
-                let woodsInfoTable = iFrame.contentWindow.document.querySelector("tbody");
-                let woodsVolumes = woodsInfoTable.querySelectorAll('input[name*="data[woodInfo]"]');
-
-                let bidStep = iFrame.contentWindow.document.querySelector("#аuctionBidStep").value;
-                let guarantee = iFrame.contentWindow.document.querySelector("#аuctionGuarantee").value;
-
-                let woodsInfo = "Е: " + woodsVolumes[1].value + " | С: " + woodsVolumes[2].value + " | Д: " + woodsVolumes[3].value + " | ОЗМ: " + woodsVolumes[4].value + " | ОГРЕВ: " + woodsVolumes[5].value + " | общо: " + woodsVolumes[6].value;
-                const woodSpan = document.createElement('span');
-                woodSpan.className = "tt";
-                woodSpan.textContent = woodsInfo;
-                subjectCell.appendChild(woodSpan);
-
-                let priceInfo = "стъпка: " + bidStep + " \nгаранция: " + guarantee;
-                const priceSpan = document.createElement('span');
-                priceSpan.className = "tt";
-                priceSpan.textContent = priceInfo;
-                priceCell.appendChild(priceSpan);
-            }
-        }
-        delay(2500).then(() => cellTooltip());
-    }
-
-
-    //check if upcomming auctions have published documentation
-    function publishedDocsCheck() {
-        console.log('publishedDocsCheck()');
-        auctions.forEach(function (element) {
-            if (element.status == "upcomming" || element.status == "today") {
-                for (let i = 0, row; row = aucTable.rows[i]; i++) {
-                    if (element.number == row.cells[0].innerText) {
-                        let lastCell = row.cells[8];
-                        let linkCell = row.cells[7];
-                        let iFrame = document.getElementById(element.number);
-                        let links = iFrame.contentWindow.document.links;
-                        for (i = 0; i < links.length; i++) {
-                            if (links[i].title.includes("Документация")) {
-                                lastCell.style.backgroundColor = "#81B622";
-                                row.style.color = "";
-                                row.style.fontWeight = "normal";
-                                element.status = "published";
-                            }
-                        }
-                    }
-                }
-            }
-        });
-    }
-    delay(4500).then(() => publishedDocsCheck());
-
-    //error check for duplicates and wrong type of auction
-    //MAYBE IT NEEDS SOME TWEAKING
-    function errorCheck() {
-        auctions.forEach(function () {
-            for (let i = 0; i < auctions.length; i++) {
-                //auction type check
-                if (auctions[i].subject == "ДД") {
-                    aucTable.rows[i].cells[4].style.backgroundColor = "#355E3B";
-                    aucTable.rows[i].cells[4].style.color = "white";
-                }
-                if (auctions[i].subject == "K") {
-                    aucTable.rows[i].cells[4].style.backgroundColor = "#228B22";
-                    aucTable.rows[i].cells[4].style.color = "white";
-                }
-                if (auctions[i].subject == "П") {
-                    aucTable.rows[i].cells[4].style.backgroundColor = "#4CBB17";
-                    aucTable.rows[i].cells[4].style.color = "white";
-                }
-                if (auctions[i].type == "к" || auctions[i].type == "ецп") {
-                    aucTable.rows[i].style.backgroundColor = "black";
-                    aucTable.rows[i].style.color = "white";
-                }
-                //duplicate check by date and branch
-                for (let j = 0; j < auctions.length; j++) {
-                    if (i !== j) {
-                        if (auctions[i].date === auctions[j].date && auctions[i].branch === auctions[j].branch) {
-                            aucTable.rows[i].style.backgroundColor = "#B21368";
-                            aucTable.rows[i].style.color = "#EFD3B5";
-                        }
-                    }
-                }
-            }
-        });
-    }
-    errorCheck();
-
-    //check if commission is already assigned to the auction 
-    //MAYBE IT NEEDS SOME TWEAKING
-    function assingedCommissionCheck() {
-        auctions.forEach(function (element) {
-            for (let i = 0, row; row = aucTable.rows[i]; i++) {
-                if ((element.number == row.cells[0].innerText) && (element.status == "commission")) {
-                    console.log(element.number + " " + element.status);
-                    let lastCell = row.cells[8];
-                    let iFrame = document.getElementById(element.number);
-                    iFrame.onload = function () {
-                        const comm1 = iFrame.contentWindow.document.querySelector("select.form-control.commision");
-                        const comm2 = iFrame.contentWindow.document.querySelector("div.form-control");
-                        if (comm1.value != "") {
-                            console.log("comm1");
-                            lastCell.style.backgroundColor = "#9eb3c6";
-                            element.status = "assignedCommission";
-                        } else if (!comm1) {
-                            if (comm2.innerHMTL != "") {
-                                console.log("comm2");
-                                lastCell.style.backgroundColor = "#9eb3c6";
-                            }
-                        } else {
-                            lastCell.style.backgroundColor = "#2f4050";
-                        }
-                    }
-                }
-            }
-        });
-    }
-    assingedCommissionCheck();
-
-    //open tabs for every auction with deadline or commission
-    function auctionsTabOpen(status, confirmText) {
-        const isFound = auctions.some(element => {
-            if (element.status == status) {
-                return true;
-            } else {
-                return false;
-            }
-        });
-
-        if (isFound) {
-            console.log("auctionsTabOpen(" + status + ")");
-            if (confirm(confirmText + " " + statusCounter(status))) {
-                auctions.forEach(element => {
-                    if (element.status == status) {
-                        window.open(element.etLink, "_blank");
-                    }
-                });
+            if (firstDate.setHours(0, 0, 0, 0) == today.setHours(0, 0, 0, 0)) {
+                return 'today';
+            } else if (firstDate.setHours(0, 0, 0, 0) <= yesterday.setHours(0, 0, 0, 0)) {
+                return 'past';
+            } else if (firstDate.setHours(0, 0, 0, 0) >= tomorrow.setHours(0, 0, 0, 0)) {
+                return 'future';
             }
         }
     }
-
-    //count number of auctions with specific status
-    function statusCounter(s) {
-        let counter = 0;
-        auctions.forEach(element => {
-            if (element.status == s) {
-                counter++;
-            }
-        });
-        return counter;
-    }
-    delay(5500).then(() => auctionsTabOpen("upcomming", "Отвори предстоящи търгове?"));
-    delay(5500).then(() => auctionsTabOpen("today", "Отвори търгове с краен срок за публикуване днес?"));
-    delay(5500).then(() => auctionsTabOpen("commission", "Отвори търгове за назначаване на комисии?"));
-
-
-
-
-
-
-
-
-    //under construction
-    //under construction
-    function iframeDocs(id, text) {
-        let docs = iFrame.contentDocument.querySelector(id).querySelectorAll('a');
-        let docsText = text + "\n";
-        docs.forEach((el, index) => {
-            if (index === 0) return;
-            docsText += el.innerHTML + "\n";
-        });
-        return docsText;
-    }
-
-    function previewTooltip() {
-        console.log("previewTooltip()");
-        for (let i = 0, row; row = aucTable.rows[i]; i++) {
-            let numberCell = row.cells[0];
-            let linkCell = row.cells[7];
-            iFrame = document.getElementById(numberCell.innerText);
-
-            let docs = iFrame.contentDocument.querySelector("#auctionDocuments").querySelectorAll('a');
-            let docsTT = "Документи:\n";
-            docs.forEach((el, index) => {
-                if (index === 0) return;
-                docsTT += el.innerHTML + "\n";
-            });
-            let tooltip = docsTT;
-            console.log(numberCell.innerText + "\n" + tooltip);
-            linkCell.querySelector('a').setAttribute('title', tooltip);
-        }
-    }
-    // delay(5000).then(() => previewTooltip());
-    //under construction
-    //under construction
-
-
-
+    auctionBidStatusAdd();
 }
-main();
