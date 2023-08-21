@@ -55,6 +55,7 @@ function arrayPopulate() {
         let object = {
             number: el.cells[0].innerText,
             status: el.className,
+            bidStatus: bidStatusCheck(dateSplit(el.cells[4].innerHTML)),
             date: dateSplit(el.cells[4].innerHTML), //table.date
             TP: el.cells[1].innerText,
             obekt: el.cells[2].innerText.split("/")[1].trim().split(' ').pop(),
@@ -67,14 +68,6 @@ function arrayPopulate() {
             let firstDate = new Date(dateInput[2], dateInput[1] - 1, dateInput[0]);
             return firstDate.getDate() + "." + (firstDate.getMonth() + 1) + "." + firstDate.getFullYear();
         }
-        auctions.push(object);
-    });
-
-    //adding bidStatus to auctions[]
-    function auctionBidStatusAdd() {
-        auctions.forEach(el => {
-            el.bidStatus = bidStatusCheck(el.date);
-        });
 
         function bidStatusCheck(input) {
             let firstDate = new Date(input.split(' ')[0].trim().split('.')[2], input.split(' ')[0].trim().split('.')[1] - 1, input.split(' ')[0].trim().split('.')[0]);
@@ -96,10 +89,13 @@ function arrayPopulate() {
                 return 'future';
             }
         }
-    }
-    auctionBidStatusAdd();
-}
+        auctions.push(object);
+    });
 
+    //adding bidStatus to auctions[]
+
+
+}
 //auction history front page info styling
 function frontPageStyling() {
 
@@ -249,3 +245,4 @@ function notInDangerTotal() {
     }
     return output;
 }
+console.log("🚀 ~ file: auctionsHistory_v2.js:231 ~ auctionsNotInDanger ~ auctions:", auctions)
