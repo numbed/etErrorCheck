@@ -1,5 +1,6 @@
-//v3-20230823-1 - First commit
+//v3-20230823-3 - removed console.logs()
 //v3-20230823-2 - tabOpen() does not execute inside john() | added line: 59
+//v3-20230823-1 - First commit
 
 
 console.clear();
@@ -56,47 +57,45 @@ function john() {
     });
 }
 john();
- delay(5500).then(() => tabOpen());
+delay(5500).then(() => tabOpen());
+
 function tabOpen() {
-    console.log("🚀 ~ file: auctionsHistory_v3.js:60 ~ tabOpen:", tabOpen)
     let order = "https://auction.ucdp-smolian.com/au-admin/history/erasedOrder/";
     let protocol = "https://auction.ucdp-smolian.com/au-admin/history/erasedProtocol/";
     let form = "https://auction.ucdp-smolian.com/au-admin/auctions/form/";
-        let date = new Date().getDate() + "." + (new Date().getMonth() + 1) + "." + new Date().getFullYear();
-        console.log("🚀 ~ file: function john() {.js:69 ~ arrayCounter().red:", arrayCounter().red)
-        if (arrayCounter().red > 0) {
-            if (confirm("Заличени? " + arrayCounter().red)) {
-                // if (el.className === 'red') {
-                    if (arrayCounter().future > 0) {
-                        if (confirm("Бъдещи търгове: " + arrayCounter().future + " бр.\nОтвори?"))
-                        newTab('future', 'c', date)
-                    }
-                    if (arrayCounter().today > 0) {
-                        if (confirm("Днешни търгове: " + arrayCounter().today + " бр.\nОтвори?"))
-                        newTab('today', 'b', date)
-                    }
-                    if (arrayCounter().past > 0) {
-                        if (confirm("Търгове от изминалите работни дни: " + arrayCounter().past + " бр.\nОтвори?"))
-                        newTab('past', 'b', )
-                    }
+    let date = new Date().getDate() + "." + (new Date().getMonth() + 1) + "." + new Date().getFullYear();
+    if (arrayCounter().red > 0) {
+        if (confirm("Заличени? " + arrayCounter().red)) {
+            // if (el.className === 'red') {
+            if (arrayCounter().future > 0) {
+                if (confirm("Бъдещи търгове: " + arrayCounter().future + " бр.\nОтвори?"))
+                    newTab('future', 'c', date)
+            }
+            if (arrayCounter().today > 0) {
+                if (confirm("Днешни търгове: " + arrayCounter().today + " бр.\nОтвори?"))
+                    newTab('today', 'b', date)
+            }
+            if (arrayCounter().past > 0) {
+                if (confirm("Търгове от изминалите работни дни: " + arrayCounter().past + " бр.\nОтвори?"))
+                    newTab('past', 'b', )
             }
         }
+    }
 
-        function newTab(id, orderType, date) {
-            table.forEach(el => {
-                if (el.className === 'red') {
-                    if (el.id === id) {
-                        if (date === undefined) {
-                            date = el.date;
-                        }
-                        window.open(protocol + el.cells[8].querySelector('a').href.split('/').pop() + "/" + date, '_blank');
-                        window.open(order + el.cells[8].querySelector('a').href.split('/').pop() + "/" + date + "/?t=" + orderType, '_blank');
-                        window.open(form + el.cells[0].innerText.slice(-4), '_blank');
-                        console.log("🚀 ~ file: auctionsHistory_v3.js:93 ~ newTab ~ el.cells[0].innerText.slice(-4):", el.cells[0].innerText.slice(-4))
+    function newTab(id, orderType, date) {
+        table.forEach(el => {
+            if (el.className === 'red') {
+                if (el.id === id) {
+                    if (date === undefined) {
+                        date = el.date;
                     }
+                    window.open(protocol + el.cells[8].querySelector('a').href.split('/').pop() + "/" + date, '_blank');
+                    window.open(order + el.cells[8].querySelector('a').href.split('/').pop() + "/" + date + "/?t=" + orderType, '_blank');
+                    window.open(form + el.cells[0].innerText.slice(-4), '_blank');
                 }
-            })
-        }
+            }
+        })
+    }
     // })
 }
 
