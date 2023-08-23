@@ -1,4 +1,6 @@
-//v3-20230823-1
+//v3-20230823-1 - First commit
+//v3-20230823-2 - tabOpen() does not execute inside john() | added line: 59
+
 
 console.clear();
 console.log("history check v2");
@@ -47,16 +49,16 @@ function john() {
                 //check if all iFrames are loaded before executing more functions
                 if (index === array.length - 1) {
 
-                    delay(2500).then(() => tabOpen());
+                    // delay(2500).then(() => tabOpen());
                 }
             }
         }
     });
-    console.log("🚀 ~ file: Untitled-1:46 ~ counts:", counts);
 }
 john();
-
+ delay(5500).then(() => tabOpen());
 function tabOpen() {
+    console.log("🚀 ~ file: auctionsHistory_v3.js:60 ~ tabOpen:", tabOpen)
     let order = "https://auction.ucdp-smolian.com/au-admin/history/erasedOrder/";
     let protocol = "https://auction.ucdp-smolian.com/au-admin/history/erasedProtocol/";
     let form = "https://auction.ucdp-smolian.com/au-admin/auctions/form/";
@@ -87,9 +89,10 @@ function tabOpen() {
                         if (date === undefined) {
                             date = el.date;
                         }
-                        // window.open(protocol + el.cells[8].querySelector('a').href.split('/').pop() + "/" + date, '_blank');
-                        // window.open(order + el.cells[8].querySelector('a').href.split('/').pop() + "/" + date + "/?t=" + orderType, '_blank');
+                        window.open(protocol + el.cells[8].querySelector('a').href.split('/').pop() + "/" + date, '_blank');
+                        window.open(order + el.cells[8].querySelector('a').href.split('/').pop() + "/" + date + "/?t=" + orderType, '_blank');
                         window.open(form + el.cells[0].innerText.slice(-4), '_blank');
+                        console.log("🚀 ~ file: auctionsHistory_v3.js:93 ~ newTab ~ el.cells[0].innerText.slice(-4):", el.cells[0].innerText.slice(-4))
                     }
                 }
             })
