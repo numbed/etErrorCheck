@@ -42,7 +42,7 @@ chrome.browserAction.onClicked.addListener((tab) => {
                 active: true
             }, function (tabs) {
                 chrome.tabs.executeScript(tab.id, {
-                    file: "auctionsHistory_v2.js",
+                    file: "auctionsHistory_v3.js",
                     allFrames: true
                 });
             });
