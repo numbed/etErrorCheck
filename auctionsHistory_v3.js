@@ -1,3 +1,4 @@
+//v3-20230824-1 - added coloring of different id {future|today|past}
 //v3-20230823-3 - removed console.logs()
 //v3-20230823-2 - tabOpen() does not execute inside john() | added line: 59
 //v3-20230823-1 - First commit
@@ -20,6 +21,17 @@ function john() {
         if (el.className != 'danger') {
             let dateCell = el.cells[4].innerText.split(" ")[0];
             el.id = (dateCheck(dateCell));
+            if (dateCheck(dateCell) === "future"){
+                el.cells[4].style.backgroundColor = '#40F8FF'
+            }
+            if (dateCheck(dateCell) === "today"){
+                el.cells[4].style.backgroundColor = '#279EFF'
+                el.cells[4].style.color = 'white'
+            }
+            if (dateCheck(dateCell) === "past"){
+                el.cells[4].style.backgroundColor = '#0C356A'
+                el.cells[4].style.color = 'white'
+            }
 
             counts[el] = (counts[el] || 0) + 1; //counts acutions not in danger
             let auctionLink = el.cells[8].querySelector('a').href;
