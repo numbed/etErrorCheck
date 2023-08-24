@@ -1,3 +1,4 @@
+//v3-20230824-3 - added return in tabOpen() IFs
 //v3-20230824-2 - !!!!not working without reloading page!!!
 //v3-20230824-2 - added coloring for the row based on different id {future|today|past}
 //v3-20230824-1 - added coloring of different id {future|today|past}
@@ -24,14 +25,14 @@ function john() {
         if (el.className != 'danger') {
             let dateCell = el.cells[4].innerText.split(" ")[0];
             el.id = (dateCheck(dateCell));
-            if (dateCheck(dateCell) === "future"){
+            if (dateCheck(dateCell) === "future") {
                 el.style.backgroundColor = '#40F8FF'
             }
-            if (dateCheck(dateCell) === "today"){
+            if (dateCheck(dateCell) === "today") {
                 el.style.backgroundColor = '#279EFF'
                 el.style.color = 'white'
             }
-            if (dateCheck(dateCell) === "past"){
+            if (dateCheck(dateCell) === "past") {
                 el.style.backgroundColor = '#0C356A'
                 el.style.color = 'white'
             }
@@ -83,16 +84,22 @@ function tabOpen() {
         if (confirm("Заличени? " + arrayCounter().red)) {
             // if (el.className === 'red') {
             if (arrayCounter().future > 0) {
-                if (confirm("Бъдещи търгове: " + arrayCounter().future + " бр.\nОтвори?"))
-                    newTab('future', 'c', date)
+                if (confirm("Бъдещи търгове: " + arrayCounter().future + " бр.\nОтвори?")) {
+                    newTab('future', 'c', date);
+                    return;
+                }
             }
             if (arrayCounter().today > 0) {
-                if (confirm("Днешни търгове: " + arrayCounter().today + " бр.\nОтвори?"))
-                    newTab('today', 'b', date)
+                if (confirm("Днешни търгове: " + arrayCounter().today + " бр.\nОтвори?")) {
+                    newTab('today', 'b', date);
+                    return;
+                }
             }
             if (arrayCounter().past > 0) {
-                if (confirm("Търгове от изминалите работни дни: " + arrayCounter().past + " бр.\nОтвори?"))
-                    newTab('past', 'b', )
+                if (confirm("Търгове от изминалите работни дни: " + arrayCounter().past + " бр.\nОтвори?")) {
+                    newTab('past', 'b', );
+                    return;
+                }
             }
         }
     }
