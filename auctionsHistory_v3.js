@@ -1,3 +1,4 @@
+//v3-20230824-2 - !!!!not working without reloading page!!!
 //v3-20230824-2 - added coloring for the row based on different id {future|today|past}
 //v3-20230824-1 - added coloring of different id {future|today|past}
 //v3-20230823-3 - removed console.logs()
