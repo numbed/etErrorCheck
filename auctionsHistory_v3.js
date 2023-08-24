@@ -1,3 +1,4 @@
+//v3-20230824-2 - added coloring for the row based on different id {future|today|past}
 //v3-20230824-1 - added coloring of different id {future|today|past}
 //v3-20230823-3 - removed console.logs()
 //v3-20230823-2 - tabOpen() does not execute inside john() | added line: 59
@@ -5,7 +6,7 @@
 
 
 console.clear();
-console.log("history check v2");
+console.log("history check v3");
 let today = new Date();
 let table = document.querySelector('tbody').querySelectorAll('tr');
 
@@ -15,6 +16,7 @@ function delay(time) {
 
 function john() {
     let frameCounter = 0;
+    let table = document.querySelector('tbody').querySelectorAll('tr');
     const counts = {};
     table.forEach((el, index, array) => {
         //select rows that are not in 'danger' (danger means that auction is canceled)
@@ -22,15 +24,15 @@ function john() {
             let dateCell = el.cells[4].innerText.split(" ")[0];
             el.id = (dateCheck(dateCell));
             if (dateCheck(dateCell) === "future"){
-                el.cells[4].style.backgroundColor = '#40F8FF'
+                el.style.backgroundColor = '#40F8FF'
             }
             if (dateCheck(dateCell) === "today"){
-                el.cells[4].style.backgroundColor = '#279EFF'
-                el.cells[4].style.color = 'white'
+                el.style.backgroundColor = '#279EFF'
+                el.style.color = 'white'
             }
             if (dateCheck(dateCell) === "past"){
-                el.cells[4].style.backgroundColor = '#0C356A'
-                el.cells[4].style.color = 'white'
+                el.style.backgroundColor = '#0C356A'
+                el.style.color = 'white'
             }
 
             counts[el] = (counts[el] || 0) + 1; //counts acutions not in danger
