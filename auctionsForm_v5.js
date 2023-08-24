@@ -1,3 +1,4 @@
+    //v5-202308241428 - line: 537 added delay calling docRename()
     //v5-202308241418 - added docRename() and check if all published documents are named line: 534
     //v5-202308241411 - added docTableExist() check in docNames()
     //v5-202308241345 - docNamingInCommission commented temporary
@@ -534,7 +535,7 @@
     //checking if there are select field in #auctionDocuments and runs docsRename() if there are none
     let docsSelect = auctionDocuments.querySelectorAll('select');
     if (docsSelect.length === 0) {
-        docsRename();
+        delay(2000).then(() => docsRename());
     } else {
         console.log("🚀 ~ file: auctionsForm.js:32 ~ number of select fields: ", docsSelect.length);
     }
