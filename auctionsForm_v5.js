@@ -402,7 +402,7 @@
             inputElement.type = "hidden";
             inputElement.name = "fileType[" + trID + "]";
 
-            if (docLinks.length < 3) { //NOT WORKING FOR SOME REASON NEEDS MORE TESTING
+            if (docLinks.length <= 2) { //NOT WORKING FOR SOME REASON NEEDS MORE TESTING
                 if (docLinks[i].title.includes("Заповед")) {
                     docInput[i].value = "openOrder";
                     inputElement.value = "openOrder";
