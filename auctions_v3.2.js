@@ -4,34 +4,32 @@ let today = new Date();
 let tableRows = document.querySelector('tbody').querySelectorAll('tr');
 
 function main() {
-    if (publishedCheck() > 0) {
+    notPublishedClassName();
+    if (classNameCheck('notPublished') > 0) {
         if (confirm("Отвори непубликувани търгове?")) {
             newTab('notPublished');
         }
     }
-    if (dangerCheck() > 0) {
-        if (confirm("Отвори непубликувани търгове?")) {
+    if (classNameCheck('danger') > 0) {
+        if (confirm("Отвори 'Danger' търгове?")) {
             newTab('danger');
         }
     }
 }
 main();
 
-function publishedCheck() {
-    let count = 0;
+function notPublishedClassName() {
     tableRows.forEach(element => {
         if (window.getComputedStyle(element).color === "rgb(153, 153, 153)") {
             element.className = 'notPublished';
-            count++;
         }
     });
-    return count;
 }
 
-function dangerCheck() {
+function classNameCheck(className) {
     let count = 0;
     tableRows.forEach(element => {
-        if (element.className === 'danger') {
+        if (element.className === className) {
             count++;
         }
     });
