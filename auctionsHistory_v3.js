@@ -1,0 +1,152 @@
+//v3-20230824-3 - added return in tabOpen() IFs
+//v3-20230824-2 - !!!!not working without reloading page!!!
+//v3-20230824-2 - added coloring for the row based on different id {future|today|past}
+//v3-20230824-1 - added coloring of different id {future|today|past}
+//v3-20230823-3 - removed console.logs()
+//v3-20230823-2 - tabOpen() does not execute inside john() | added line: 59
+//v3-20230823-1 - First commit
+
+
+console.clear();
+console.log("history check v3");
+let today = new Date();
+let table = document.querySelector('tbody').querySelectorAll('tr');
+
+function delay(time) {
+    return new Promise(resolve => setTimeout(resolve, time));
+}
+
+function john() {
+    let frameCounter = 0;
+    let table = document.querySelector('tbody').querySelectorAll('tr');
+    const counts = {};
+    table.forEach((el, index, array) => {
+        //select rows that are not in 'danger' (danger means that auction is canceled)
+        if (el.className != 'danger') {
+            let dateCell = el.cells[4].innerText.split(" ")[0];
+            el.id = (dateCheck(dateCell));
+            if (dateCheck(dateCell) === "future") {
+                el.style.backgroundColor = '#40F8FF'
+            }
+            if (dateCheck(dateCell) === "today") {
+                el.style.backgroundColor = '#279EFF'
+                el.style.color = 'white'
+            }
+            if (dateCheck(dateCell) === "past") {
+                el.style.backgroundColor = '#0C356A'
+                el.style.color = 'white'
+            }
+
+            counts[el] = (counts[el] || 0) + 1; //counts acutions not in danger
+            let auctionLink = el.cells[8].querySelector('a').href;
+
+            const iFrame = document.createElement('iFrame');
+            iFrame.id = el.cells[0].innerText;
+            iFrame.style.display = 'none';
+
+            //appends iFrame element if missing, else reloads frame in first cell on the row
+            if (el.cells[0].querySelector("iFrame") === null) {
+                el.cells[0].appendChild(iFrame);
+                iFrame.src = auctionLink;
+            } else {
+                el.cells[0].querySelector("iFrame").contentWindow.location.reload();
+                el.cells[8].style.backgroundColor = "gray";
+            }
+
+            iFrame.onload = function () {
+                if (iFrame.contentWindow.document.querySelectorAll("label")[10].closest('div').querySelectorAll('tr').length > 0) {
+                    el.cells[8].style.backgroundColor = "green";
+                    el.className = 'green';
+                } else {
+                    el.cells[8].style.backgroundColor = "red";
+                    el.className = 'red';
+                }
+
+                frameCounter++;
+                //check if all iFrames are loaded before executing more functions
+                if (index === array.length - 1) {
+
+                    // delay(2500).then(() => tabOpen());
+                }
+            }
+        }
+    });
+}
+john();
+delay(5500).then(() => tabOpen());
+
+function tabOpen() {
+    let order = "https://auction.ucdp-smolian.com/au-admin/history/erasedOrder/";
+    let protocol = "https://auction.ucdp-smolian.com/au-admin/history/erasedProtocol/";
+    let form = "https://auction.ucdp-smolian.com/au-admin/auctions/form/";
+    let date = new Date().getDate() + "." + (new Date().getMonth() + 1) + "." + new Date().getFullYear();
+    if (arrayCounter().red > 0) {
+        if (confirm("Заличени? " + arrayCounter().red)) {
+            // if (el.className === 'red') {
+            if (arrayCounter().future > 0) {
+                if (confirm("Бъдещи търгове: " + arrayCounter().future + " бр.\nОтвори?")) {
+                    newTab('future', 'c', date);
+                    return;
+                }
+            }
+            if (arrayCounter().today > 0) {
+                if (confirm("Днешни търгове: " + arrayCounter().today + " бр.\nОтвори?")) {
+                    newTab('today', 'b', date);
+                    return;
+                }
+            }
+            if (arrayCounter().past > 0) {
+                if (confirm("Търгове от изминалите работни дни: " + arrayCounter().past + " бр.\nОтвори?")) {
+                    newTab('past', 'b', );
+                    return;
+                }
+            }
+        }
+    }
+
+    function newTab(id, orderType, date) {
+        table.forEach(el => {
+            if (el.className === 'red') {
+                if (el.id === id) {
+                    if (date === undefined) {
+                        date = el.date;
+                    }
+                    window.open(protocol + el.cells[8].querySelector('a').href.split('/').pop() + "/" + date, '_blank');
+                    window.open(order + el.cells[8].querySelector('a').href.split('/').pop() + "/" + date + "/?t=" + orderType, '_blank');
+                    window.open(form + el.cells[0].innerText.slice(-4), '_blank');
+                }
+            }
+        })
+    }
+    // })
+}
+
+function dateCheck(input) {
+    let date = new Date(input.split('.')[2], input.split('.')[1] - 1, input.split('.')[0]);
+    let tomorrow = new Date();
+    tomorrow.setDate(today.getDate() + 1);
+    let yesterday = new Date();
+
+    if (today.getDay() === 1) {
+        yesterday.setDate(yesterday.getDate() - 3);
+    } else {
+        yesterday.setDate(yesterday.getDate() - 1);
+    }
+
+    if (date.setHours(0, 0, 0, 0) == today.setHours(0, 0, 0, 0)) {
+        return 'today';
+    } else if (date.setHours(0, 0, 0, 0) <= yesterday.setHours(0, 0, 0, 0)) {
+        return 'past';
+    } else if (date.setHours(0, 0, 0, 0) >= tomorrow.setHours(0, 0, 0, 0)) {
+        return 'future';
+    }
+}
+
+function arrayCounter() {
+    const count = {};
+    table.forEach(el => {
+        count[el.className] = (count[el.className] || 0) + 1;
+        count[el.id] = (count[el.id] || 0) + 1;
+    });
+    return count;
+}
