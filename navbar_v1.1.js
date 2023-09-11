@@ -30,18 +30,30 @@ function createInfoTable() {
     }
     //
 
+    const btn = document.createElement("button");
+    btn.textContent = 'DONT PRESS ME';
+    
+    
+    navbar.prepend(btn);
 
-    
-    
+
+
     //
     navbar.prepend(li);
 }
 createInfoTable();
 
 
+function dangerOPEN() {
+    table.forEach(el =>{
+        if (el.className === 'danger') {
+            window.open(el.querySelector('a').href, "_blank")
+        }
+    })
+}
 
 let headerInfo = document.querySelector("#headerInfo");
-document.querySelector("#dangerHeaderInfo").innerText = arrayCounter().danger;
+document.querySelector("#dangerHeaderInfo").innerHTML = "<span onclick='dangerOPEN()'>"+ arrayCounter().danger+"</span>";
 startCountdown(5);
 
 function startCountdown(seconds) {
