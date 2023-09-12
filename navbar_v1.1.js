@@ -1,4 +1,4 @@
-//line: 80 needs work
+//line: 
 //line: 221 moreInfo() next to be created, shows info from auctions form page to auctions table
 console.clear();
 console.log("--------------------------------navbar_v1.1")
@@ -28,14 +28,15 @@ function delay(time) {
 
 function moreInfo(params) {
     console.log("🚀 ~ file: navbar_v1.1.js:30 ~ moreInfo ~ params:", params)
-    startCountdown(params/1000);
+    startCountdown(params / 1000);
 
     delay(params).then(() => btnChanger());
+
     function btnChanger() {
         console.log('more info running');
         document.querySelector('#testBTN').textContent = 'READY';
     }
-    
+
 }
 
 function coloring() {
@@ -95,10 +96,39 @@ function addHeaderTableInfo() {
         }
     }
 
-    let totalUpcomming = isCounterZero(cntNotPub); + isCounterZero(cntFuture);;
+    let totalUpcomming = isCounterZero(cntNotPub); + isCounterZero(cntFuture);
     document.querySelector("#totalInfo").innerHTML = table.length;
 
+    function headerInfoMouseInteractions(id) {
+        document.querySelector(id).innerHTML = isCounterZero(id) //need rework in isCounterZero() to work with this parameter
+    }
+    
+    
     document.querySelector("#notPublishedInfo").innerHTML = isCounterZero(cntNotPub);
+    document.querySelector("#notPublishedInfo").addEventListener("mouseover",
+    (event) => {
+        // highlight the mouseover target
+        event.target.style.color = "black";
+        table.forEach(el => {
+            if(el.className === 'notPublished') {
+                el.style.backgroundColor = colorNotPublished;
+                el.style.color = 'white';
+            }
+        })
+
+        // reset the color after a short delay
+        setTimeout(() => {
+            event.target.style.color = "";
+            table.forEach(el => {
+                if(el.className === 'notPublished') {
+                    el.style.backgroundColor = "";
+                    el.style.color = "";
+                }
+            })
+        }, 1500);
+    },
+    false, );
+
     document.querySelector("#notPublishedInfo").addEventListener('click', function handleClick() {
         console.log("click:", this.innerText);
         table.forEach(el => {
@@ -109,7 +139,7 @@ function addHeaderTableInfo() {
         })
     });
 
-    document.querySelector("#errorsInfo").innerHTML = "<span onclick=\"dangerOPEN()\">" + "N/A" + "</span>";
+    document.querySelector("#errorsInfo").innerHTML = "<span onclick=\"dangerOPEN()\">" + "N/A" + "</span>"; //need counter for errors
     document.querySelector("#errorsInfo").addEventListener('click', function handleClick() {
         console.log("click:", this.innerText);
         table.forEach(el => {
