@@ -10,11 +10,6 @@ function main() {
             newTab('notPublished');
         }
     }
-    if (classNameCheck('danger') > 0) {
-        if (confirm("Отвори 'Danger' търгове?")) {
-            newTab('danger');
-        }
-    }
 }
 main();
 
