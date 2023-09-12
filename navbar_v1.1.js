@@ -22,6 +22,22 @@ function main() {
 }
 main();
 
+function delay(time) {
+    return new Promise(resolve => setTimeout(resolve, time));
+}
+
+function moreInfo(params) {
+    console.log("🚀 ~ file: navbar_v1.1.js:30 ~ moreInfo ~ params:", params)
+    startCountdown(params/1000);
+
+    delay(params).then(() => btnChanger());
+    function btnChanger() {
+        console.log('more info running');
+        document.querySelector('#testBTN').textContent = 'READY';
+    }
+    
+}
+
 function coloring() {
     navbar.querySelector("#futureInfo").style.backgroundColor = colorFuture;
     navbar.querySelector("#commInfo").style.backgroundColor = colorCommission;
@@ -215,10 +231,10 @@ function createInfoTable() {
     //
     const btn = document.createElement("button");
     btn.textContent = 'DONT PRESS ME';
-    btn.id = 'test'
+    btn.id = 'testBTN'
     btn.onclick = function () {
         console.log("BUTTON CLICKED:");
-        moreInfo();
+        moreInfo(3000);
     }
     navbar.prepend(btn);
 
