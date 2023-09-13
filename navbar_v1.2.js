@@ -67,6 +67,8 @@ function createIFrames() {
             }
             let obj = {
                 id: woodsTableInputs[0].value,
+                secondDate:,
+                appDueDate:,
                 woodsInfo: {
                     big: woodsTableInputs[2].value,
                     medium: woodsTableInputs[3].value,
@@ -75,9 +77,9 @@ function createIFrames() {
                     fire:woodsTableInputs[6].value, 
                     total:woodsTableInputs[7].value 
                 },
-                documents: ,
-                firstByuer: ,
-                secondByuer: ,
+                documents: [{name:, date:,} {name:, date:,}],
+                firstByuer: [{name:, date:,}, {name:, date:,}],
+                secondByuer: [{name:, date:,}, {name:, date:,}],
                 money: {
                     price: ,
                     bidStep: ,
