@@ -62,9 +62,14 @@ function createIFrames() {
         iFrame.onload = function () {
             let loadedFrame = iFrame.contentWindow.document;
             let woodsTableInputs = loadedFrame.querySelector('tbody').querySelectorAll('input');
+
             function getDocumentlist(id){
-                loadedFrame.getElementById(id).querySelector('tbody').querySelectorAll('а')
+                let docListArray = []
+                let item = {};
+                let docs = loadedFrame.getElementById(id).querySelector('tbody').querySelectorAll('а');
+
             }
+
             let obj = {
                 id: woodsTableInputs[0].value,
                 secondDate:,
@@ -77,15 +82,16 @@ function createIFrames() {
                     fire:woodsTableInputs[6].value, 
                     total:woodsTableInputs[7].value 
                 },
-                documents: [{name:, date:,} {name:, date:,}],
-                firstByuer: [{name:, date:,}, {name:, date:,}],
-                secondByuer: [{name:, date:,}, {name:, date:,}],
+                documents: [{name:, date:,} {name:, date:,}], //getDocumentList("#auctionDocuments")
+                firstByuer: [{name:, date:,}, {name:, date:,}], //getDocumentList("#auctionOrder")
+                secondByuer: [{name:, date:,}, {name:, date:,}], //getDocumentList("#auctionSecOrder")
                 money: {
                     price: ,
                     bidStep: ,
                     guarantee:
                 }
             }
+            auctionsFrameInfo.push(obj)
 
         }
         return
