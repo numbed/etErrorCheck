@@ -2,35 +2,43 @@
 //line: 221 moreInfo() next to be created, shows info from auctions form page to auctions table
 console.clear();
 console.log("--------------------------------navbar_v1.1")
-let infoTableParams = [{
+let navbarInfoTable = [{
         id: 'frames',
+        title: 'frames',
         color: 'blue'
     }, {
         id: 'errors',
+        title: 'errors',
         color: 'black'
     },
     {
         id: 'danger',
+        title: 'danger',
         color: '#C70039'
     },
     {
         id: 'notPublished',
+        title: 'notPublished',
         color: '#FFBB5C'
     },
     {
         id: 'future',
+        title: 'future',
         color: '#E25E3E'
     },
     {
         id: 'today',
+        title: 'today',
         color: '#D1462F'
     },
     {
         id: 'passed',
+        title: 'passed',
         color: '#81B622'
     },
     {
         id: 'commission',
+        title: 'commission',
         color: '#040D12'
     },
 ];
@@ -73,7 +81,7 @@ let priceTable = [{
 
 let loaded = "LOADED"
 
-let table = document.querySelector('tbody').querySelectorAll('tr');
+let auctionsTable = document.querySelector('tbody').querySelectorAll('tr');
 let navbar = document.querySelector(".navbar.navbar-static-top.white-bg").querySelector("ul");
 let today = new Date();
 let auctions = []
@@ -81,15 +89,20 @@ let auctions = []
 function main() {
     //start iframe data gathering cooldown
     setAuctionsClasses();
-    createHeaderTable();
+    // createHeaderTable();
     addWoodsTableToAuctions();
     startCountdown(10);
+
+    const li = document.createElement("li");
+    li.id = "navbarContainer";
+    li.appendChild(createTable("navbarHeaderInfo", navbarInfoTable));
+    navbar.prepend(li);
+
     addHeaderTableInfo();
     addMouseFunctionsToHeaderTable();
     colorAuctionsTable();
     //btn click
-    createIFrames();
-
+    // createIFrames();
 
     console.log(auctions)
 
@@ -100,7 +113,7 @@ function createIFrames() {
     console.log("🚀 ~ file: navbar_v1.2.js:56 ~ createIFrames ~ createIFrames: LOADED")
     let counter = 0;
 
-    table.forEach(el => {
+    auctionsTable.forEach(el => {
         const iFrame = document.createElement('iframe');
         iFrame.id = el.cells[0].innerText;
         iFrame.style.display = "none";
@@ -167,7 +180,7 @@ function createIFrames() {
 }
 
 function setAuctionsClasses() {
-    table.forEach(el => {
+    auctionsTable.forEach(el => {
         if (el.className != "danger") {
             let input = auctionDateCheck(el);
             switch (input) {
@@ -192,6 +205,42 @@ function setAuctionsClasses() {
     });
 }
 
+//CONSTRUCTION
+function createTable(tableID, array) {
+    console.log("🚀 ~ file: navbar_v1.2.js:196 ~ createTable ~ createTable:", loaded, tableID, array);
+    //create table element
+    const table = document.createElement('div');
+    table.id = tableID;
+    // table.className = 'customContainer'
+    // table.visibility = 'hidden';
+
+    //create thead,tbody elements
+    const thead = document.createElement('div');
+    table.className = 'customContainer'
+    thead.id = 'rowHead'
+    const tbody = document.createElement('div');
+    tbody.id = 'rowInfo'
+    table.className = 'customContainer'
+
+    // crate table header & body elements
+    array.forEach(el => {
+        let th = document.createElement('div');
+        th.innerText = el.title;
+        thead.appendChild(th);
+
+        let td = document.createElement('div');
+        td.id = el.id;
+        // td.style.backgroundColor = el.color;
+        tbody.appendChild(td);
+    });
+
+    table.appendChild(thead);
+    table.appendChild(tbody);
+
+    return table;
+}
+//CONSTRUCTION
+
 function createHeaderTable() {
     //creates container element to add to header that contains auctions rows infos
     const container = document.createElement('li');
@@ -208,7 +257,7 @@ function createHeaderTable() {
     container.appendChild(rowInfo);
 
     //creates cell blocks for each array element
-    infoTableParams.forEach(el => {
+    navbarInfoTable.forEach(el => {
         createTD(el);
     });
 
@@ -259,7 +308,7 @@ function createHeaderTable() {
 function createWoodsTable() {
     console.log("🚀 ~ file: navbar_v1.2.js:245 ~ createWoodsTable ~ createWoodsTable:", loaded)
     // Create the tWoods element
-    var tWoods = document.createElement('tWoods');
+    var tWoods = document.createElement('table');
     tWoods.id = 'woodsTable';
     // tWoods.style.visibility = "hidden";
 
@@ -299,7 +348,7 @@ function createWoodsTable() {
 // Add the tWoods to the document body (or any other desired location)
 function addWoodsTableToAuctions() {
     console.log("🚀 ~ file: navbar_v1.2.js:290 ~ addWoodsTableToAuctions ~ addWoodsTableToAuctions:", loaded)
-    table.forEach(el => {
+    auctionsTable.forEach(el => {
         let text = el.cells[5].innerText;
         el.cells[5].innerHTML = text + "<br>"
         el.cells[5].appendChild(createWoodsTable())
@@ -318,11 +367,11 @@ function addHeaderTableInfo() {
 }
 
 function addMouseFunctionsToHeaderTable() {
-    infoTableParams.forEach(el => {
+    navbarInfoTable.forEach(el => {
         document.getElementById(el.id).addEventListener("mouseover", (event) => {
                 // highlight the mouseover target
                 event.target.style.color = "black";
-                table.forEach(element => {
+                auctionsTable.forEach(element => {
                     if (element.className === el.id) {
                         element.style.backgroundColor = el.color;
                         element.style.color = 'white';
@@ -332,7 +381,7 @@ function addMouseFunctionsToHeaderTable() {
                 // reset the color after a short delay
                 setTimeout(() => {
                     event.target.style.color = "";
-                    table.forEach(element => {
+                    auctionsTable.forEach(element => {
                         if (element.className === el.id) {
                             element.style.backgroundColor = "";
                             element.style.color = "";
@@ -344,7 +393,7 @@ function addMouseFunctionsToHeaderTable() {
 
         document.getElementById(el.id).addEventListener('click', function handleClick() {
             console.log("click:", this.innerText);
-            table.forEach(element => {
+            auctionsTable.forEach(element => {
                 if (element.className === el.id) {
                     console.log(element.cells[0].innerHTML)
                     // window.open(el.querySelector('a').href, "_blank")
@@ -355,9 +404,9 @@ function addMouseFunctionsToHeaderTable() {
 }
 
 function colorAuctionsTable() {
-    table.forEach(el => {
+    auctionsTable.forEach(el => {
         let elLength = el.querySelectorAll('td').length;
-        infoTableParams.forEach(element => {
+        navbarInfoTable.forEach(element => {
             if (el.className === element.id) {
                 el.cells[(elLength - 1)].style.backgroundColor = element.color;
                 el.cells[(elLength - 1)].style.backgroundColor = element.color;
@@ -449,7 +498,7 @@ function stringToDate(string) {
 
 function arrayCounter() {
     const count = {};
-    table.forEach(el => {
+    auctionsTable.forEach(el => {
         count[el.className] = (count[el.className] || 0) + 1;
     });
     return count;
@@ -483,27 +532,41 @@ function startCountdown(seconds) {
 
 //styling bellow
 document.head.insertAdjacentHTML("beforeend", `<style>
-li#navbarHeaderInfo {
+li#navbarContainer {
     vertical-align: middle;
     text-align: center;
     padding-right: 20px;
 }
 
-li#navbarHeaderInfo td {
-    padding: 2px;
-    width: 100px;
-    border: 1px;
+.customContainer{
+    display: table;
+    width: 100%;
 }
 
-tr.rowHead {
+
+div#rowHead {
+    border-bottom: 1rem solid;
     font-style: italic;
     font-size: small;
 }
+#rowHead, #rowInfo{
+    white-space: nowrap; /* Prevent divs from wrapping to the next line */
+  }
+#rowHead > div, #rowInfo > div {
+    width: 100px; /* Set the width to your desired value (e.g., 100px) */
+    display: inline-block;
+    margin-right: 10px; /* Adjust the spacing between divs as needed */
+    
+    border-left: 2px solid #0004ff;
+    position: relative;
+    top: 50%;
+    bottom: 0;
+}
 
-tr.rowInfo {
+div#rowInfo {
     font-weight: bold;
     font-size: medium;
-    color: white;
+    color: black;
 }
 
 td#total,
