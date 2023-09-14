@@ -3,6 +3,9 @@
 console.clear();
 console.log("--------------------------------navbar_v1.1")
 let infoTableParams = [{
+        id: 'frames',
+        color: 'blue'
+    }, {
         id: 'errors',
         color: 'black'
     },
@@ -32,14 +35,42 @@ let infoTableParams = [{
     },
 ];
 
+let woodsTable = [{
+        id: 'big',
+        title: 'Е'
+    }, {
+        id: 'medium',
+        title: 'С'
+    },
+    {
+        id: 'small',
+        title: 'Д'
+    },
+    {
+        id: 'ozm',
+        title: 'ОЗМ'
+    },
+    {
+        id: 'fire',
+        title: 'огрев'
+    },
+    {
+        id: 'total',
+        title: 'общо'
+    },
+]
+let loaded = "LOADED"
+
 let table = document.querySelector('tbody').querySelectorAll('tr');
 let navbar = document.querySelector(".navbar.navbar-static-top.white-bg").querySelector("ul");
 let today = new Date();
+let auctions = []
 
 function main() {
     //start iframe data gathering cooldown
     setAuctionsClasses();
     createHeaderTable();
+    addWoodsTableToAuctions();
     startCountdown(10);
     addHeaderTableInfo();
     addMouseFunctionsToHeaderTable();
@@ -47,57 +78,81 @@ function main() {
     //btn click
     createIFrames();
 
+
+    console.log(auctions)
+
 }
 main();
 
-let auctionsFrameInfo = []
-
 function createIFrames() {
+    console.log("🚀 ~ file: navbar_v1.2.js:56 ~ createIFrames ~ createIFrames: LOADED")
+    let counter = 0;
+
     table.forEach(el => {
         const iFrame = document.createElement('iframe');
         iFrame.id = el.cells[0].innerText;
-        // iFrame.style.display = "none";
+        iFrame.style.display = "none";
         iFrame.src = el.cells[(el.querySelectorAll('td').length - 2)].querySelector('a').href;
         el.cells[0].appendChild(iFrame);
         iFrame.onload = function () {
+            let framesInfo = document.querySelector("#navbarHeaderInfo").querySelector("#frames");
             let loadedFrame = iFrame.contentWindow.document;
+            let obj = []; //maybe it shoud be inside iFrame.onload
+            let woodsObj = {}
             let woodsTableInputs = loadedFrame.querySelector('tbody').querySelectorAll('input');
+            woodsTableInputs.forEach((el, index) => {
+                if (index != 0) {
+                    woodsObj[el.name.split('][')[1]] = el.value;
+                }
+            })
 
-            function getDocumentlist(id){
-                let docListArray = []
-                let item = {};
-                let docs = loadedFrame.getElementById(id).querySelector('tbody').querySelectorAll('а');
-
+            let money = {
+                price: loadedFrame.querySelector("#auctionStartPrice").value,
+                bidStep: loadedFrame.querySelector("#аuctionBidStep").value,
+                guarantee: loadedFrame.querySelector("#аuctionGuarantee").value
             }
 
-            let obj = {
-                id: woodsTableInputs[0].value,
-                secondDate:,
-                appDueDate:,
-                woodsInfo: {
-                    big: woodsTableInputs[2].value,
-                    medium: woodsTableInputs[3].value,
-                    small: woodsTableInputs[4].value,
-                    ozm: woodsTableInputs[5].value,
-                    fire:woodsTableInputs[6].value, 
-                    total:woodsTableInputs[7].value 
-                },
-                documents: [{name:, date:,} {name:, date:,}], //getDocumentList("#auctionDocuments")
-                firstByuer: [{name:, date:,}, {name:, date:,}], //getDocumentList("#auctionOrder")
-                secondByuer: [{name:, date:,}, {name:, date:,}], //getDocumentList("#auctionSecOrder")
-                money: {
-                    price: ,
-                    bidStep: ,
-                    guarantee:
+            function getDocumentlist(id) {
+                //check if id frame existst
+                var elementExists = loadedFrame.getElementById(id);
+                if (elementExists != null) {
+                    let docs = loadedFrame.getElementById(id).querySelector('tbody').querySelectorAll('a');
+                    let docsParameters = []
+                    docs.forEach(el => {
+                        let item = {
+                            name: el.innerHTML.split('/')[0],
+                            date: el.innerHTML.split('/')[0].split(" ")[0],
+                            link: el.href
+                        }
+                        docsParameters.push(item)
+                    })
+                    return docsParameters;
+                } else {
+                    return 0;
                 }
             }
-            auctionsFrameInfo.push(obj)
+
+            delay(1000).then(() => saveToObj());
+
+            function saveToObj() {
+                obj.id = el.cells[0].innerText;
+                obj.secondDate = loadedFrame.querySelector("#auctionSecondDueDate").value;
+                obj.appDueDate = loadedFrame.querySelector("#auctionApplicationsDueDate").value.split(' ')[0];
+                obj.woodsInfo = woodsObj;
+                obj.documents = getDocumentlist("auctionDocuments");
+                obj.firstByuer = getDocumentlist("auctionOrder");
+                obj.secondByuer = getDocumentlist("auctionSecOrder");
+                obj.money = money;
+
+                auctions.push(obj);
+                counter++;
+                framesInfo.innerText = counter;
+            }
 
         }
         return
     });
 }
-
 
 function setAuctionsClasses() {
     table.forEach(el => {
@@ -187,6 +242,56 @@ function createHeaderTable() {
     navbar.prepend(btn);
     //add container to header
     navbar.prepend(container);
+}
+
+function createWoodsTable() {
+    console.log("🚀 ~ file: navbar_v1.2.js:245 ~ createWoodsTable ~ createWoodsTable:", loaded)
+    // Create the tWoods element
+    var tWoods = document.createElement('tWoods');
+    tWoods.id = 'woodsTable';
+    // tWoods.style.visibility = "hidden";
+
+    // Create the tWoods head (thead) element
+    var thead = document.createElement('thead');
+    var trHead = document.createElement('tr');
+    
+    // Append the tWoods header row to the tWoods head
+    thead.appendChild(trHead);
+    
+    // Create the tWoods body (tbody) element
+    var tbody = document.createElement('tbody');
+    var trBody = document.createElement('tr');
+
+    // Create the table header (th) elements for the table head
+    // Create the table data (td) elements for the table body
+    woodsTable.forEach(el => {
+        let th = document.createElement('th')
+        th.innerText = el.title
+        trHead.appendChild(th)
+
+        let td = document.createElement('div')
+        td.id = el.id
+        trBody.appendChild(td)
+    })
+
+    // Append the tWoods data row to the tWoods body
+    tbody.appendChild(trBody);
+
+    // Append the tWoods head and body to the tWoods
+    tWoods.appendChild(thead);
+    tWoods.appendChild(tbody);
+
+    return tWoods;
+}
+
+// Add the tWoods to the document body (or any other desired location)
+function addWoodsTableToAuctions() {
+    console.log("🚀 ~ file: navbar_v1.2.js:290 ~ addWoodsTableToAuctions ~ addWoodsTableToAuctions:", loaded)
+    table.forEach(el => {
+        let text = el.cells[5].innerText;
+        el.cells[5].innerHTML = text + "<br>"
+        el.cells[5].appendChild(createWoodsTable())
+    })
 }
 
 function addHeaderTableInfo() {
@@ -292,6 +397,39 @@ function auctionDateCheck(el) {
     }
 }
 
+function moreInfo(params) {
+    console.log("🚀 ~ file: navbar_v1.1.js:30 ~ moreInfo ~ params:", params)
+    startCountdown(params / 1000);
+    auctions.forEach(el => {
+        console.log("🚀 ~ file: navbar_v1.2.js:327 ~ moreInfo ~ el.id:", el.id, el)
+
+    })
+    delay(params).then(() => btnChanger());
+
+    function btnChanger() {
+        console.log('more info running');
+        document.querySelector('#testBTN').textContent = 'SHOW';
+        document.querySelector('#testBTN').onclick = function () {
+            newButtonFunction();
+        }
+    }
+
+    function newButtonFunction() {
+        let button = document.querySelector('#testBTN')
+        if (button.innerText === "SHOW") {
+            button.innerText = "HIDE";
+            document.querySelectorAll("#woodsTable").forEach(el => {
+                el.style.visibility = ""
+            })
+        } else if (button.innerText === "HIDE") {
+            button.innerText = "SHOW";
+            document.querySelectorAll("#woodsTable").forEach(el => {
+                el.style.visibility = "hidden"
+            })
+        }
+    }
+}
+
 function stringToDate(string) {
     string = string.split(" ")[0].split(".");
     return new Date(string[2], string[1] - 1, string[0]);
@@ -361,6 +499,25 @@ td#seconds {
     font-style: normal;
     font-weight: bold;
     font-size: xx-large;
+}
+
+table#woodsTable {    
+    vertical-align: middle;
+    text-align: center;
+}
+
+table#woodsTable thead th{
+    padding: 2px;
+    width: 60px;
+    font-style: italic;
+    font-size: small;
+}
+
+table#woodsTable td {
+    padding: 2px;
+    width: 60px;
+    font-style: italic;
+    font-size: small;
 }
 
 #testBTN {
