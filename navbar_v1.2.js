@@ -59,6 +59,18 @@ let woodsTable = [{
         title: 'общо'
     },
 ]
+
+let priceTable = [{
+    id: "price",
+    title: "цена"
+}, {
+    id: "bidStep",
+    title: "стъпка"
+}, {
+    id: "guarantee",
+    title: "гаранция"
+}]
+
 let loaded = "LOADED"
 
 let table = document.querySelector('tbody').querySelectorAll('tr');
@@ -254,10 +266,10 @@ function createWoodsTable() {
     // Create the tWoods head (thead) element
     var thead = document.createElement('thead');
     var trHead = document.createElement('tr');
-    
+
     // Append the tWoods header row to the tWoods head
     thead.appendChild(trHead);
-    
+
     // Create the tWoods body (tbody) element
     var tbody = document.createElement('tbody');
     var trBody = document.createElement('tr');
@@ -501,23 +513,23 @@ td#seconds {
     font-size: xx-large;
 }
 
-table#woodsTable {    
+#woodsTable {    
     vertical-align: middle;
     text-align: center;
 }
 
-table#woodsTable thead th{
+#woodsTable th{
     padding: 2px;
-    width: 60px;
+    width: 30px;
     font-style: italic;
-    font-size: small;
+    font-size: normal;
 }
 
-table#woodsTable td {
+#woodsTable td {
     padding: 2px;
-    width: 60px;
+    width: 30px;
     font-style: italic;
-    font-size: small;
+    font-size: normal;
 }
 
 #testBTN {
