@@ -199,7 +199,6 @@ function setAuctionsClasses() {
 
 //CONSTRUCTION
 function createTable(tableID, array) {
-    console.log("🚀 ~ file: navbar_v1.2.js:196 ~ createTable ~ createTable:", loaded, tableID, array);
     //create table element
     const table = document.createElement('div');
     table.id = tableID;
@@ -342,9 +341,9 @@ function addWoodsTableToAuctions() {
     console.log("🚀 ~ file: navbar_v1.2.js:290 ~ addWoodsTableToAuctions ~ addWoodsTableToAuctions:", loaded)
     auctionsTable.forEach(el => {
         let text = el.cells[5].innerText;
-        el.cells[5].innerHTML = text + "<br>"
+        el.cells[5].innerHTML = text + '<br><span id="navbarContainer">'
         // el.cells[5].appendChild(createWoodsTable())
-        el.cells[5].appendChild(createTable("woodsTable", woodsTable))
+        el.cells[5].querySelector("span").appendChild(createTable("woodsTable", woodsTable))
     })
 }
 
@@ -527,82 +526,68 @@ function startCountdown(seconds) {
 
 //styling bellow
 document.head.insertAdjacentHTML("beforeend", `<style>
-li#navbarContainer {
+#navbarContainer {
     vertical-align: middle;
     text-align: center;
     padding-right: 20px;
 }
 
-.customContainer{
+.customContainer {
     display: table;
     width: 100%;
 }
 
-
-div#rowHead {
-    border-bottom: 1rem solid;
-    font-style: italic;
-    font-size: small;
-}
-#rowHead, #rowInfo{
-    white-space: nowrap; /* Prevent divs from wrapping to the next line */
-  }
-
- #woodsTable > div {
-    color: red;
-    
- } 
-#rowHead > div, #rowInfo > div {
-    width: 100px; /* Set the width to your desired value (e.g., 100px) */
+#rowHead>div,
+#rowInfo>div {
+    white-space: nowrap;
+    /* Set the width to your desired value (e.g., 100px) */
     display: inline-block;
-    margin-right: 0px; /* Adjust the spacing between divs as needed */
-    
+    margin-right: 0px;
+    /* Adjust the spacing between divs as needed */
+
     border-left: 2px solid #0004ff;
     position: relative;
     top: 50%;
     bottom: 0;
 }
 
-div#rowInfo {
+#rowHead {
+    border-bottom: 5px solid;
+    font-style: italic;
+    font-size: small;
+}
+
+#rowInfo {
     font-weight: bold;
     font-size: medium;
     color: black;
 }
 
-td#total,
-td#seconds {
-    font-style: normal;
-    font-weight: bold;
-    font-size: xx-large;
+#rowHead > div:first-child, #rowInfo > div:first-child {
+    border-left-style: hidden;
 }
 
-#woodsTable {    
-    vertical-align: middle;
-    text-align: center;
+#navbarHeaderInfo #rowHead>div,
+#rowInfo>div {
+    width: 100px;
 }
 
-#woodsTable th{
-    padding: 2px;
-    width: 30px;
+#woodsTable #rowHead>div,
+#woodsTable #rowInfo>div {
+    width: 55px;
+}
+
+#woodsTable #rowInfo {
     font-style: italic;
-    font-size: normal;
+    font-size: small;
 }
 
-#woodsTable td {
-    padding: 2px;
-    width: 30px;
-    font-style: italic;
-    font-size: normal;
-}
 
-#testBTN {
-    margin: 10px 28px 10px 8px;
-}
+
 
 td.hidden-xs {
     position: relative;
 }
-
 .tt {
     display: none;
     position: absolute;
@@ -615,7 +600,6 @@ td.hidden-xs {
     top: 20px;
     left: 20px;
 }
-
 td.hidden-xs:hover .tt {
     display: block;
 }

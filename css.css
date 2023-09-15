@@ -1,0 +1,116 @@
+li#navbarContainer {
+    vertical-align: middle;
+    text-align: center;
+    padding-right: 20px;
+}
+
+.customContainer {
+    display: table;
+    width: 100%;
+}
+
+#navbarHeaderInfo #rowHead {
+    border-bottom: 5px solid;
+    font-style: italic;
+    font-size: small;
+}
+
+#rowHead,
+#rowInfo {
+    white-space: nowrap;
+    /* Prevent divs from wrapping to the next line */
+}
+
+#woodsTable {
+    vertical-align: middle;
+    text-align: center;
+    padding-right: 20px;
+}
+
+#woodsTable #rowHead>div,
+#woodsTable #rowInfo>div {
+    white-space: nowrap;
+    /* Prevent divs from wrapping to the next line */
+    width: 50px;
+    /* Set the width to your desired value (e.g., 100px) */
+    display: inline-block;
+    margin-right: 0px;
+    /* Adjust the spacing between divs as needed */
+
+    border-left: 2px solid #0004ff;
+    position: relative;
+    top: 50%;
+    bottom: 0;
+
+}
+
+#navbarHeaderInfo #rowHead>div,
+#rowInfo>div {
+    width: 100px;
+    /* Set the width to your desired value (e.g., 100px) */
+    display: inline-block;
+    margin-right: 0px;
+    /* Adjust the spacing between divs as needed */
+
+    border-left: 2px solid #0004ff;
+    position: relative;
+    top: 50%;
+    bottom: 0;
+}
+
+div#rowInfo {
+    font-weight: bold;
+    font-size: medium;
+    color: black;
+}
+
+td#total,s
+td#seconds {
+    font-style: normal;
+    font-weight: bold;
+    font-size: xx-large;
+}
+
+#woodsTable {
+    vertical-align: middle;
+    text-align: center;
+}
+
+#woodsTable th {
+    padding: 2px;
+    width: 30px;
+    font-style: italic;
+    font-size: normal;
+}
+
+#woodsTable td {
+    padding: 2px;
+    width: 30px;
+    font-style: italic;
+    font-size: normal;
+}
+
+#testBTN {
+    margin: 10px 28px 10px 8px;
+}
+
+td.hidden-xs {
+    position: relative;
+}
+
+.tt {
+    display: none;
+    position: absolute;
+    z-index: 100;
+    border: 1px;
+    background-color: white;
+    border: 1px solid green;
+    padding: 3px;
+    color: green;
+    top: 20px;
+    left: 20px;
+}
+
+td.hidden-xs:hover .tt {
+    display: block;
+}
