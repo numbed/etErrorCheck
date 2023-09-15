@@ -93,6 +93,7 @@ function main() {
     addWoodsTableToAuctions();
     startCountdown(10);
 
+    // create li element to hold info table at navbar
     const li = document.createElement("li");
     li.id = "navbarContainer";
     li.appendChild(createTable("navbarHeaderInfo", navbarInfoTable));
@@ -182,17 +183,8 @@ function createIFrames() {
 function setAuctionsClasses() {
     auctionsTable.forEach(el => {
         if (el.className != "danger") {
-            let input = auctionDateCheck(el);
-            switch (input) {
-                case "commission":
-                    el.className = "commission";
-                case "future":
-                    el.className = "future";
-                case "today":
-                    el.className = "today";
-                case "passed":
-                    el.className = "passed";
-            }
+            el.className = auctionDateCheck(el)
+            console.log("🚀 ~ file: navbar_v1.2.js:187 ~ setAuctionsClasses ~ el.className: LOADED", el.cells[0].innerText, el.className)
 
             //set auction class to notPublished based on font color
             if (window.getComputedStyle(el).color === "rgb(153, 153, 153)") {
@@ -351,7 +343,8 @@ function addWoodsTableToAuctions() {
     auctionsTable.forEach(el => {
         let text = el.cells[5].innerText;
         el.cells[5].innerHTML = text + "<br>"
-        el.cells[5].appendChild(createWoodsTable())
+        // el.cells[5].appendChild(createWoodsTable())
+        el.cells[5].appendChild(createTable("woodsTable", woodsTable))
     })
 }
 
@@ -370,7 +363,8 @@ function addMouseFunctionsToHeaderTable() {
     navbarInfoTable.forEach(el => {
         document.getElementById(el.id).addEventListener("mouseover", (event) => {
                 // highlight the mouseover target
-                event.target.style.color = "black";
+                event.target.style.color = "white";
+                event.target.style.backgroundColor = el.color;
                 auctionsTable.forEach(element => {
                     if (element.className === el.id) {
                         element.style.backgroundColor = el.color;
@@ -381,6 +375,7 @@ function addMouseFunctionsToHeaderTable() {
                 // reset the color after a short delay
                 setTimeout(() => {
                     event.target.style.color = "";
+                    event.target.style.backgroundColor = "";
                     auctionsTable.forEach(element => {
                         if (element.className === el.id) {
                             element.style.backgroundColor = "";
@@ -447,11 +442,11 @@ function auctionDateCheck(el) {
     }
     commDate.setDate(comm);
 
-    if (deadlineDate.setHours(0, 0, 0, 0) === today.setHours(0, 0, 0, 0)) {
+    if (deadlineDate.setHours(0, 0, 0, 0) == today.setHours(0, 0, 0, 0)) {
         return "today";
-    } else if (commDate.setHours(0, 0, 0, 0) === today.setHours(0, 0, 0, 0)) {
+    } else if (deadlineDate.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0) && commDate.setHours(0, 0, 0, 0) == today.setHours(0, 0, 0, 0)) {
         return "commission";
-    } else if (firstDate.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0) || deadlineDate.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0)) {
+    } else if (deadlineDate.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0)) {
         return "passed";
     } else {
         return "future";
@@ -552,10 +547,15 @@ div#rowHead {
 #rowHead, #rowInfo{
     white-space: nowrap; /* Prevent divs from wrapping to the next line */
   }
+
+ #woodsTable > div {
+    color: red;
+    
+ } 
 #rowHead > div, #rowInfo > div {
     width: 100px; /* Set the width to your desired value (e.g., 100px) */
     display: inline-block;
-    margin-right: 10px; /* Adjust the spacing between divs as needed */
+    margin-right: 0px; /* Adjust the spacing between divs as needed */
     
     border-left: 2px solid #0004ff;
     position: relative;
