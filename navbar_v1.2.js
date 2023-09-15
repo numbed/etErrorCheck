@@ -90,16 +90,18 @@ function main() {
     //start iframe data gathering cooldown
     setAuctionsClasses();
     // createHeaderTable();
-    // addWoodsTableToAuctions();
-    addTableToAuctions("woodsTable", woodsTable, 5);
-    addTableToAuctions("priceTable", priceTable, 6);
-    startCountdown(10);
 
-    // create li element to hold info table at navbar
+    // create li element to hold navbarInfoTable in header
     const li = document.createElement("li");
     li.id = "navbarContainer";
     li.appendChild(createTable("navbarHeaderInfo", navbarInfoTable));
     navbar.prepend(li);
+    // addWoodsTableToAuctions();
+
+    addTableToAuctions("woodsTable", woodsTable, 5);
+    addTableToAuctions("priceTable", priceTable, 6);
+    startCountdown(10);
+
 
     // create element to show total number of auctions on page
     const totalTD = document.createElement("div")
@@ -232,7 +234,6 @@ function setAuctionsClasses() {
     });
 }
 
-//CONSTRUCTION
 function createTable(tableID, array) {
     //create table element
     const table = document.createElement('div');
@@ -265,111 +266,6 @@ function createTable(tableID, array) {
 
     return table;
 }
-//CONSTRUCTION
-
-function createHeaderTable() {
-    //creates container element to add to header that contains auctions rows infos
-    const container = document.createElement('li');
-    container.id = "navbarHeaderInfo";
-
-    //creates element that holds cell titles
-    const rowHead = document.createElement('tr');
-    rowHead.className = 'rowHead';
-    container.appendChild(rowHead);
-
-    //creates element that holds cell infos
-    const rowInfo = document.createElement('tr');
-    rowInfo.className = 'rowInfo';
-    container.appendChild(rowInfo);
-
-    //creates cell blocks for each array element
-    navbarInfoTable.forEach(el => {
-        createTD(el);
-    });
-
-    function createTD(el) {
-        const tdHead = document.createElement('td');
-        tdHead.innerText = el.id;
-        tdHead.id = el.id + "Head";
-
-        const tdInfo = document.createElement('td');
-        tdInfo.innerText = '{INFO}';
-        tdInfo.id = el.id;
-        tdInfo.style.backgroundColor = el.color;
-
-        rowHead.appendChild(tdHead);
-        rowInfo.appendChild(tdInfo);
-    }
-
-    //creates button to add to header and redirects to new function when clicked
-    const btn = document.createElement("button");
-    btn.textContent = 'DONT PRESS ME';
-    btn.id = 'testBTN'
-    btn.onclick = function () {
-        console.log("BUTTON CLICKED:");
-        moreInfo(3000);
-    }
-
-    //creates total auctions info container
-    const totalContainer = document.createElement("td");
-    totalContainer.id = 'total';
-    totalContainer.rowSpan = "3";
-    totalContainer.innerText = table.length;
-    //add secContainer to rowHead
-    rowHead.prepend(totalContainer);
-
-    //creates seconds container
-    const secContainer = document.createElement("td");
-    secContainer.id = 'seconds';
-    secContainer.rowSpan = "3";
-    //add secContainer to rowHead
-    rowHead.append(secContainer);
-
-    //add button to header
-    navbar.prepend(btn);
-    //add container to header
-    navbar.prepend(container);
-}
-
-function createWoodsTable() {
-    console.log("🚀 ~ file: navbar_v1.2.js:245 ~ createWoodsTable ~ createWoodsTable:", loaded)
-    // Create the tWoods element
-    var tWoods = document.createElement('table');
-    tWoods.id = 'woodsTable';
-    // tWoods.style.visibility = "hidden";
-
-    // Create the tWoods head (thead) element
-    var thead = document.createElement('thead');
-    var trHead = document.createElement('tr');
-
-    // Append the tWoods header row to the tWoods head
-    thead.appendChild(trHead);
-
-    // Create the tWoods body (tbody) element
-    var tbody = document.createElement('tbody');
-    var trBody = document.createElement('tr');
-
-    // Create the table header (th) elements for the table head
-    // Create the table data (td) elements for the table body
-    woodsTable.forEach(el => {
-        let th = document.createElement('th')
-        th.innerText = el.title
-        trHead.appendChild(th)
-
-        let td = document.createElement('div')
-        td.id = el.id
-        trBody.appendChild(td)
-    })
-
-    // Append the tWoods data row to the tWoods body
-    tbody.appendChild(trBody);
-
-    // Append the tWoods head and body to the tWoods
-    tWoods.appendChild(thead);
-    tWoods.appendChild(tbody);
-
-    return tWoods;
-}
 
 // Add the tWoods to the document body (or any other desired location)
 function addWoodsTableToAuctions() {
@@ -377,7 +273,6 @@ function addWoodsTableToAuctions() {
     auctionsTable.forEach(el => {
         let text = el.cells[5].innerText;
         el.cells[5].innerHTML = text + '<br><span id="navbarContainer">'
-        // el.cells[5].appendChild(createWoodsTable())
         el.cells[5].querySelector("span").appendChild(createTable("woodsTable", woodsTable))
     })
 }
