@@ -158,7 +158,7 @@ function createIFrames() {
         iFrame.src = el.cells[(el.querySelectorAll('td').length - 2)].querySelector('a').href;
         el.cells[0].appendChild(iFrame);
         iFrame.onload = function () {
-            let framesInfo = document.querySelector("#navbarHeaderInfo").querySelector("#frames");
+            let framesInfo = document.querySelector("#frames");
             let loadedFrame = iFrame.contentWindow.document;
             let obj = []; //maybe it shoud be inside iFrame.onload
             let woodsObj = {}
