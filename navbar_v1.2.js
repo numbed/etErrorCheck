@@ -140,7 +140,7 @@ function main() {
     addMouseFunctionsToHeaderTable();
     colorAuctionsTable();
     //btn click
-    // createIFrames();
+    createIFrames();
 
     console.log(auctions)
 
@@ -221,7 +221,6 @@ function setAuctionsClasses() {
     auctionsTable.forEach(el => {
         if (el.className != "danger") {
             el.className = auctionDateCheck(el)
-            console.log("🚀 ~ file: navbar_v1.2.js:187 ~ setAuctionsClasses ~ el.className: LOADED", el.cells[0].innerText, el.className)
 
             //set auction class to notPublished based on font color
             if (window.getComputedStyle(el).color === "rgb(153, 153, 153)") {
@@ -278,7 +277,6 @@ function addWoodsTableToAuctions() {
 }
 
 function addTableToAuctions(tableID, array, cellID) {
-    console.log("🚀 ~ file: navbar_v1.2.js:362 ~ addTableToAuctions ~ addTableToAuctions: LOADED")
     auctionsTable.forEach(el => {
         let text = el.cells[cellID].innerText;
         el.cells[cellID].innerHTML = text + '<br><span id="navbarContainer">'
@@ -410,10 +408,14 @@ function moreInfo(params) {
     }
 
     function newButtonFunction() {
+        populateTables();
         let button = document.querySelector('#testBTN')
         if (button.innerText === "SHOW") {
             button.innerText = "HIDE";
             document.querySelectorAll("#woodsTable").forEach(el => {
+                el.style.visibility = ""
+            })
+            document.querySelectorAll("#priceTable").forEach(el => {
                 el.style.visibility = ""
             })
         } else if (button.innerText === "HIDE") {
@@ -421,8 +423,22 @@ function moreInfo(params) {
             document.querySelectorAll("#woodsTable").forEach(el => {
                 el.style.visibility = "hidden"
             })
+            document.querySelectorAll("#priceTable").forEach(el => {
+                el.style.visibility = "hidden"
+            })
         }
     }
+}
+
+function populateTables() { //called in newButtonFunction()
+    auctionsTable.forEach(element => {
+        auctions.forEach(el =>{
+            if(element.cells[0].innerHTML === el.id){
+                console.count("ok");
+            }
+        })
+    })
+    
 }
 
 function stringToDate(string) {
