@@ -64,11 +64,14 @@ div#rowInfo {
     color: black;
 }
 
-td#total,s
+td#totals,
 td#seconds {
     font-style: normal;
     font-weight: bold;
     font-size: xx-large;
+    padding: 5px;
+    margin: 15px;
+    vertical-align: middle;
 }
 
 #woodsTable {

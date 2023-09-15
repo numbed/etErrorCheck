@@ -101,6 +101,39 @@ function main() {
     li.appendChild(createTable("navbarHeaderInfo", navbarInfoTable));
     navbar.prepend(li);
 
+    // create element to show total number of auctions on page
+    const totalTD = document.createElement("div")
+    const totalLI = document.createElement("li")
+    totalTD.id = "totals";
+    totalTD.rowSpan = "3";
+    totalTD.innerText = table.length;
+    totalLI.prepend(totalTD)
+    navbar.prepend(totalLI);
+
+    // create element to show remaining seconds
+    const secondsTD = document.createElement("div")
+    const secondsLI = document.createElement("li")
+    secondsTD.id = "seconds";
+    secondsTD.rowSpan = "3";
+    secondsTD.innerText = table.length;
+    secondsLI.appendChild(secondsTD);
+    navbar.appendChild(secondsLI);
+    li.after(secondsLI)
+
+
+    // create button to add to navbar and redirects to new function when clicked
+    const btn = document.createElement("button");
+    const btnLI = document.createElement("li")
+    btn.textContent = 'DONT PRESS ME';
+    btn.id = 'testBTN'
+    btn.onclick = function () {
+        console.log("BUTTON CLICKED:");
+        moreInfo(3000);
+    }
+    btnLI.appendChild(btn);
+    navbar.appendChild(btnLI);
+    secondsLI.after(btnLI)
+
     addHeaderTableInfo();
     addMouseFunctionsToHeaderTable();
     colorAuctionsTable();
@@ -356,7 +389,7 @@ function addTableToAuctions(tableID, array, cellID) {
         el.cells[cellID].innerHTML = text + '<br><span id="navbarContainer">'
         el.cells[cellID].querySelector('span').appendChild(createTable(tableID, array))
     })
-    
+
 }
 
 function addHeaderTableInfo() {
@@ -525,7 +558,7 @@ function delay(time) {
 function startCountdown(seconds) {
     let counter = seconds;
     const interval = setInterval(() => {
-        let secondsInfo = document.querySelector("#navbarHeaderInfo").querySelector("#seconds");
+        let secondsInfo = document.querySelector("#seconds");
         secondsInfo.innerText = counter;
         counter--;
 
@@ -599,6 +632,17 @@ document.head.insertAdjacentHTML("beforeend", `<style>
 #priceTable #rowInfo>div {
     width: 100px;
 }
+
+div#totals,
+div#seconds {
+    font-style: normal;
+    font-weight: bold;
+    font-size: xx-large;
+    padding: 5px;
+    margin: 15px;
+    vertical-align: middle;
+}
+
 
 
 
