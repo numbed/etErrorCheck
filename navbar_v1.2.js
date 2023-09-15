@@ -47,7 +47,7 @@ let woodsTable = [{
         id: 'big',
         title: 'Е'
     }, {
-        id: 'medium',
+        id: 'mid',
         title: 'С'
     },
     {
@@ -59,7 +59,7 @@ let woodsTable = [{
         title: 'ОЗМ'
     },
     {
-        id: 'fire',
+        id: 'firewood',
         title: 'огрев'
     },
     {
@@ -96,6 +96,7 @@ function main() {
     li.id = "navbarContainer";
     li.appendChild(createTable("navbarHeaderInfo", navbarInfoTable));
     navbar.prepend(li);
+    document.querySelector("#navbarHeaderInfo").style.display = "inline-block";
     // addWoodsTableToAuctions();
 
     addTableToAuctions("woodsTable", woodsTable, 5);
@@ -237,16 +238,14 @@ function createTable(tableID, array) {
     //create table element
     const table = document.createElement('div');
     table.id = tableID;
-    // table.className = 'customContainer'
-    // table.visibility = 'hidden';
+    table.className = 'customContainer'
+    table.style.display = 'none';
 
     //create thead,tbody elements
     const thead = document.createElement('div');
-    table.className = 'customContainer'
     thead.id = 'rowHead'
     const tbody = document.createElement('div');
     tbody.id = 'rowInfo'
-    table.className = 'customContainer'
 
     // crate table header & body elements
     array.forEach(el => {
@@ -266,15 +265,15 @@ function createTable(tableID, array) {
     return table;
 }
 
-// Add the tWoods to the document body (or any other desired location)
-function addWoodsTableToAuctions() {
-    console.log("🚀 ~ file: navbar_v1.2.js:290 ~ addWoodsTableToAuctions ~ addWoodsTableToAuctions:", loaded)
-    auctionsTable.forEach(el => {
-        let text = el.cells[5].innerText;
-        el.cells[5].innerHTML = text + '<br><span id="navbarContainer">'
-        el.cells[5].querySelector("span").appendChild(createTable("woodsTable", woodsTable))
-    })
-}
+// // Add the tWoods to the document body (or any other desired location)
+// function addWoodsTableToAuctions() {
+//     console.log("🚀 ~ file: navbar_v1.2.js:290 ~ addWoodsTableToAuctions ~ addWoodsTableToAuctions:", loaded)
+//     auctionsTable.forEach(el => {
+//         let text = el.cells[5].innerText;
+//         el.cells[5].innerHTML = text + '<br><span id="navbarContainer">'
+//         el.cells[5].querySelector("span").appendChild(createTable("woodsTable", woodsTable))
+//     })
+// }
 
 function addTableToAuctions(tableID, array, cellID) {
     auctionsTable.forEach(el => {
@@ -411,19 +410,31 @@ function moreInfo(params) {
         let button = document.querySelector('#testBTN')
         if (button.innerText === "SHOW") {
             button.innerText = "HIDE";
+            // document.querySelectorAll("#woodsTable").forEach(el => {
+            //     el.style.visibility = ""
+            // })
+            // document.querySelectorAll("#priceTable").forEach(el => {
+            //     el.style.visibility = ""
+            // })
             document.querySelectorAll("#woodsTable").forEach(el => {
-                el.style.visibility = ""
+                el.style.display = "inline-block"
             })
             document.querySelectorAll("#priceTable").forEach(el => {
-                el.style.visibility = ""
+                el.style.display = "inline-block"
             })
         } else if (button.innerText === "HIDE") {
             button.innerText = "SHOW";
+            // document.querySelectorAll("#woodsTable").forEach(el => {
+            //     el.style.visibility = "hidden"
+            // })
+            // document.querySelectorAll("#priceTable").forEach(el => {
+            //     el.style.visibility = "hidden"
+            // })
             document.querySelectorAll("#woodsTable").forEach(el => {
-                el.style.visibility = "hidden"
+                el.style.display = "none"
             })
             document.querySelectorAll("#priceTable").forEach(el => {
-                el.style.visibility = "hidden"
+                el.style.display = "none"
             })
         }
     }
@@ -435,6 +446,24 @@ function populateTables() { //called in newButtonFunction()
         auctions.forEach(el => {
             if (element.cells[0].innerText === el.id) {
                 console.count("ok", element.cells[0].innerText, el.id);
+                element.querySelector('#big').innerText = el.woodsInfo.big;
+                element.querySelector('#mid').innerText = el.woodsInfo.mid;
+                element.querySelector('#small').innerText = el.woodsInfo.small;
+                element.querySelector('#ozm').innerText = el.woodsInfo.ozm;
+                element.querySelector('#firewood').innerText = el.woodsInfo.firewood;
+                element.querySelector('#total').innerText = el.woodsInfo.total;
+                element.querySelector('#price').innerText = el.money.price;
+                element.querySelector('#bidStep').innerText = el.money.bidStep;
+                element.querySelector('#guarantee').innerText = el.money.guarantee + " (" + ((el.money.guarantee / el.money.price) * 100).toFixed(2) + " %)";
+
+                function calcPercent() {
+                    let percent = ((el.money.guarantee / el.money.price) * 100).toFixed(2);
+                    if (percent > 5) {
+                        percent.style.color = 'red';
+                    }
+                    console.log("🚀 ~ file: navbar_v1.2.js:465 ~ calcPercent ~ percent: LOADED", percent)
+                    return percent;
+                }
             }
         })
     })
