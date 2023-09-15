@@ -391,10 +391,9 @@ function auctionDateCheck(el) {
 }
 
 function moreInfo(params) {
-    console.log("🚀 ~ file: navbar_v1.1.js:30 ~ moreInfo ~ params:", params)
     startCountdown(params / 1000);
     auctions.forEach(el => {
-        console.log("🚀 ~ file: navbar_v1.2.js:327 ~ moreInfo ~ el.id:", el.id, el)
+        // console.log("🚀 ~ file: navbar_v1.2.js:327 ~ moreInfo ~ el.id:", el.id, el)
 
     })
     delay(params).then(() => btnChanger());
@@ -431,14 +430,15 @@ function moreInfo(params) {
 }
 
 function populateTables() { //called in newButtonFunction()
-    auctionsTable.forEach(element => {
-        auctions.forEach(el =>{
-            if(element.cells[0].innerHTML === el.id){
-                console.count("ok");
+    console.log("🚀 ~ file: navbar_v1.2.js:434 ~ populateTables ~ populateTables: LOADED")
+    auctionsTable.forEach((element, index) => {
+        auctions.forEach(el => {
+            if (element.cells[0].innerText === el.id) {
+                console.count("ok", element.cells[0].innerText, el.id);
             }
         })
     })
-    
+
 }
 
 function stringToDate(string) {
