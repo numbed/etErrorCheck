@@ -90,7 +90,9 @@ function main() {
     //start iframe data gathering cooldown
     setAuctionsClasses();
     // createHeaderTable();
-    addWoodsTableToAuctions();
+    // addWoodsTableToAuctions();
+    addTableToAuctions("woodsTable", woodsTable, 5);
+    addTableToAuctions("priceTable", priceTable, 6);
     startCountdown(10);
 
     // create li element to hold info table at navbar
@@ -347,6 +349,16 @@ function addWoodsTableToAuctions() {
     })
 }
 
+function addTableToAuctions(tableID, array, cellID) {
+    console.log("🚀 ~ file: navbar_v1.2.js:362 ~ addTableToAuctions ~ addTableToAuctions: LOADED")
+    auctionsTable.forEach(el => {
+        let text = el.cells[cellID].innerText;
+        el.cells[cellID].innerHTML = text + '<br><span id="navbarContainer">'
+        el.cells[cellID].querySelector('span').appendChild(createTable(tableID, array))
+    })
+    
+}
+
 function addHeaderTableInfo() {
     //add #rowInfo data
     document.querySelector("#navbarHeaderInfo").querySelector("#errors").innerHTML = "N?A";
@@ -558,9 +570,9 @@ document.head.insertAdjacentHTML("beforeend", `<style>
 }
 
 #rowInfo {
-    font-weight: bold;
-    font-size: medium;
     color: black;
+    font-style: italic;
+    font-size: small;
 }
 
 #rowHead > div:first-child, #rowInfo > div:first-child {
@@ -572,14 +584,20 @@ document.head.insertAdjacentHTML("beforeend", `<style>
     width: 100px;
 }
 
+#navbarHeaderInfo #rowInfo {
+    font-weight: bold;
+    font-style: normal;
+    font-size: medium;
+}
+
 #woodsTable #rowHead>div,
 #woodsTable #rowInfo>div {
     width: 55px;
 }
 
-#woodsTable #rowInfo {
-    font-style: italic;
-    font-size: small;
+#priceTable #rowHead>div,
+#priceTable #rowInfo>div {
+    width: 100px;
 }
 
 
