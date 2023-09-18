@@ -43,6 +43,18 @@ let navbarInfoTable = [{
     },
 ];
 
+let auctionDocumetsTable = [{
+        id: 'docs',
+        title: 'Документи'
+    }, {
+        id: 'docsFirstByuer',
+        title: '1ви купувач'
+    },
+    {
+        id: 'docsSecondByuer',
+        title: '2ри купувач'
+    }]
+
 let woodsTable = [{
         id: 'big',
         title: 'Е'
@@ -99,6 +111,7 @@ function main() {
     document.querySelector("#navbarHeaderInfo").style.display = "inline-block";
     // addWoodsTableToAuctions();
 
+    addTableToAuctions("auctionDocumentsTable", auctionDocumetsTable, 4);
     addTableToAuctions("woodsTable", woodsTable, 5);
     addTableToAuctions("priceTable", priceTable, 6);
     startCountdown(10);
@@ -109,7 +122,7 @@ function main() {
     const totalLI = document.createElement("li")
     totalTD.id = "totals";
     totalTD.rowSpan = "3";
-    totalTD.innerText = table.length;
+    totalTD.innerText = auctionsTable.length;
     totalLI.prepend(totalTD)
     navbar.prepend(totalLI);
 
@@ -118,7 +131,7 @@ function main() {
     const secondsLI = document.createElement("li")
     secondsTD.id = "seconds";
     secondsTD.rowSpan = "3";
-    secondsTD.innerText = table.length;
+    // secondsTD.innerText = table.length;
     secondsLI.appendChild(secondsTD);
     navbar.appendChild(secondsLI);
     li.after(secondsLI)
@@ -276,6 +289,7 @@ function createTable(tableID, array) {
 // }
 
 function addTableToAuctions(tableID, array, cellID) {
+    console.log("🚀 ~ file: navbar_v1.2.js:292 ~ addTableToAuctions ~ addTableToAuctions: LOADED", tableID, array, cellID)
     auctionsTable.forEach(el => {
         let text = el.cells[cellID].innerText;
         el.cells[cellID].innerHTML = text + '<br><span id="navbarContainer">'
@@ -416,6 +430,9 @@ function moreInfo(params) {
             // document.querySelectorAll("#priceTable").forEach(el => {
             //     el.style.visibility = ""
             // })
+            document.querySelectorAll("#auctionDocumentsTable").forEach(el => {
+                el.style.display = "inline-block"
+            })
             document.querySelectorAll("#woodsTable").forEach(el => {
                 el.style.display = "inline-block"
             })
@@ -430,6 +447,9 @@ function moreInfo(params) {
             // document.querySelectorAll("#priceTable").forEach(el => {
             //     el.style.visibility = "hidden"
             // })
+            document.querySelectorAll("#auctionDocumentsTable").forEach(el => {
+                el.style.display = "none"
+            })
             document.querySelectorAll("#woodsTable").forEach(el => {
                 el.style.display = "none"
             })
@@ -565,12 +585,17 @@ document.head.insertAdjacentHTML("beforeend", `<style>
 
 #woodsTable #rowHead>div,
 #woodsTable #rowInfo>div {
-    width: 55px;
+    width: 16%;
 }
 
 #priceTable #rowHead>div,
 #priceTable #rowInfo>div {
-    width: 100px;
+    width: 33%;
+}
+
+#auctionDocumentsTable #rowHead>div,
+#auctionDocumentsTable #rowInfo>div {
+    width: 33%;
 }
 
 div#totals,
