@@ -593,9 +593,13 @@ document.head.insertAdjacentHTML("beforeend", `<style>
     width: 33%;
 }
 
-#auctionDocumentsTable #rowHead>div,
-#auctionDocumentsTable #rowInfo>div {
-    width: 33%;
+#auctionDocumentsTable #rowHead ,
+#auctionDocumentsTable #rowInfo  {
+    width: 70%;
+}
+#auctionDocumentsTable #rowHead ,
+#auctionDocumentsTable #rowInfo  {
+    width: 15%;
 }
 
 div#totals,
