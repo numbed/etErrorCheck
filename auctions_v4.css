@@ -1,0 +1,23 @@
+#infoTable {
+    padding: 14px 20px 14px 25px;
+    color: #a7b1c2;
+    font-weight: 600;
+}
+
+#infoTable td {
+    padding: 10px;
+    border-bottom: 1px solid;
+}
+
+#infoTable tr:hover {
+    background-color: #293846;
+    color: white;
+}
+
+#infoButtonContainer {
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+}
