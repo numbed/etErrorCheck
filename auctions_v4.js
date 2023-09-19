@@ -100,12 +100,14 @@ function createButton() {
     button.textContent = 'Click Me';
 
     // Add an event listener to the button
-    button.addEventListener('click', function () {
-        alert('Button clicked!');
-    });
+    button.addEventListener('click', buttonClick);
 
     // Append the button to a container element
     div.appendChild(button);
+}
+
+function buttonClick() {
+    alert('Button clicked!');
 }
 
 //styling bellow
