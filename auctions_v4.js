@@ -59,6 +59,7 @@ main();
 
 // show deadline for publishing documents in forth column
 // called in main()
+// error in deadlineCheck()-> removed | will be written anew
 function showDeadline() {
     auctionsTable.forEach(el => {
         let dateToShow = deadlineCheck(el.cells[2].innerText).getDate() + "." + (deadlineCheck(el.cells[2].innerText).getMonth() + 1) + "." + deadlineCheck(el.cells[2].innerText).getFullYear();
@@ -129,39 +130,6 @@ function buttonClick() {
     alert('Button clicked!');
 }
 
-// called in showDeadline() | auctionDateCheck()
-function deadlineCheck(date) {
-    let firstDate = stringToDate(date);
-    console.log("🚀 ~ file: auctions_v4.js:135 ~ deadlineCheck ~ firstDate: LOADED", firstDate)
-    let deadlineDate = new Date();
-    let deadline = new Date();
-
-    if (firstDate.getDay() == 1 || firstDate.getDay() == 4) {
-        deadline = firstDate.getDate() - 20;
-    } else if (firstDate.getDay() == 2 || firstDate.getDay() == 5) {
-        deadline = firstDate.getDate() - 18;
-    } else if (firstDate.getDay() == 3) {
-        deadline = firstDate.getDate() - 19;
-    }
-    deadlineDate.setDate(deadline);
-    return deadlineDate;
-}
-
-// called in auctionDateCheck()
-function commissionCheck(date) {
-    let firstDate = stringToDate(date);
-    let commissionDate = new Date();
-    let commission = new Date();
-
-    if (firstDate.getDay() == 1) {
-        commission = firstDate.getDate() - 3;
-    } else {
-        commission = firstDate.getDate() - 1;
-    }
-    commissionDate.setDate(commission);
-    return commissionDate;
-}
-
 // called in main()
 function setAuctionsClasses() {
     auctionsTable.forEach(el => {
@@ -173,29 +141,6 @@ function setAuctionsClasses() {
     })
 }
 
-// called in setAuctionsClasses()
-function auctionDateCheck(el) {
-    let string = el.cells[2].innerText
-    let deadline = deadlineCheck(string);
-    let commission = commissionCheck(string);
-    
-
-    if (deadline.setHours(0, 0, 0, 0) == today.setHours(0, 0, 0, 0)) {
-        return "today";
-    } else if (deadline.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0) && commission.setHours(0, 0, 0, 0) == today.setHours(0, 0, 0, 0)) {
-        return "commission";
-    } else if (deadline.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0)) {
-        return "passed";
-    } else {
-        return "future";
-    }
-}
-
-// called in stringToDate()
-function stringToDate(string) {
-    string = string.split(" ")[0].split(".");
-    return new Date(string[2], (string[1] -1 ), string[0]);
-}
 
 //styling bellow
 document.head.insertAdjacentHTML("beforeend", `<style>
