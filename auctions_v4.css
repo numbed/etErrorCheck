@@ -1,11 +1,31 @@
 /*
 document.head.insertAdjacentHTML("beforeend", `<style>
 */
+
+.passed {
+    background-color: #81B622;
+}
+
+.future {
+    background-color: #FFBB5C;
+}
+
+.today {
+    background-color: #D1462F;
+}
+
+.commission {
+    background-color: #040D12;
+}
+.notPublished {
+    background-color: rgb(153, 153, 153);
+}
+
 #infoTable {
     padding: 14px 20px 14px 25px;
     color: #a7b1c2;
     font-weight: 600;
-    
+
 }
 
 #infoTable td {
@@ -25,7 +45,7 @@ document.head.insertAdjacentHTML("beforeend", `<style>
     align-items: center;
     height: 30px;
 }
-    
+
 /*
 </style>`);
 */
