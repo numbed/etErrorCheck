@@ -286,6 +286,11 @@ document.head.insertAdjacentHTML("beforeend", `<style>
         color: white;
     }
 
+    #infoTable tr > td:last-of-type {
+        text-align: center;
+        font-size: large;
+    }
+
     #infoButtonContainer {
         padding: 10px;
         display: flex;
