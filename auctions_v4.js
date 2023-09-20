@@ -50,12 +50,26 @@ function main() {
     createInfoTable();
     createButton();
 
-    // setAuctionsClasses() must be before showDeadline() or it will not work properly !!! TO BE FIXED !!!
-    setAuctionsClasses();
     showDeadline();
+    setAuctionsClasses();
+
+    addToInfoTable();
+
 
 }
 main();
+
+// called in main()
+function addToInfoTable() {
+    document.querySelector("#errors").innerHTML = "N?A";
+    document.querySelector("#danger").innerHTML = isCounterZero(arrayCounter().danger);
+    document.querySelector("#notPublished").innerHTML = isCounterZero(arrayCounter().notPublished);
+    document.querySelector("#future").innerHTML = isCounterZero(arrayCounter().future) + "/" + (isCounterZero(arrayCounter().future) + isCounterZero(arrayCounter().notPublished));
+    document.querySelector("#today").innerHTML = isCounterZero(arrayCounter().today);
+    document.querySelector("#passed").innerHTML = isCounterZero(arrayCounter().passed);
+    document.querySelector("#commission").innerHTML = isCounterZero(arrayCounter().commission);
+    
+}
 
 // show deadline for publishing documents in forth column
 // called in main()
@@ -163,14 +177,20 @@ function buttonClick() {
 // called in main()
 function setAuctionsClasses() {
     auctionsTable.forEach(el => {
-        if (window.getComputedStyle(el).color === "rgb(153, 153, 153)") {
-            el.cells[(el.querySelectorAll('td').length - 1)].className = 'notPublished';
-        } else {
-            el.cells[(el.querySelectorAll('td').length - 1)].className = auctionDateCheck(el);
+        if (el.className != 'danger'){
+            if (window.getComputedStyle(el).color === "rgb(153, 153, 153)") {
+                el.className = 'notPublished';
+            } else {
+                el.className = auctionDateCheck(el);
+            }
         }
+        // if (window.getComputedStyle(el).color === "rgb(153, 153, 153)") {
+        //     el.cells[(el.querySelectorAll('td').length - 1)].className = 'notPublished';
+        // } else {
+        //     el.cells[(el.querySelectorAll('td').length - 1)].className = auctionDateCheck(el);
+        // }
     })
 }
-
 
 // called in setAuctionsClasses()
 function auctionDateCheck(el) {
@@ -189,27 +209,44 @@ function auctionDateCheck(el) {
     }
 }
 
+// called in addToInfoTable()
+function arrayCounter() {
+    const count = {};
+    auctionsTable.forEach(el => {
+        count[el.className] = (count[el.className] || 0) + 1;
+    });
+    return count;
+}
+
+// called in addToInfoTable()
+function isCounterZero(counter) {
+    if (counter === undefined) {
+        return counter = 0;
+    } else {
+        return counter;
+    }
+}
 
 //styling bellow
 document.head.insertAdjacentHTML("beforeend", `<style>
 
-    .passed {
+    .passed > td:last-of-type{
         background-color: #81B622;
     }
 
-    .future {
+    .future > td:last-of-type{
         background-color: #FFBB5C;
     }
 
-    .today {
+    .today > td:last-of-type{
         background-color: #D1462F;
     }
 
-    .commission {
+    .commission > td:last-of-type{
         background-color: #040D12;
     }
 
-    .notPublished {
+    .notPublished > td:last-of-type{
         background-color: rgb(153, 153, 153);
     }
 

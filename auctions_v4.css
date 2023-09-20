@@ -2,22 +2,23 @@
 document.head.insertAdjacentHTML("beforeend", `<style>
 */
 
-.passed {
+.passed > td:last-of-type{
     background-color: #81B622;
 }
 
-.future {
+.future > td:last-of-type{
     background-color: #FFBB5C;
 }
 
-.today {
+.today > td:last-of-type{
     background-color: #D1462F;
 }
 
-.commission {
+.commission > td:last-of-type{
     background-color: #040D12;
 }
-.notPublished {
+
+.notPublished > td:last-of-type{
     background-color: rgb(153, 153, 153);
 }
 
