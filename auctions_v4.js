@@ -62,12 +62,42 @@ main();
 // error in deadlineCheck()-> removed | will be written anew
 function showDeadline() {
     auctionsTable.forEach(el => {
-        let dateToShow = deadlineCheck(el.cells[2].innerText).getDate() + "." + (deadlineCheck(el.cells[2].innerText).getMonth() + 1) + "." + deadlineCheck(el.cells[2].innerText).getFullYear();
-        console.log("🚀 ~ file: auctions_v4.js:65 ~ showDeadline ~ deadlineCheck(el.cells[2].innerText).getMonth(): LOADED", deadlineCheck(el.cells[2].innerText).getMonth())
+        let firstDate = el.cells[2].innerText.split(' ')[0].split(".");
+        let dateToShow = deadlineCheck(firstDate).getDate() + "." + (deadlineCheck(firstDate).getMonth() + 1) + "." + deadlineCheck(firstDate).getFullYear();
         if (!el.cells[3].innerHTML.includes('br')) {
             el.cells[3].innerHTML += '<br>' + dateToShow.italics().bold();
         }
     });
+}
+
+// called in auctionDateCheck(el) && showDeadline()
+function deadlineCheck(date) {
+    let firstDate = new Date(date[2], date[1] - 1, date[0]);
+    let deadlineDate = new Date(firstDate);
+
+    if (firstDate.getDay() == 1 || firstDate.getDay() == 4) {
+        deadlineDate.setDate(firstDate.getDate() - 20);
+    } else if (firstDate.getDay() == 2 || firstDate.getDay() == 5) {
+        deadlineDate.setDate(firstDate.getDate() - 18);
+    } else if (firstDate.getDay() == 3) {
+        deadlineDate.setDate(firstDate.getDate() - 19);
+    }
+
+    return deadlineDate;
+}
+
+// called in auctionDateCheck(el)
+function commissionDateCheck(date) {
+    let firstDate = new Date(date[2], date[1] - 1, date[0]);
+    let commissionDate = new Date(firstDate);
+
+    if (firstDate.getDay() == 1) {
+        commissionDate.setDate(firstDate.getDate() - 3);
+    } else {
+        commissionDate.setDate(firstDate.getDate() - 1);
+    }
+
+    return commissionDate;
 }
 
 // called in main()
@@ -139,6 +169,24 @@ function setAuctionsClasses() {
             el.cells[(el.querySelectorAll('td').length - 1)].className = auctionDateCheck(el);
         }
     })
+}
+
+
+// called in setAuctionsClasses()
+function auctionDateCheck(el) {
+    let firstDate = el.cells[2].innerText.split(' ')[0].split(".");
+    let deadlineDate = deadlineCheck(firstDate);
+    let commissionDate = commissionDateCheck(firstDate);
+
+    if (deadlineDate.setHours(0, 0, 0, 0) == today.setHours(0, 0, 0, 0)) {
+        return "today";
+    } else if (deadlineDate.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0) && commissionDate.setHours(0, 0, 0, 0) == today.setHours(0, 0, 0, 0)) {
+        return "commission";
+    } else if (deadlineDate.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0)) {
+        return "passed";
+    } else {
+        return "future";
+    }
 }
 
 
