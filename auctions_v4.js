@@ -56,8 +56,35 @@ function main() {
     addToInfoTable();
     addMouseFunctionsToInfoTable();
 
+    createIFrames();
+
 }
 main();
+
+// called in main()
+// creating iframes for each row in auctionsTable, and loading corresponding auction in frame
+function createIFrames() {
+    // counter for loaded iframes
+    let counter = 0;
+
+    auctionsTable.forEach(el => {
+
+        // create iframe element
+        const iFrame = document.createElement('iframe');
+        iFrame.id = el.cells[0].innerText;
+        // iFrame.style.display = 'none';
+        iFrame.src = el.cells[el.querySelectorAll('td').length - 2].querySelector('a').href;
+        el.cells[0].appendChild(iFrame);
+
+        iFrame.onload = function () {
+
+            // increase counter by 1 and show total number of loaded iframes in #infoTable
+            counter++;
+            document.querySelector('#frames').innerText = counter;
+        }
+    })
+}
+
 
 // called in main()
 // when hovering on #infoTable it colors according rows in auctionsTable
@@ -110,7 +137,7 @@ function addToInfoTable() {
     document.querySelector("#today").innerHTML = isCounterZero(arrayCounter().today);
     document.querySelector("#passed").innerHTML = isCounterZero(arrayCounter().passed);
     document.querySelector("#commission").innerHTML = isCounterZero(arrayCounter().commission);
-    
+
 }
 
 // show deadline for publishing documents in forth column
@@ -219,7 +246,7 @@ function buttonClick() {
 // called in main()
 function setAuctionsClasses() {
     auctionsTable.forEach(el => {
-        if (el.className != 'danger'){
+        if (el.className != 'danger') {
             if (window.getComputedStyle(el).color === "rgb(153, 153, 153)") {
                 el.className = 'notPublished';
             } else {
@@ -267,6 +294,10 @@ function isCounterZero(counter) {
     } else {
         return counter;
     }
+}
+
+function delay(time) {
+    return new Promise(resolve => setTimeout(resolve, time));
 }
 
 //styling bellow
