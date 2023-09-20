@@ -54,10 +54,52 @@ function main() {
     setAuctionsClasses();
 
     addToInfoTable();
-
+    addMouseFunctionsToInfoTable();
 
 }
 main();
+
+// called in main()
+// when hovering on #infoTable it colors according rows in auctionsTable
+// when clicked on element in #infoTable opens new tabs according to clicked id if any
+function addMouseFunctionsToInfoTable() {
+    infoTable.forEach(el => {
+        document.getElementById(el.id).addEventListener("mouseover", (event) => {
+                // highlight the mouseover target
+                event.target.style.color = "white";
+                event.target.style.backgroundColor = el.color;
+                auctionsTable.forEach(element => {
+                    if (element.className === el.id) {
+                        element.style.backgroundColor = el.color;
+                        element.style.color = 'white';
+                    }
+                })
+
+                // reset the color after a short delay
+                setTimeout(() => {
+                    event.target.style.color = "";
+                    event.target.style.backgroundColor = "";
+                    auctionsTable.forEach(element => {
+                        if (element.className === el.id) {
+                            element.style.backgroundColor = "";
+                            element.style.color = "";
+                        }
+                    })
+                }, 750);
+            },
+            false, );
+
+        document.getElementById(el.id).addEventListener('click', function handleClick() {
+            console.log("click:", this.innerText);
+            auctionsTable.forEach(element => {
+                if (element.className === el.id) {
+                    console.log(element.cells[0].innerHTML)
+                    // window.open(el.querySelector('a').href, "_blank")
+                }
+            })
+        });
+    })
+}
 
 // called in main()
 function addToInfoTable() {
