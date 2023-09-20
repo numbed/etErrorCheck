@@ -230,24 +230,44 @@ function isCounterZero(counter) {
 //styling bellow
 document.head.insertAdjacentHTML("beforeend", `<style>
 
-    .passed > td:last-of-type{
+    .passed>td:last-of-type {
         background-color: #81B622;
     }
 
-    .future > td:last-of-type{
+    .passed>td:nth-child(4)>b {
+        color: #81B622;
+    }
+
+    .future>td:last-of-type {
         background-color: #FFBB5C;
     }
 
-    .today > td:last-of-type{
+    .future>td:nth-child(4)>b {
+        color: #FFBB5C;
+    }
+
+    .today>td:last-of-type {
         background-color: #D1462F;
     }
 
-    .commission > td:last-of-type{
+    .today>td:nth-child(4)>b {
+        color: #D1462F;
+    }
+
+    .commission>td:last-of-type {
         background-color: #040D12;
     }
 
-    .notPublished > td:last-of-type{
+    .commission>td:nth-child(4)>b {
+        color: #040D12;
+    }
+
+    .notPublished>td:last-of-type {
         background-color: rgb(153, 153, 153);
+    }
+
+    .notPublished>td:nth-child(4)>b {
+        color: rgb(153, 153, 153);
     }
 
     #infoTable {
