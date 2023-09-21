@@ -5,6 +5,9 @@ let leftSideNavigation = document.querySelector('.navbar-default.navbar-static-s
 let today = new Date();
 let auctions = [];
 
+// counter for loaded iframes
+let counter = 0;
+
 let infoTable = [{
         id: 'frames',
         title: 'frames',
@@ -57,34 +60,95 @@ function main() {
     addMouseFunctionsToInfoTable();
 
     createIFrames();
+    // check if loaded frames are equal to number of auctions on page, after specific time
+    setTimeout(() => {
+        console.log("timeout")
+        if (counter === auctionsTable.length) {
+            console.log('ok | frames === auctionTable.length');
+            console.log(auctions);
+        }
+    }, 9500);
 
 }
 main();
 
+
 // called in main()
 // creating iframes for each row in auctionsTable, and loading corresponding auction in frame
 function createIFrames() {
-    // counter for loaded iframes
-    let counter = 0;
 
     auctionsTable.forEach(el => {
 
         // create iframe element
         const iFrame = document.createElement('iframe');
-        iFrame.id = el.cells[0].innerText;
+        let frameid = el.cells[0].innerHTML
+        iFrame.id = frameid;
         // iFrame.style.display = 'none';
         iFrame.src = el.cells[el.querySelectorAll('td').length - 2].querySelector('a').href;
         el.cells[0].appendChild(iFrame);
 
         iFrame.onload = function () {
-
+            let loadedFrame = iFrame.contentWindow.document;
             // increase counter by 1 and show total number of loaded iframes in #infoTable
             counter++;
             document.querySelector('#frames').innerText = counter;
+            getInfoFromFrame(loadedFrame);
         }
     })
 }
 
+// called in createIFrames()
+function getInfoFromFrame(loadedFrame) {
+    let obj = []; //maybe it shoud be inside iFrame.onload
+    let woodsObj = {}
+    let woodsTableInputs = loadedFrame.querySelector('tbody').querySelectorAll('input');
+    woodsTableInputs.forEach((el, index) => {
+        if (index != 0) {
+            woodsObj[el.name.split('][')[1]] = el.value;
+        }
+    })
+
+    let money = {
+        price: loadedFrame.querySelector("#auctionStartPrice").value,
+        bidStep: loadedFrame.querySelector("#аuctionBidStep").value,
+        guarantee: loadedFrame.querySelector("#аuctionGuarantee").value
+    }
+
+    function getDocumentlist(id) {
+        //check if id frame existst
+        var elementExists = loadedFrame.getElementById(id);
+        if (elementExists != null) {
+            let docs = loadedFrame.getElementById(id).querySelector('tbody').querySelectorAll('a');
+            let docsParameters = []
+            docs.forEach(el => {
+                let item = {
+                    name: el.innerHTML.split('/')[0],
+                    date: el.innerHTML.split('/')[0].split(" ")[0],
+                    link: el.href
+                }
+                docsParameters.push(item)
+            })
+            return docsParameters;
+        } else {
+            return 0;
+        }
+    }
+
+    delay(1000).then(() => saveToObj());
+
+    function saveToObj() {
+        obj.id = loadedFrame.title.split(' ')[4];
+        obj.secondDate = loadedFrame.querySelector("#auctionSecondDueDate").value;
+        obj.appDueDate = loadedFrame.querySelector("#auctionApplicationsDueDate").value.split(' ')[0];
+        obj.woodsInfo = woodsObj;
+        obj.documents = getDocumentlist("auctionDocuments");
+        obj.firstByuer = getDocumentlist("auctionOrder");
+        obj.secondByuer = getDocumentlist("auctionSecOrder");
+        obj.money = money;
+
+        auctions.push(obj);
+    }
+}
 
 // called in main()
 // when hovering on #infoTable it colors according rows in auctionsTable
