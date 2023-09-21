@@ -106,6 +106,8 @@ function main() {
     showDeadline();
     setAuctionsClasses();
 
+    errorCheck();
+
     addToInfoTable();
     addMouseFunctionsToInfoTable();
 
@@ -125,6 +127,26 @@ function main() {
 
 }
 main();
+
+//callen in main()
+//error check for duplicates and wrong type of auction
+function errorCheck() {
+    console.log("-------------------------------------------------------errorCheck()");
+    auctionsTable.forEach(function () {
+        for (let i = 0; i < auctionsTable.length; i++) {
+
+            for (let j = 0; j < auctionsTable.length; j++) {
+                if (i !== j) {
+                    if (auctionsTable[i].cells[1].innerText === auctionsTable[j].cells[1].innerText && auctionsTable[i].cells[2].innerText === auctionsTable[j].cells[2].innerText) {
+                        auctionsTable[i].className = 'error'
+                        auctionsTable[j].className = 'error'
+                        
+                    }
+                }
+            }
+        }
+    });
+}
 
 // called in main() in setTimeout
 function populateTables() { //called in newButtonFunction()
@@ -214,11 +236,10 @@ function createIFrames() {
 
 // called in main() 
 function uploadedFilesCheck() {
-    auctionsTable.forEach(element =>{
-        auctions.forEach(item =>{
-            if (item.id === element.cells[0].innerText){
-                if(item.documents.length != 0 ){
-                    console.log('🚀 ~ uploadedFilesCheck ~ item.documents: LOADED',item.id, item.documents);
+    auctionsTable.forEach(element => {
+        auctions.forEach(item => {
+            if (item.id === element.cells[0].innerText) {
+                if (item.documents.length != 0) {
                     element.className = 'passed'
                 }
             }
