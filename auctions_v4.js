@@ -5,8 +5,54 @@ let leftSideNavigation = document.querySelector('.navbar-default.navbar-static-s
 let today = new Date();
 let auctions = [];
 
-// counter for loaded iframes
-let counter = 0;
+let auctionDocumetsTable = [{
+        id: 'docs',
+        title: 'Документи'
+    }, {
+        id: 'docsFirstByuer',
+        title: '1ви купувач'
+    },
+    {
+        id: 'docsSecondByuer',
+        title: '2ри купувач'
+    }
+]
+
+let woodsTable = [{
+        id: 'big',
+        title: 'Е'
+    }, {
+        id: 'mid',
+        title: 'С'
+    },
+    {
+        id: 'small',
+        title: 'Д'
+    },
+    {
+        id: 'ozm',
+        title: 'ОЗМ'
+    },
+    {
+        id: 'firewood',
+        title: 'огрев'
+    },
+    {
+        id: 'total',
+        title: 'общо'
+    },
+]
+
+let priceTable = [{
+    id: "bidStep",
+    title: "стъпка"
+}, {
+    id: "guarantee",
+    title: "гаранция"
+},{
+    id: "percentage",
+    title: "процент"
+}]
 
 let infoTable = [{
         id: 'frames',
@@ -49,6 +95,10 @@ let infoTable = [{
     }
 ];
 
+// counter for loaded iframes
+let counter = 0;
+
+
 function main() {
     createInfoTable();
     createButton();
@@ -64,14 +114,78 @@ function main() {
     setTimeout(() => {
         console.log("timeout")
         if (counter === auctionsTable.length) {
-            console.log('ok | frames === auctionTable.length');
-            console.log(auctions);
+            populateTables()
         }
     }, 9500);
+
+    prepareCells();
 
 }
 main();
 
+// called in main() in setTimeout
+function populateTables() { //called in newButtonFunction()
+    console.log("🚀 ~ file: navbar_v1.2.js:434 ~ populateTables ~ populateTables: LOADED")
+    auctionsTable.forEach((element, index) => {
+        auctions.forEach(el => {
+            if (element.cells[0].innerText === el.id) {
+                console.count("ok", element.cells[0].innerText, el.id);
+                element.querySelector('#big').innerText = el.woodsInfo.big;
+                element.querySelector('#mid').innerText = el.woodsInfo.mid;
+                element.querySelector('#small').innerText = el.woodsInfo.small;
+                element.querySelector('#ozm').innerText = el.woodsInfo.ozm;
+                element.querySelector('#firewood').innerText = el.woodsInfo.firewood;
+                element.querySelector('#total').innerText = el.woodsInfo.total;
+                element.querySelector('#bidStep').innerText = el.money.bidStep;
+                element.querySelector('#guarantee').innerText = el.money.guarantee;
+                element.querySelector('#percentage').innerText = ((el.money.guarantee / el.money.price) * 100).toFixed(2);
+
+                function calcPercent() {
+                    let percent = ((el.money.guarantee / el.money.price) * 100).toFixed(2);
+                    if (percent > 5) {
+                        percent.style.color = 'red';
+                    }
+                    console.log("🚀 ~ file: navbar_v1.2.js:465 ~ calcPercent ~ percent: LOADED", percent)
+                    return percent;
+                }
+            }
+        })
+    })
+
+}
+
+// called in main()
+function prepareCells() {
+    auctionsTable.forEach(el => {
+        woodsCell = el.cells[5]
+        priceCell = el.cells[6]
+        woodsCell = createContainer(woodsCell, 'woods', woodsTable)
+        priceCell = createContainer(priceCell, 'price', priceTable)
+    })
+}
+
+// called in prepareCells()
+function createContainer(cell, containerID, array) {
+    // create container element
+    const container = document.createElement('div');
+    container.id = containerID;
+    container.className = 'customContainer';
+    // container.style.display = 'none';
+
+    array.forEach(el => {
+        const title = document.createElement('div');
+        title.innerHTML = (el.title + ": ").bold().italics();
+
+        const info = document.createElement('div');
+        info.id = el.id
+
+
+        container.appendChild(title);
+        container.appendChild(info);
+    })
+
+    cell.appendChild(container);
+}
 
 // called in main()
 // creating iframes for each row in auctionsTable, and loading corresponding auction in frame
@@ -83,7 +197,7 @@ function createIFrames() {
         const iFrame = document.createElement('iframe');
         let frameid = el.cells[0].innerHTML
         iFrame.id = frameid;
-        // iFrame.style.display = 'none';
+        iFrame.style.display = 'none';
         iFrame.src = el.cells[el.querySelectorAll('td').length - 2].querySelector('a').href;
         el.cells[0].appendChild(iFrame);
 
@@ -366,6 +480,15 @@ function delay(time) {
 
 //styling bellow
 document.head.insertAdjacentHTML("beforeend", `<style>
+    .customContainer {
+        display: flex;
+        width: 100%;
+    }
+
+    .customContainer>div {
+    flex:1;
+    padding: 5px;
+    }
 
     .passed>td:last-of-type {
         background-color: #81B622;
