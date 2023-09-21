@@ -116,6 +116,8 @@ function main() {
         if (counter === auctionsTable.length) {
             populateTables()
             document.querySelector('#infoButtonContainer').style.display = '';
+            uploadedFilesCheck();
+            addToInfoTable(); // update #infoTable after auctions file check
         }
     }, 9500);
 
@@ -126,11 +128,9 @@ main();
 
 // called in main() in setTimeout
 function populateTables() { //called in newButtonFunction()
-    console.log("🚀 ~ file: navbar_v1.2.js:434 ~ populateTables ~ populateTables: LOADED")
     auctionsTable.forEach((element, index) => {
         auctions.forEach(el => {
             if (element.cells[0].innerText === el.id) {
-                console.count("ok", element.cells[0].innerText, el.id);
                 element.querySelector('#big').innerText = el.woodsInfo.big;
                 element.querySelector('#mid').innerText = el.woodsInfo.mid;
                 element.querySelector('#small').innerText = el.woodsInfo.small;
@@ -139,14 +139,14 @@ function populateTables() { //called in newButtonFunction()
                 element.querySelector('#total').innerText = el.woodsInfo.total;
                 element.querySelector('#bidStep').innerText = el.money.bidStep;
                 element.querySelector('#guarantee').innerText = el.money.guarantee;
-                element.querySelector('#percentage').innerText = ((el.money.guarantee / el.money.price) * 100).toFixed(2);
+                element.querySelector('#percentage').innerText = calcPercent();
+                // element.querySelector('#percentage').innerText = ((el.money.guarantee / el.money.price) * 100).toFixed(2);
 
                 function calcPercent() {
                     let percent = ((el.money.guarantee / el.money.price) * 100).toFixed(2);
                     if (percent > 5) {
                         percent.style.color = 'red';
                     }
-                    console.log("🚀 ~ file: navbar_v1.2.js:465 ~ calcPercent ~ percent: LOADED", percent)
                     return percent;
                 }
             }
@@ -209,6 +209,20 @@ function createIFrames() {
             document.querySelector('#frames').innerText = counter;
             getInfoFromFrame(loadedFrame);
         }
+    })
+}
+
+// called in main() 
+function uploadedFilesCheck() {
+    auctionsTable.forEach(element =>{
+        auctions.forEach(item =>{
+            if (item.id === element.cells[0].innerText){
+                if(item.documents.length != 0 ){
+                    console.log('🚀 ~ uploadedFilesCheck ~ item.documents: LOADED',item.id, item.documents);
+                    element.className = 'passed'
+                }
+            }
+        })
     })
 }
 
