@@ -49,7 +49,7 @@ let priceTable = [{
 }, {
     id: "guarantee",
     title: "гаранция"
-},{
+}, {
     id: "percentage",
     title: "процент"
 }]
@@ -115,6 +115,7 @@ function main() {
         console.log("timeout")
         if (counter === auctionsTable.length) {
             populateTables()
+            document.querySelector('#infoButtonContainer').style.display = '';
         }
     }, 9500);
 
@@ -170,7 +171,7 @@ function createContainer(cell, containerID, array) {
     const container = document.createElement('div');
     container.id = containerID;
     container.className = 'customContainer';
-    // container.style.display = 'none';
+    container.style.display = 'none';
 
     array.forEach(el => {
         const title = document.createElement('div');
@@ -400,6 +401,7 @@ function createButton() {
     // Create container element
     const div = document.createElement('div');
     div.id = 'infoButtonContainer';
+    div.style.display = 'none';
     leftSideNavigation.appendChild(div);
 
     // Create a button element
@@ -407,7 +409,7 @@ function createButton() {
     button.id = 'infoButton';
 
     // Set the button's text
-    button.textContent = 'Click Me';
+    button.textContent = 'SHOW';
 
     // Add an event listener to the button
     button.addEventListener('click', buttonClick);
@@ -418,7 +420,20 @@ function createButton() {
 
 // called in createButton()
 function buttonClick() {
-    alert('Button clicked!');
+    console.log('clicked: button')
+    let button = document.querySelector('#infoButton')
+    if (button.innerText === "SHOW") {
+        button.innerText = "HIDE";
+        document.querySelectorAll(".customContainer").forEach(el => {
+            el.style.display = "flex"
+        })
+
+    } else if (button.innerText === "HIDE") {
+        button.innerText = "SHOW";
+        document.querySelectorAll(".customContainer").forEach(el => {
+            el.style.display = "none"
+        })
+    }
 }
 
 // called in main()
