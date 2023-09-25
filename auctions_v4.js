@@ -106,7 +106,6 @@ function main() {
     showDeadline();
     setAuctionsClasses();
 
-    errorCheck();
 
     addToInfoTable();
     addMouseFunctionsToInfoTable();
@@ -125,6 +124,7 @@ function main() {
 
     prepareCells();
 
+    errorCheck();
 }
 main();
 
@@ -132,20 +132,17 @@ main();
 //error check for duplicates and wrong type of auction
 function errorCheck() {
     console.log("-------------------------------------------------------errorCheck()");
-    auctionsTable.forEach(function () {
-        for (let i = 0; i < auctionsTable.length; i++) {
+    for (let i = 0; i < auctionsTable.length; i++) {
+        for (let j = 0; j < auctionsTable.length; j++) {
+            if (i !== j) {
+                if (auctionsTable[i].cells[1].innerText === auctionsTable[j].cells[1].innerText && auctionsTable[i].cells[2].innerText === auctionsTable[j].cells[2].innerText) {
+                    auctionsTable[i].className = 'error';
+                    auctionsTable[j].className = 'error';
 
-            for (let j = 0; j < auctionsTable.length; j++) {
-                if (i !== j) {
-                    if (auctionsTable[i].cells[1].innerText === auctionsTable[j].cells[1].innerText && auctionsTable[i].cells[2].innerText === auctionsTable[j].cells[2].innerText) {
-                        auctionsTable[i].className = 'error'
-                        auctionsTable[j].className = 'error'
-                        
-                    }
                 }
             }
         }
-    });
+    }
 }
 
 // called in main() in setTimeout
@@ -237,13 +234,15 @@ function createIFrames() {
 // called in main() 
 function uploadedFilesCheck() {
     auctionsTable.forEach(element => {
-        auctions.forEach(item => {
-            if (item.id === element.cells[0].innerText) {
-                if (item.documents.length != 0) {
-                    element.className = 'passed'
+        if (element.className != 'error') {
+            auctions.forEach(item => {
+                if (item.id === element.cells[0].innerText) {
+                    if (item.documents.length != 0) {
+                        element.className = 'passed'
+                    }
                 }
-            }
-        })
+            })
+        }
     })
 }
 
@@ -331,7 +330,7 @@ function addMouseFunctionsToInfoTable() {
             false, );
 
         document.getElementById(el.id).addEventListener('click', function handleClick() {
-            console.log("click:", this.innerText);
+            console.log("click:", this.innerText, this.id);
             auctionsTable.forEach(element => {
                 if (element.className === el.id) {
                     console.log(element.cells[0].innerHTML)
@@ -344,7 +343,7 @@ function addMouseFunctionsToInfoTable() {
 
 // called in main()
 function addToInfoTable() {
-    document.querySelector("#errors").innerHTML = "N?A";
+    document.querySelector("#errors").innerHTML = isCounterZero(arrayCounter().error);;
     document.querySelector("#danger").innerHTML = isCounterZero(arrayCounter().danger);
     document.querySelector("#notPublished").innerHTML = isCounterZero(arrayCounter().notPublished);
     document.querySelector("#future").innerHTML = isCounterZero(arrayCounter().future) + "/" + (isCounterZero(arrayCounter().future) + isCounterZero(arrayCounter().notPublished));
@@ -362,7 +361,7 @@ function showDeadline() {
         let firstDate = el.cells[2].innerText.split(' ')[0].split(".");
         let dateToShow = deadlineCheck(firstDate).getDate() + "." + (deadlineCheck(firstDate).getMonth() + 1) + "." + deadlineCheck(firstDate).getFullYear();
         if (!el.cells[3].innerHTML.includes('br')) {
-            el.cells[3].innerHTML += '<br>' + dateToShow.italics().bold();
+            el.cells[3].innerHTML += '<br>' + '<b><i>' + dateToShow + '</b></i>';
         }
     });
 }
@@ -477,8 +476,10 @@ function setAuctionsClasses() {
         if (el.className != 'danger') {
             if (window.getComputedStyle(el).color === "rgb(153, 153, 153)") {
                 el.className = 'notPublished';
+                el.querySelector('b').className = auctionDateCheck(el);
             } else {
                 el.className = auctionDateCheck(el);
+                el.querySelector('b').className = auctionDateCheck(el);
             }
         }
         // if (window.getComputedStyle(el).color === "rgb(153, 153, 153)") {
@@ -540,35 +541,49 @@ document.head.insertAdjacentHTML("beforeend", `<style>
     padding: 5px;
     }
 
+    .error>td:nth-child(1),
+    .error>td:nth-child(3),
+    .error>td:nth-child(6),
+    .error>td:last-of-type{
+        background-color: black;
+        color: white;
+    }
+
+
     .passed>td:last-of-type {
         background-color: #81B622;
     }
-
-    .passed>td:nth-child(4)>b {
+    b.passed{
         color: #81B622;
     }
 
     .future>td:last-of-type {
         background-color: #FFBB5C;
     }
-
     .future>td:nth-child(4)>b {
+        color: #FFBB5C;
+    }
+    b.future {
         color: #FFBB5C;
     }
 
     .today>td:last-of-type {
         background-color: #D1462F;
     }
-
     .today>td:nth-child(4)>b {
+        color: #D1462F;
+    }
+    b.today {
         color: #D1462F;
     }
 
     .commission>td:last-of-type {
         background-color: #040D12;
     }
-
     .commission>td:nth-child(4)>b {
+        color: #040D12;
+    }
+    b.commission {
         color: #040D12;
     }
 
@@ -576,9 +591,6 @@ document.head.insertAdjacentHTML("beforeend", `<style>
         background-color: rgb(153, 153, 153);
     }
 
-    .notPublished>td:nth-child(4)>b {
-        color: rgb(153, 153, 153);
-    }
 
     #infoTable {
         padding: 14px 20px 14px 25px;
