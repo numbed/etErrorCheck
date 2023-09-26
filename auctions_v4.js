@@ -115,6 +115,7 @@ function main() {
             }
         })
 
+        item.cells[4].innerHTML += '<span id="docsLengthInfo"></span>';
         // replaces text in the array with uppercase
         textToBeReplaced.forEach(el => {
             item.cells[4].innerHTML = item.cells[4].innerHTML.replace(el, el.toUpperCase().bold())
@@ -195,6 +196,7 @@ function populateTables() { //called in newButtonFunction()
                 }
                 documentsDisplay();
 
+                element.querySelector('#docsLengthInfo').innerText = el.documents.length +"/"+ el.firstByuer.length +"/"+ el.secondByuer.length;
 
                 element.querySelector('#big').innerText = el.woodsInfo.big;
                 element.querySelector('#mid').innerText = el.woodsInfo.mid;
@@ -224,6 +226,7 @@ function populateTables() { //called in newButtonFunction()
 function prepareCells() {
     auctionsTable.forEach(el => {
         subjectCell = el.cells[4];
+        console.log('🚀 ~ prepareCells ~ subjectCell: LOADED', subjectCell.innerHTML);
         woodsCell = el.cells[5];
         priceCell = el.cells[6];
         woodsCell = createContainer(woodsCell, 'woods', woodsTable)
@@ -653,6 +656,11 @@ b.commission {
 
 #docs>a{
     font-style: italic;
+}
+#docsLengthInfo {
+    padding: 5px;
+    font-weight: 600;
+    font-size: larger;
 }
 
 #infoTable {
