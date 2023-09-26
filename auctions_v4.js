@@ -8,18 +8,22 @@ let auctions = [];
 let textToBeReplaced = ['търг', 'конкурс', 'ценово', 'добив', 'корен', 'действително добити', 'прогнозни'];
 let auctionsErrors = ['конкурс', 'ценово'];
 
+// let auctionDocumetsTable = [{
+//         id: 'docs',
+//         title: 'Документи'
+//     }, {
+//         id: 'docsFirstByuer',
+//         title: '1ви купувач'
+//     },
+//     {
+//         id: 'docsSecondByuer',
+//         title: '2ри купувач'
+//     }
+// ]
 let auctionDocumetsTable = [{
-        id: 'docs',
-        title: 'Документи'
-    }, {
-        id: 'docsFirstByuer',
-        title: '1ви купувач'
-    },
-    {
-        id: 'docsSecondByuer',
-        title: '2ри купувач'
-    }
-]
+    id: 'docs',
+    title: 'Документи'
+}]
 let woodsTable = [{
         id: 'big',
         title: 'Е'
@@ -163,12 +167,28 @@ function populateTables() { //called in newButtonFunction()
     auctionsTable.forEach((element, index) => {
         auctions.forEach(el => {
             if (element.cells[0].innerText === el.id) {
+
+                function documentsDisplay() {
+                    el.documents.forEach(doc => {
+                        let docSpan = document.createElement('a')
+                        docSpan.innerText = doc.name + " " + doc.date;
+                        docSpan.href = doc.link;
+                        docSpan.target = '_blank'
+                        let newline = document.createElement('br')
+                        element.querySelector('#docs').appendChild(docSpan)
+                        element.querySelector('#docs').appendChild(newline)
+                    })
+                }
+                documentsDisplay();
+
+
                 element.querySelector('#big').innerText = el.woodsInfo.big;
                 element.querySelector('#mid').innerText = el.woodsInfo.mid;
                 element.querySelector('#small').innerText = el.woodsInfo.small;
                 element.querySelector('#ozm').innerText = el.woodsInfo.ozm;
                 element.querySelector('#firewood').innerText = el.woodsInfo.firewood;
                 element.querySelector('#total').innerText = el.woodsInfo.total;
+
                 element.querySelector('#bidStep').innerText = el.money.bidStep;
                 element.querySelector('#guarantee').innerText = el.money.guarantee;
                 element.querySelector('#percentage').innerText = calcPercent();
@@ -189,10 +209,12 @@ function populateTables() { //called in newButtonFunction()
 // called in main()
 function prepareCells() {
     auctionsTable.forEach(el => {
-        woodsCell = el.cells[5]
-        priceCell = el.cells[6]
+        subjectCell = el.cells[4];
+        woodsCell = el.cells[5];
+        priceCell = el.cells[6];
         woodsCell = createContainer(woodsCell, 'woods', woodsTable)
         priceCell = createContainer(priceCell, 'price', priceTable)
+        subjectCell = createContainer(subjectCell, 'docs', auctionDocumetsTable)
     })
 }
 
@@ -204,15 +226,20 @@ function createContainer(cell, containerID, array) {
     container.className = 'customContainer';
     container.style.display = 'none';
 
+
     array.forEach(el => {
+        const contCell = document.createElement('div');
+        contCell.className = 'containerCell';
+
         const title = document.createElement('div');
         title.innerHTML = (el.title + ": ").bold().italics();
 
         const info = document.createElement('div');
         info.id = el.id
 
-        container.appendChild(title);
-        container.appendChild(info);
+        contCell.appendChild(title);
+        contCell.appendChild(info);
+        container.append(contCell)
     })
 
     cell.appendChild(container);
@@ -282,7 +309,7 @@ function getInfoFromFrame(loadedFrame) {
             docs.forEach(el => {
                 let item = {
                     name: el.innerHTML.split('/')[0],
-                    date: el.innerHTML.split('/')[0].split(" ")[0],
+                    date: el.innerHTML.split('/')[1].trim().split(" ")[0],
                     link: el.href
                 }
                 docsParameters.push(item)
@@ -468,7 +495,7 @@ function buttonClick() {
     if (button.innerText === "SHOW") {
         button.innerText = "HIDE";
         document.querySelectorAll(".customContainer").forEach(el => {
-            el.style.display = "flex"
+            el.style.display = "inline"
         })
 
     } else if (button.innerText === "HIDE") {
@@ -535,91 +562,108 @@ function delay(time) {
 
 //styling bellow
 document.head.insertAdjacentHTML("beforeend", `<style>
-    .customContainer {
-        display: flex;
-        width: 100%;
-    }
+.customContainer {
+    display: inline;
+    width: 100%;
+}
+.customContainer>div {
+    flex:1;
+    padding: 2px;
+}
 
-    .customContainer>div {
-        flex:1;
-        padding: 5px;
-    }
+.containerCell{
+    display: flex;
+}
 
-    .error>td:nth-child(1),
-    .error>td:nth-child(3),
-    .error>td:nth-child(6),
-    .error>td:last-of-type{
-        background-color: black;
-        color: white;
-    }
+.containerCell>div:first-of-type{
+    text-align: right;
+    width: 30%;
+}
+.containerCell>div:last-of-type{
+    text-align: left;
+    width: 70%;
+    padding-left: 4%;
+}
 
-    .passed>td:last-of-type {
-        background-color: #81B622;
-    }
-    b.passed{
-        color: #81B622;
-    }
+.error>td:nth-child(1),
+.error>td:nth-child(3),
+.error>td:nth-child(6),
+.error>td:last-of-type{
+    background-color: black;
+    color: white;
+}
 
-    .future>td:last-of-type {
-        background-color: #FFBB5C;
-    }
-    .future>td:nth-child(4)>b,
-    .future>td:nth-child(5)>b {
-        color: #FFBB5C;
-    }
-    b.future {
-        color: #FFBB5C;
-    }
+.passed>td:last-of-type {
+    background-color: #81B622;
+}
+b.passed{
+    color: #81B622;
+}
 
-    .today>td:last-of-type {
-        background-color: #D1462F;
-    }
-    .today>td:nth-child(4)>b,
-    .today>td:nth-child(5)>b {
-        color: #D1462F;
-    }
-    b.today {
-        color: #D1462F;
-    }
+.future>td:last-of-type {
+    background-color: #FFBB5C;
+}
+.future>td:nth-child(4)>b,
+.future>td:nth-child(5)>b {
+    color: #FFBB5C;
+}
+b.future {
+    color: #FFBB5C;
+}
 
-    .commission>td:last-of-type {
-        background-color: #040D12;
-    }
-    .commission>td:nth-child(4)>b,
-    .commission>td:nth-child(5)>b {
-        color: #040D12;
-    }
-    b.commission {
-        color: #040D12;
-    }
+.today>td:last-of-type {
+    background-color: #D1462F;
+}
+.today>td:nth-child(4)>b,
+.today>td:nth-child(5)>b {
+    color: #D1462F;
+}
+b.today {
+    color: #D1462F;
+}
 
-    .notPublished>td:last-of-type {
-        background-color: rgb(153, 153, 153);
-    }
+.commission>td:last-of-type {
+    background-color: #040D12;
+}
+.commission>td:nth-child(4)>b,
+.commission>td:nth-child(5)>b {
+    color: #040D12;
+}
+b.commission {
+    color: #040D12;
+}
 
-    #infoTable {
-        padding: 14px 20px 14px 25px;
-        color: #a7b1c2;
-        font-weight: 600;
-    }
-    #infoTable td {
-        padding: 10px;
-        border-bottom: 1px solid;
-    }
-    #infoTable tr:hover {
-        background-color: #293846;
-        color: white;
-    }
-    #infoTable tr > td:last-of-type {
-        text-align: center;
-        font-size: large;
-    }
+.notPublished>td:last-of-type {
+    background-color: rgb(153, 153, 153);
+}
 
-    #infoButtonContainer {
-        padding: 10px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 30px;
-    }
+#docs>a{
+    font-style: italic;
+}
+
+#infoTable {
+    padding: 14px 20px 14px 25px;
+    color: #a7b1c2;
+    font-weight: 600;
+}
+#infoTable td {
+    padding: 10px;
+    border-bottom: 1px solid;
+}
+#infoTable tr:hover {
+    background-color: #293846;
+    color: white;
+}
+#infoTable tr > td:last-of-type {
+    text-align: center;
+    font-size: large;
+}
+
+#infoButtonContainer {
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+}
         </style>`);
