@@ -100,11 +100,6 @@ let counter = 0;
 
 function main() {
 
-    // replaces text in the array with uppercase
-    auctionsTable.forEach(item => {
-
-    })
-
     auctionsTable.forEach(item => {
         // changes cell color if auction is in the array
         auctionsErrors.forEach(el => {
@@ -120,13 +115,11 @@ function main() {
         })
     })
 
-
     createInfoTable();
     createButton();
 
     showDeadline();
     setAuctionsClasses();
-
 
     addToInfoTable();
     addMouseFunctionsToInfoTable();
@@ -149,12 +142,9 @@ function main() {
 }
 main();
 
-
-
 // called in main()
 // error check for duplicates and wrong type of auction
 function errorCheck() {
-
     console.log("-------------------------------------------------------errorCheck()");
     for (let i = 0; i < auctionsTable.length; i++) {
         for (let j = 0; j < auctionsTable.length; j++) {
@@ -194,7 +184,6 @@ function populateTables() { //called in newButtonFunction()
             }
         })
     })
-
 }
 
 // called in main()
@@ -222,7 +211,6 @@ function createContainer(cell, containerID, array) {
         const info = document.createElement('div');
         info.id = el.id
 
-
         container.appendChild(title);
         container.appendChild(info);
     })
@@ -235,7 +223,6 @@ function createContainer(cell, containerID, array) {
 function createIFrames() {
 
     auctionsTable.forEach(el => {
-
         // create iframe element
         const iFrame = document.createElement('iframe');
         let frameid = el.cells[0].innerHTML
@@ -357,7 +344,7 @@ function addMouseFunctionsToInfoTable() {
             auctionsTable.forEach(element => {
                 if (element.className === el.id) {
                     console.log(element.cells[0].innerHTML)
-                    // window.open(el.querySelector('a').href, "_blank")
+                    window.open(el.querySelector('a').href, "_blank")
                 }
             })
         });
@@ -505,11 +492,6 @@ function setAuctionsClasses() {
                 el.querySelector('b').className = auctionDateCheck(el);
             }
         }
-        // if (window.getComputedStyle(el).color === "rgb(153, 153, 153)") {
-        //     el.cells[(el.querySelectorAll('td').length - 1)].className = 'notPublished';
-        // } else {
-        //     el.cells[(el.querySelectorAll('td').length - 1)].className = auctionDateCheck(el);
-        // }
     })
 }
 
@@ -560,8 +542,8 @@ document.head.insertAdjacentHTML("beforeend", `<style>
     }
 
     .customContainer>div {
-    flex:1;
-    padding: 5px;
+        flex:1;
+        padding: 5px;
     }
 
     .error>td:nth-child(1),
@@ -571,7 +553,6 @@ document.head.insertAdjacentHTML("beforeend", `<style>
         background-color: black;
         color: white;
     }
-
 
     .passed>td:last-of-type {
         background-color: #81B622;
@@ -617,23 +598,19 @@ document.head.insertAdjacentHTML("beforeend", `<style>
         background-color: rgb(153, 153, 153);
     }
 
-
     #infoTable {
         padding: 14px 20px 14px 25px;
         color: #a7b1c2;
         font-weight: 600;
     }
-
     #infoTable td {
         padding: 10px;
         border-bottom: 1px solid;
     }
-
     #infoTable tr:hover {
         background-color: #293846;
         color: white;
     }
-
     #infoTable tr > td:last-of-type {
         text-align: center;
         font-size: large;
