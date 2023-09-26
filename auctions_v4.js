@@ -343,8 +343,7 @@ function addMouseFunctionsToInfoTable() {
             console.log("click:", this.innerText, this.id);
             auctionsTable.forEach(element => {
                 if (element.className === el.id) {
-                    console.log(element.cells[0].innerHTML)
-                    window.open(el.querySelector('a').href, "_blank")
+                    window.open(element.querySelector('a').href, "_blank")
                 }
             })
         });
