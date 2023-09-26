@@ -103,6 +103,8 @@ let infoTable = [{
 let counter = 0;
 
 function main() {
+    auctionPublish();
+
 
     auctionsTable.forEach(item => {
         // changes cell color if auction is in the array
@@ -145,6 +147,18 @@ function main() {
     errorCheck();
 }
 main();
+
+// called in main()
+//clicks all auction publish buttons if present
+function auctionPublish() {
+    console.log("-------------------------------------------------------auctionPublish()");
+    let btns = document.querySelector('tbody').querySelectorAll('button');
+    if (btns.length != 0) {
+        btns.forEach(el => {
+            el.click();
+        })
+    } 
+}
 
 // called in main()
 // error check for duplicates and wrong type of auction
