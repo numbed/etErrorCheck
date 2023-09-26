@@ -140,6 +140,7 @@ main();
 // called in main()
 // error check for duplicates and wrong type of auction
 function errorCheck() {
+
     console.log("-------------------------------------------------------errorCheck()");
     for (let i = 0; i < auctionsTable.length; i++) {
         for (let j = 0; j < auctionsTable.length; j++) {
@@ -147,7 +148,6 @@ function errorCheck() {
                 if (auctionsTable[i].cells[1].innerText === auctionsTable[j].cells[1].innerText && auctionsTable[i].cells[2].innerText === auctionsTable[j].cells[2].innerText) {
                     auctionsTable[i].className = 'error';
                     auctionsTable[j].className = 'error';
-
                 }
             }
         }
@@ -569,7 +569,8 @@ document.head.insertAdjacentHTML("beforeend", `<style>
     .future>td:last-of-type {
         background-color: #FFBB5C;
     }
-    .future>td:nth-child(4)>b {
+    .future>td:nth-child(4)>b,
+    .future>td:nth-child(5)>b {
         color: #FFBB5C;
     }
     b.future {
@@ -579,7 +580,8 @@ document.head.insertAdjacentHTML("beforeend", `<style>
     .today>td:last-of-type {
         background-color: #D1462F;
     }
-    .today>td:nth-child(4)>b {
+    .today>td:nth-child(4)>b,
+    .today>td:nth-child(5)>b {
         color: #D1462F;
     }
     b.today {
@@ -589,7 +591,8 @@ document.head.insertAdjacentHTML("beforeend", `<style>
     .commission>td:last-of-type {
         background-color: #040D12;
     }
-    .commission>td:nth-child(4)>b {
+    .commission>td:nth-child(4)>b,
+    .commission>td:nth-child(5)>b {
         color: #040D12;
     }
     b.commission {
