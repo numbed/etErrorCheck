@@ -6,6 +6,7 @@ let today = new Date();
 let auctions = [];
 
 let textToBeReplaced = ['търг', 'конкурс', 'ценово', 'добив', 'корен', 'действително добити', 'прогнозни'];
+let auctionsErrors = ['конкурс', 'ценово'];
 
 let auctionDocumetsTable = [{
         id: 'docs',
@@ -101,6 +102,19 @@ function main() {
 
     // replaces text in the array with uppercase
     auctionsTable.forEach(item => {
+
+    })
+
+    auctionsTable.forEach(item => {
+        // changes cell color if auction is in the array
+        auctionsErrors.forEach(el => {
+            if (item.cells[4].innerText.includes(el)) {
+                item.cells[4].style.color = 'white'
+                item.cells[4].style.backgroundColor = 'red'
+            }
+        })
+
+        // replaces text in the array with uppercase
         textToBeReplaced.forEach(el => {
             item.cells[4].innerHTML = item.cells[4].innerHTML.replace(el, el.toUpperCase().bold())
         })
