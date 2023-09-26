@@ -5,19 +5,25 @@ let leftSideNavigation = document.querySelector('.navbar-default.navbar-static-s
 let today = new Date();
 let auctions = [];
 
-let auctionDocumetsTable = [{
-        id: 'docs',
-        title: 'Документи'
-    }, {
-        id: 'docsFirstByuer',
-        title: '1ви купувач'
-    },
-    {
-        id: 'docsSecondByuer',
-        title: '2ри купувач'
-    }
-]
+let textToBeReplaced = ['търг', 'конкурс', 'ценово', 'добив', 'корен', 'действително добити', 'прогнозни'];
+let auctionsErrors = ['конкурс', 'ценово'];
 
+// let auctionDocumetsTable = [{
+//         id: 'docs',
+//         title: 'Документи'
+//     }, {
+//         id: 'docsFirstByuer',
+//         title: '1ви купувач'
+//     },
+//     {
+//         id: 'docsSecondByuer',
+//         title: '2ри купувач'
+//     }
+// ]
+let auctionDocumetsTable = [{
+    id: 'docs',
+    title: 'Документи'
+}]
 let woodsTable = [{
         id: 'big',
         title: 'Е'
@@ -42,7 +48,6 @@ let woodsTable = [{
         title: 'общо'
     },
 ]
-
 let priceTable = [{
     id: "bidStep",
     title: "стъпка"
@@ -53,7 +58,6 @@ let priceTable = [{
     id: "percentage",
     title: "процент"
 }]
-
 let infoTable = [{
         id: 'frames',
         title: 'frames',
@@ -98,15 +102,31 @@ let infoTable = [{
 // counter for loaded iframes
 let counter = 0;
 
-
 function main() {
+    auctionPublish();
+
+
+    auctionsTable.forEach(item => {
+        // changes cell color if auction is in the array
+        auctionsErrors.forEach(el => {
+            if (item.cells[4].innerText.includes(el)) {
+                item.cells[4].style.color = 'white'
+                item.cells[4].style.backgroundColor = 'red'
+            }
+        })
+
+        item.cells[4].innerHTML += '<span id="docsLengthInfo"></span>';
+        // replaces text in the array with uppercase
+        textToBeReplaced.forEach(el => {
+            item.cells[4].innerHTML = item.cells[4].innerHTML.replace(el, el.toUpperCase().bold())
+        })
+    })
+
     createInfoTable();
     createButton();
 
     showDeadline();
     setAuctionsClasses();
-
-    errorCheck();
 
     addToInfoTable();
     addMouseFunctionsToInfoTable();
@@ -125,27 +145,36 @@ function main() {
 
     prepareCells();
 
+    errorCheck();
 }
 main();
 
-//callen in main()
-//error check for duplicates and wrong type of auction
+// called in main()
+//clicks all auction publish buttons if present
+function auctionPublish() {
+    console.log("-------------------------------------------------------auctionPublish()");
+    let btns = document.querySelector('tbody').querySelectorAll('button');
+    if (btns.length != 0) {
+        btns.forEach(el => {
+            el.click();
+        })
+    } 
+}
+
+// called in main()
+// error check for duplicates and wrong type of auction
 function errorCheck() {
     console.log("-------------------------------------------------------errorCheck()");
-    auctionsTable.forEach(function () {
-        for (let i = 0; i < auctionsTable.length; i++) {
-
-            for (let j = 0; j < auctionsTable.length; j++) {
-                if (i !== j) {
-                    if (auctionsTable[i].cells[1].innerText === auctionsTable[j].cells[1].innerText && auctionsTable[i].cells[2].innerText === auctionsTable[j].cells[2].innerText) {
-                        auctionsTable[i].className = 'error'
-                        auctionsTable[j].className = 'error'
-                        
-                    }
+    for (let i = 0; i < auctionsTable.length; i++) {
+        for (let j = 0; j < auctionsTable.length; j++) {
+            if (i !== j) {
+                if (auctionsTable[i].cells[1].innerText === auctionsTable[j].cells[1].innerText && auctionsTable[i].cells[2].innerText === auctionsTable[j].cells[2].innerText) {
+                    auctionsTable[i].className = 'error';
+                    auctionsTable[j].className = 'error';
                 }
             }
         }
-    });
+    }
 }
 
 // called in main() in setTimeout
@@ -153,12 +182,29 @@ function populateTables() { //called in newButtonFunction()
     auctionsTable.forEach((element, index) => {
         auctions.forEach(el => {
             if (element.cells[0].innerText === el.id) {
+
+                function documentsDisplay() {
+                    el.documents.forEach(doc => {
+                        let docSpan = document.createElement('a')
+                        docSpan.innerText = doc.name + " " + doc.date;
+                        docSpan.href = doc.link;
+                        docSpan.target = '_blank'
+                        let newline = document.createElement('br')
+                        element.querySelector('#docs').appendChild(docSpan)
+                        element.querySelector('#docs').appendChild(newline)
+                    })
+                }
+                documentsDisplay();
+
+                element.querySelector('#docsLengthInfo').innerText = el.documents.length +"/"+ el.firstByuer.length +"/"+ el.secondByuer.length;
+
                 element.querySelector('#big').innerText = el.woodsInfo.big;
                 element.querySelector('#mid').innerText = el.woodsInfo.mid;
                 element.querySelector('#small').innerText = el.woodsInfo.small;
                 element.querySelector('#ozm').innerText = el.woodsInfo.ozm;
                 element.querySelector('#firewood').innerText = el.woodsInfo.firewood;
                 element.querySelector('#total').innerText = el.woodsInfo.total;
+
                 element.querySelector('#bidStep').innerText = el.money.bidStep;
                 element.querySelector('#guarantee').innerText = el.money.guarantee;
                 element.querySelector('#percentage').innerText = calcPercent();
@@ -174,16 +220,18 @@ function populateTables() { //called in newButtonFunction()
             }
         })
     })
-
 }
 
 // called in main()
 function prepareCells() {
     auctionsTable.forEach(el => {
-        woodsCell = el.cells[5]
-        priceCell = el.cells[6]
+        subjectCell = el.cells[4];
+        console.log('🚀 ~ prepareCells ~ subjectCell: LOADED', subjectCell.innerHTML);
+        woodsCell = el.cells[5];
+        priceCell = el.cells[6];
         woodsCell = createContainer(woodsCell, 'woods', woodsTable)
         priceCell = createContainer(priceCell, 'price', priceTable)
+        subjectCell = createContainer(subjectCell, 'docs', auctionDocumetsTable)
     })
 }
 
@@ -195,16 +243,20 @@ function createContainer(cell, containerID, array) {
     container.className = 'customContainer';
     container.style.display = 'none';
 
+
     array.forEach(el => {
+        const contCell = document.createElement('div');
+        contCell.className = 'containerCell';
+
         const title = document.createElement('div');
         title.innerHTML = (el.title + ": ").bold().italics();
 
         const info = document.createElement('div');
         info.id = el.id
 
-
-        container.appendChild(title);
-        container.appendChild(info);
+        contCell.appendChild(title);
+        contCell.appendChild(info);
+        container.append(contCell)
     })
 
     cell.appendChild(container);
@@ -215,7 +267,6 @@ function createContainer(cell, containerID, array) {
 function createIFrames() {
 
     auctionsTable.forEach(el => {
-
         // create iframe element
         const iFrame = document.createElement('iframe');
         let frameid = el.cells[0].innerHTML
@@ -237,13 +288,15 @@ function createIFrames() {
 // called in main() 
 function uploadedFilesCheck() {
     auctionsTable.forEach(element => {
-        auctions.forEach(item => {
-            if (item.id === element.cells[0].innerText) {
-                if (item.documents.length != 0) {
-                    element.className = 'passed'
+        if (element.className != 'error') {
+            auctions.forEach(item => {
+                if (item.id === element.cells[0].innerText) {
+                    if (item.documents.length != 0) {
+                        element.className = 'passed'
+                    }
                 }
-            }
-        })
+            })
+        }
     })
 }
 
@@ -273,7 +326,7 @@ function getInfoFromFrame(loadedFrame) {
             docs.forEach(el => {
                 let item = {
                     name: el.innerHTML.split('/')[0],
-                    date: el.innerHTML.split('/')[0].split(" ")[0],
+                    date: el.innerHTML.split('/')[1].trim().split(" ")[0],
                     link: el.href
                 }
                 docsParameters.push(item)
@@ -331,11 +384,10 @@ function addMouseFunctionsToInfoTable() {
             false, );
 
         document.getElementById(el.id).addEventListener('click', function handleClick() {
-            console.log("click:", this.innerText);
+            console.log("click:", this.innerText, this.id);
             auctionsTable.forEach(element => {
                 if (element.className === el.id) {
-                    console.log(element.cells[0].innerHTML)
-                    // window.open(el.querySelector('a').href, "_blank")
+                    window.open(element.querySelector('a').href, "_blank")
                 }
             })
         });
@@ -344,7 +396,7 @@ function addMouseFunctionsToInfoTable() {
 
 // called in main()
 function addToInfoTable() {
-    document.querySelector("#errors").innerHTML = "N?A";
+    document.querySelector("#errors").innerHTML = isCounterZero(arrayCounter().error);;
     document.querySelector("#danger").innerHTML = isCounterZero(arrayCounter().danger);
     document.querySelector("#notPublished").innerHTML = isCounterZero(arrayCounter().notPublished);
     document.querySelector("#future").innerHTML = isCounterZero(arrayCounter().future) + "/" + (isCounterZero(arrayCounter().future) + isCounterZero(arrayCounter().notPublished));
@@ -362,7 +414,7 @@ function showDeadline() {
         let firstDate = el.cells[2].innerText.split(' ')[0].split(".");
         let dateToShow = deadlineCheck(firstDate).getDate() + "." + (deadlineCheck(firstDate).getMonth() + 1) + "." + deadlineCheck(firstDate).getFullYear();
         if (!el.cells[3].innerHTML.includes('br')) {
-            el.cells[3].innerHTML += '<br>' + dateToShow.italics().bold();
+            el.cells[3].innerHTML += '<br>' + '<b><i>' + dateToShow + '</b></i>';
         }
     });
 }
@@ -460,7 +512,7 @@ function buttonClick() {
     if (button.innerText === "SHOW") {
         button.innerText = "HIDE";
         document.querySelectorAll(".customContainer").forEach(el => {
-            el.style.display = "flex"
+            el.style.display = "inline"
         })
 
     } else if (button.innerText === "HIDE") {
@@ -477,15 +529,12 @@ function setAuctionsClasses() {
         if (el.className != 'danger') {
             if (window.getComputedStyle(el).color === "rgb(153, 153, 153)") {
                 el.className = 'notPublished';
+                el.querySelector('b').className = auctionDateCheck(el);
             } else {
                 el.className = auctionDateCheck(el);
+                el.querySelector('b').className = auctionDateCheck(el);
             }
         }
-        // if (window.getComputedStyle(el).color === "rgb(153, 153, 153)") {
-        //     el.cells[(el.querySelectorAll('td').length - 1)].className = 'notPublished';
-        // } else {
-        //     el.cells[(el.querySelectorAll('td').length - 1)].className = auctionDateCheck(el);
-        // }
     })
 }
 
@@ -530,82 +579,113 @@ function delay(time) {
 
 //styling bellow
 document.head.insertAdjacentHTML("beforeend", `<style>
-    .customContainer {
-        display: flex;
-        width: 100%;
-    }
-
-    .customContainer>div {
+.customContainer {
+    display: inline;
+    width: 100%;
+}
+.customContainer>div {
     flex:1;
+    padding: 2px;
+}
+
+.containerCell{
+    display: flex;
+}
+
+.containerCell>div:first-of-type{
+    text-align: right;
+    width: 30%;
+}
+.containerCell>div:last-of-type{
+    text-align: left;
+    width: 70%;
+    padding-left: 4%;
+}
+
+.error>td:nth-child(1),
+.error>td:nth-child(3),
+.error>td:nth-child(6),
+.error>td:last-of-type{
+    background-color: black;
+    color: white;
+}
+
+.passed>td:last-of-type {
+    background-color: #81B622;
+}
+b.passed{
+    color: #81B622;
+}
+
+.future>td:last-of-type {
+    background-color: #FFBB5C;
+}
+.future>td:nth-child(4)>b,
+.future>td:nth-child(5)>b {
+    color: #FFBB5C;
+}
+b.future {
+    color: #FFBB5C;
+}
+
+.today>td:last-of-type {
+    background-color: #D1462F;
+}
+.today>td:nth-child(4)>b,
+.today>td:nth-child(5)>b {
+    color: #D1462F;
+}
+b.today {
+    color: #D1462F;
+}
+
+.commission>td:last-of-type {
+    background-color: #040D12;
+}
+.commission>td:nth-child(4)>b,
+.commission>td:nth-child(5)>b {
+    color: #040D12;
+}
+b.commission {
+    color: #040D12;
+}
+
+.notPublished>td:last-of-type {
+    background-color: rgb(153, 153, 153);
+}
+
+#docs>a{
+    font-style: italic;
+}
+#docsLengthInfo {
     padding: 5px;
-    }
+    font-weight: 600;
+    font-size: larger;
+}
 
-    .passed>td:last-of-type {
-        background-color: #81B622;
-    }
+#infoTable {
+    padding: 14px 20px 14px 25px;
+    color: #a7b1c2;
+    font-weight: 600;
+}
+#infoTable td {
+    padding: 10px;
+    border-bottom: 1px solid;
+}
+#infoTable tr:hover {
+    background-color: #293846;
+    color: white;
+}
+#infoTable tr > td:last-of-type {
+    text-align: center;
+    font-size: large;
+}
 
-    .passed>td:nth-child(4)>b {
-        color: #81B622;
-    }
-
-    .future>td:last-of-type {
-        background-color: #FFBB5C;
-    }
-
-    .future>td:nth-child(4)>b {
-        color: #FFBB5C;
-    }
-
-    .today>td:last-of-type {
-        background-color: #D1462F;
-    }
-
-    .today>td:nth-child(4)>b {
-        color: #D1462F;
-    }
-
-    .commission>td:last-of-type {
-        background-color: #040D12;
-    }
-
-    .commission>td:nth-child(4)>b {
-        color: #040D12;
-    }
-
-    .notPublished>td:last-of-type {
-        background-color: rgb(153, 153, 153);
-    }
-
-    .notPublished>td:nth-child(4)>b {
-        color: rgb(153, 153, 153);
-    }
-
-    #infoTable {
-        padding: 14px 20px 14px 25px;
-        color: #a7b1c2;
-        font-weight: 600;
-    }
-
-    #infoTable td {
-        padding: 10px;
-        border-bottom: 1px solid;
-    }
-
-    #infoTable tr:hover {
-        background-color: #293846;
-        color: white;
-    }
-
-    #infoTable tr > td:last-of-type {
-        text-align: center;
-        font-size: large;
-    }
-
-    #infoButtonContainer {
-        padding: 10px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 30px;
-    }
+#infoButtonContainer {
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+}
         </style>`);
