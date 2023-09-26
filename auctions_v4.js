@@ -5,6 +5,8 @@ let leftSideNavigation = document.querySelector('.navbar-default.navbar-static-s
 let today = new Date();
 let auctions = [];
 
+let textToBeReplaced = ['търг', 'конкурс', 'ценово', 'добив', 'корен', 'действително добити', 'прогнозни'];
+
 let auctionDocumetsTable = [{
         id: 'docs',
         title: 'Документи'
@@ -17,7 +19,6 @@ let auctionDocumetsTable = [{
         title: '2ри купувач'
     }
 ]
-
 let woodsTable = [{
         id: 'big',
         title: 'Е'
@@ -42,7 +43,6 @@ let woodsTable = [{
         title: 'общо'
     },
 ]
-
 let priceTable = [{
     id: "bidStep",
     title: "стъпка"
@@ -53,7 +53,6 @@ let priceTable = [{
     id: "percentage",
     title: "процент"
 }]
-
 let infoTable = [{
         id: 'frames',
         title: 'frames',
@@ -98,8 +97,16 @@ let infoTable = [{
 // counter for loaded iframes
 let counter = 0;
 
-
 function main() {
+
+    // replaces text in the array with uppercase
+    auctionsTable.forEach(item => {
+        textToBeReplaced.forEach(el => {
+            item.cells[4].innerHTML = item.cells[4].innerHTML.replace(el, el.toUpperCase().bold())
+        })
+    })
+
+
     createInfoTable();
     createButton();
 
@@ -128,8 +135,10 @@ function main() {
 }
 main();
 
-//callen in main()
-//error check for duplicates and wrong type of auction
+
+
+// called in main()
+// error check for duplicates and wrong type of auction
 function errorCheck() {
     console.log("-------------------------------------------------------errorCheck()");
     for (let i = 0; i < auctionsTable.length; i++) {
