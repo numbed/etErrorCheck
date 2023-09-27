@@ -209,7 +209,7 @@ function closeToast() {
 }
 
 function tabOpen() {
-    parentClass = this.parentElement.className.split('-')[1];
+    parentClass = this.className.split('-')[1];
     auctionsTable.forEach(el => {
         if (el.className === parentClass) {
             let link = el.querySelectorAll('td')[7].querySelector('a').href
@@ -225,13 +225,13 @@ function createToast(head, classN, number) {
     toast.style.display = "block";
     toast.classList.add('show');
     toast.classList.add(classN);
+    toast.onclick = tabOpen;
 
     const toastHead = document.createElement('div');
     toastHead.textContent = head;
 
     const toastInfo = document.createElement('div');
     toastInfo.innerHTML = number;
-    toastInfo.onclick = tabOpen;
 
 
     const closeButton = document.createElement('div');
@@ -822,12 +822,12 @@ b.commission {
     background-color: white;
     color: black;
     width: 350px;
-    height: 40px;
-    line-height: 35px;
-    border-left: 8px solid;
+    height: 60px;
+    line-height: 56px;
+    border-left: 1em solid;
     padding: 2px 0px 0px 5px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     opacity: 0;
     transform: translateX(100%);
     transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
