@@ -291,7 +291,6 @@ function uploadedFilesCheck() {
         if (element.className != 'danger' && element.className != 'commission') {
             auctions.forEach(item => {
                 if (item.id === element.cells[0].innerText) {
-                    console.log('🚀 ~ uploadedFilesCheck ~ element.cells[0].innerText: LOADED', element.cells[0].innerText, element.className);
                     if (item.documents.length != 0) {
                         element.className = 'passed'
                     }
@@ -388,7 +387,7 @@ function addMouseFunctionsToInfoTable() {
             console.log("click:", this.innerText, this.id);
             auctionsTable.forEach(element => {
                 if (element.className === el.id) {
-                    window.open(element.querySelector('a').href, "_blank")
+                    window.open(element.querySelectorAll('td')[7].querySelector('a').href, "_blank")
                 }
             })
         });
