@@ -137,44 +137,9 @@ function main() {
     addToInfoTable();
     addMouseFunctionsToInfoTable();
 
-    //creating toast notifications if needed
-    let timeoutMS = 50;
-    if(isCounterZero(arrayCounter().future) !=0) {
-        setTimeout(() => {
-            createToast('бъдещи: ', 'toast-future', isCounterZero(arrayCounter().future) + isCounterZero(arrayCounter().notPublished))
-        }, timeoutMS);
-        timeoutMS += 300;
-    }
-    if(isCounterZero(arrayCounter().notPublished) !=0) {
-        setTimeout(() => {
-            createToast('непубликувани: ', 'toast-notPublished', isCounterZero(arrayCounter().notPublished))
-        }, timeoutMS);
-        timeoutMS += 300;
-    }
-    if(isCounterZero(arrayCounter().today) !=0) {
-        setTimeout(() => {
-            createToast('краен срок [днес]: ', 'toast-today', isCounterZero(arrayCounter().today))
-        }, timeoutMS);
-        timeoutMS += 300;
-    }
-    if(isCounterZero(arrayCounter().commission) !=0) {
-        setTimeout(() => {
-            createToast('комисии: ', 'toast-commission', isCounterZero(arrayCounter().commission))
-        }, timeoutMS);
-        timeoutMS += 300;
-    }
-    if(isCounterZero(arrayCounter().danger) !=0) {
-        setTimeout(() => {
-            createToast('прекратени:', 'toast-danger', isCounterZero(arrayCounter().danger))
-        }, timeoutMS);
-        timeoutMS += 300;
-    }
-    if(isCounterZero(arrayCounter().passed) !=0) {
-        setTimeout(() => {
-            createToast('минали: ', 'toast-passed', isCounterZero(arrayCounter().passed))
-        }, timeoutMS);
-        timeoutMS += 300;
-    }
+
+    toastCheck();
+
 
     createIFrames();
     // check if loaded frames are equal to number of auctions on page, after specific time
@@ -195,6 +160,47 @@ function main() {
 main();
 
 //TOAST FUNCTIONS
+function toastCheck() {
+    //creating toast notifications if needed
+    let timeoutMS = 50;
+    if (isCounterZero(arrayCounter().future) != 0) {
+        setTimeout(() => {
+            createToast('бъдещи: ', 'toast-future', isCounterZero(arrayCounter().future) + isCounterZero(arrayCounter().notPublished))
+        }, timeoutMS);
+        timeoutMS += 300;
+    }
+    if (isCounterZero(arrayCounter().notPublished) != 0) {
+        setTimeout(() => {
+            createToast('непубликувани: ', 'toast-notPublished', isCounterZero(arrayCounter().notPublished))
+        }, timeoutMS);
+        timeoutMS += 300;
+    }
+    if (isCounterZero(arrayCounter().today) != 0) {
+        setTimeout(() => {
+            createToast('краен срок [днес]: ', 'toast-today', isCounterZero(arrayCounter().today))
+        }, timeoutMS);
+        timeoutMS += 300;
+    }
+    if (isCounterZero(arrayCounter().commission) != 0) {
+        setTimeout(() => {
+            createToast('комисии: ', 'toast-commission', isCounterZero(arrayCounter().commission))
+        }, timeoutMS);
+        timeoutMS += 300;
+    }
+    if (isCounterZero(arrayCounter().danger) != 0) {
+        setTimeout(() => {
+            createToast('прекратени:', 'toast-danger', isCounterZero(arrayCounter().danger))
+        }, timeoutMS);
+        timeoutMS += 300;
+    }
+    if (isCounterZero(arrayCounter().passed) != 0) {
+        setTimeout(() => {
+            createToast('минали: ', 'toast-passed', isCounterZero(arrayCounter().passed))
+        }, timeoutMS);
+        timeoutMS += 300;
+    }
+}
+
 function showToast() {
     var toast = document.getElementById("toast");
     toast.style.display = "block";
