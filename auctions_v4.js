@@ -196,7 +196,7 @@ function populateTables() { //called in newButtonFunction()
                 }
                 documentsDisplay();
 
-                element.querySelector('#docsLengthInfo').innerText = el.documents.length +"/"+ el.firstByuer.length +"/"+ el.secondByuer.length;
+                element.querySelector('#docsLengthInfo').innerText = isCounterZero(el.documents.length) +"/"+ isCounterZero(el.firstByuer.length) +"/"+ isCounterZero(el.secondByuer.length);
 
                 element.querySelector('#big').innerText = el.woodsInfo.big;
                 element.querySelector('#mid').innerText = el.woodsInfo.mid;
@@ -288,9 +288,10 @@ function createIFrames() {
 // called in main() 
 function uploadedFilesCheck() {
     auctionsTable.forEach(element => {
-        if (element.className != 'error') {
+        if (element.className != 'danger' && element.className != 'commission') {
             auctions.forEach(item => {
                 if (item.id === element.cells[0].innerText) {
+                    console.log('🚀 ~ uploadedFilesCheck ~ element.cells[0].innerText: LOADED', element.cells[0].innerText, element.className);
                     if (item.documents.length != 0) {
                         element.className = 'passed'
                     }
