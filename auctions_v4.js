@@ -218,7 +218,7 @@ function tabOpen() {
     parentClass = this.className.split('-')[1];
     auctionsTable.forEach(el => {
         if (el.className === parentClass) {
-            let link = el.querySelectorAll('td')[7].querySelector('a').href
+            let link = el.querySelectorAll('td')[7].querySelector('a').href;
             window.open(link, "_blank");
         }
     })
@@ -231,23 +231,24 @@ function createToast(head, classN, number) {
     toast.style.display = "block";
     toast.classList.add('show');
     toast.classList.add(classN);
-    toast.onclick = tabOpen;
-
+    
     const toastHead = document.createElement('div');
     toastHead.textContent = head;
-
+    toastHead.onclick = tabOpen;
+    
     const toastInfo = document.createElement('div');
     toastInfo.innerHTML = number;
-
+    toastInfo.classList.add(classN);
+    toastInfo.onclick = tabOpen;
 
     const closeButton = document.createElement('div');
     closeButton.onclick = closeToast;
-    closeButton.innerText = '[X]';
+    closeButton.innerText = 'x';
     closeButton.className = 'close-button'
 
     toast.appendChild(toastHead);
     toast.appendChild(toastInfo);
-    // toast.appendChild(closeButton);
+    toast.appendChild(closeButton);
 
     toastContainer.appendChild(toast);
 
@@ -827,36 +828,32 @@ b.commission {
 .toast {
     background-color: white;
     color: black;
-    width: 350px;
-    height: 60px;
-    line-height: 56px;
+    width: 550px;
+    height: 50px;
+    line-height: 44px;
     border-left: 1em solid;
-    padding: 2px 0px 0px 5px;
+    padding: 2px 10px 0px 5px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     margin-bottom: 20px;
     opacity: 0;
     transform: translateX(100%);
     transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
   }
-  .toast>div{
+.toast>div{
     display: inline-block;
-    padding: 3px 0px 0px 15px;
-    font-size: large;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 3px 0px 0px 5px;
+    font-size: larger;
 }
-
-
 .toast>div:first-of-type {
-    width: 30px;
-    display: inline;
-    
-    
+    width: 135px;
+    text-align: right;
 }
-.toast>div:last-of-type{
-    display: inline;
-    width: 300px;
+.toast>div:nth-child(2) {
+    width: 345px;
     opacity: 0.5;
 }
-
 .toast-danger{
     border-left-color: pink;
 }
@@ -875,17 +872,18 @@ b.commission {
 .toast-notPublished{
     border-left-color: #999999;
 }
-  
-  /* Show Animation */
-  .toast.show {
+/* Show Animation */
+.toast.show {
     opacity: 1;
     transform: translateX(0);
     transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
   }
-
 /* CSS for the close button */
 .close-button {
-    width:max-content;
+    text-align: center;
+    float:right;
+    display: block;
+    width:40px;
     margin-left:auto;
     top: 0.5px;
     right: 8px;
