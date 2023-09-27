@@ -282,23 +282,25 @@ function createIFrames() {
             counter++;
             document.querySelector('#frames').innerText = counter;
             getInfoFromFrame(loadedFrame);
-            assingedCommissionCheck(loadedFrame, el.cells[8]);
+            assingedCommissionCheck(loadedFrame, el.className, el.cells[8]);
         }
     })
 }
 
 // called in createIFrames
-function assingedCommissionCheck(loadedFrame, lastCell) {
+function assingedCommissionCheck(loadedFrame, classN, lastCell) {
     // needs changes for more precise work
     console.log("-------------------------------------------------------assingedCommissionCheck()");
-    const commission = loadedFrame.querySelector('select.form-control.commision');
-    if (!commission) {
-        let requests = loadedFrame.querySelectorAll('tbody') // needs changing
-        if (requests.length < 8) {
-            lastCell.style.backgroundColor = "#fa2a07";
+    if (classN === 'commission') {
+        const commission = loadedFrame.querySelector('select.form-control.commision');
+        if (!commission) {
+            let requests = loadedFrame.querySelectorAll('tbody') // needs changing
+            if (requests.length < 8) {
+                lastCell.style.backgroundColor = "#fa2a07";
+            }
+        } else if (commission.value != '') {
+            lastCell.style.backgroundColor = "#9eb3c6";
         }
-    } else if (commission.value != '') {
-        lastCell.style.backgroundColor = "#9eb3c6";
     }
 
 }
