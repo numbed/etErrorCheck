@@ -158,7 +158,7 @@ function auctionPublish() {
         btns.forEach(el => {
             el.click();
         })
-    } 
+    }
 }
 
 // called in main()
@@ -198,7 +198,7 @@ function populateTables() { //called in newButtonFunction()
                 }
                 documentsDisplay();
 
-                element.querySelector('#docsLengthInfo').innerText = isCounterZero(el.documents.length) +"/"+ isCounterZero(el.firstByuer.length) +"/"+ isCounterZero(el.secondByuer.length);
+                element.querySelector('#docsLengthInfo').innerText = isCounterZero(el.documents.length) + "/" + isCounterZero(el.firstByuer.length) + "/" + isCounterZero(el.secondByuer.length);
 
                 element.querySelector('#big').innerText = el.woodsInfo.big;
                 element.querySelector('#mid').innerText = el.woodsInfo.mid;
@@ -276,15 +276,31 @@ function createIFrames() {
         iFrame.style.display = 'none';
         iFrame.src = el.cells[el.querySelectorAll('td').length - 2].querySelector('a').href;
         el.cells[0].appendChild(iFrame);
-
         iFrame.onload = function () {
             let loadedFrame = iFrame.contentWindow.document;
             // increase counter by 1 and show total number of loaded iframes in #infoTable
             counter++;
             document.querySelector('#frames').innerText = counter;
             getInfoFromFrame(loadedFrame);
+            assingedCommissionCheck(loadedFrame, el.cells[8]);
         }
     })
+}
+
+// called in createIFrames
+function assingedCommissionCheck(loadedFrame, lastCell) {
+    // needs changes for more precise work
+    console.log("-------------------------------------------------------assingedCommissionCheck()");
+    const commission = loadedFrame.querySelector('select.form-control.commision');
+    if (!commission) {
+        let requests = loadedFrame.querySelectorAll('tbody') // needs changing
+        if (requests.length < 8) {
+            lastCell.style.backgroundColor = "#fa2a07";
+        }
+    } else if (commission.value != '') {
+        lastCell.style.backgroundColor = "#9eb3c6";
+    }
+
 }
 
 // called in main() 
