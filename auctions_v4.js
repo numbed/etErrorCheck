@@ -188,6 +188,8 @@ function populateTables() { //called in newButtonFunction()
                         let docSpan = document.createElement('a')
                         docSpan.innerText = doc.name + " " + doc.date;
                         docSpan.href = doc.link;
+                        docSpan.title = doc.name;
+                        docSpan.download = doc.name;
                         docSpan.target = '_blank'
                         let newline = document.createElement('br')
                         element.querySelector('#docs').appendChild(docSpan)
