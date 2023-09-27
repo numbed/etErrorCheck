@@ -139,39 +139,39 @@ function main() {
 
     //creating toast notifications if needed
     let timeoutMS = 50;
+    if(isCounterZero(arrayCounter().future) !=0) {
+        setTimeout(() => {
+            createToast('бъдещи: ', 'toast-future', isCounterZero(arrayCounter().future) + isCounterZero(arrayCounter().notPublished))
+        }, timeoutMS);
+        timeoutMS += 300;
+    }
     if(isCounterZero(arrayCounter().notPublished) !=0) {
         setTimeout(() => {
-            createToast('notPublished', 'toast-notPublished', isCounterZero(arrayCounter().notPublished))
+            createToast('непубликувани: ', 'toast-notPublished', isCounterZero(arrayCounter().notPublished))
         }, timeoutMS);
         timeoutMS += 300;
     }
     if(isCounterZero(arrayCounter().today) !=0) {
         setTimeout(() => {
-            createToast('today', 'toast-today', isCounterZero(arrayCounter().today))
+            createToast('краен срок [днес]: ', 'toast-today', isCounterZero(arrayCounter().today))
         }, timeoutMS);
         timeoutMS += 300;
     }
     if(isCounterZero(arrayCounter().commission) !=0) {
         setTimeout(() => {
-            createToast('commission', 'toast-commission', isCounterZero(arrayCounter().commission))
+            createToast('комисии: ', 'toast-commission', isCounterZero(arrayCounter().commission))
         }, timeoutMS);
         timeoutMS += 300;
     }
     if(isCounterZero(arrayCounter().danger) !=0) {
         setTimeout(() => {
-            createToast('danger', 'toast-danger', isCounterZero(arrayCounter().danger))
-        }, timeoutMS);
-        timeoutMS += 300;
-    }
-    if(isCounterZero(arrayCounter().future) !=0) {
-        setTimeout(() => {
-            createToast('future', 'toast-future', isCounterZero(arrayCounter().future))
+            createToast('прекратени:', 'toast-danger', isCounterZero(arrayCounter().danger))
         }, timeoutMS);
         timeoutMS += 300;
     }
     if(isCounterZero(arrayCounter().passed) !=0) {
         setTimeout(() => {
-            createToast('passed', 'toast-passed', isCounterZero(arrayCounter().passed))
+            createToast('минали: ', 'toast-passed', isCounterZero(arrayCounter().passed))
         }, timeoutMS);
         timeoutMS += 300;
     }
