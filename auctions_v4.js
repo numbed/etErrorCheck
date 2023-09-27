@@ -137,25 +137,44 @@ function main() {
     addToInfoTable();
     addMouseFunctionsToInfoTable();
 
-    //creating toast notifications
-    setTimeout(() => {
-        createToast('notPublished', 'toast-notPublished', isCounterZero(arrayCounter().notPublished))
-    }, 50);
-    setTimeout(() => {
-        createToast('today', 'toast-today', isCounterZero(arrayCounter().today))
-    }, 50);
-    setTimeout(() => {
-        createToast('commission', 'toast-commission', isCounterZero(arrayCounter().commission))
-    }, 250);
-    setTimeout(() => {
-        createToast('danger', 'toast-danger', isCounterZero(arrayCounter().danger))
-    }, 450);
-    setTimeout(() => {
-        createToast('future', 'toast-future', isCounterZero(arrayCounter().future))
-    }, 650);
-    setTimeout(() => {
-        createToast('passed', 'toast-passed', isCounterZero(arrayCounter().passed))
-    }, 850);
+    //creating toast notifications if needed
+    let timeoutMS = 50;
+    if(isCounterZero(arrayCounter().notPublished) !=0) {
+        setTimeout(() => {
+            createToast('notPublished', 'toast-notPublished', isCounterZero(arrayCounter().notPublished))
+        }, timeoutMS);
+        timeoutMS += 300;
+    }
+    if(isCounterZero(arrayCounter().today) !=0) {
+        setTimeout(() => {
+            createToast('today', 'toast-today', isCounterZero(arrayCounter().today))
+        }, timeoutMS);
+        timeoutMS += 300;
+    }
+    if(isCounterZero(arrayCounter().commission) !=0) {
+        setTimeout(() => {
+            createToast('commission', 'toast-commission', isCounterZero(arrayCounter().commission))
+        }, timeoutMS);
+        timeoutMS += 300;
+    }
+    if(isCounterZero(arrayCounter().danger) !=0) {
+        setTimeout(() => {
+            createToast('danger', 'toast-danger', isCounterZero(arrayCounter().danger))
+        }, timeoutMS);
+        timeoutMS += 300;
+    }
+    if(isCounterZero(arrayCounter().future) !=0) {
+        setTimeout(() => {
+            createToast('future', 'toast-future', isCounterZero(arrayCounter().future))
+        }, timeoutMS);
+        timeoutMS += 300;
+    }
+    if(isCounterZero(arrayCounter().passed) !=0) {
+        setTimeout(() => {
+            createToast('passed', 'toast-passed', isCounterZero(arrayCounter().passed))
+        }, timeoutMS);
+        timeoutMS += 300;
+    }
 
     createIFrames();
     // check if loaded frames are equal to number of auctions on page, after specific time
@@ -222,7 +241,7 @@ function createToast(head, classN, number) {
 
     toast.appendChild(toastHead);
     toast.appendChild(toastInfo);
-    toast.appendChild(closeButton);
+    // toast.appendChild(closeButton);
 
     toastContainer.appendChild(toast);
 
