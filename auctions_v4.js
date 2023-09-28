@@ -151,8 +151,9 @@ function main() {
 
     setTimeout(() => {
         addToInfoBar();
-    }, 3000);
+    }, 5000);
     // infoBar end
+    createButton();
 
     showDeadline();
     setAuctionsClasses();
@@ -176,13 +177,56 @@ function main() {
     errorCheck();
 }
 main();
+//BUTTON FUNCTIONS
+// called in main()
+function createButton() {
+    // Create container element
+    const div = document.createElement('div');
+    div.id = 'infoButtonContainer';
+    // div.style.display = 'none';
+    // let nav = document.querySelector(".navbar.navbar-static-top.white-bg")
+    // nav.insertBefore(div, nav.children[1])
+    document.querySelector('thead').querySelector('th').querySelector('div').appendChild(div);
 
+    // Create a button element
+    const button = document.createElement('a');
+    button.id = 'infoButton';
+    button.className = 'btn btn-success pull-left';
+
+    // Set the button's text
+    button.textContent = 'SHOW';
+
+    // Add an event listener to the button
+    button.addEventListener('click', buttonClick);
+
+    // Append the button to a container element
+    div.appendChild(button);
+}
+
+// called in createButton()
+function buttonClick() {
+    console.log('clicked: button')
+    let button = document.querySelector('#infoButton')
+    if (button.innerText === "SHOW") {
+        button.innerText = "HIDE";
+        document.querySelectorAll(".customContainer").forEach(el => {
+            el.style.display = "inline"
+        })
+
+    } else if (button.innerText === "HIDE") {
+        button.innerText = "SHOW";
+        document.querySelectorAll(".customContainer").forEach(el => {
+            el.style.display = "none"
+        })
+    }
+}
+//BUTTON FUNCTIONS END
 
 //TOAST FUNCTIONS
 function toastCheck() {
     //creating toast notifications if needed
     let timeoutMS = 50;
-    if (isCounterZero(arrayCounter().future) != 0) {
+    if ((isCounterZero(arrayCounter().future) + isCounterZero(arrayCounter().notPublished)) != 0) {
         setTimeout(() => {
             createToast('бъдещи: ', 'toast-future', isCounterZero(arrayCounter().future) + isCounterZero(arrayCounter().notPublished))
         }, timeoutMS);
@@ -272,7 +316,7 @@ function createToast(head, classN, number) {
 
     setTimeout(() => {
         toast.classList.remove('show');
-    }, 5000);
+    }, 3000);
 }
 //TOAST FUNCTIONS
 
@@ -300,7 +344,7 @@ function addToInfoBar() {
         cont.querySelector('#notPublished').innerHTML = isCounterZero(arrayCounter().notPublished)
     }
 
-    if (isCounterZero(arrayCounter().future) === 0) {
+    if ((isCounterZero(arrayCounter().future)+isCounterZero(arrayCounter().notPublished)) === 0) {
         cont.querySelector('#future').classList.remove('show-info-cell')
     } else {
         cont.querySelector('#future').innerHTML = isCounterZero(arrayCounter().future) + isCounterZero(arrayCounter().notPublished)
@@ -316,6 +360,7 @@ function addToInfoBar() {
         cont.querySelector('#passed').classList.remove('show-info-cell')
     } else {
         cont.querySelector('#passed').innerHTML = isCounterZero(arrayCounter().passed)
+        cont.querySelector('#passed').classList.add('show-info-cell')
     }
 
     if (isCounterZero(arrayCounter().commission) === 0) {
@@ -336,6 +381,7 @@ function createInfoBar(el) {
     cellTextHolder.classList.add('show-info-cell');
     cellTextHolder.id = el.id;
     cellTextHolder.onclick = infoBarClick;
+    cellTextHolder.onmouseover = barmouseover;
 
 
     const cellTitle = document.createElement('div');
@@ -348,13 +394,24 @@ function createInfoBar(el) {
 }
 
 function infoBarClick() {
-    console.log(this.id);
+    console.log("clicked", this.id, this.innerText);
     auctionsTable.forEach(element => {
         if (element.className === this.id) {
-            window.open(element.querySelectorAll('td')[7].querySelector('a').href, "_blank")
+            // window.open(element.querySelectorAll('td')[7].querySelector('a').href, "_blank")
         }
     })
 }
+
+function barmouseover(){
+    console.log("mouseover", this.id);
+    auctionsTable.forEach(el =>{
+        if(el.className === this.id) {
+            console.log(el);
+        }
+    })
+
+}
+
 //INFOBAR FUNCTIONS
 
 // called in main()
@@ -585,8 +642,9 @@ function getInfoFromFrame(loadedFrame) {
 // when hovering on #infoTable it colors according rows in auctionsTable
 // when clicked on element in #infoTable opens new tabs according to clicked id if any
 function addMouseFunctionsToInfoTable() {
+    console.log('🚀 ~ addMouseFunctionsToInfoTable ~ addMouseFunctionsToInfoTable: LOADED', addMouseFunctionsToInfoTable);
     infoTable.forEach(el => {
-        document.getElementById(el.id).addEventListener("mouseover", (event) => {
+        nav.getElementById(el.id).addEventListener("mouseover", (event) => {
                 // highlight the mouseover target
                 event.target.style.color = "white";
                 event.target.style.backgroundColor = el.color;
@@ -824,11 +882,13 @@ b.commission {
 }
 
 #infoButtonContainer {
-    padding: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 30px;
+    margin-left: 1px;
+}
+#infoButton {
+    width: 70px;
 }
 
 /* Toast Container */
