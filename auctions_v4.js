@@ -328,7 +328,7 @@ function addToInfoBar() {
 
     if (isCounterZero(arrayCounter().error) === 0) {
         cont.querySelector('#errors').classList.remove('show-info-cell')
-        cont.querySelector('#errors').classList.textContent='';
+        cont.querySelector('#errors').classList.textContent = '';
     } else {
         cont.querySelector('#errors').classList.add('show-info-cell')
         cont.querySelector('#errors').innerHTML = isCounterZero(arrayCounter().error)
@@ -336,7 +336,7 @@ function addToInfoBar() {
 
     if (isCounterZero(arrayCounter().danger) === 0) {
         cont.querySelector('#danger').classList.remove('show-info-cell')
-        cont.querySelector('#danger').classList.textContent='';
+        cont.querySelector('#danger').classList.textContent = '';
     } else {
         cont.querySelector('#danger').classList.add('show-info-cell')
         cont.querySelector('#danger').innerHTML = isCounterZero(arrayCounter().danger)
@@ -344,7 +344,7 @@ function addToInfoBar() {
 
     if (isCounterZero(arrayCounter().notPublished) === 0) {
         cont.querySelector('#notPublished').classList.remove('show-info-cell')
-        cont.querySelector('#notPublished').classList.textContent='';
+        cont.querySelector('#notPublished').classList.textContent = '';
     } else {
         cont.querySelector('#notPublished').classList.add('show-info-cell')
         cont.querySelector('#notPublished').innerHTML = isCounterZero(arrayCounter().notPublished)
@@ -352,7 +352,7 @@ function addToInfoBar() {
 
     if ((isCounterZero(arrayCounter().future) + isCounterZero(arrayCounter().notPublished)) === 0) {
         cont.querySelector('#future').classList.remove('show-info-cell')
-        cont.querySelector('#future').textContent='';
+        cont.querySelector('#future').textContent = '';
     } else {
         cont.querySelector('#future').classList.add('show-info-cell')
         cont.querySelector('#future').innerHTML = isCounterZero(arrayCounter().future) + isCounterZero(arrayCounter().notPublished)
@@ -360,7 +360,7 @@ function addToInfoBar() {
 
     if (isCounterZero(arrayCounter().today) === 0) {
         cont.querySelector('#today').classList.remove('show-info-cell')
-        cont.querySelector('#today').classList.textContent='';
+        cont.querySelector('#today').classList.textContent = '';
     } else {
         cont.querySelector('#today').classList.add('show-info-cell')
         cont.querySelector('#today').innerHTML = isCounterZero(arrayCounter().today)
@@ -368,7 +368,7 @@ function addToInfoBar() {
 
     if (isCounterZero(arrayCounter().passed) === 0) {
         cont.querySelector('#passed').classList.remove('show-info-cell')
-        cont.querySelector('#passed').classList.textContent='';
+        cont.querySelector('#passed').classList.textContent = '';
     } else {
         cont.querySelector('#passed').classList.add('show-info-cell')
         cont.querySelector('#passed').innerHTML = isCounterZero(arrayCounter().passed)
@@ -376,7 +376,7 @@ function addToInfoBar() {
 
     if (isCounterZero(arrayCounter().commission) === 0) {
         cont.querySelector('#commission').classList.remove('show-info-cell')
-        cont.querySelector('#commission').classList.textContent='';
+        cont.querySelector('#commission').classList.textContent = '';
     } else {
         cont.querySelector('#commission').classList.add('show-info-cell')
         cont.querySelector('#commission').innerHTML = isCounterZero(arrayCounter().commission)
@@ -481,20 +481,14 @@ function populateTables() { //called in main()
                 documentsDisplay();
 
                 function docsInfo(element, docs) {
-                    console.log('🚀 ~ docsInfo ~ element: LOADED', element);
                     const docinf = document.createElement('div');
-                    docinf.textContent = docs.length;
-                    if (docs.length != 0) {
-                        docinf.style.backgroundColor = 'black';
-                        docinf.style.color = "white";
-                    } else {
-                        docinf.style.backgroundColor = 'red';
-                        docinf.style.color = "black";
-                    }
-                    element.querySelector('#docsLengthInfo').appendChild(docinf);
+                    docinf.innerText = 'text';
+                    let gosh = element.querySelector('#docsLengthInfo');
+                    gosh.appendChild(docinf);
+                    console.log('🚀 ~ docsInfo ~ element: LOADED', element.querySelector('span'));
                 }
 
-                element.querySelector('#docsLengthInfo').innerHTML = '<br>' + isCounterZero(el.documents.length) + "/" + isCounterZero(el.firstByuer.length) + "/" + isCounterZero(el.secondByuer.length);
+                // element.querySelector('#docsLengthInfo').innerHTML = '<br>' + isCounterZero(el.documents.length) + "/" + isCounterZero(el.firstByuer.length) + "/" + isCounterZero(el.secondByuer.length);
 
                 element.querySelector('#big').innerText = el.woodsInfo.big;
                 element.querySelector('#mid').innerText = el.woodsInfo.mid;
