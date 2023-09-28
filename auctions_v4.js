@@ -130,7 +130,7 @@ function main() {
             }
         })
 
-        item.cells[4].innerHTML += '<span id="docsLengthInfo"></span>';
+        item.cells[4].innerHTML += '<span id="docsLengthInfo"><br></span>';
         // replaces text in the array with uppercase
         textToBeReplaced.forEach(el => {
             item.cells[4].innerHTML = item.cells[4].innerHTML.replace(el, el.toUpperCase().bold())
@@ -328,44 +328,57 @@ function addToInfoBar() {
 
     if (isCounterZero(arrayCounter().error) === 0) {
         cont.querySelector('#errors').classList.remove('show-info-cell')
+        cont.querySelector('#errors').classList.textContent='';
     } else {
+        cont.querySelector('#errors').classList.add('show-info-cell')
         cont.querySelector('#errors').innerHTML = isCounterZero(arrayCounter().error)
     }
 
     if (isCounterZero(arrayCounter().danger) === 0) {
         cont.querySelector('#danger').classList.remove('show-info-cell')
+        cont.querySelector('#danger').classList.textContent='';
     } else {
+        cont.querySelector('#danger').classList.add('show-info-cell')
         cont.querySelector('#danger').innerHTML = isCounterZero(arrayCounter().danger)
     }
 
     if (isCounterZero(arrayCounter().notPublished) === 0) {
         cont.querySelector('#notPublished').classList.remove('show-info-cell')
+        cont.querySelector('#notPublished').classList.textContent='';
     } else {
+        cont.querySelector('#notPublished').classList.add('show-info-cell')
         cont.querySelector('#notPublished').innerHTML = isCounterZero(arrayCounter().notPublished)
     }
 
-    if ((isCounterZero(arrayCounter().future)+isCounterZero(arrayCounter().notPublished)) === 0) {
+    if ((isCounterZero(arrayCounter().future) + isCounterZero(arrayCounter().notPublished)) === 0) {
         cont.querySelector('#future').classList.remove('show-info-cell')
+        cont.querySelector('#future').textContent='';
     } else {
+        cont.querySelector('#future').classList.add('show-info-cell')
         cont.querySelector('#future').innerHTML = isCounterZero(arrayCounter().future) + isCounterZero(arrayCounter().notPublished)
     }
 
     if (isCounterZero(arrayCounter().today) === 0) {
         cont.querySelector('#today').classList.remove('show-info-cell')
+        cont.querySelector('#today').classList.textContent='';
     } else {
+        cont.querySelector('#today').classList.add('show-info-cell')
         cont.querySelector('#today').innerHTML = isCounterZero(arrayCounter().today)
     }
 
     if (isCounterZero(arrayCounter().passed) === 0) {
         cont.querySelector('#passed').classList.remove('show-info-cell')
+        cont.querySelector('#passed').classList.textContent='';
     } else {
-        cont.querySelector('#passed').innerHTML = isCounterZero(arrayCounter().passed)
         cont.querySelector('#passed').classList.add('show-info-cell')
+        cont.querySelector('#passed').innerHTML = isCounterZero(arrayCounter().passed)
     }
 
     if (isCounterZero(arrayCounter().commission) === 0) {
         cont.querySelector('#commission').classList.remove('show-info-cell')
+        cont.querySelector('#commission').classList.textContent='';
     } else {
+        cont.querySelector('#commission').classList.add('show-info-cell')
         cont.querySelector('#commission').innerHTML = isCounterZero(arrayCounter().commission)
     }
 }
@@ -402,10 +415,10 @@ function infoBarClick() {
     })
 }
 
-function barmouseover(){
+function barmouseover() {
     console.log("mouseover", this.id);
-    auctionsTable.forEach(el =>{
-        if(el.className === this.id) {
+    auctionsTable.forEach(el => {
+        if (el.className === this.id) {
             console.log(el);
         }
     })
@@ -448,6 +461,10 @@ function populateTables() { //called in main()
         auctions.forEach(el => {
             if (element.cells[0].innerText === el.id) {
 
+                docsInfo(element, el.documents)
+                docsInfo(element, el.firstByuer)
+                docsInfo(element, el.secondByuer)
+
                 function documentsDisplay() {
                     el.documents.forEach(doc => {
                         let docSpan = document.createElement('a')
@@ -463,7 +480,21 @@ function populateTables() { //called in main()
                 }
                 documentsDisplay();
 
-                element.querySelector('#docsLengthInfo').innerText = isCounterZero(el.documents.length) + "/" + isCounterZero(el.firstByuer.length) + "/" + isCounterZero(el.secondByuer.length);
+                function docsInfo(element, docs) {
+                    console.log('🚀 ~ docsInfo ~ element: LOADED', element);
+                    const docinf = document.createElement('div');
+                    docinf.textContent = docs.length;
+                    if (docs.length != 0) {
+                        docinf.style.backgroundColor = 'black';
+                        docinf.style.color = "white";
+                    } else {
+                        docinf.style.backgroundColor = 'red';
+                        docinf.style.color = "black";
+                    }
+                    element.querySelector('#docsLengthInfo').appendChild(docinf);
+                }
+
+                element.querySelector('#docsLengthInfo').innerHTML = '<br>' + isCounterZero(el.documents.length) + "/" + isCounterZero(el.firstByuer.length) + "/" + isCounterZero(el.secondByuer.length);
 
                 element.querySelector('#big').innerText = el.woodsInfo.big;
                 element.querySelector('#mid').innerText = el.woodsInfo.mid;
