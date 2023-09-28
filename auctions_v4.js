@@ -1,7 +1,6 @@
 console.clear();
 console.log('auctions_v4');
 let auctionsTable = document.querySelector('tbody').querySelectorAll('tr');
-let leftSideNavigation = document.querySelector('.navbar-default.navbar-static-side');
 let today = new Date();
 let auctions = [];
 
@@ -9,7 +8,7 @@ let auctions = [];
 const toastContainer = document.createElement('div');
 toastContainer.className = 'toast-container';
 document.querySelector('.navbar-header').appendChild(toastContainer);
-//toast shits
+//toast shits end
 
 
 //infobar shits
@@ -17,7 +16,7 @@ const infoContainer = document.createElement('div')
 infoContainer.className = 'info-container';
 let nav = document.querySelector(".navbar.navbar-static-top.white-bg")
 nav.insertBefore(infoContainer, nav.children[1]);
-//infobar shits
+//infobar shits end
 
 let textToBeReplaced = ['търг', 'конкурс', 'ценово', 'добив', 'корен', 'действително добити', 'прогнозни'];
 let auctionsErrors = ['конкурс', 'ценово'];
@@ -118,8 +117,10 @@ let infoTable = [{
 let counter = 0;
 
 function main() {
+    //checks if there are auction ready to be published and click on each publish button
     auctionPublish();
 
+    // coloring table if there are errors
     auctionsTable.forEach(item => {
         // changes cell color if auction is in the array
         auctionsErrors.forEach(el => {
@@ -136,7 +137,7 @@ function main() {
         })
     })
 
-    // infoBar 
+    // infoBar add cells
     let timeoutMS = 0;
     infoTable.forEach((el, index) => {
         index++
@@ -153,18 +154,10 @@ function main() {
     }, 3000);
     // infoBar end
 
-    createInfoTable();
-    createButton();
-
     showDeadline();
     setAuctionsClasses();
 
-    addToInfoTable();
-    addMouseFunctionsToInfoTable();
-
-
     toastCheck();
-
 
     createIFrames();
     // check if loaded frames are equal to number of auctions on page, after specific time
@@ -174,7 +167,7 @@ function main() {
             populateTables()
             document.querySelector('#infoButtonContainer').style.display = '';
             uploadedFilesCheck();
-            addToInfoTable(); // update #infoTable after auctions file check
+            addToInfoBar(); // update #infoTable after auctions file check
         }
     }, 9500);
 
@@ -393,7 +386,7 @@ function errorCheck() {
 }
 
 // called in main() in setTimeout
-function populateTables() { //called in newButtonFunction()
+function populateTables() { //called in main()
     auctionsTable.forEach((element, index) => {
         auctions.forEach(el => {
             if (element.cells[0].innerText === el.id) {
@@ -629,18 +622,6 @@ function addMouseFunctionsToInfoTable() {
     })
 }
 
-// called in main()
-function addToInfoTable() {
-    document.querySelector("#errors").innerHTML = isCounterZero(arrayCounter().error);;
-    document.querySelector("#danger").innerHTML = isCounterZero(arrayCounter().danger);
-    document.querySelector("#notPublished").innerHTML = isCounterZero(arrayCounter().notPublished);
-    document.querySelector("#future").innerHTML = isCounterZero(arrayCounter().future) + "/" + (isCounterZero(arrayCounter().future) + isCounterZero(arrayCounter().notPublished));
-    document.querySelector("#today").innerHTML = isCounterZero(arrayCounter().today);
-    document.querySelector("#passed").innerHTML = isCounterZero(arrayCounter().passed);
-    document.querySelector("#commission").innerHTML = isCounterZero(arrayCounter().commission);
-
-}
-
 // show deadline for publishing documents in forth column
 // called in main()
 // error in deadlineCheck()-> removed | will be written anew
@@ -666,7 +647,6 @@ function deadlineCheck(date) {
     } else if (firstDate.getDay() == 3) {
         deadlineDate.setDate(firstDate.getDate() - 19);
     }
-
     return deadlineDate;
 }
 
@@ -680,83 +660,10 @@ function commissionDateCheck(date) {
     } else {
         commissionDate.setDate(firstDate.getDate() - 1);
     }
-
     return commissionDate;
 }
 
-// called in main()
-function createInfoTable() {
-    // separate left side navgiation menu from newly created info table with horizontal line
-    let hr = document.createElement('hr');
-    leftSideNavigation.appendChild(hr);
 
-    const table = document.createElement('div');
-    table.className = '';
-    table.id = 'infoTable';
-    leftSideNavigation.appendChild(table);
-
-    for (let i = 0; i < infoTable.length; i++) {
-        const item = infoTable[i];
-        const tableRow = document.createElement('tr');
-
-        // Create a cell for the title with background color
-        const titleCell = document.createElement('td');
-        titleCell.textContent = item.title;
-
-        // Create an empty cell for the ID
-        const idCell = document.createElement('td');
-        idCell.id = item.id;
-        idCell.textContent = "gish"; //stays for now just for styling purposes
-        idCell.style.borderColor = item.color;
-
-        // Append cells to the row
-        tableRow.appendChild(titleCell);
-        tableRow.appendChild(idCell);
-
-        // Append the row to the table
-        document.querySelector('#infoTable').appendChild(tableRow);
-    }
-}
-
-// called in main()
-function createButton() {
-    // Create container element
-    const div = document.createElement('div');
-    div.id = 'infoButtonContainer';
-    div.style.display = 'none';
-    leftSideNavigation.appendChild(div);
-
-    // Create a button element
-    const button = document.createElement('button');
-    button.id = 'infoButton';
-
-    // Set the button's text
-    button.textContent = 'SHOW';
-
-    // Add an event listener to the button
-    button.addEventListener('click', buttonClick);
-
-    // Append the button to a container element
-    div.appendChild(button);
-}
-
-// called in createButton()
-function buttonClick() {
-    console.log('clicked: button')
-    let button = document.querySelector('#infoButton')
-    if (button.innerText === "SHOW") {
-        button.innerText = "HIDE";
-        document.querySelectorAll(".customContainer").forEach(el => {
-            el.style.display = "inline"
-        })
-
-    } else if (button.innerText === "HIDE") {
-        button.innerText = "SHOW";
-        document.querySelectorAll(".customContainer").forEach(el => {
-            el.style.display = "none"
-        })
-    }
-}
 
 // called in main()
 function setAuctionsClasses() {
@@ -790,7 +697,7 @@ function auctionDateCheck(el) {
     }
 }
 
-// called in addToInfoTable()
+// called in addToInfoBar()
 function arrayCounter() {
     const count = {};
     auctionsTable.forEach(el => {
@@ -799,7 +706,7 @@ function arrayCounter() {
     return count;
 }
 
-// called in addToInfoTable()
+// called in addToInfoBar()
 function isCounterZero(counter) {
     if (counter === undefined) {
         return counter = 0;
