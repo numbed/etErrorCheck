@@ -1,158 +1,261 @@
-let auctions = document.querySelector('tbody').querySelectorAll('tr');
-const toastContainer = document.createElement('div');
-toastContainer.className = 'toast-container';
-document.querySelector('.navbar-header').appendChild(toastContainer);
+let auctionsTable = document.querySelector('tbody').querySelectorAll('tr');
+const infoContainer = document.createElement('div')
+infoContainer.className = 'info-container';
+let nav = document.querySelector(".navbar.navbar-static-top.white-bg")
+nav.insertBefore(infoContainer, nav.children[1]);
+
+let infoTable = [{
+        id: 'frames',
+        title: 'frames',
+        color: 'blue'
+    }, {
+        id: 'errors',
+        title: 'errors',
+        color: 'black'
+    },
+    {
+        id: 'danger',
+        title: 'danger',
+        color: '#C70039'
+    },
+    {
+        id: 'notPublished',
+        title: 'notPublished',
+        color: '#FFBB5C'
+    },
+    {
+        id: 'future',
+        title: 'future',
+        color: '#E25E3E'
+    },
+    {
+        id: 'today',
+        title: 'today',
+        color: '#D1462F'
+    },
+    {
+        id: 'passed',
+        title: 'passed',
+        color: '#81B622'
+    },
+    {
+        id: 'commission',
+        title: 'commission',
+        color: '#040D12'
+    }
+];
+
+function addToInfoBar() {
+    document.querySelector('#frames').classList.remove('show-info-cell')
+
+    if (isCounterZero(arrayCounter().error) === 0) {
+        document.querySelector('#errors').classList.remove('show-info-cell')
+    } else {
+        document.querySelector('#errors').innerHTML = isCounterZero(arrayCounter().error)
+    }
+
+    if (isCounterZero(arrayCounter().danger) === 0) {
+        document.querySelector('#danger').classList.remove('show-info-cell')
+    } else {
+        document.querySelector('#danger').innerHTML = isCounterZero(arrayCounter().danger)
+    }
+
+    if (isCounterZero(arrayCounter().notPublished) === 0) {
+        document.querySelector('#notPublished').classList.remove('show-info-cell')
+    } else {
+        document.querySelector('#notPublished').innerHTML = isCounterZero(arrayCounter().notPublished)
+    }
+
+    if (isCounterZero(arrayCounter().future) === 0) {
+        document.querySelector('#future').classList.remove('show-info-cell')
+    } else {
+        document.querySelector('#future').innerHTML = isCounterZero(arrayCounter().future) + isCounterZero(arrayCounter().notPublished)
+    }
+
+    if (isCounterZero(arrayCounter().today) === 0) {
+        document.querySelector('#today').classList.remove('show-info-cell')
+    } else {
+        document.querySelector('#today').innerHTML = isCounterZero(arrayCounter().today)
+    }
+
+    if (isCounterZero(arrayCounter().passed) === 0) {
+        document.querySelector('#passed').classList.remove('show-info-cell')
+    } else {
+        document.querySelector('#passed').innerHTML = isCounterZero(arrayCounter().passed)
+    }
+
+    if (isCounterZero(arrayCounter().commission) === 0) {
+        document.querySelector('#commission').classList.remove('show-info-cell')
+    } else {
+        document.querySelector('#commission').innerHTML = isCounterZero(arrayCounter().commission)
+    }
 
 
 
-setTimeout(() => {
-createToast('today', 'toast-today', isCounterZero(arrayCounter().today))
-}, 50);
-setTimeout(() => {
-createToast('commission', 'toast-commission', isCounterZero(arrayCounter().commission))
-}, 250);
-setTimeout(() => {
-    createToast('danger', 'toast-danger', isCounterZero(arrayCounter().danger))
-}, 450);
-setTimeout(() => {
-    createToast('future', 'toast-future', isCounterZero(arrayCounter().future))
-}, 650);
-setTimeout(() => {
-    createToast('passed', 'toast-passed', isCounterZero(arrayCounter().passed))
-}, 850);
-
-function showToast() {
-    var toast = document.getElementById("toast");
-    toast.style.display = "block";
 }
+setTimeout(() => {
+    addToInfoBar();
+}, 2000);
 
-function closeToast() {
-    var toast = document.getElementById("toast");
-    console.log('click', this.parentElement.className.split('-')[1]);
-    this.parentElement.parentElement.style.display = 'none';
-    this.parentElement.parentElement.classList.remove('show');
-
-}
-
-function tabOpen(){
-    parentClass = this.parentElement.className.split('-')[1];
-    
+// called in main()
+function setAuctionsClasses() {
     auctionsTable.forEach(el => {
-        if (el.className === parentClass){
-           console.log( el.cells[0].innerText)
-            // window.open(window.open(el.querySelectorAll('td')[7].querySelector('a').href, "_blank"))
+        if (el.className != 'danger') {
+            if (window.getComputedStyle(el).color === "rgb(153, 153, 153)") {
+                el.className = 'notPublished';
+                el.querySelector('b').className = auctionDateCheck(el);
+            } else {
+                el.className = auctionDateCheck(el);
+                el.querySelector('b').className = auctionDateCheck(el);
+            }
         }
     })
 }
+// called in setAuctionsClasses()
+function auctionDateCheck(el) {
+    let firstDate = el.cells[2].innerText.split(' ')[0].split(".");
+    let deadlineDate = deadlineCheck(firstDate);
+    let commissionDate = commissionDateCheck(firstDate);
 
-function createToast(head, classN, number) {
-    
-    const toast = document.createElement('div');
-    toast.className = 'toast'
-    toast.style.display = "block";
-    toast.classList.add('show');
-    toast.classList.add(classN);
-    
-    const toastHead = document.createElement('div');
-    toastHead.textContent = head;
-
-    const toastInfo = document.createElement('div');
-    toastInfo.innerHTML = number;
-    toastInfo.onclick = tabOpen;
-
-
-    const closeButton = document.createElement('div');
-    closeButton.onclick = closeToast;
-    closeButton.innerText = '[X]';
-    closeButton.className = 'close-button'
-
-    toast.appendChild(toastHead);
-    toast.appendChild(toastInfo);
-    toast.appendChild(closeButton);
-    
-    toastContainer.appendChild(toast);
-
-    setTimeout(() => {
-      toast.classList.remove('show');
-    }, 10000);
+    if (deadlineDate.setHours(0, 0, 0, 0) == today.setHours(0, 0, 0, 0)) {
+        return "today";
+    } else if (deadlineDate.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0) && commissionDate.setHours(0, 0, 0, 0) == today.setHours(0, 0, 0, 0)) {
+        return "commission";
+    } else if (deadlineDate.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0)) {
+        return "passed";
+    } else {
+        return "future";
+    }
 }
 
+// called in addToInfoBar()
+function arrayCounter() {
+    const count = {};
+    auctionsTable.forEach(el => {
+        count[el.className] = (count[el.className] || 0) + 1;
+    });
+    return count;
+}
+
+// called in addToInfoBar()
+function isCounterZero(counter) {
+    if (counter === undefined) {
+        return counter = 0;
+    } else {
+        return counter;
+    }
+}
+
+let timeoutMS = 0;
+infoTable.forEach((el, index) => {
+    index++
+    setTimeout(() => {
+        console.log(index);
+        createInfoBar(el)
+
+    }, timeoutMS);
+    timeoutMS += 200;
+    // if (index === infoTable.length) {
+    //     console.log(index);
+    // }
+})
+
+function createInfoBar(el) {
+
+    const cell = document.createElement('div');
+    cell.className = 'info-cell';
+
+    const cellTextHolder = document.createElement('div');
+    cellTextHolder.style.backgroundColor = el.color;
+    cellTextHolder.className = 'info-cell-text'
+    cellTextHolder.classList.add('show-info-cell');
+    cellTextHolder.id = el.id;
 
 
+    const cellTitle = document.createElement('div');
+    cellTitle.className = 'info-cell-title';
+    cellTitle.textContent = el.title;
 
+    cell.appendChild(cellTextHolder)
+    cell.appendChild(cellTitle)
+    infoContainer.appendChild(cell);
+}
 
+// called in auctionDateCheck(el) && showDeadline()
+function deadlineCheck(date) {
+    let firstDate = new Date(date[2], date[1] - 1, date[0]);
+    let deadlineDate = new Date(firstDate);
+
+    if (firstDate.getDay() == 1 || firstDate.getDay() == 4) {
+        deadlineDate.setDate(firstDate.getDate() - 20);
+    } else if (firstDate.getDay() == 2 || firstDate.getDay() == 5) {
+        deadlineDate.setDate(firstDate.getDate() - 18);
+    } else if (firstDate.getDay() == 3) {
+        deadlineDate.setDate(firstDate.getDate() - 19);
+    }
+
+    return deadlineDate;
+}
+
+// called in auctionDateCheck(el)
+function commissionDateCheck(date) {
+    let firstDate = new Date(date[2], date[1] - 1, date[0]);
+    let commissionDate = new Date(firstDate);
+
+    if (firstDate.getDay() == 1) {
+        commissionDate.setDate(firstDate.getDate() - 3);
+    } else {
+        commissionDate.setDate(firstDate.getDate() - 1);
+    }
+
+    return commissionDate;
+}
 //styling bellow
 document.head.insertAdjacentHTML("beforeend", `<style>
-/* Toast Container */
-.toast-container {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 9999;
+.info-container {
+    position: fixed;
+    align: center;
+    font-family: Helvetica, Arial, sans-serif;
+    display: flex;
+    margin-right: 15px;
+    width: 700px;
+    left: 35%;
+    right: 35%;
+    margin-top: 0px;
 }
-.toast {
-    background-color: white;
+
+.info-cell {
+    position: sticky;
+    top: 0;
+    flex: 1;
+    margin-right: 5px;
+
+}
+.info-cell-text {
+    height: 8px;
+    trainsition: height 2s ease-in-out;
+
+}
+
+.show-info-cell {
+    color: white;
+    font-size: x-large;
+    text-align: center;
+    height: 35px;
+    transform: translateY(110);
+    transition: opacity 0.3s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.info-cell-title {
     color: black;
-    width: 350px;
-    height: 40px;
-    line-height: 35px;
-    border-left: 8px solid;
-    padding: 2px 0px 0px 5px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-    margin-bottom: 10px;
-    opacity: 0;
-    transform: translateX(100%);
-    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-  }
-  .toast>div{
-    display: inline-block;
-    padding: 3px 0px 0px 15px;
-    font-size: large;
+    opacity: 0.7;
+    font-size: x-small;
+    text-align: center;
+    font-style: italic;
+    font-weight: bold;
+    border: 0px;
+    margin: 0px;
+    padding: 0px;
 }
 
-
-.toast>div:first-of-type {
-    width: 30px;
-    display: inline;
-    
-    
-}
-.toast>div:last-of-type{
-    display: inline;
-    width: 300px;
-    opacity: 0.5;
-}
-
-.toast-danger{
-    border-left-color: pink;
-}
-.toast-passed{
-    border-left-color: #81B622;
-}
-.toast-commission{
-    border-left-color: #040D12;
-}
-.toast-today{
-    border-left-color: #D1462F;
-}
-.toast-future{
-    border-left-color: #FFBB5C;
-}
-  
-  /* Show Animation */
-  .toast.show {
-    opacity: 1;
-    transform: translateX(0);
-    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-  }
-
-/* CSS for the close button */
-.close-button {
-    width:max-content;
-    margin-left:auto;
-    top: 0.5px;
-    right: 8px;
-    color: black;
-    cursor: pointer;
-}
 </style>`);

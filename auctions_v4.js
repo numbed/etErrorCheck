@@ -12,6 +12,13 @@ document.querySelector('.navbar-header').appendChild(toastContainer);
 //toast shits
 
 
+//infobar shits
+const infoContainer = document.createElement('div')
+infoContainer.className = 'info-container';
+let nav = document.querySelector(".navbar.navbar-static-top.white-bg")
+nav.insertBefore(infoContainer, nav.children[1]);
+//infobar shits
+
 let textToBeReplaced = ['търг', 'конкурс', 'ценово', 'добив', 'корен', 'действително добити', 'прогнозни'];
 let auctionsErrors = ['конкурс', 'ценово'];
 
@@ -128,6 +135,23 @@ function main() {
         })
     })
 
+    // infoBar 
+    let timeoutMS = 0;
+    infoTable.forEach((el, index) => {
+        index++
+        setTimeout(() => {
+            console.log(index);
+            createInfoBar(el)
+
+        }, timeoutMS);
+        timeoutMS += 200;
+    })
+
+    setTimeout(() => {
+        addToInfoBar();
+    }, 3000);
+    // infoBar end
+
     createInfoTable();
     createButton();
 
@@ -158,6 +182,7 @@ function main() {
     errorCheck();
 }
 main();
+
 
 //TOAST FUNCTIONS
 function toastCheck() {
@@ -231,11 +256,11 @@ function createToast(head, classN, number) {
     toast.style.display = "block";
     toast.classList.add('show');
     toast.classList.add(classN);
-    
+
     const toastHead = document.createElement('div');
     toastHead.textContent = head;
     toastHead.onclick = tabOpen;
-    
+
     const toastInfo = document.createElement('div');
     toastInfo.innerHTML = number;
     toastInfo.classList.add(classN);
@@ -254,10 +279,82 @@ function createToast(head, classN, number) {
 
     setTimeout(() => {
         toast.classList.remove('show');
-    }, 7000);
+    }, 5000);
 }
 //TOAST FUNCTIONS
 
+
+//INFOBAR FUNCTIONS
+function addToInfoBar() {
+    console.log('🚀 ~ addToInfoBar ~ addToInfoBar: LOADED');
+    let cont = document.querySelector(".info-container");
+    cont.querySelector('#frames').classList.remove('show-info-cell');
+
+    if (isCounterZero(arrayCounter().error) === 0) {
+        cont.querySelector('#errors').classList.remove('show-info-cell')
+    } else {
+        cont.querySelector('#errors').innerHTML = isCounterZero(arrayCounter().error)
+    }
+
+    if (isCounterZero(arrayCounter().danger) === 0) {
+        cont.querySelector('#danger').classList.remove('show-info-cell')
+    } else {
+        cont.querySelector('#danger').innerHTML = isCounterZero(arrayCounter().danger)
+    }
+
+    if (isCounterZero(arrayCounter().notPublished) === 0) {
+        cont.querySelector('#notPublished').classList.remove('show-info-cell')
+    } else {
+        cont.querySelector('#notPublished').innerHTML = isCounterZero(arrayCounter().notPublished)
+    }
+
+    if (isCounterZero(arrayCounter().future) === 0) {
+        cont.querySelector('#future').classList.remove('show-info-cell')
+    } else {
+        cont.querySelector('#future').innerHTML = isCounterZero(arrayCounter().future) + isCounterZero(arrayCounter().notPublished)
+    }
+
+    if (isCounterZero(arrayCounter().today) === 0) {
+        cont.querySelector('#today').classList.remove('show-info-cell')
+    } else {
+        cont.querySelector('#today').innerHTML = isCounterZero(arrayCounter().today)
+    }
+
+    if (isCounterZero(arrayCounter().passed) === 0) {
+        cont.querySelector('#passed').classList.remove('show-info-cell')
+    } else {
+        cont.querySelector('#passed').innerHTML = isCounterZero(arrayCounter().passed)
+    }
+
+    if (isCounterZero(arrayCounter().commission) === 0) {
+        cont.querySelector('#commission').classList.remove('show-info-cell')
+    } else {
+        cont.querySelector('#commission').innerHTML = isCounterZero(arrayCounter().commission)
+    }
+}
+
+function createInfoBar(el) {
+
+    const cell = document.createElement('div');
+    cell.className = 'info-cell';
+
+    const cellTextHolder = document.createElement('div');
+    cellTextHolder.style.backgroundColor = el.color;
+    cellTextHolder.className = 'info-cell-text'
+    cellTextHolder.classList.add('show-info-cell');
+    cellTextHolder.id = el.id;
+
+
+    const cellTitle = document.createElement('div');
+    cellTitle.className = 'info-cell-title';
+    cellTitle.textContent = el.title;
+
+    cell.appendChild(cellTextHolder)
+    cell.appendChild(cellTitle)
+    infoContainer.appendChild(cell);
+}
+
+//INFOBAR FUNCTIONS
 
 // called in main()
 //clicks all auction publish buttons if present
@@ -889,5 +986,52 @@ b.commission {
     right: 8px;
     color: black;
     cursor: pointer;
+}
+
+/* infoBar container */
+.info-container {
+    position: fixed;
+    align: center;
+    font-family: Helvetica, Arial, sans-serif;
+    display: flex;
+    margin-right: 15px;
+    width: 700px;
+    left: 35%;
+    right: 35%;
+    margin-top: 0px;
+}
+
+.info-cell {
+    position: sticky;
+    top: 0;
+    flex: 1;
+    margin-right: 5px;
+
+}
+.info-cell-text {
+    height: 8px;
+    trainsition: height 2s ease-in-out;
+
+}
+
+.show-info-cell {
+    color: white;
+    font-size: x-large;
+    text-align: center;
+    height: 35px;
+    transform: translateY(110);
+    transition: opacity 0.3s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.info-cell-title {
+    color: black;
+    opacity: 0.7;
+    font-size: x-small;
+    text-align: center;
+    font-style: italic;
+    font-weight: bold;
+    border: 0px;
+    margin: 0px;
+    padding: 0px;
 }
         </style>`);
