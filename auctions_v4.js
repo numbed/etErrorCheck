@@ -74,43 +74,44 @@ let priceTable = [{
 }]
 let infoTable = [{
         id: 'frames',
-        title: 'frames',
+        title: 'заредени',
         color: 'blue'
-    }, {
+    },
+    {
         id: 'errors',
-        title: 'errors',
+        title: 'грешки',
         color: 'black'
     },
     {
-        id: 'danger',
-        title: 'danger',
-        color: '#C70039'
-    },
-    {
         id: 'notPublished',
-        title: 'notPublished',
+        title: 'непубликувани',
         color: '#FFBB5C'
     },
     {
         id: 'future',
-        title: 'future',
+        title: 'бъдещи',
         color: '#E25E3E'
     },
     {
         id: 'today',
-        title: 'today',
+        title: 'днешни',
         color: '#D1462F'
     },
     {
         id: 'passed',
-        title: 'passed',
+        title: 'минали',
         color: '#81B622'
     },
     {
         id: 'commission',
-        title: 'commission',
+        title: 'комисии',
         color: '#040D12'
-    }
+    },
+    {
+        id: 'danger',
+        title: 'прекратени',
+        color: '#C70039'
+    },
 ];
 
 // counter for loaded iframes
@@ -234,8 +235,7 @@ function showToast() {
 function closeToast() {
     var toast = document.getElementById("toast");
     console.log('click', this.parentElement.className.split('-')[1]);
-    this.parentElement.parentElement.style.display = 'none';
-    this.parentElement.parentElement.classList.remove('show');
+    this.parentElement.classList.remove('show');
 
 }
 
@@ -288,7 +288,6 @@ function createToast(head, classN, number) {
 function addToInfoBar() {
     console.log('🚀 ~ addToInfoBar ~ addToInfoBar: LOADED');
     let cont = document.querySelector(".info-container");
-    cont.querySelector('#frames').classList.remove('show-info-cell');
 
     if (isCounterZero(arrayCounter().error) === 0) {
         cont.querySelector('#errors').classList.remove('show-info-cell')
@@ -343,6 +342,7 @@ function createInfoBar(el) {
     cellTextHolder.className = 'info-cell-text'
     cellTextHolder.classList.add('show-info-cell');
     cellTextHolder.id = el.id;
+    cellTextHolder.onclick = infoBarClick;
 
 
     const cellTitle = document.createElement('div');
@@ -354,6 +354,14 @@ function createInfoBar(el) {
     infoContainer.appendChild(cell);
 }
 
+function infoBarClick() {
+    console.log(this.id);
+    auctionsTable.forEach(element => {
+        if (element.className === this.id) {
+            window.open(element.querySelectorAll('td')[7].querySelector('a').href, "_blank")
+        }
+    })
+}
 //INFOBAR FUNCTIONS
 
 // called in main()
@@ -486,6 +494,7 @@ function createIFrames() {
             let loadedFrame = iFrame.contentWindow.document;
             // increase counter by 1 and show total number of loaded iframes in #infoTable
             counter++;
+            nav.querySelector('#frames').innerText = counter;
             document.querySelector('#frames').innerText = counter;
             getInfoFromFrame(loadedFrame);
             assingedCommissionCheck(loadedFrame, el.className, el.cells[8]);
