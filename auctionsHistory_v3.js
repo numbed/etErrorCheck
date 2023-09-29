@@ -109,7 +109,7 @@ function tabOpen() {
             if (el.className === 'red') {
                 if (el.id === id) {
                     if (date === undefined) {
-                        date = el.date;
+                        date = el.cells[4].innerText.split(" ")[0];
                     }
                     window.open(protocol + el.cells[8].querySelector('a').href.split('/').pop() + "/" + date, '_blank');
                     window.open(order + el.cells[8].querySelector('a').href.split('/').pop() + "/" + date + "/?t=" + orderType, '_blank');
