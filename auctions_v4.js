@@ -474,8 +474,14 @@ function populateTables() { //called in main()
                         let aucDate = new Date(aucDateArr[2], aucDateArr[1] - 1, aucDateArr[0])
 
                         if (aucDate.setHours(0, 0, 0, 0) === today.setHours(0, 0, 0, 0)) {
-                            docinf.style.opacity = "1";
-                            docinf.style.backgroundColor = "red";
+                            if (element.className === 'danger') {
+                                
+                                docinf.style.backgroundColor = "grey";
+                                docinf.style.opacity = "0.3";
+                            } else {
+                                docinf.style.backgroundColor = "red";
+                                docinf.style.opacity = "1";
+                            }
                         }
                     }
 
@@ -483,9 +489,7 @@ function populateTables() { //called in main()
 
                     function newDocShow() {
                         id = 'div#' + this.id
-                        console.log('🚀 ~ newDocShow ~ id: LOADED', id);
                         docDiv = this.parentElement.parentElement.querySelector(id)
-                        console.log('🚀 ~ newDocShow ~ docDiv: LOADED', docDiv);
                         if (docDiv.style.display === 'none') {
                             docDiv.style.display = 'inline'
                         } else if (docDiv.style.display === 'inline') {
