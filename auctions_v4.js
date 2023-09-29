@@ -164,10 +164,10 @@ function main() {
     setTimeout(() => {
         console.log("timeout")
         if (counter === auctionsTable.length) {
-            populateTables()
-            document.querySelector('#infoButtonContainer').style.display = '';
             uploadedFilesCheck();
             addToInfoBar(); // update #infoTable after auctions file check
+            populateTables()
+            document.querySelector('#infoButtonContainer').style.display = '';
         }
     }, 9500);
 
@@ -643,6 +643,7 @@ function assingedCommissionCheck(loadedFrame, classN, lastCell) {
 
 // called in main() 
 function uploadedFilesCheck() {
+    console.log('🚀 ~ uploadedFilesCheck ~ uploadedFilesCheck: LOADED', uploadedFilesCheck);
     auctionsTable.forEach(element => {
         if (element.className != 'danger' && element.className != 'commission') {
             auctions.forEach(item => {
