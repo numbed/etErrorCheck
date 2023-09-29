@@ -130,7 +130,7 @@ function main() {
             }
         })
 
-        item.cells[4].innerHTML += '<span id="docsLengthInfo"><br></span>';
+        item.cells[4].innerHTML += '<br><span id="docsLengthInfo"></span>';
         // replaces text in the array with uppercase
         textToBeReplaced.forEach(el => {
             item.cells[4].innerHTML = item.cells[4].innerHTML.replace(el, el.toUpperCase().bold())
@@ -142,7 +142,6 @@ function main() {
     infoTable.forEach((el, index) => {
         index++
         setTimeout(() => {
-            console.log(index);
             createInfoBar(el)
 
         }, timeoutMS);
@@ -226,39 +225,39 @@ function buttonClick() {
 function toastCheck() {
     //creating toast notifications if needed
     let timeoutMS = 50;
-    if ((isCounterZero(arrayCounter().future) + isCounterZero(arrayCounter().notPublished)) != 0) {
+    if ((isItZero(arrayCounter().future) + isItZero(arrayCounter().notPublished)) != 0) {
         setTimeout(() => {
-            createToast('бъдещи: ', 'toast-future', isCounterZero(arrayCounter().future) + isCounterZero(arrayCounter().notPublished))
+            createToast('бъдещи: ', 'toast-future', isItZero(arrayCounter().future) + isItZero(arrayCounter().notPublished))
         }, timeoutMS);
         timeoutMS += 300;
     }
-    if (isCounterZero(arrayCounter().notPublished) != 0) {
+    if (isItZero(arrayCounter().notPublished) != 0) {
         setTimeout(() => {
-            createToast('непубликувани: ', 'toast-notPublished', isCounterZero(arrayCounter().notPublished))
+            createToast('непубликувани: ', 'toast-notPublished', isItZero(arrayCounter().notPublished))
         }, timeoutMS);
         timeoutMS += 300;
     }
-    if (isCounterZero(arrayCounter().today) != 0) {
+    if (isItZero(arrayCounter().today) != 0) {
         setTimeout(() => {
-            createToast('краен срок [днес]: ', 'toast-today', isCounterZero(arrayCounter().today))
+            createToast('срок [днес]: ', 'toast-today', isItZero(arrayCounter().today))
         }, timeoutMS);
         timeoutMS += 300;
     }
-    if (isCounterZero(arrayCounter().commission) != 0) {
+    if (isItZero(arrayCounter().commission) != 0) {
         setTimeout(() => {
-            createToast('комисии: ', 'toast-commission', isCounterZero(arrayCounter().commission))
+            createToast('комисии: ', 'toast-commission', isItZero(arrayCounter().commission))
         }, timeoutMS);
         timeoutMS += 300;
     }
-    if (isCounterZero(arrayCounter().danger) != 0) {
+    if (isItZero(arrayCounter().danger) != 0) {
         setTimeout(() => {
-            createToast('прекратени:', 'toast-danger', isCounterZero(arrayCounter().danger))
+            createToast('прекратени:', 'toast-danger', isItZero(arrayCounter().danger))
         }, timeoutMS);
         timeoutMS += 300;
     }
-    if (isCounterZero(arrayCounter().passed) != 0) {
+    if (isItZero(arrayCounter().passed) != 0) {
         setTimeout(() => {
-            createToast('минали: ', 'toast-passed', isCounterZero(arrayCounter().passed))
+            createToast('минали: ', 'toast-passed', isItZero(arrayCounter().passed))
         }, timeoutMS);
         timeoutMS += 300;
     }
@@ -326,60 +325,60 @@ function addToInfoBar() {
     console.log('🚀 ~ addToInfoBar ~ addToInfoBar: LOADED');
     let cont = document.querySelector(".info-container");
 
-    if (isCounterZero(arrayCounter().error) === 0) {
+    if (isItZero(arrayCounter().error) === 0) {
         cont.querySelector('#errors').classList.remove('show-info-cell')
         cont.querySelector('#errors').classList.textContent = '';
     } else {
         cont.querySelector('#errors').classList.add('show-info-cell')
-        cont.querySelector('#errors').innerHTML = isCounterZero(arrayCounter().error)
+        cont.querySelector('#errors').innerHTML = isItZero(arrayCounter().error)
     }
 
-    if (isCounterZero(arrayCounter().danger) === 0) {
+    if (isItZero(arrayCounter().danger) === 0) {
         cont.querySelector('#danger').classList.remove('show-info-cell')
         cont.querySelector('#danger').classList.textContent = '';
     } else {
         cont.querySelector('#danger').classList.add('show-info-cell')
-        cont.querySelector('#danger').innerHTML = isCounterZero(arrayCounter().danger)
+        cont.querySelector('#danger').innerHTML = isItZero(arrayCounter().danger)
     }
 
-    if (isCounterZero(arrayCounter().notPublished) === 0) {
+    if (isItZero(arrayCounter().notPublished) === 0) {
         cont.querySelector('#notPublished').classList.remove('show-info-cell')
         cont.querySelector('#notPublished').classList.textContent = '';
     } else {
         cont.querySelector('#notPublished').classList.add('show-info-cell')
-        cont.querySelector('#notPublished').innerHTML = isCounterZero(arrayCounter().notPublished)
+        cont.querySelector('#notPublished').innerHTML = isItZero(arrayCounter().notPublished)
     }
 
-    if ((isCounterZero(arrayCounter().future) + isCounterZero(arrayCounter().notPublished)) === 0) {
+    if ((isItZero(arrayCounter().future) + isItZero(arrayCounter().notPublished)) === 0) {
         cont.querySelector('#future').classList.remove('show-info-cell')
         cont.querySelector('#future').textContent = '';
     } else {
         cont.querySelector('#future').classList.add('show-info-cell')
-        cont.querySelector('#future').innerHTML = isCounterZero(arrayCounter().future) + isCounterZero(arrayCounter().notPublished)
+        cont.querySelector('#future').innerHTML = isItZero(arrayCounter().future) + isItZero(arrayCounter().notPublished)
     }
 
-    if (isCounterZero(arrayCounter().today) === 0) {
+    if (isItZero(arrayCounter().today) === 0) {
         cont.querySelector('#today').classList.remove('show-info-cell')
         cont.querySelector('#today').classList.textContent = '';
     } else {
         cont.querySelector('#today').classList.add('show-info-cell')
-        cont.querySelector('#today').innerHTML = isCounterZero(arrayCounter().today)
+        cont.querySelector('#today').innerHTML = isItZero(arrayCounter().today)
     }
 
-    if (isCounterZero(arrayCounter().passed) === 0) {
+    if (isItZero(arrayCounter().passed) === 0) {
         cont.querySelector('#passed').classList.remove('show-info-cell')
         cont.querySelector('#passed').classList.textContent = '';
     } else {
         cont.querySelector('#passed').classList.add('show-info-cell')
-        cont.querySelector('#passed').innerHTML = isCounterZero(arrayCounter().passed)
+        cont.querySelector('#passed').innerHTML = isItZero(arrayCounter().passed)
     }
 
-    if (isCounterZero(arrayCounter().commission) === 0) {
+    if (isItZero(arrayCounter().commission) === 0) {
         cont.querySelector('#commission').classList.remove('show-info-cell')
         cont.querySelector('#commission').classList.textContent = '';
     } else {
         cont.querySelector('#commission').classList.add('show-info-cell')
-        cont.querySelector('#commission').innerHTML = isCounterZero(arrayCounter().commission)
+        cont.querySelector('#commission').innerHTML = isItZero(arrayCounter().commission)
     }
 }
 
@@ -445,7 +444,7 @@ function errorCheck() {
     console.log("-------------------------------------------------------errorCheck()");
     for (let i = 0; i < auctionsTable.length; i++) {
         for (let j = 0; j < auctionsTable.length; j++) {
-            if (i !== j) {
+            if (i != j) {
                 if (auctionsTable[i].cells[1].innerText === auctionsTable[j].cells[1].innerText && auctionsTable[i].cells[2].innerText === auctionsTable[j].cells[2].innerText) {
                     auctionsTable[i].className = 'error';
                     auctionsTable[j].className = 'error';
@@ -461,9 +460,31 @@ function populateTables() { //called in main()
         auctions.forEach(el => {
             if (element.cells[0].innerText === el.id) {
 
+
+                function docsInfo(element, docs) {
+                    const docinf = document.createElement('span');
+                    docinf.innerText = isItZero(docs.length);
+                    if (isItZero(docs.length) != 0) {
+                        docinf.style.backgroundColor = "green";
+                        docinf.style.opacity = "1";
+                    } else {
+                        let aucDateArr = element.cells[2].innerText.split(' ')[0].split('.');
+                        let aucDate = new Date(aucDateArr[2], aucDateArr[1] - 1, aucDateArr[0])
+
+                        if (aucDate.setHours(0, 0, 0, 0) === today.setHours(0, 0, 0, 0)) {
+                            docinf.style.opacity = "1";
+                            docinf.style.backgroundColor = "red";
+                        }
+
+                    }
+                    element.querySelector('#docsLengthInfo').appendChild(docinf);
+                }
+                console.log('🚀 ~ auctionsTable.forEach ~ el.secondByuer.length: LOADED', el.secondByuer.length);
                 docsInfo(element, el.documents)
                 docsInfo(element, el.firstByuer)
-                docsInfo(element, el.secondByuer)
+                if (isItZero(el.secondByuer.length) != 0) {
+                    docsInfo(element, el.secondByuer)
+                }
 
                 function documentsDisplay() {
                     el.documents.forEach(doc => {
@@ -479,16 +500,6 @@ function populateTables() { //called in main()
                     })
                 }
                 documentsDisplay();
-
-                function docsInfo(element, docs) {
-                    const docinf = document.createElement('div');
-                    docinf.innerText = 'text';
-                    let gosh = element.querySelector('#docsLengthInfo');
-                    gosh.appendChild(docinf);
-                    console.log('🚀 ~ docsInfo ~ element: LOADED', element.querySelector('span'));
-                }
-
-                // element.querySelector('#docsLengthInfo').innerHTML = '<br>' + isCounterZero(el.documents.length) + "/" + isCounterZero(el.firstByuer.length) + "/" + isCounterZero(el.secondByuer.length);
 
                 element.querySelector('#big').innerText = el.woodsInfo.big;
                 element.querySelector('#mid').innerText = el.woodsInfo.mid;
@@ -723,11 +734,11 @@ function deadlineCheck(date) {
     let firstDate = new Date(date[2], date[1] - 1, date[0]);
     let deadlineDate = new Date(firstDate);
 
-    if (firstDate.getDay() == 1 || firstDate.getDay() == 4) {
+    if (firstDate.getDay() === 1 || firstDate.getDay() === 4) {
         deadlineDate.setDate(firstDate.getDate() - 20);
-    } else if (firstDate.getDay() == 2 || firstDate.getDay() == 5) {
+    } else if (firstDate.getDay() === 2 || firstDate.getDay() === 5) {
         deadlineDate.setDate(firstDate.getDate() - 18);
-    } else if (firstDate.getDay() == 3) {
+    } else if (firstDate.getDay() === 3) {
         deadlineDate.setDate(firstDate.getDate() - 19);
     }
     return deadlineDate;
@@ -738,15 +749,13 @@ function commissionDateCheck(date) {
     let firstDate = new Date(date[2], date[1] - 1, date[0]);
     let commissionDate = new Date(firstDate);
 
-    if (firstDate.getDay() == 1) {
+    if (firstDate.getDay() === 1) {
         commissionDate.setDate(firstDate.getDate() - 3);
     } else {
         commissionDate.setDate(firstDate.getDate() - 1);
     }
     return commissionDate;
 }
-
-
 
 // called in main()
 function setAuctionsClasses() {
@@ -769,9 +778,9 @@ function auctionDateCheck(el) {
     let deadlineDate = deadlineCheck(firstDate);
     let commissionDate = commissionDateCheck(firstDate);
 
-    if (deadlineDate.setHours(0, 0, 0, 0) == today.setHours(0, 0, 0, 0)) {
+    if (deadlineDate.setHours(0, 0, 0, 0) === today.setHours(0, 0, 0, 0)) {
         return "today";
-    } else if (deadlineDate.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0) && commissionDate.setHours(0, 0, 0, 0) == today.setHours(0, 0, 0, 0)) {
+    } else if (deadlineDate.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0) && commissionDate.setHours(0, 0, 0, 0) === today.setHours(0, 0, 0, 0)) {
         return "commission";
     } else if (deadlineDate.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0)) {
         return "passed";
@@ -790,7 +799,7 @@ function arrayCounter() {
 }
 
 // called in addToInfoBar()
-function isCounterZero(counter) {
+function isItZero(counter) {
     if (counter === undefined) {
         return counter = 0;
     } else {
@@ -1011,6 +1020,7 @@ b.commission {
 }
 .info-cell-text {
     height: 8px;
+    color: transparent; 
     trainsition: height 2s ease-in-out;
 
 }
@@ -1034,5 +1044,25 @@ b.commission {
     border: 0px;
     margin: 0px;
     padding: 0px;
+}
+
+/* woodsinfo number of documents styling*/
+#docsLengthInfo {
+    display: flex;
+    width: 200px;
+
+}
+
+#docsLengthInfo>span {
+    flex: 1;
+    margin-left: 5px;
+    width: 30%;
+    border-radius: 6px;
+    background-color: grey;
+    opacity: 0.3;
+    text-align: center;
+    font-size: small;
+    font-weight: 550;
+    color: white;
 }
         </style>`);
