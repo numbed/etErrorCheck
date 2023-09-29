@@ -418,7 +418,7 @@ function barmouseover() {
     console.log("mouseover", this.id);
     auctionsTable.forEach(el => {
         if (el.className === this.id) {
-            console.log(el);
+            console.log(el.cells[0].innerText);
         }
     })
 
@@ -460,10 +460,12 @@ function populateTables() { //called in main()
         auctions.forEach(el => {
             if (element.cells[0].innerText === el.id) {
 
-
-                function docsInfo(element, docs) {
+                function docsInfo(element, docs, id) {
                     const docinf = document.createElement('span');
                     docinf.innerText = isItZero(docs.length);
+                    docinf.onclick = newDocShow;
+                    docinf.id = id;
+
                     if (isItZero(docs.length) != 0) {
                         docinf.style.backgroundColor = "green";
                         docinf.style.opacity = "1";
@@ -475,15 +477,27 @@ function populateTables() { //called in main()
                             docinf.style.opacity = "1";
                             docinf.style.backgroundColor = "red";
                         }
-
                     }
+
                     element.querySelector('#docsLengthInfo').appendChild(docinf);
+
+                    function newDocShow() {
+                        id = 'div#' + this.id
+                        console.log('🚀 ~ newDocShow ~ id: LOADED', id);
+                        docDiv = this.parentElement.parentElement.querySelector(id)
+                        console.log('🚀 ~ newDocShow ~ docDiv: LOADED', docDiv);
+                        if (docDiv.style.display === 'none') {
+                            docDiv.style.display = 'inline'
+                        } else if (docDiv.style.display === 'inline') {
+                            docDiv.style.display = 'none'
+                        }
+                    }
                 }
-                console.log('🚀 ~ auctionsTable.forEach ~ el.secondByuer.length: LOADED', el.secondByuer.length);
-                docsInfo(element, el.documents)
-                docsInfo(element, el.firstByuer)
+
+                docsInfo(element, el.documents, 'docs')
+                docsInfo(element, el.firstByuer, 'first')
                 if (isItZero(el.secondByuer.length) != 0) {
-                    docsInfo(element, el.secondByuer)
+                    docsInfo(element, el.secondByuer, 'second')
                 }
 
                 function documentsDisplay() {
@@ -495,8 +509,8 @@ function populateTables() { //called in main()
                         docSpan.download = doc.name;
                         docSpan.target = '_blank'
                         let newline = document.createElement('br')
-                        element.querySelector('#docs').appendChild(docSpan)
-                        element.querySelector('#docs').appendChild(newline)
+                        element.querySelector('div#docs').appendChild(docSpan)
+                        element.querySelector('div#docs').appendChild(newline)
                     })
                 }
                 documentsDisplay();
