@@ -36,7 +36,7 @@ let auctionsErrors = ['конкурс', 'ценово'];
 let auctionDocumetsTable = [{
     id: 'docs',
     title: 'Документи'
-}]
+}];
 let woodsTable = [{
         id: 'big',
         title: 'Е'
@@ -475,9 +475,9 @@ function populateTables() { //called in main()
 
                         if (aucDate.setHours(0, 0, 0, 0) === today.setHours(0, 0, 0, 0)) {
                             if (element.className === 'danger') {
-                                
+
                                 docinf.style.backgroundColor = "grey";
-                                docinf.style.opacity = "0.3";
+                                docinf.style.opacity = "0.5";
                             } else {
                                 docinf.style.backgroundColor = "red";
                                 docinf.style.opacity = "1";
@@ -503,6 +503,23 @@ function populateTables() { //called in main()
                 if (isItZero(el.secondByuer.length) != 0) {
                     docsInfo(element, el.secondByuer, 'second')
                 }
+
+                function hasContract(element, docs, id) {
+                    const contr = document.createElement('span');
+                    contr.innerText = "Д";
+                    contr.id = id;
+                    contr.style.backgroundColor = "green";
+                    contr.style.opacity = "1";
+
+                    docs.forEach(doc => {
+                        if (doc.name.includes('Договор')) {
+                            console.log(element.cells[0].innerText)
+                            element.querySelector('#docsLengthInfo').appendChild(contr);
+                        }
+                    })
+
+                }
+                hasContract(element, el.documents, 'contr')
 
                 function documentsDisplay() {
                     el.documents.forEach(doc => {
