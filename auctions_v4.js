@@ -1,3 +1,4 @@
+document.querySelector('.navbar-minimalize.minimalize-styl-2.btn.btn-primary').click()
 console.clear();
 console.log('auctions_v4');
 let auctionsTable = document.querySelector('tbody').querySelectorAll('tr');
@@ -536,12 +537,25 @@ function populateTables() { //called in main()
                 }
                 documentsDisplay();
 
-                element.querySelector('#big').innerText = el.woodsInfo.big;
-                element.querySelector('#mid').innerText = el.woodsInfo.mid;
-                element.querySelector('#small').innerText = el.woodsInfo.small;
-                element.querySelector('#ozm').innerText = el.woodsInfo.ozm;
-                element.querySelector('#firewood').innerText = el.woodsInfo.firewood;
-                element.querySelector('#total').innerText = el.woodsInfo.total;
+
+                function fillPills(obj) {
+                    for (const [key, value] of Object.entries(obj)) {
+                        id = '#' + key;
+                        element.querySelector(id).innerText = value;
+                        if (value === '0') {
+                            // element.querySelector(id).style.backgroundColor = 'green'
+                            element.querySelector(id).style.opacity = '0.3'
+                        }
+                    }
+                }
+                fillPills(el.woodsInfo)
+
+                // element.querySelector('#big').innerText = el.woodsInfo.big;
+                // element.querySelector('#mid').innerText = el.woodsInfo.mid;
+                // element.querySelector('#small').innerText = el.woodsInfo.small;
+                // element.querySelector('#ozm').innerText = el.woodsInfo.ozm;
+                // element.querySelector('#firewood').innerText = el.woodsInfo.firewood;
+                // element.querySelector('#total').innerText = el.woodsInfo.total;
 
                 element.querySelector('#bidStep').innerText = el.money.bidStep;
                 element.querySelector('#guarantee').innerText = el.money.guarantee;
@@ -551,7 +565,7 @@ function populateTables() { //called in main()
                 function calcPercent() {
                     let percent = ((el.money.guarantee / el.money.price) * 100).toFixed(2);
                     if (percent > 5) {
-                        percent.style.color = 'red';
+                        element.querySelector('#percentage').style.backgroundColor = 'red';
                     }
                     return percent;
                 }
@@ -566,10 +580,27 @@ function prepareCells() {
         subjectCell = el.cells[4];
         woodsCell = el.cells[5];
         priceCell = el.cells[6];
-        woodsCell = createContainer(woodsCell, 'woods', woodsTable)
-        priceCell = createContainer(priceCell, 'price', priceTable)
+        // woodsCell = createContainer(woodsCell, 'woods', woodsTable)
+        // priceCell = createContainer(priceCell, 'price', priceTable)
         subjectCell = createContainer(subjectCell, 'docs', auctionDocumetsTable)
+        priceCell = createPills(priceCell, 'price-pills', priceTable)
+        woodsCell = createPills(woodsCell, 'woods-pills', woodsTable)
     })
+}
+
+function createPills(cell, containerID, arrayTable) {
+    const container = document.createElement('div');
+    container.id = containerID;
+
+    arrayTable.forEach(el => {
+        const pill = document.createElement('span');
+        pill.id = el.id;
+        pill.title = el.title;
+        container.append(pill)
+    })
+
+    cell.append(container)
+
 }
 
 // called in prepareCells()
@@ -1086,19 +1117,25 @@ b.commission {
 #docsLengthInfo {
     display: flex;
     width: 200px;
-
+}
+#woods-pills,
+#price-pills {
+    display: flex;
+    width: auto;
 }
 
-#docsLengthInfo>span {
+#docsLengthInfo>span,
+#woods-pills>span,
+#price-pills>span {
     flex: 1;
     margin-left: 5px;
     width: 30%;
     border-radius: 6px;
     background-color: grey;
-    opacity: 0.3;
+    /*opacity: 0.3;*/
     text-align: center;
     font-size: small;
     font-weight: 550;
     color: white;
 }
-        </style>`);
+</style>`);
