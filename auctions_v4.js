@@ -504,7 +504,6 @@ function populateTables() { //called in main()
                 }
 
                 function aucDocsCheck(element, docs, id) {
-                    console.log(element.cells[0].innerText)
                     const contr = document.createElement('span');
                     contr.style.opacity = "1";
                     docs.forEach(doc => {
@@ -526,7 +525,6 @@ function populateTables() { //called in main()
                     })
                 }
                 if (el.documents.length != 0) {
-                    console.log(el.id)
                     aucDocsCheck(element, el.documents, 'contr')
                 }
 
@@ -549,7 +547,6 @@ function populateTables() { //called in main()
 
 
                 function fillPills(obj) {
-                    console.log('🚀 ~ fillPills ~ fillPills: LOADED', obj);
                     for (const [key, value] of Object.entries(obj)) {
                         id = '#' + key;
                         element.querySelector(id).style.opacity = '0.7'
@@ -691,7 +688,7 @@ function getInfoFromFrame(loadedFrame) {
     let woodsObj = {}
     let woodsTableInputs = loadedFrame.querySelector('tbody').querySelectorAll('input');
     woodsTableInputs.forEach((el, index) => {
-        if (index != 0 && el.type ==='number') {
+        if (index != 0 && el.type === 'number') {
             woodsObj[el.name.split('][')[1]] = el.value;
         }
     })
