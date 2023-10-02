@@ -823,8 +823,12 @@ function setAuctionsClasses() {
     auctionsTable.forEach(el => {
         if (el.className != 'danger') {
             if (window.getComputedStyle(el).color === "rgb(153, 153, 153)") {
-                el.className = 'notPublished';
-                el.querySelector('b').className = auctionDateCheck(el);
+                if(auctionDateCheck(el) === 'today') {
+                    el.className = 'today';
+                } else {
+                    el.className = 'notPublished';
+                    el.querySelector('b').className = auctionDateCheck(el);
+                }
             } else {
                 el.className = auctionDateCheck(el);
                 el.querySelector('b').className = auctionDateCheck(el);
