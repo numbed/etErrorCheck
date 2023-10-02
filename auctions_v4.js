@@ -40,14 +40,14 @@ let auctionDocumetsTable = [{
 }];
 let woodsTable = [{
         id: 'big',
-        title: 'Е'
+        title: 'едра'
     }, {
         id: 'mid',
-        title: 'С'
+        title: 'средна'
     },
     {
         id: 'small',
-        title: 'Д'
+        title: 'дребна'
     },
     {
         id: 'ozm',
