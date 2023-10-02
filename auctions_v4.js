@@ -473,6 +473,14 @@ function populateTables() { //called in main()
                         let aucDateArr = element.cells[2].innerText.split(' ')[0].split('.');
                         let aucDate = new Date(aucDateArr[2], aucDateArr[1] - 1, aucDateArr[0]);
 
+                        let deadlineDate = deadlineCheck(aucDateArr)
+
+                        // pills backgroundColor = red when auction is notPublished and deadline is today;
+                        if (deadlineDate.setHours(0, 0, 0, 0) === today.setHours(0, 0, 0, 0)) {
+                            docinf.style.backgroundColor = "red";
+                            docinf.style.opacity = "1";
+                        }
+
                         if (aucDate.setHours(0, 0, 0, 0) === today.setHours(0, 0, 0, 0)) {
                             if (element.className === 'danger') {
                                 docinf.style.backgroundColor = "grey";
