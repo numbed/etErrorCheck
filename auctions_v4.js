@@ -1134,7 +1134,9 @@ b.commission {
 #woods-pills>span,
 #price-pills>span {
     flex: 1;
-    margin-left: 5px;
+    padding-left: 2px;
+    padding-right: 2px;
+    margin-right: 5px;
     width: 30%;
     border-radius: 6px;
     background-color: grey;
