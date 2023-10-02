@@ -469,7 +469,7 @@ function populateTables() { //called in main()
 
                     if (isItZero(docs.length) != 0) {
                         docinf.style.backgroundColor = "green";
-                        docinf.style.opacity = "1";
+                        docinf.style.opacity = "0.5";
                     } else {
                         let aucDateArr = element.cells[2].innerText.split(' ')[0].split('.');
                         let aucDate = new Date(aucDateArr[2], aucDateArr[1] - 1, aucDateArr[0])
@@ -507,14 +507,19 @@ function populateTables() { //called in main()
 
                 function hasContract(element, docs, id) {
                     const contr = document.createElement('span');
-                    contr.innerText = "Д";
-                    contr.id = id;
-                    contr.style.backgroundColor = "green";
                     contr.style.opacity = "1";
-
+                    
                     docs.forEach(doc => {
                         if (doc.name.includes('Договор')) {
                             console.log(element.cells[0].innerText)
+                            contr.innerText = "Д";
+                            contr.style.backgroundColor = "green";
+                            element.querySelector('#docsLengthInfo').appendChild(contr);
+                        }
+                        if (doc.name.includes('pdf') || doc.name.includes('rar')) {
+                            console.log(element.cells[0].innerText)
+                            contr.innerText = "PDF";
+                            contr.style.backgroundColor = "black";
                             element.querySelector('#docsLengthInfo').appendChild(contr);
                         }
                     })
@@ -541,6 +546,7 @@ function populateTables() { //called in main()
                 function fillPills(obj) {
                     for (const [key, value] of Object.entries(obj)) {
                         id = '#' + key;
+                        element.querySelector(id).style.opacity = '0.7'
                         element.querySelector(id).innerText = value;
                         if (value === '0') {
                             // element.querySelector(id).style.backgroundColor = 'green'
