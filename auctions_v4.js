@@ -471,11 +471,10 @@ function populateTables() { //called in main()
                         docinf.style.opacity = "0.5";
                     } else {
                         let aucDateArr = element.cells[2].innerText.split(' ')[0].split('.');
-                        let aucDate = new Date(aucDateArr[2], aucDateArr[1] - 1, aucDateArr[0])
+                        let aucDate = new Date(aucDateArr[2], aucDateArr[1] - 1, aucDateArr[0]);
 
                         if (aucDate.setHours(0, 0, 0, 0) === today.setHours(0, 0, 0, 0)) {
                             if (element.className === 'danger') {
-
                                 docinf.style.backgroundColor = "grey";
                                 docinf.style.opacity = "0.5";
                             } else {
@@ -505,9 +504,9 @@ function populateTables() { //called in main()
                 }
 
                 function aucDocsCheck(element, docs, id) {
+                    console.log(element.cells[0].innerText)
                     const contr = document.createElement('span');
                     contr.style.opacity = "1";
-                    
                     docs.forEach(doc => {
                         if (doc.name.includes('Договор')) {
                             contr.innerText = "Д";
@@ -525,27 +524,32 @@ function populateTables() { //called in main()
                             element.querySelector('#docsLengthInfo').appendChild(contr);
                         }
                     })
-
                 }
-                aucDocsCheck(element, el.documents, 'contr')
+                if (el.documents.length != 0) {
+                    console.log(el.id)
+                    aucDocsCheck(element, el.documents, 'contr')
+                }
 
                 function documentsDisplay() {
-                    el.documents.forEach(doc => {
-                        let docSpan = document.createElement('a')
-                        docSpan.innerText = doc.name + " " + doc.date;
-                        docSpan.href = doc.link;
-                        docSpan.title = doc.name;
-                        docSpan.download = doc.name;
-                        docSpan.target = '_blank'
-                        let newline = document.createElement('br')
-                        element.querySelector('div#docs').appendChild(docSpan)
-                        element.querySelector('div#docs').appendChild(newline)
-                    })
+                    if (el.documents.length != 0) {
+                        el.documents.forEach(doc => {
+                            let docSpan = document.createElement('a')
+                            docSpan.innerText = doc.name + " " + doc.date;
+                            docSpan.href = doc.link;
+                            docSpan.title = doc.name;
+                            docSpan.download = doc.name;
+                            docSpan.target = '_blank'
+                            let newline = document.createElement('br')
+                            element.querySelector('div#docs').appendChild(docSpan)
+                            element.querySelector('div#docs').appendChild(newline)
+                        })
+                    }
                 }
                 documentsDisplay();
 
 
                 function fillPills(obj) {
+                    console.log('🚀 ~ fillPills ~ fillPills: LOADED', obj);
                     for (const [key, value] of Object.entries(obj)) {
                         id = '#' + key;
                         element.querySelector(id).style.opacity = '0.7'
@@ -556,7 +560,7 @@ function populateTables() { //called in main()
                             // element.querySelector(id).style.backgroundColor = 'green'
                             element.querySelector(id).style.opacity = '0.3'
                         }
-                        if(key === 'percentage' && value > 5) {
+                        if (key === 'percentage' && value > 5) {
                             element.querySelector(id).style.backgroundColor = 'red'
                         }
                     }
@@ -687,7 +691,7 @@ function getInfoFromFrame(loadedFrame) {
     let woodsObj = {}
     let woodsTableInputs = loadedFrame.querySelector('tbody').querySelectorAll('input');
     woodsTableInputs.forEach((el, index) => {
-        if (index != 0) {
+        if (index != 0 && el.type ==='number') {
             woodsObj[el.name.split('][')[1]] = el.value;
         }
     })
