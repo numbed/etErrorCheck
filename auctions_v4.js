@@ -546,29 +546,13 @@ function populateTables() { //called in main()
                             // element.querySelector(id).style.backgroundColor = 'green'
                             element.querySelector(id).style.opacity = '0.3'
                         }
+                        if(key === 'percentage' && value > 5) {
+                            element.querySelector(id).style.backgroundColor = 'red'
+                        }
                     }
                 }
                 fillPills(el.woodsInfo)
-
-                // element.querySelector('#big').innerText = el.woodsInfo.big;
-                // element.querySelector('#mid').innerText = el.woodsInfo.mid;
-                // element.querySelector('#small').innerText = el.woodsInfo.small;
-                // element.querySelector('#ozm').innerText = el.woodsInfo.ozm;
-                // element.querySelector('#firewood').innerText = el.woodsInfo.firewood;
-                // element.querySelector('#total').innerText = el.woodsInfo.total;
-
-                element.querySelector('#bidStep').innerText = el.money.bidStep;
-                element.querySelector('#guarantee').innerText = el.money.guarantee;
-                element.querySelector('#percentage').innerText = calcPercent();
-                // element.querySelector('#percentage').innerText = ((el.money.guarantee / el.money.price) * 100).toFixed(2);
-
-                function calcPercent() {
-                    let percent = ((el.money.guarantee / el.money.price) * 100).toFixed(2);
-                    if (percent > 5) {
-                        element.querySelector('#percentage').style.backgroundColor = 'red';
-                    }
-                    return percent;
-                }
+                fillPills(el.money)
             }
         })
     })
@@ -700,9 +684,9 @@ function getInfoFromFrame(loadedFrame) {
     })
 
     let money = {
-        price: loadedFrame.querySelector("#auctionStartPrice").value,
         bidStep: loadedFrame.querySelector("#аuctionBidStep").value,
-        guarantee: loadedFrame.querySelector("#аuctionGuarantee").value
+        guarantee: loadedFrame.querySelector("#аuctionGuarantee").value,
+        percentage: ((loadedFrame.querySelector("#аuctionGuarantee").value / loadedFrame.querySelector("#auctionStartPrice").value) * 100).toFixed(2)
     }
 
     function getDocumentlist(id) {
