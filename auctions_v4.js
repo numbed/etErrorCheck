@@ -519,7 +519,11 @@ function populateTables() { //called in main()
                             contr.style.backgroundColor = "black";
                             element.querySelector('#docsLengthInfo').appendChild(contr);
                         }
-
+                        if (doc.name.includes('изпълнител')) {
+                            contr.innerText = "ЗИ";
+                            contr.style.backgroundColor = "red";
+                            element.querySelector('#docsLengthInfo').appendChild(contr);
+                        }
                     })
 
                 }
