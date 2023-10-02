@@ -346,7 +346,7 @@ function addToInfoBar() {
         cont.querySelector('#notPublished').classList.textContent = '';
     } else {
         cont.querySelector('#notPublished').classList.add('show-info-cell')
-        cont.querySelector('#notPublished').innerHTML = isItZero(arrayCounter().notPublished)
+        cont.querySelector('#notPublished').innerHTML = isItZero(arrayCounter().notPublished) + isItZero(arrayCounter().today)
     }
 
     if ((isItZero(arrayCounter().future) + isItZero(arrayCounter().notPublished)) === 0) {
