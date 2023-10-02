@@ -548,6 +548,8 @@ function populateTables() { //called in main()
                         id = '#' + key;
                         element.querySelector(id).style.opacity = '0.7'
                         element.querySelector(id).innerText = value;
+                        element.querySelector(id).title += ": " + value;
+
                         if (value === '0') {
                             // element.querySelector(id).style.backgroundColor = 'green'
                             element.querySelector(id).style.opacity = '0.3'
@@ -573,8 +575,8 @@ function prepareCells() {
         // woodsCell = createContainer(woodsCell, 'woods', woodsTable)
         // priceCell = createContainer(priceCell, 'price', priceTable)
         subjectCell = createContainer(subjectCell, 'docs', auctionDocumetsTable)
-        priceCell = createPills(priceCell, 'price-pills', priceTable)
         woodsCell = createPills(woodsCell, 'woods-pills', woodsTable)
+        priceCell = createPills(priceCell, 'price-pills', priceTable)
     })
 }
 
