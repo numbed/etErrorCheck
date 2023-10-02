@@ -323,7 +323,6 @@ function createToast(head, classN, number) {
 
 //INFOBAR FUNCTIONS
 function addToInfoBar() {
-    console.log('🚀 ~ addToInfoBar ~ addToInfoBar: LOADED');
     let cont = document.querySelector(".info-container");
 
     if (isItZero(arrayCounter().error) === 0) {
@@ -410,7 +409,7 @@ function infoBarClick() {
     console.log("clicked", this.id, this.innerText);
     auctionsTable.forEach(element => {
         if (element.className === this.id) {
-            // window.open(element.querySelectorAll('td')[7].querySelector('a').href, "_blank")
+            window.open(element.querySelectorAll('td')[7].querySelector('a').href, "_blank")
         }
     })
 }
@@ -505,27 +504,26 @@ function populateTables() { //called in main()
                     docsInfo(element, el.secondByuer, 'second')
                 }
 
-                function hasContract(element, docs, id) {
+                function aucDocsCheck(element, docs, id) {
                     const contr = document.createElement('span');
                     contr.style.opacity = "1";
                     
                     docs.forEach(doc => {
                         if (doc.name.includes('Договор')) {
-                            console.log(element.cells[0].innerText)
                             contr.innerText = "Д";
                             contr.style.backgroundColor = "green";
                             element.querySelector('#docsLengthInfo').appendChild(contr);
                         }
                         if (doc.name.includes('pdf') || doc.name.includes('rar')) {
-                            console.log(element.cells[0].innerText)
                             contr.innerText = "PDF";
                             contr.style.backgroundColor = "black";
                             element.querySelector('#docsLengthInfo').appendChild(contr);
                         }
+
                     })
 
                 }
-                hasContract(element, el.documents, 'contr')
+                aucDocsCheck(element, el.documents, 'contr')
 
                 function documentsDisplay() {
                     el.documents.forEach(doc => {
@@ -666,7 +664,6 @@ function assingedCommissionCheck(loadedFrame, classN, lastCell) {
 
 // called in main() 
 function uploadedFilesCheck() {
-    console.log('🚀 ~ uploadedFilesCheck ~ uploadedFilesCheck: LOADED', uploadedFilesCheck);
     auctionsTable.forEach(element => {
         if (element.className != 'danger' && element.className != 'commission') {
             auctions.forEach(item => {
