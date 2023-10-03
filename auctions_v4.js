@@ -315,7 +315,8 @@ function createToast(head, classN, number) {
     toastContainer.appendChild(toast);
 
     setTimeout(() => {
-        toast.classList.remove('show');
+        // toast.classList.remove('show');
+        toast.remove();
     }, 3000);
 }
 //TOAST FUNCTIONS
