@@ -655,7 +655,7 @@ function createIFrames() {
         const iFrame = document.createElement('iframe');
         let frameid = el.cells[0].innerHTML
         iFrame.id = frameid;
-        // iFrame.style.display = 'none';
+        iFrame.style.display = 'none';
         iFrame.src = el.cells[el.querySelectorAll('td').length - 2].querySelector('a').href;
         el.cells[0].appendChild(iFrame);
         iFrame.onload = function () {
