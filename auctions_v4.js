@@ -112,6 +112,11 @@ let infoTable = [{
         title: 'прекратени',
         color: '#C70039'
     },
+    {
+        id: 'seconds',
+        title: 'секунди',
+        color: 'black'
+    }
 ];
 
 // counter for loaded iframes
@@ -161,19 +166,20 @@ function main() {
     toastCheck();
 
     createIFrames();
+    
     // check if loaded frames are equal to number of auctions on page, after specific time
+    startCountdown(10);
     setTimeout(() => {
         console.log("timeout")
-        console.log('🚀 ~ setTimeout ~ counter: LOADED', counter);
         if (counter === auctionsTable.length) {
             uploadedFilesCheck();
             addToInfoBar(); // update #infoTable after auctions file check
             populateTables()
             document.querySelector('#infoButtonContainer').style.display = '';
         } else {
+            startCountdown(75);
             setTimeout(() => {
                 console.log("timeout2")
-                console.log('🚀 ~ setTimeout ~ counter: LOADED', counter);
                 if (counter === auctionsTable.length) {
                     uploadedFilesCheck();
                     addToInfoBar(); // update #infoTable after auctions file check
@@ -189,6 +195,23 @@ function main() {
     errorCheck();
 }
 main();
+
+function startCountdown(seconds) {
+    console.log('🚀 ~ startCountdown ~ startCountdown: LOADED');
+    
+    let secCounter = seconds;
+    const interval = setInterval(() => {
+        let secondsInfo = document.querySelector(".info-container").querySelector("#seconds");
+        secondsInfo.innerText = secCounter;
+        secCounter--;
+
+        if (secCounter < 0) {
+            clearInterval(interval);
+            secondsInfo.innerText = 'Ding!';
+        }
+    }, 1000);
+}
+
 //BUTTON FUNCTIONS
 // called in main()
 function createButton() {
@@ -663,7 +686,7 @@ function createIFrames() {
             // increase counter by 1 and show total number of loaded iframes in #infoTable
             counter++;
             nav.querySelector('#frames').innerText = counter;
-            document.querySelector('#frames').innerText = counter;
+            // document.querySelector('#frames').innerText = counter;
             getInfoFromFrame(loadedFrame);
             assingedCommissionCheck(loadedFrame, el.className, el.cells[8]);
         }
