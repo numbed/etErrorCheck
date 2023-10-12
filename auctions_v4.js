@@ -164,11 +164,23 @@ function main() {
     // check if loaded frames are equal to number of auctions on page, after specific time
     setTimeout(() => {
         console.log("timeout")
+        console.log('🚀 ~ setTimeout ~ counter: LOADED', counter);
         if (counter === auctionsTable.length) {
             uploadedFilesCheck();
             addToInfoBar(); // update #infoTable after auctions file check
             populateTables()
             document.querySelector('#infoButtonContainer').style.display = '';
+        } else {
+            setTimeout(() => {
+                console.log("timeout2")
+                console.log('🚀 ~ setTimeout ~ counter: LOADED', counter);
+                if (counter === auctionsTable.length) {
+                    uploadedFilesCheck();
+                    addToInfoBar(); // update #infoTable after auctions file check
+                    populateTables()
+                    document.querySelector('#infoButtonContainer').style.display = '';
+                }
+            }, 75000);
         }
     }, 9500);
 
@@ -643,7 +655,7 @@ function createIFrames() {
         const iFrame = document.createElement('iframe');
         let frameid = el.cells[0].innerHTML
         iFrame.id = frameid;
-        iFrame.style.display = 'none';
+        // iFrame.style.display = 'none';
         iFrame.src = el.cells[el.querySelectorAll('td').length - 2].querySelector('a').href;
         el.cells[0].appendChild(iFrame);
         iFrame.onload = function () {
@@ -832,7 +844,7 @@ function setAuctionsClasses() {
     auctionsTable.forEach(el => {
         if (el.className != 'danger') {
             if (window.getComputedStyle(el).color === "rgb(153, 153, 153)") {
-                if(auctionDateCheck(el) === 'today') {
+                if (auctionDateCheck(el) === 'today') {
                     el.className = 'today';
                 } else {
                     el.className = 'notPublished';
