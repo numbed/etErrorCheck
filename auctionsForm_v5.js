@@ -126,23 +126,27 @@
             if (docs.length === 1) {
                 console.log("no docs uploaded");
                 docs = auctionDocuments.querySelectorAll('td');
-                ooDate.value = today.getDate().toString() + "." + (today.getMonth() + 1).toString() + "." + today.getFullYear().toString();
+                if (docs.length != 0) {
+                    ooDate.value = today.getDate().toString() + "." + (today.getMonth() + 1).toString() + "." + today.getFullYear().toString();
+                }
             } else {
                 ooDate.value = docs[docs.length - 1].innerHTML.split("/")[1].trim().split(" ")[0];
             }
-            for (i = 0; i < docs.length; i++) {
-                if (docs[i].innerHTML.includes("Заповед")) {
-                    if (docs[i].innerHTML.includes("откриване")) {
-                        order = docs[i].title;
-                    } else {
-                        order = docs[i].innerHTML;
+            if (docs.length != 0) {
+                for (i = 0; i < docs.length; i++) {
+                    if (docs[i].innerHTML.includes("Заповед")) {
+                        if (docs[i].innerHTML.includes("откриване")) {
+                            order = docs[i].title;
+                        } else {
+                            order = docs[i].innerHTML;
+                        }
+                        order = order.split('.')[0].split("Заповед")[1].trim();
+                        console.log(order);
+                        break;
                     }
-                    order = order.split('.')[0].split("Заповед")[1].trim();
-                    console.log(order);
-                    break;
                 }
-            }
-            ooNumber.value = order;
+                ooNumber.value = order;
+            } 
         }
     }
 
