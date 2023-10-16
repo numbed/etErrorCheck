@@ -77,7 +77,7 @@ main();
 function setAuctionsClasses() {
     auctionsTable.forEach(el => {
         if (el.className != 'danger') {
-            el.className = auctionDateCheck(el.cells[5].innerText.split(" ")[0]);
+            el.className = auctionDateCheck(el.cells[4].innerText.split(" ")[0]);
         }
     })
 }
@@ -217,8 +217,9 @@ function infoBarClick() {
     let date = new Date().getDate() + "." + (new Date().getMonth() + 1) + "." + new Date().getFullYear();
     auctionsTable.forEach(element => {
         if (element.className === this.id) {
+            console.log(element.cells[0].innerText)
             if (!element.className.includes('hasFiles')) {
-                if (arrayCounter().today >0) {
+                if (arrayCounter().today > 0) {
                     if (confirm("Бъдещи търгове: " + arrayCounter().future + " бр.\nОтвори?")) {
                         newTab('future', 'c', date);
                         return;
