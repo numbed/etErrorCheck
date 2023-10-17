@@ -229,7 +229,7 @@ function createButton() {
     button.className = 'btn btn-success pull-left';
 
     // Set the button's text
-    button.textContent = 'SHOW';
+    button.textContent = 'HIDE';
 
     // Add an event listener to the button
     button.addEventListener('click', buttonClick);
@@ -244,13 +244,25 @@ function buttonClick() {
     let button = document.querySelector('#infoButton')
     if (button.innerText === "SHOW") {
         button.innerText = "HIDE";
-        document.querySelectorAll(".customContainer").forEach(el => {
-            el.style.display = "inline"
+        document.querySelectorAll("#woods-pills").forEach(el => {
+            el.style.display = "flex"
+        })
+        document.querySelectorAll("#price-pills").forEach(el => {
+            el.style.display = "flex"
+        })
+        document.querySelectorAll("#docsLengthInfo").forEach(el => {
+            el.style.display = "flex"
         })
 
     } else if (button.innerText === "HIDE") {
         button.innerText = "SHOW";
-        document.querySelectorAll(".customContainer").forEach(el => {
+        document.querySelectorAll("#woods-pills").forEach(el => {
+            el.style.display = "none"
+        })
+        document.querySelectorAll("#price-pills").forEach(el => {
+            el.style.display = "none"
+        })
+        document.querySelectorAll("#docsLengthInfo").forEach(el => {
             el.style.display = "none"
         })
     }
