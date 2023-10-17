@@ -158,7 +158,7 @@ function main() {
         addToInfoBar();
     }, 5000);
     // infoBar end
-    createButton();
+    // createButton();
 
     showDeadline();
     setAuctionsClasses();
@@ -174,7 +174,8 @@ function main() {
         if (counter === auctionsTable.length) {
             uploadedFilesCheck();
             addToInfoBar(); // update #infoTable after auctions file check
-            populateTables()
+            populateTables();
+            createButton();
             document.querySelector('#infoButtonContainer').style.display = '';
         } else {
             startCountdown(75);
