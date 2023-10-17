@@ -591,7 +591,7 @@ function populateTables() { //called in main()
                             docSpan.innerText = doc.name + " " + doc.date;
                             docSpan.href = doc.link;
                             docSpan.title = doc.name;
-                            docSpan.download = doc.name;
+                            docSpan.download = doc.download;
                             docSpan.target = '_blank'
                             let newline = document.createElement('br')
                             element.querySelector('div#docs').appendChild(docSpan)
@@ -765,7 +765,8 @@ function getInfoFromFrame(loadedFrame) {
                 let item = {
                     name: el.innerHTML.split('/')[0],
                     date: el.innerHTML.split('/')[1].trim().split(" ")[0],
-                    link: el.href
+                    link: el.href,
+                    download: el.download
                 }
                 docsParameters.push(item)
             })
