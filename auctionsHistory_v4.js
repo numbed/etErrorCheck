@@ -128,7 +128,6 @@ function checkForFiles() {
                 iFrame.src = auctionLink;
             } else {
                 el.cells[0].querySelector("iFrame").contentWindow.location.reload();
-                el.cells[8].style.backgroundColor = "gray";
             }
 
             iFrame.onload = function () {
@@ -141,6 +140,7 @@ function checkForFiles() {
                 // }
                 frameCounter++;
                 nav.querySelector('#frames').innerText = frameCounter;
+
                 //check if all iFrames are loaded before executing more functions
                 if (index === array.length - 1) {
 
@@ -202,7 +202,6 @@ function createInfoBar(el) {
     cellTextHolder.onclick = infoBarClick;
     cellTextHolder.onmouseover = barmouseover;
 
-
     const cellTitle = document.createElement('div');
     cellTitle.className = 'info-cell-title';
     cellTitle.textContent = el.title;
@@ -214,56 +213,51 @@ function createInfoBar(el) {
 
 function infoBarClick() {
     console.log("clicked", this.id, this.innerText);
+    let order = "https://auction.ucdp-smolian.com/au-admin/history/erasedOrder/";
+    let protocol = "https://auction.ucdp-smolian.com/au-admin/history/erasedProtocol/";
+    let form = "https://auction.ucdp-smolian.com/au-admin/auctions/form/";
     let date = new Date().getDate() + "." + (new Date().getMonth() + 1) + "." + new Date().getFullYear();
     auctionsTable.forEach(element => {
         if (element.className === this.id) {
-            console.log(element.cells[0].innerText)
-            if (!element.className.includes('hasFiles')) {
-                if (arrayCounter().today > 0) {
-                    if (confirm("Бъдещи търгове: " + arrayCounter().future + " бр.\nОтвори?")) {
-                        newTab('future', 'c', date);
-                        return;
-                    }
-                }
-                if (arrayCounter().today > 0) {
-                    if (confirm("Днешни търгове: " + arrayCounter().today + " бр.\nОтвори?")) {
-                        newTab('today', 'b', date);
-                        return;
-                    }
-                }
-                if (arrayCounter().past > 0) {
-                    if (confirm("Търгове от изминалите работни дни: " + arrayCounter().past + " бр.\nОтвори?")) {
-                        newTab('past', 'b', );
-                        return;
-                    }
-                }
+            console.log(element.cells[0].innerText, element.className)
+            if (this.id === future) {
+                window.open(protocol + element.cells[8].querySelector('a').href.split('/').pop() + "/" + date, '_blank');
+                window.open(order + element.cells[8].querySelector('a').href.split('/').pop() + "/" + date + "/?t=c", '_blank');
+                window.open(form + element.cells[0].innerText.slice(-4), '_blank');
+            } else {
+                window.open(protocol + element.cells[8].querySelector('a').href.split('/').pop() + "/" + date, '_blank');
+                window.open(order + element.cells[8].querySelector('a').href.split('/').pop() + "/" + date + "/?t=b", '_blank');
+                window.open(form + element.cells[0].innerText.slice(-4), '_blank');
             }
         }
     })
 }
-
-function newTab(id, orderType, date) {
-    table.forEach(el => {
-        if (el.className === 'red') {
-            if (el.id === id) {
-                if (date === undefined) {
-                    date = el.cells[4].innerText.split(" ")[0];
-                }
-                window.open(protocol + el.cells[8].querySelector('a').href.split('/').pop() + "/" + date, '_blank');
-                window.open(order + el.cells[8].querySelector('a').href.split('/').pop() + "/" + date + "/?t=" + orderType, '_blank');
-                window.open(form + el.cells[0].innerText.slice(-4), '_blank');
-            }
-        }
-    })
-}
-
-
 
 function barmouseover() {
     console.log("mouseover", this.id);
     auctionsTable.forEach(el => {
         if (el.className === this.id) {
-            console.log(el.cells[0].innerText);
+            // console.log(el.cells[0].innerText);
+
+            // highlight the mouseover target
+            this.classList.add('mouseHover')
+            auctionsTable.forEach(element => {
+                if (element.className === this.id) {
+                    element.style.backgroundColor = window.getComputedStyle( this ,null).getPropertyValue('background-color');
+                    element.style.color = '#fafafa'
+                }
+            })
+            
+            // reset the color after a short delay
+            setTimeout(() => {
+                this.classList.remove('mouseHover')
+                auctionsTable.forEach(element => {
+                    if (element.className === this.id) {
+                        element.style.backgroundColor = ""
+                        element.style.color = ''
+                    }
+                })
+            }, 750);
         }
     })
 
