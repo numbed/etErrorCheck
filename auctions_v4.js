@@ -265,6 +265,9 @@ function buttonClick() {
         document.querySelectorAll("#docsLengthInfo").forEach(el => {
             el.style.display = "none"
         })
+        document.querySelectorAll(".customContainer").forEach(el => {
+            el.style.display = "none"
+        })
     }
 }
 //BUTTON FUNCTIONS END
