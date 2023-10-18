@@ -166,7 +166,7 @@ function main() {
     toastCheck();
 
     createIFrames();
-    
+
     // check if loaded frames are equal to number of auctions on page, after specific time
     startCountdown(10);
     setTimeout(() => {
@@ -199,7 +199,7 @@ main();
 
 function startCountdown(seconds) {
     console.log('🚀 ~ startCountdown ~ startCountdown: LOADED');
-    
+
     let secCounter = seconds;
     const interval = setInterval(() => {
         let secondsInfo = document.querySelector(".info-container").querySelector("#seconds");
@@ -517,6 +517,14 @@ function populateTables() { //called in main()
                     docinf.innerText = isItZero(docs.length);
                     docinf.onclick = newDocShow;
                     docinf.id = id;
+                    if (isItZero(docs.length) != 0) {
+                        let docinfTitle = '';
+                        docs.forEach(item => {
+                            console.log(item.date)
+                            docinfTitle += item.name + ' ' + item.date + "\n";
+                        });
+                        docinf.title = docinfTitle;
+                    }
 
                     if (isItZero(docs.length) != 0) {
                         docinf.style.backgroundColor = "green";
@@ -594,10 +602,9 @@ function populateTables() { //called in main()
                             let docSpan = document.createElement('a')
                             docSpan.innerText = doc.name + " " + doc.date;
                             docSpan.href = doc.link;
-                            docSpan.title = doc.name;
+                            docSpan.title = doc.download;
                             docSpan.download = doc.download;
                             docSpan.target = '_blank';
-                            docSpan.title = doc.download;
                             let newline = document.createElement('br')
                             element.querySelector('div#docs').appendChild(docSpan)
                             element.querySelector('div#docs').appendChild(newline)
