@@ -596,7 +596,8 @@ function populateTables() { //called in main()
                             docSpan.href = doc.link;
                             docSpan.title = doc.name;
                             docSpan.download = doc.download;
-                            docSpan.target = '_blank'
+                            docSpan.target = '_blank';
+                            docSpan.title = doc.download;
                             let newline = document.createElement('br')
                             element.querySelector('div#docs').appendChild(docSpan)
                             element.querySelector('div#docs').appendChild(newline)
