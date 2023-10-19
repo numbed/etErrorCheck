@@ -220,7 +220,7 @@ function infoBarClick() {
     auctionsTable.forEach(element => {
         if (element.className === this.id) {
             console.log(element.cells[0].innerText, element.className)
-            if (this.id === future) {
+            if (this.id === 'future') {
                 window.open(protocol + element.cells[8].querySelector('a').href.split('/').pop() + "/" + date, '_blank');
                 window.open(order + element.cells[8].querySelector('a').href.split('/').pop() + "/" + date + "/?t=c", '_blank');
                 window.open(form + element.cells[0].innerText.slice(-4), '_blank');
