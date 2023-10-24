@@ -338,9 +338,9 @@
 
             function promptTitlefuntion(ids) {
                 let commUsers = ids.split(",");
-                title = "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t" + tp.value.split("/")[0] + " " + document.querySelector("input[name='data[woodInfo][number][0]']").value + "\nНазначете комисия в състав: \n" + "ПРЕДСЕДАТЕЛ:" + name(commUsers[0]) + "\nЮРИСТ:" + name(commUsers[1]) + "\nЧЛЕН:" +  name(commUsers[2]) + '\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n';
+                // title = "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t" + tp.value.split("/")[0] + " " + document.querySelector("input[name='data[woodInfo][number][0]']").value + "\nНазначете комисия в състав: \n" + "ПРЕДСЕДАТЕЛ:" + name(commUsers[0]) + "\nЮРИСТ:" + name(commUsers[1]) + "\nЧЛЕН:" +  name(commUsers[2]) + '\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n';
 
-                // title =  "ПРЕДСЕДАТЕЛ:" + name(commUsers[0]) + "\nЮРИСТ:" + name(commUsers[1]) + "\nЧЛЕН:" + name(commUsers[2]) + '\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n';
+                title =  "ПРЕДСЕДАТЕЛ:" + name(commUsers[0]) + "\nЮРИСТ:" + name(commUsers[1]) + "\nЧЛЕН:" + name(commUsers[2]) + '\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n';
 
                 function name(n) {
                     for (i = 1; i < chairman.length; i++) {
