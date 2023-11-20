@@ -94,6 +94,7 @@
         } else {
             console.log("🚀 ~ file: auctionsForm_v5.js:87 ~ fillFields ~:", "auction title and description have data")
         }
+        document.querySelector('button.btn.btn-success').click(); //testing faster firsttime document publishing
     }
 
     //to be used when entering info for new auctions
@@ -276,7 +277,7 @@
                 input = prompt(promptTitlefuntion(input), input);
                 coNumber.value = "З-22-" + prompt("Номер на заповед за комисия:");
             } else if (tp.value.includes("Селище")) {
-                input = "347,481,349";
+                input = "347,396,349";
                 input = prompt(promptTitlefuntion(input), input);
                 coNumber.value = "З-23-" + prompt("Номер на заповед за комисия:");
             } else if (tp.value.includes("Славейно")) {
@@ -574,8 +575,8 @@
         console.log("pubOrder()");
         console.log("auctionSave()");
         guaranteeCalc();
-        fillFields();
         pubOrder();
+        fillFields();
         docNames();
         delay(1000).then(() => auctionSave());
     }
