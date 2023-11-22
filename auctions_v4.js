@@ -498,8 +498,10 @@ function errorCheck() {
         for (let j = 0; j < auctionsTable.length; j++) {
             if (i != j) {
                 if (auctionsTable[i].cells[1].innerText === auctionsTable[j].cells[1].innerText && auctionsTable[i].cells[2].innerText === auctionsTable[j].cells[2].innerText) {
-                    auctionsTable[i].className = 'error';
-                    auctionsTable[j].className = 'error';
+                    // auctionsTable[i].className = 'error';
+                    // auctionsTable[j].className = 'error';
+                    auctionsTable[i].classList.add('error');
+                    auctionsTable[j].classList.add('error');
                 }
             }
         }
