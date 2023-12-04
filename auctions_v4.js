@@ -194,6 +194,8 @@ function main() {
     prepareCells();
 
     errorCheck();
+
+    tableOuput();
 }
 main();
 
@@ -522,7 +524,6 @@ function populateTables() { //called in main()
                     if (isItZero(docs.length) != 0) {
                         let docinfTitle = '';
                         docs.forEach(item => {
-                            console.log(item.date)
                             docinfTitle += item.name + ' ' + item.date + "\n";
                         });
                         docinf.title = docinfTitle;
@@ -945,6 +946,22 @@ function isItZero(counter) {
 
 function delay(time) {
     return new Promise(resolve => setTimeout(resolve, time));
+}
+
+function tableOuput() {
+    console.log("-------------------------------------------------------tableOuput()");
+    let consoleTable = [];
+
+    auctionsTable.forEach(el => {
+        let obj = {
+            number: el.cells[0].innerText,
+            branch: el.cells[1].innerText,
+            date: el.cells[2].innerText.split(" ")[0].trim(),
+            object: el.cells[5].innerText.split("/").pop().split(/\r?\n/)[0].split(":").pop().trim(),
+        }
+    consoleTable.push(obj);
+    });
+    console.table(consoleTable);
 }
 
 //styling bellow
