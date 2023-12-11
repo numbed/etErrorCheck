@@ -205,7 +205,7 @@
                 input = prompt(promptTitlefuntion(input), input);
                 coNumber.value = "З-04-" + prompt("Номер на заповед за комисия:");
             } else if (tp.value.includes("Асеновград")) {
-                input = "162,164,168";
+                input = "162,164,519";
                 input = prompt(promptTitlefuntion(input), input);
                 coNumber.value = "З-05-" + prompt("Номер на заповед за комисия:");
             } else if (tp.value.includes("Батак")) {
