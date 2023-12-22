@@ -245,7 +245,7 @@
                 input = prompt(promptTitlefuntion(input), input);
                 coNumber.value = "З-14-" + prompt("Номер на заповед за комисия:");
             } else if (tp.value.includes("Момчилград")) {
-                input = "52,458,53";
+                input = "52,374,53";
                 input = prompt(promptTitlefuntion(input), input);
                 coNumber.value = "З-15-" + prompt("Номер на заповед за комисия:");
             } else if (tp.value.includes("Пазарджик")) {
@@ -317,7 +317,7 @@
                 input = prompt(promptTitlefuntion(input), input);
                 coNumber.value = "З-32-" + prompt("Номер на заповед за комисия:");
             } else if (tp.value.includes("Кормисош")) {
-                input = "510,547,265";
+                input = "510,563,265";
                 input = prompt(promptTitlefuntion(input), input);
                 coNumber.value = "З-33-" + prompt("Номер на заповед за комисия:");
             } else if (tp.value.includes("Тракия")) {
