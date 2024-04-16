@@ -715,13 +715,13 @@ function createIFrames() {
             nav.querySelector('#frames').innerText = counter;
             // document.querySelector('#frames').innerText = counter;
             getInfoFromFrame(loadedFrame);
-            assingedCommissionCheck(loadedFrame, el.className, el.cells[8]);
+            assingedCommissionCheck(loadedFrame, el.className, el.cells[8], el.cells[1]);
         }
     })
 }
 
 // called in createIFrames
-function assingedCommissionCheck(loadedFrame, classN, lastCell) {
+function assingedCommissionCheck(loadedFrame, classN, lastCell, tpCell) {
     // needs changes for more precise work
     console.log("-------------------------------------------------------assingedCommissionCheck()");
     if (classN === 'commission') {
@@ -730,9 +730,14 @@ function assingedCommissionCheck(loadedFrame, classN, lastCell) {
             let requests = loadedFrame.querySelectorAll('tbody') // needs changing
             if (requests.length < 8) {
                 lastCell.style.backgroundColor = "#fa2a07";
+                tpCell.style.fontWeight  = "bold";
+                tpCell.style.color  = "#fa2a07";
+
             }
         } else if (commission.value != '') {
             lastCell.style.backgroundColor = "#9eb3c6";
+            tpCell.style.fontWeight  = "normal";
+            tpCell.style.color  = "#676a6c";
         }
     }
 
@@ -1031,6 +1036,10 @@ b.today {
 }
 .commission>td:nth-child(4)>b,
 .commission>td:nth-child(5)>b {
+    color: #040D12;
+}
+.commission>td:nth-child(2) {
+    font-weight: bold;
     color: #040D12;
 }
 b.commission {
