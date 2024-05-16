@@ -213,7 +213,7 @@
                 input = prompt(promptTitlefuntion(input), input);
                 coNumber.value = "З-06-" + prompt("Номер на заповед за комисия:");
             } else if (tp.value.includes("Борино")) {
-                input = "111,114,534";
+                input = "111,554,534";
                 input = prompt(promptTitlefuntion(input), input);
                 coNumber.value = "З-07-" + prompt("Номер на заповед за комисия:");
             } else if (tp.value.includes("Доспат")) {
