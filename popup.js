@@ -82,8 +82,17 @@ chrome.browserAction.onClicked.addListener((tab) => {
                     allFrames: true
                 });
             });
+        } else if (tab.url.includes("/au-admin/users")) {
+            chrome.tabs.query({
+                active: true
+            }, function (tabs) {
+                chrome.tabs.executeScript(tab.id, {
+                    file: "users_v1.js",
+                    allFrames: true
+                });
+            });
         }
-        
+
     });
 });
 
