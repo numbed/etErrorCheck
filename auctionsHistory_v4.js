@@ -52,6 +52,7 @@ let infoTable = [{
 ];
 
 function main() {
+    linksInFirstCells();
     // infoBar add cells
     let timeoutMS = 0;
     infoTable.forEach((el, index) => {
@@ -72,6 +73,16 @@ function main() {
 }
 main();
 
+//called in main()
+//replaces first cell innerHTML with links to auctions forms
+function linksInFirstCells() {
+    auctionsTable.forEach(el => {
+        let aucNumber = el.cells[0].innerText;
+        let aucLink = "https://auction.ucdp-smolian.com/au-admin/auctions/form/" + aucNumber.slice(2);
+        el.cells[0].innerHTML = '<a href="' + aucLink + '" target="_blank">' + aucNumber + '</a>'
+        console.log(el.cells[0].innerText, el.className, aucLink);
+    })
+}
 
 // called in main()
 function setAuctionsClasses() {
@@ -243,11 +254,11 @@ function barmouseover() {
             this.classList.add('mouseHover')
             auctionsTable.forEach(element => {
                 if (element.className === this.id) {
-                    element.style.backgroundColor = window.getComputedStyle( this ,null).getPropertyValue('background-color');
+                    element.style.backgroundColor = window.getComputedStyle(this, null).getPropertyValue('background-color');
                     element.style.color = '#fafafa'
                 }
             })
-            
+
             // reset the color after a short delay
             setTimeout(() => {
                 this.classList.remove('mouseHover')
