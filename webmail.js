@@ -10,7 +10,7 @@ function webmail() {
      * FALSE - download multiple attachments from email
      */
     if (emailTo) {
-        document.getElementById("composebody").value = (" ");
+        document.getElementById("composebody").value = (' ');
         /**
          * collect data from attached files and fills according fields in the email compose page
          * !!!only adds recepient of the last file attached!!!
@@ -32,6 +32,9 @@ function webmail() {
                 emailTo.value = emailTo.value + tpEmail(recepient) + ", ";
                 console.log(tpEmail(recepient));
             }
+            // if (confirm('send?')) {
+                // document.querySelector('a.button.send').click();                
+            // }
         });
     } else {
         console.log("downloading files");
