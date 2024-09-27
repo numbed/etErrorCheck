@@ -77,9 +77,15 @@ main();
 //replaces first cell innerHTML with links to auctions forms
 function linksInFirstCells() {
     auctionsTable.forEach(el => {
+        let today = new Date();
+        let date = today.getDate()+"."+(today.getMonth()+1)+"."+today.getFullYear();
         let aucNumber = el.cells[0].innerText;
         let aucLink = "https://auction.ucdp-smolian.com/au-admin/auctions/form/" + aucNumber.slice(2);
-        el.cells[0].innerHTML = '<a href="' + aucLink + '" target="_blank">' + aucNumber + '</a>'
+        let aucProtocol = 'https://auction.ucdp-smolian.com/au-admin/history/erasedProtocol/' + el.cells[8].querySelector('a').href.split('/').pop() + "/"+ date;
+        let aucOrderB = 'https://auction.ucdp-smolian.com/au-admin/history/order/' + el.cells[8].querySelector('a').href.split('/').pop() + "/"+ date +"?t=b";
+        let aucOrderC = 'https://auction.ucdp-smolian.com/au-admin/history/order/' + el.cells[8].querySelector('a').href.split('/').pop() + "/"+ date +"?t=c";
+
+        el.cells[0].innerHTML = '<a href="' + aucLink + '" target="_blank">' + aucNumber + '</a><br><span id="docPillContainer">' + '<a id="docPill" href="' + aucProtocol + '" target="_blank">П</а><a id="docPill" href="' + aucOrderB + '" target="_blank">ЗК</а><a id="docPill" href="' + aucOrderC + '" target="_blank">ЗП</а></span>';
         console.log(el.cells[0].innerText, el.className, aucLink);
     })
 }
@@ -375,6 +381,25 @@ document.head.insertAdjacentHTML("beforeend", `<style>
 
         #docs>a{
             font-style: italic;
+        }
+
+        #docPillContainer{
+            display: flex;
+            width: auto;
+        }
+        #docPill{
+            flex: 1;
+            padding-left: 2px;
+            padding-right: 2px;
+            margin-right: 5px;
+            width: 30%;
+            border-radius: 6px;
+            background-color: grey;
+            /*opacity: 0.3;*/
+            text-align: center;
+            font-size: small;
+            font-weight: 550;
+            color: white;
         }
         #docsLengthInfo {
             padding: 5px;
