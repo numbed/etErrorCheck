@@ -240,11 +240,11 @@ function infoBarClick() {
             if (this.id === 'future') {
                 window.open(protocol + element.cells[8].querySelector('a').href.split('/').pop() + "/" + date, '_blank');
                 window.open(order + element.cells[8].querySelector('a').href.split('/').pop() + "/" + date + "/?t=c", '_blank');
-                window.open(form + element.cells[0].innerText.slice(-4), '_blank');
+                window.open(form + element.cells[0].innerText.slice(2,7), '_blank');
             } else {
                 window.open(protocol + element.cells[8].querySelector('a').href.split('/').pop() + "/" + date, '_blank');
                 window.open(order + element.cells[8].querySelector('a').href.split('/').pop() + "/" + date + "/?t=b", '_blank');
-                window.open(form + element.cells[0].innerText.slice(-4), '_blank');
+                window.open(form + element.cells[0].innerText.slice(2,7), '_blank');
             }
         }
     })
