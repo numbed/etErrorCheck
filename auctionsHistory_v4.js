@@ -85,7 +85,8 @@ function linksInFirstCells() {
         let aucOrderB = 'https://auction.ucdp-smolian.com/au-admin/history/order/' + el.cells[8].querySelector('a').href.split('/').pop() + "/"+ date +"?t=b";
         let aucOrderC = 'https://auction.ucdp-smolian.com/au-admin/history/order/' + el.cells[8].querySelector('a').href.split('/').pop() + "/"+ date +"?t=c";
 
-        el.cells[0].innerHTML = '<a href="' + aucLink + '" target="_blank">' + aucNumber + '</a><br><span id="docPillContainer">' + '<a id="docPill" href="' + aucProtocol + '" target="_blank">П</а><a id="docPill" href="' + aucOrderB + '" target="_blank">ЗК</а><a id="docPill" href="' + aucOrderC + '" target="_blank">ЗП</а></span>';
+        el.cells[0].innerHTML = '<a href="' + aucLink + '" target="_blank">' + aucNumber;
+        el.cells[1].innerHTML += '</a><br><span id="docPillContainer">' + '<a id="docPill" href="' + aucProtocol + '" target="_blank">П</а><a id="docPill" href="' + aucOrderB + '" target="_blank">ЗК</а><a id="docPill" href="' + aucOrderC + '" target="_blank">ЗП</а></span>';
         console.log(el.cells[0].innerText, el.className, aucLink);
     })
 }
@@ -240,11 +241,11 @@ function infoBarClick() {
             if (this.id === 'future') {
                 window.open(protocol + element.cells[8].querySelector('a').href.split('/').pop() + "/" + date, '_blank');
                 window.open(order + element.cells[8].querySelector('a').href.split('/').pop() + "/" + date + "/?t=c", '_blank');
-                window.open(form + element.cells[0].innerText.slice(2,7), '_blank');
+                window.open(form + element.cells[0].innerText.slice(-4), '_blank');
             } else {
                 window.open(protocol + element.cells[8].querySelector('a').href.split('/').pop() + "/" + date, '_blank');
                 window.open(order + element.cells[8].querySelector('a').href.split('/').pop() + "/" + date + "/?t=b", '_blank');
-                window.open(form + element.cells[0].innerText.slice(2,7), '_blank');
+                window.open(form + element.cells[0].innerText.slice(-4), '_blank');
             }
         }
     })
