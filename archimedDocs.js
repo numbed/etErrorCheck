@@ -96,9 +96,15 @@ function archimedDocs() {
 			notDoneAlertArray.push(el.number);
 		})
 	}, 1000);
-	
+
 	setTimeout(() => {
-		alert("Нови преписки: " + notDoneAlertArray.length + "\r\n" + [...new Set(notDoneAlertArray)].join('  |  '));
+		// alert("Нови преписки: " + notDoneAlertArray.length + "\r\n" + [...new Set(notDoneAlertArray)].join('  |  '));
+		if (confirm("Отвори неприключени преписки: " + notDone.length + "\r\n" + [...new Set(notDoneAlertArray)].join('  |  '))) {
+				notDone.forEach(element =>{
+					window.open(element.link, "_blank")
+				})
+			}
 	}, 1000);
-}
-archimedDocs();
+
+	}
+	archimedDocs();
