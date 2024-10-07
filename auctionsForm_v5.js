@@ -285,7 +285,7 @@
                 input = prompt(promptTitlefuntion(input), input);
                 coNumber.value = "З-24-" + prompt("Номер на заповед за комисия:");
             } else if (tp.value.includes("Смилян")) {
-                input = "411,314,401";
+                input = "411,501,401";
                 input = prompt(promptTitlefuntion(input), input);
                 coNumber.value = "З-25-" + prompt("Номер на заповед за комисия:");
             } else if (tp.value.includes("Смолян")) {
