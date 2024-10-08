@@ -81,7 +81,7 @@ function archimedDocs() {
 
 
 	for (let i = 0, row; row = table.rows[i]; i++) {
-		if (docs[i].status.includes("Публикуван")) {
+		if (docs[i].status.includes("Публикуван") && !docs[i].status.includes("Отговорен")) {
 			notDone.push(docs[i]);
 		}
 	}
@@ -100,11 +100,11 @@ function archimedDocs() {
 	setTimeout(() => {
 		// alert("Нови преписки: " + notDoneAlertArray.length + "\r\n" + [...new Set(notDoneAlertArray)].join('  |  '));
 		if (confirm("Отвори неприключени преписки: " + notDone.length + "\r\n" + [...new Set(notDoneAlertArray)].join('  |  '))) {
-				notDone.forEach(element =>{
-					window.open(element.link, "_blank")
-				})
-			}
+			notDone.forEach(element => {
+				window.open(element.link, "_blank")
+			})
+		}
 	}, 1000);
 
-	}
-	archimedDocs();
+}
+archimedDocs();
