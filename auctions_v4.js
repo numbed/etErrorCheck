@@ -116,6 +116,11 @@ let infoTable = [{
         id: 'seconds',
         title: 'секунди',
         color: 'black'
+    },
+    {
+        id: 'fileCheck',
+        title: 'проверка',
+        color: '#ccffcc'
     }
 ];
 
@@ -466,6 +471,16 @@ function infoBarClick() {
             window.open(element.querySelectorAll('td')[7].querySelector('a').href, "_blank")
         }
     })
+    if (this.id === "fileCheck" ){
+        auctionsTable.forEach(el =>{
+            let auctionObj = el.cells[5].innerHTML.split("<")[0].split(" ").pop();
+            if (el.cells[4].innerHTML.includes(auctionObj)) {
+                el.cells[5].style.backgroundColor = '#ccffcc';
+            } else {
+                el.cells[5].style.backgroundColor = '#ffcccc';
+            }
+        })
+    }
 }
 
 function barmouseover() {
@@ -486,10 +501,13 @@ function auctionPublish() {
     console.log("-------------------------------------------------------auctionPublish()");
     let btns = document.querySelector('tbody').querySelectorAll('button');
     if (btns.length != 0) {
-        btns.forEach(el => {
-            el.click();
-        })
+        if (confirm("Публикуване?")) {
+            btns.forEach(el => {
+                el.click();
+            })
+        }
     }
+
 }
 
 // called in main()
@@ -730,14 +748,14 @@ function assingedCommissionCheck(loadedFrame, classN, lastCell, tpCell) {
             let requests = loadedFrame.querySelectorAll('tbody') // needs changing
             if (requests.length < 8) {
                 lastCell.style.backgroundColor = "#fa2a07";
-                tpCell.style.fontWeight  = "bold";
-                tpCell.style.color  = "#fa2a07";
+                tpCell.style.fontWeight = "bold";
+                tpCell.style.color = "#fa2a07";
 
             }
         } else if (commission.value != '') {
             lastCell.style.backgroundColor = "#9eb3c6";
-            tpCell.style.fontWeight  = "normal";
-            tpCell.style.color  = "#676a6c";
+            tpCell.style.fontWeight = "normal";
+            tpCell.style.color = "#676a6c";
         }
     }
 
@@ -964,7 +982,7 @@ function tableOuput() {
             date: el.cells[2].innerText.split(" ")[0].trim(),
             object: el.cells[5].innerText.split("/").pop().split(/\r?\n/)[0].split(":").pop().trim(),
         }
-    consoleTable.push(obj);
+        consoleTable.push(obj);
     });
     console.table(consoleTable);
 }
