@@ -156,7 +156,7 @@ function main() {
             }
         })
 
-        item.cells[4].innerHTML += '<br><span id="docsLengthInfo"></span>';
+        item.cells[4].innerHTML += '<span id="docsLengthInfo"></span>';
         // replaces text in the array with uppercase
         textToBeReplaced.forEach(el => {
             item.cells[4].innerHTML = item.cells[4].innerHTML.replace(el, el.toUpperCase().bold())
@@ -1301,10 +1301,13 @@ b.commission {
     width: 200px;
 }
 #woods-pills,
-#price-pills,
-#offers-pills {
+#price-pills{
     display: flex;
     width: auto;
+}
+#offers-pills {
+    display: flex;
+    width: 90px;
 }
 
 #docsLengthInfo>span,
