@@ -733,10 +733,38 @@ function createIFrames() {
             nav.querySelector('#frames').innerText = counter;
             // document.querySelector('#frames').innerText = counter;
             getInfoFromFrame(loadedFrame);
+            offersCheck(loadedFrame, el.cells[1])
             assingedCommissionCheck(loadedFrame, el.className, el.cells[8], el.cells[1]);
         }
     })
 }
+
+// called in createIFrames - check for deposited offers and their status
+// to be added color elements for approved and refused offers
+function offersCheck(loadedFrame, tpCell) {
+    let form = loadedFrame.querySelector('form');
+    let approvedOrders = [];
+    let refusedOrders = [];
+    if (form.innerText.includes("Заявки")) {
+            let orders = form.querySelectorAll('table');
+            let ordersTable = orders.length-1;
+            let ordersTotal = form.querySelectorAll('table')[ordersTable].querySelector('tbody').querySelectorAll('tr')
+            ordersTotal.forEach(order =>{
+                if(order.cells[3].innerText.includes("Одобрена")){
+                    approvedOrders.push(order.cells[0].innerText);
+                }
+                if(order.cells[3].innerText.includes("Отхвърлена")){
+                    refusedOrders.push(order.cells[0].innerText);
+                }
+            })
+            tpCell.innerHTML += "<br> Оферти: "+ ordersTotal.length + " ( " + approvedOrders.length + " | " + refusedOrders.length + " )";
+            
+        } else {
+            tpCell.innerHTML += "<br> Оферти: 0"
+        
+    }
+}
+
 
 // called in createIFrames
 function assingedCommissionCheck(loadedFrame, classN, lastCell, tpCell) {
