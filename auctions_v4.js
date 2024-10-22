@@ -34,6 +34,21 @@ let auctionsErrors = ['конкурс', 'ценово'];
 //         title: '2ри купувач'
 //     }
 // ]
+let offersTable = [{
+        id: 'offersTotal',
+        title: "общо",
+        color: 'black'
+    },
+    {
+        id: 'approvedOffers',
+        title: "одобрени",
+        color: 'green'
+    }, {
+        id: 'refusedOffers',
+        title: "отхвърлени",
+        color: 'red'
+    }
+]
 let auctionDocumetsTable = [{
     id: 'docs',
     title: 'Документи'
@@ -471,8 +486,8 @@ function infoBarClick() {
             window.open(element.querySelectorAll('td')[7].querySelector('a').href, "_blank")
         }
     })
-    if (this.id === "fileCheck" ){
-        auctionsTable.forEach(el =>{
+    if (this.id === "fileCheck") {
+        auctionsTable.forEach(el => {
             let auctionObj = el.cells[5].innerHTML.split("<")[0].split(" ").pop();
             if (el.cells[4].innerHTML.includes(auctionObj)) {
                 el.cells[5].style.backgroundColor = '#ccffcc';
@@ -661,6 +676,7 @@ function populateTables() { //called in main()
 // called in main()
 function prepareCells() {
     auctionsTable.forEach(el => {
+        offerCell = el.cells[1];
         subjectCell = el.cells[4];
         woodsCell = el.cells[5];
         priceCell = el.cells[6];
@@ -669,6 +685,7 @@ function prepareCells() {
         subjectCell = createContainer(subjectCell, 'docs', auctionDocumetsTable)
         woodsCell = createPills(woodsCell, 'woods-pills', woodsTable)
         priceCell = createPills(priceCell, 'price-pills', priceTable)
+        offerCell = createPills(offerCell, 'offers-pills', offersTable)
     })
 }
 
@@ -743,25 +760,49 @@ function createIFrames() {
 // to be added color elements for approved and refused offers
 function offersCheck(loadedFrame, tpCell) {
     let form = loadedFrame.querySelector('form');
-    let approvedOrders = [];
-    let refusedOrders = [];
+    let approvedOffers = [];
+    let refusedOffers = [];
     if (form.innerText.includes("Заявки")) {
-            let orders = form.querySelectorAll('table');
-            let ordersTable = orders.length-1;
-            let ordersTotal = form.querySelectorAll('table')[ordersTable].querySelector('tbody').querySelectorAll('tr')
-            ordersTotal.forEach(order =>{
-                if(order.cells[3].innerText.includes("Одобрена")){
-                    approvedOrders.push(order.cells[0].innerText);
-                }
-                if(order.cells[3].innerText.includes("Отхвърлена")){
-                    refusedOrders.push(order.cells[0].innerText);
-                }
-            })
-            tpCell.innerHTML += "<br> Оферти: "+ ordersTotal.length + " ( " + approvedOrders.length + " | " + refusedOrders.length + " )";
-            
+        let offers = form.querySelectorAll('table');
+        let offersTable = offers.length - 1;
+        let offersTotal = form.querySelectorAll('table')[offersTable].querySelector('tbody').querySelectorAll('tr')
+        offersTotal.forEach(order => {
+            if (order.cells[3].innerText.includes("Одобрена")) {
+                approvedOffers.push(order.cells[0].innerText);
+            }
+            if (order.cells[3].innerText.includes("Отхвърлена")) {
+                refusedOffers.push(order.cells[0].innerText);
+            }
+        })
+        console.log(refusedOffers)
+        if ((approvedOffers.length + refusedOffers.length) == offersTotal.length) {
+            tpCell.querySelector("#offersTotal").remove();
         } else {
-            tpCell.innerHTML += "<br> Оферти: 0"
-        
+            tpCell.querySelector("#offersTotal").innerText = offersTotal.length;
+            tpCell.querySelector("#offersTotal").style.backgroundColor = "black";
+            tpCell.querySelector("#offersTotal").style.color = "white";
+        }
+
+        if (approvedOffers.length == '0') {
+            tpCell.querySelector("#approvedOffers").remove();
+        } else {
+            tpCell.querySelector("#approvedOffers").innerText = approvedOffers.length;
+            tpCell.querySelector("#approvedOffers").style.backgroundColor = "green";
+        }
+
+        if (refusedOffers.length == '0') {
+            tpCell.querySelector("#refusedOffers").remove();
+        } else {
+            tpCell.querySelector("#refusedOffers").innerText = refusedOffers.length;
+            tpCell.querySelector("#refusedOffers").style.backgroundColor = "red";
+        }
+        // tpCell.innerHTML += "<br> Оферти: " + offersTotal.length + " ( " + approvedOffers.length + " | " + refusedOffers.length + " )";
+    } else {
+        tpCell.querySelector("#offersTotal").innerText = "0";
+        tpCell.querySelector("#offersTotal").style.backgroundColor = "red";
+        tpCell.querySelector("#approvedOffers").remove();
+        tpCell.querySelector("#refusedOffers").remove();
+
     }
 }
 
@@ -1260,14 +1301,16 @@ b.commission {
     width: 200px;
 }
 #woods-pills,
-#price-pills {
+#price-pills,
+#offers-pills {
     display: flex;
     width: auto;
 }
 
 #docsLengthInfo>span,
 #woods-pills>span,
-#price-pills>span {
+#price-pills>span,
+#offers-pills>span {
     flex: 1;
     padding-left: 2px;
     padding-right: 2px;
