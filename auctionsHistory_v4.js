@@ -68,7 +68,7 @@ function main() {
     delay(1000).then(() => addToInfoBar());
     checkForFiles();
     orderFrames();
-    delay(4000).then(() => addToInfoBar());
+    delay(6000).then(() => addToInfoBar());
 
 }
 main();
@@ -86,7 +86,7 @@ function linksInFirstCells() {
         let aucOrderC = 'https://auction.ucdp-smolian.com/au-admin/history/order/' + el.cells[8].querySelector('a').href.split('/').pop() + "/" + date + "?t=c";
 
         el.cells[0].innerHTML = '<a href="' + aucLink + '" target="_blank">' + aucNumber;
-        el.cells[1].innerHTML += '</a><br><span id="docPillContainer">' + '<a id="docPill" href="' + aucProtocol + '" target="_blank">П</а><a id="docPill" href="' + aucOrderB + '" target="_blank">ЗК</а><a id="docPill" href="' + aucOrderC + '" target="_blank">ЗП</а></span>';
+        el.cells[1].innerHTML += '</a><br><span id="docPillContainer">' + '<a id="docPill" href="' + aucProtocol + '" target="_blank">П</а><a id="docPill" name="orderB" href="' + aucOrderB + '" target="_blank">ЗК</а><a id="docPill" name="orderC" href="' + aucOrderC + '" target="_blank">ЗП</а></span>';
         // console.log(el.cells[0].innerText, el.className, aucLink);
     })
 }
@@ -300,14 +300,16 @@ function getProtocolDate(byuerOrderFrame, cancelOrderFrame, auction) {
         let orderText = byuerOrderFrame.contentDocument.querySelector('tbody').innerText;
         let orderDatePosition = orderText.indexOf("утвърден на");
         orderDate = orderText.slice(orderDatePosition + 12, orderDatePosition + 22).trim();
-        auction.cells[3].style.backgroundColor = "lime";
+        auction.querySelector("a[name='orderB']").style.backgroundColor = "green";
+        // auction.cells[3].style.backgroundColor = "lime";
     } else if (cancelOrderFrame.contentDocument.querySelector('h4').innerText.includes("Преглед")) {
         let orderText = cancelOrderFrame.contentDocument.querySelector('tbody').innerText;
         let orderDatePosition = orderText.indexOf("утвърден на");
         orderDate = orderText.slice(orderDatePosition + 12, orderDatePosition + 22).trim();
-        auction.cells[3].style.backgroundColor = "lime";
+        auction.querySelector("a[name='orderC']").style.backgroundColor = "green";
     } else {
-        auction.cells[3].style.backgroundColor = "pink";
+        auction.querySelector("a[name='orderB']").style.backgroundColor = "red";
+        auction.querySelector("a[name='orderC']").style.backgroundColor = "red";
     }
     return orderDate;
 }
