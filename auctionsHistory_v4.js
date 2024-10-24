@@ -67,7 +67,7 @@ function main() {
     setAuctionsClasses();
     delay(1000).then(() => addToInfoBar());
     checkForFiles();
-
+    orderFrames();
     delay(4000).then(() => addToInfoBar());
 
 }
@@ -78,16 +78,16 @@ main();
 function linksInFirstCells() {
     auctionsTable.forEach(el => {
         let today = new Date();
-        let date = today.getDate()+"."+(today.getMonth()+1)+"."+today.getFullYear();
+        let date = today.getDate() + "." + (today.getMonth() + 1) + "." + today.getFullYear();
         let aucNumber = el.cells[0].innerText;
         let aucLink = "https://auction.ucdp-smolian.com/au-admin/auctions/form/" + aucNumber.slice(2);
-        let aucProtocol = 'https://auction.ucdp-smolian.com/au-admin/history/erasedProtocol/' + el.cells[8].querySelector('a').href.split('/').pop() + "/"+ date;
-        let aucOrderB = 'https://auction.ucdp-smolian.com/au-admin/history/order/' + el.cells[8].querySelector('a').href.split('/').pop() + "/"+ date +"?t=b";
-        let aucOrderC = 'https://auction.ucdp-smolian.com/au-admin/history/order/' + el.cells[8].querySelector('a').href.split('/').pop() + "/"+ date +"?t=c";
+        let aucProtocol = 'https://auction.ucdp-smolian.com/au-admin/history/erasedProtocol/' + el.cells[8].querySelector('a').href.split('/').pop() + "/" + date;
+        let aucOrderB = 'https://auction.ucdp-smolian.com/au-admin/history/order/' + el.cells[8].querySelector('a').href.split('/').pop() + "/" + date + "?t=b";
+        let aucOrderC = 'https://auction.ucdp-smolian.com/au-admin/history/order/' + el.cells[8].querySelector('a').href.split('/').pop() + "/" + date + "?t=c";
 
         el.cells[0].innerHTML = '<a href="' + aucLink + '" target="_blank">' + aucNumber;
         el.cells[1].innerHTML += '</a><br><span id="docPillContainer">' + '<a id="docPill" href="' + aucProtocol + '" target="_blank">П</а><a id="docPill" href="' + aucOrderB + '" target="_blank">ЗК</а><a id="docPill" href="' + aucOrderC + '" target="_blank">ЗП</а></span>';
-        console.log(el.cells[0].innerText, el.className, aucLink);
+        // console.log(el.cells[0].innerText, el.className, aucLink);
     })
 }
 
@@ -98,6 +98,45 @@ function setAuctionsClasses() {
             el.className = auctionDateCheck(el.cells[4].innerText.split(" ")[0]);
         }
     })
+}
+
+// called in main()
+// creates 2 iframes for byuers order and cancel order
+function orderFrames() {
+    auctionsTable.forEach(el => {
+        if (el.className != 'danger') {
+            let byuerOrder = '?t=b';
+            let cancelOrder = '?t=c';
+
+            let orderByuerLink = 'https://auction.ucdp-smolian.com/au-admin/history/order/' + el.cells[8].querySelector('a').href.split('/').pop() + byuerOrder;
+            let orderCancelLink = 'https://auction.ucdp-smolian.com/au-admin/history/order/' + el.cells[8].querySelector('a').href.split('/').pop() + cancelOrder;
+
+            const iFrameByuer = document.createElement('iframe');
+            const iFrameCancel = document.createElement('iframe');
+            iFrameByuer.id = 'iFrameByuer';
+            iFrameCancel.id = 'iFrameCancel';
+            iFrameByuer.style.display = 'none';
+            iFrameCancel.style.display = 'none';
+
+            //appends iFrame element if missing, else reloads frame in first cell on the row
+            if (el.cells[2].querySelector("iFrame") === null) {
+                el.cells[2].appendChild(iFrameByuer);
+                el.cells[2].appendChild(iFrameCancel);
+                iFrameByuer.src = orderByuerLink;
+                iFrameCancel.src = orderCancelLink;
+            } else {
+                el.cells[2].querySelectorAll("iframe").contentWindow.location.reload();
+            }
+
+            // iFrame.onload = function () {
+
+            //     setTimeout(() => {
+            //         console.log('🚀 ~ orderFrames ~ iFrame.contentWindow.document.querySelectorAll("h4"): LOADED\n', iFrame.contentDocument.querySelectorAll("h4").innerText);
+            //     }, 2000);
+            // }
+        }
+    })
+
 }
 
 // called in setAuctionsClasses()
@@ -234,15 +273,17 @@ function infoBarClick() {
     let order = "https://auction.ucdp-smolian.com/au-admin/history/erasedOrder/";
     let protocol = "https://auction.ucdp-smolian.com/au-admin/history/erasedProtocol/";
     let form = "https://auction.ucdp-smolian.com/au-admin/auctions/form/";
-    let date = new Date().getDate() + "." + (new Date().getMonth() + 1) + "." + new Date().getFullYear();
+    let date = '';
     auctionsTable.forEach(element => {
         if (element.className === this.id) {
             console.log(element.cells[0].innerText, element.className)
             if (this.id === 'future') {
+                date = getProtocolDate(element.querySelector('#iFrameByuer'),element.querySelector('#iFrameCancel'), element);
                 window.open(protocol + element.cells[8].querySelector('a').href.split('/').pop() + "/" + date, '_blank');
                 window.open(order + element.cells[8].querySelector('a').href.split('/').pop() + "/" + date + "/?t=c", '_blank');
                 window.open(form + element.cells[0].innerText.slice(-4), '_blank');
             } else {
+                date = getProtocolDate(element.querySelector('#iFrameByuer'),element.querySelector('#iFrameCancel'), element);
                 window.open(protocol + element.cells[8].querySelector('a').href.split('/').pop() + "/" + date, '_blank');
                 window.open(order + element.cells[8].querySelector('a').href.split('/').pop() + "/" + date + "/?t=b", '_blank');
                 window.open(form + element.cells[0].innerText.slice(-4), '_blank');
@@ -251,12 +292,32 @@ function infoBarClick() {
     })
 }
 
+// called in infoBarClick()
+// gets date for generated protocol based on order frame
+function getProtocolDate(byuerOrderFrame, cancelOrderFrame, auction) {
+    let orderDate = ''
+    if (byuerOrderFrame.contentDocument.querySelector('h4').innerText.includes("Преглед")) {
+        let orderText = byuerOrderFrame.contentDocument.querySelector('tbody').innerText;
+        let orderDatePosition = orderText.indexOf("утвърден на");
+        orderDate = orderText.slice(orderDatePosition + 12, orderDatePosition + 22).trim();
+        auction.cells[3].style.backgroundColor = "lime";
+    } else if (cancelOrderFrame.contentDocument.querySelector('h4').innerText.includes("Преглед")) {
+        let orderText = cancelOrderFrame.contentDocument.querySelector('tbody').innerText;
+        let orderDatePosition = orderText.indexOf("утвърден на");
+        orderDate = orderText.slice(orderDatePosition + 12, orderDatePosition + 22).trim();
+        auction.cells[3].style.backgroundColor = "lime";
+    } else {
+        auction.cells[3].style.backgroundColor = "pink";
+    }
+    return orderDate;
+}
+
 function barmouseover() {
     console.log("mouseover", this.id);
     auctionsTable.forEach(el => {
         if (el.className === this.id) {
             // console.log(el.cells[0].innerText);
-
+            getProtocolDate(el.querySelector('#iFrameByuer'),el.querySelector('#iFrameCancel'), el)
             // highlight the mouseover target
             this.classList.add('mouseHover')
             auctionsTable.forEach(element => {
