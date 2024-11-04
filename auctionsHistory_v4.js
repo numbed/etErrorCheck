@@ -82,8 +82,8 @@ function linksInFirstCells() {
         let aucNumber = el.cells[0].innerText;
         let aucLink = "https://auction.ucdp-smolian.com/au-admin/auctions/form/" + aucNumber.slice(2);
         let aucProtocol = 'https://auction.ucdp-smolian.com/au-admin/history/erasedProtocol/' + el.cells[8].querySelector('a').href.split('/').pop() + "/" + date;
-        let aucOrderB = 'https://auction.ucdp-smolian.com/au-admin/history/order/' + el.cells[8].querySelector('a').href.split('/').pop() + "/" + date + "?t=b";
-        let aucOrderC = 'https://auction.ucdp-smolian.com/au-admin/history/order/' + el.cells[8].querySelector('a').href.split('/').pop() + "/" + date + "?t=c";
+        let aucOrderB = 'https://auction.ucdp-smolian.com/au-admin/history/erasedOrder/' + el.cells[8].querySelector('a').href.split('/').pop() + "/" + date + "?t=b";
+        let aucOrderC = 'https://auction.ucdp-smolian.com/au-admin/history/erasedOrder/' + el.cells[8].querySelector('a').href.split('/').pop() + "/" + date + "?t=c";
 
         el.cells[0].innerHTML = '<a href="' + aucLink + '" target="_blank">' + aucNumber;
         el.cells[1].innerHTML += '</a><br><span id="docPillContainer">' + '<a id="docPill" href="' + aucProtocol + '" target="_blank">П</а><a id="docPill" name="orderB" href="' + aucOrderB + '" target="_blank">ЗК</а><a id="docPill" name="orderC" href="' + aucOrderC + '" target="_blank">ЗП</а></span>';
