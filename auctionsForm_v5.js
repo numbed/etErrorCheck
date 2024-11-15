@@ -77,10 +77,17 @@
     //removes the need to populate TITLE and DESCRIPTION input fields before saving new auction
     function auctionSave() {
         console.log("-------------------------------------------------------auctionSave()");
-        if (confirm("SAVE?")) {
-            // alert("SAVED");
-            document.querySelector('button.btn.btn-success').click();
-        }
+        window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: 'smooth' // Optional: Add smooth scrolling effect
+        });
+
+        setTimeout(() => {
+            if (confirm("SAVE?")) {
+                // alert("SAVED");
+                document.querySelector('button.btn.btn-success').click();
+            }
+        }, 500);
     }
 
     //to be used when entering info for new auctions
@@ -341,7 +348,7 @@
                 let commUsers = ids.split(",");
                 // title = "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t" + tp.value.split("/")[0] + " " + document.querySelector("input[name='data[woodInfo][number][0]']").value + "\nНазначете комисия в състав: \n" + "ПРЕДСЕДАТЕЛ:" + name(commUsers[0]) + "\nЮРИСТ:" + name(commUsers[1]) + "\nЧЛЕН:" +  name(commUsers[2]) + '\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n';
 
-                title =  "ПРЕДСЕДАТЕЛ:" + name(commUsers[0]) + "\nЮРИСТ:" + name(commUsers[1]) + "\nЧЛЕН:" + name(commUsers[2]) + '\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n';
+                title = "ПРЕДСЕДАТЕЛ:" + name(commUsers[0]) + "\nЮРИСТ:" + name(commUsers[1]) + "\nЧЛЕН:" + name(commUsers[2]) + '\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n';
 
                 function name(n) {
                     for (i = 1; i < chairman.length; i++) {
