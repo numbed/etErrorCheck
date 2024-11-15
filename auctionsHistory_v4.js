@@ -270,26 +270,43 @@ function createInfoBar(el) {
 
 function infoBarClick() {
     console.log("clicked", this.id, this.innerText);
+    let date = '';
     let order = "https://auction.ucdp-smolian.com/au-admin/history/erasedOrder/";
     let protocol = "https://auction.ucdp-smolian.com/au-admin/history/erasedProtocol/";
     let form = "https://auction.ucdp-smolian.com/au-admin/auctions/form/";
-    let date = '';
-    auctionsTable.forEach(element => {
-        if (element.className === this.id) {
-            console.log(element.cells[0].innerText, element.className)
-            if (this.id === 'future') {
-                date = getProtocolDate(element.querySelector('#iFrameByuer'),element.querySelector('#iFrameCancel'), element);
-                window.open(protocol + element.cells[8].querySelector('a').href.split('/').pop() + "/" + date, '_blank');
-                window.open(order + element.cells[8].querySelector('a').href.split('/').pop() + "/" + date + "/?t=c", '_blank');
-                window.open(form + element.cells[0].innerText.slice(-4), '_blank');
-            } else {
-                date = getProtocolDate(element.querySelector('#iFrameByuer'),element.querySelector('#iFrameCancel'), element);
-                window.open(protocol + element.cells[8].querySelector('a').href.split('/').pop() + "/" + date, '_blank');
-                window.open(order + element.cells[8].querySelector('a').href.split('/').pop() + "/" + date + "/?t=b", '_blank');
-                window.open(form + element.cells[0].innerText.slice(-4), '_blank');
+    auctionsTable.forEach(row => {
+        if (row.className === this.id) {
+            console.log(row.cells[0].innerText, row.className);
+            let buyerPill = row.cells[1].querySelector('a[name="orderB"]');
+            let cancelPill = row.cells[1].querySelector('a[name="orderC"]');
+            if (buyerPill.style.backgroundColor === 'green' || cancelPill.style.backgroundColor === "green") {
+                date = getProtocolDate(row.querySelector('#iFrameByuer'), row.querySelector('#iFrameCancel'), row);
+                window.open(protocol + row.cells[8].querySelector('a').href.split('/').pop() + "/" + date, '_blank');
+
+                if (buyerPill.style.backgroundColor === 'green') {
+                    window.open(order + row.cells[8].querySelector('a').href.split('/').pop() + "/" + date + "/?t=b", '_blank');
+                } else if (cancelPill.style.backgroundColor === 'green') {
+                    window.open(order + row.cells[8].querySelector('a').href.split('/').pop() + "/" + date + "/?t=c", '_blank');
+                }
+
+                window.open(form + row.cells[0].innerText.slice(-4), '_blank');
             }
         }
-    })
+    });
+
+    // auctionsTable.forEach(element => {
+    //     if (element.className === this.id) {
+    //         console.log(element.cells[0].innerText, element.className)
+    //         if (this.id === 'future') {
+    //             date = getProtocolDate(element.querySelector('#iFrameByuer'),element.querySelector('#iFrameCancel'), element);
+    //         } else {
+    //             date = getProtocolDate(element.querySelector('#iFrameByuer'),element.querySelector('#iFrameCancel'), element);
+    //             window.open(protocol + element.cells[8].querySelector('a').href.split('/').pop() + "/" + date, '_blank');
+    //             window.open(order + element.cells[8].querySelector('a').href.split('/').pop() + "/" + date + "/?t=b", '_blank');
+    //             window.open(form + element.cells[0].innerText.slice(-4), '_blank');
+    //         }
+    //     }
+    // })
 }
 
 // called in infoBarClick()
@@ -315,11 +332,11 @@ function getProtocolDate(byuerOrderFrame, cancelOrderFrame, auction) {
 }
 
 function barmouseover() {
-    console.log("mouseover", this.id);
+    // console.log("mouseover", this.id);
     auctionsTable.forEach(el => {
         if (el.className === this.id) {
             // console.log(el.cells[0].innerText);
-            getProtocolDate(el.querySelector('#iFrameByuer'),el.querySelector('#iFrameCancel'), el)
+            getProtocolDate(el.querySelector('#iFrameByuer'), el.querySelector('#iFrameCancel'), el)
             // highlight the mouseover target
             this.classList.add('mouseHover')
             auctionsTable.forEach(element => {
