@@ -498,6 +498,11 @@
     //add option to rename documents if there are no select fields in #auctionDocuments
     function docsRename() {
         console.log("-------------------------------------------------------docRename()");
+        window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: 'smooth' // Optional: Add smooth scrolling effect
+        });
+
         let docs = document.querySelector("#auctionDocuments").querySelectorAll('a');
         let promptValue = "";
         docs.forEach((el, index) => {
