@@ -825,6 +825,7 @@ function assingedCommissionCheck(loadedFrame, classN, lastCell, tpCell) {
             lastCell.style.backgroundColor = "#9eb3c6";
             tpCell.style.fontWeight = "normal";
             tpCell.style.color = "#676a6c";
+            tpCell.querySelector("#offersTotal").style.backgroundColor="#676a6c";
         }
     }
 
