@@ -248,7 +248,7 @@
                 input = prompt(promptTitlefuntion(input), input);
                 coNumber.value = "З-13-" + prompt("Номер на заповед за комисия:");
             } else if (tp.value.includes("Михалково")) {
-                input = "482,417,543";
+                input = "367,417,543";
                 input = prompt(promptTitlefuntion(input), input);
                 coNumber.value = "З-14-" + prompt("Номер на заповед за комисия:");
             } else if (tp.value.includes("Момчилград")) {
