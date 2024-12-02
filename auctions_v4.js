@@ -761,26 +761,36 @@ function createIFrames() {
 function offersCheck(loadedFrame, tpCell) {
     let form = loadedFrame.querySelector('form');
     let approvedOffers = [];
+    let approvedOffersNames = '';
     let refusedOffers = [];
+    let refusedOffersNames = '';
+    let offersTotalNames = '';
     if (form.innerText.includes("Заявки")) {
         let offers = form.querySelectorAll('table');
         let offersTable = offers.length - 1;
-        let offersTotal = form.querySelectorAll('table')[offersTable].querySelector('tbody').querySelectorAll('tr')
-        offersTotal.forEach(order => {
-            if (order.cells[3].innerText.includes("Одобрена")) {
-                approvedOffers.push(order.cells[0].innerText);
+        let offersTotal = form.querySelectorAll('table')[offersTable].querySelector('tbody').querySelectorAll('tr');
+        offersTotal.forEach(offer => {
+            offersTotalNames += offer.cells[2].innerText.split("/")[0] + "\n";
+            if (offer.cells[3].innerText.includes("Одобрена")) {
+                approvedOffers.push(offer.cells[2].innerText.split("/")[0]);
             }
-            if (order.cells[3].innerText.includes("Отхвърлена")) {
-                refusedOffers.push(order.cells[0].innerText);
+            if (offer.cells[3].innerText.includes("Отхвърлена")) {
+                refusedOffers.push(offer.cells[2].innerText.split("/")[0]);
             }
         })
-        console.log(refusedOffers)
+        approvedOffers.forEach(item => {
+            approvedOffersNames += item + "\n";
+        });
+        refusedOffers.forEach(item => {
+            refusedOffersNames += item + "\n";
+        });
         if ((approvedOffers.length + refusedOffers.length) == offersTotal.length) {
             tpCell.querySelector("#offersTotal").remove();
         } else {
             tpCell.querySelector("#offersTotal").innerText = offersTotal.length;
             tpCell.querySelector("#offersTotal").style.backgroundColor = "black";
             tpCell.querySelector("#offersTotal").style.color = "white";
+            // tpCell.querySelector("#offersTotal").title = offersTotalNames;
         }
 
         if (approvedOffers.length == '0') {
@@ -788,6 +798,7 @@ function offersCheck(loadedFrame, tpCell) {
         } else {
             tpCell.querySelector("#approvedOffers").innerText = approvedOffers.length;
             tpCell.querySelector("#approvedOffers").style.backgroundColor = "green";
+            tpCell.querySelector("#approvedOffers").title = approvedOffersNames;
         }
 
         if (refusedOffers.length == '0') {
@@ -795,6 +806,7 @@ function offersCheck(loadedFrame, tpCell) {
         } else {
             tpCell.querySelector("#refusedOffers").innerText = refusedOffers.length;
             tpCell.querySelector("#refusedOffers").style.backgroundColor = "red";
+            tpCell.querySelector("#refusedOffers").title = refusedOffersNames;
         }
         // tpCell.innerHTML += "<br> Оферти: " + offersTotal.length + " ( " + approvedOffers.length + " | " + refusedOffers.length + " )";
     } else {
@@ -825,7 +837,7 @@ function assingedCommissionCheck(loadedFrame, classN, lastCell, tpCell) {
             lastCell.style.backgroundColor = "#9eb3c6";
             tpCell.style.fontWeight = "normal";
             tpCell.style.color = "#676a6c";
-            tpCell.querySelector("#offersTotal").style.backgroundColor="#676a6c";
+            tpCell.querySelector("#offersTotal").style.backgroundColor = "#676a6c";
         }
     }
 
