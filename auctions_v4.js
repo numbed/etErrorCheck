@@ -557,7 +557,7 @@ function populateTables() { //called in main()
                     if (isItZero(docs.length) != 0) {
                         let docinfTitle = '';
                         docs.forEach(item => {
-                            docinfTitle += item.name + ' ' + item.date + "\n";
+                            docinfTitle += `${item.name} / ${item.date}\n`;
                         });
                         docinf.title = docinfTitle;
                     }
@@ -608,35 +608,39 @@ function populateTables() { //called in main()
                 }
 
                 function aucDocsCheck(element, docs, id) {
-                    const contr = document.createElement('span');
-                    contr.style.opacity = "1";
+                    const containerPill = document.createElement('span');
+                    containerPill.style.opacity = "1";
                     docs.forEach(doc => {
                         if (doc.name.includes('Договор')) {
-                            contr.innerText = "Д";
-                            contr.style.backgroundColor = "green";
-                            element.querySelector('#docsLengthInfo').appendChild(contr);
+                            containerPill.innerText = "Д";
+                            containerPill.style.backgroundColor = "green";
+                            containerPill.title = doc.download.split(".")[0] + "\nПубликуван на: " + doc.date; //shows file name in tooltip and published date
+                            containerPill.onclick = function () {   //opens the document in new tab when pill is clicked
+                                window.open(doc.link, "_blank", "noopener,noreferrer");
+                            };
+                            element.querySelector('#docsLengthInfo').appendChild(containerPill);
                         }
                         if (doc.name.includes('pdf') || doc.name.includes('rar')) {
-                            contr.innerText = "PDF";
-                            contr.style.backgroundColor = "black";
-                            element.querySelector('#docsLengthInfo').appendChild(contr);
+                            containerPill.innerText = "PDF";
+                            containerPill.style.backgroundColor = "black";
+                            element.querySelector('#docsLengthInfo').appendChild(containerPill);
                         }
                         if (doc.name.includes('изпълнител')) {
-                            contr.innerText = "ЗИ";
-                            contr.style.backgroundColor = "red";
-                            element.querySelector('#docsLengthInfo').appendChild(contr);
+                            containerPill.innerText = "ЗИ";
+                            containerPill.style.backgroundColor = "red";
+                            element.querySelector('#docsLengthInfo').appendChild(containerPill);
                         }
                     })
                 }
                 if (el.documents.length != 0) {
-                    aucDocsCheck(element, el.documents, 'contr')
+                    aucDocsCheck(element, el.documents, 'containerPill')
                 }
 
                 function documentsDisplay() {
                     if (el.documents.length != 0) {
                         el.documents.forEach(doc => {
                             let docSpan = document.createElement('a')
-                            docSpan.innerText = doc.name + " " + doc.date;
+                            docSpan.innerText = `${doc.name} ${doc.date}`;
                             docSpan.href = doc.link;
                             docSpan.title = doc.download;
                             docSpan.download = doc.download;
