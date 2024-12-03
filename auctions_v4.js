@@ -615,7 +615,7 @@ function populateTables() { //called in main()
                             containerPill.innerText = "Д";
                             containerPill.style.backgroundColor = "green";
                             containerPill.title = doc.download.split(".")[0] + "\nПубликуван на: " + doc.date; //shows file name in tooltip and published date
-                            containerPill.onclick = function () {   //opens the document in new tab when pill is clicked
+                            containerPill.onclick = function () { //opens the document in new tab when pill is clicked
                                 window.open(doc.link, "_blank", "noopener,noreferrer");
                             };
                             element.querySelector('#docsLengthInfo').appendChild(containerPill);
@@ -1271,9 +1271,9 @@ b.commission {
     font-family: Helvetica, Arial, sans-serif;
     display: flex;
     margin-right: 15px;
-    width: 700px;
-    left: 35%;
-    right: 35%;
+    width: 900px;
+    left: 30%;
+    right: 30%;
     margin-top: 0px;
 }
 
