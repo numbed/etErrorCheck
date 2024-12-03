@@ -1,26 +1,35 @@
-document.querySelector('.navbar-minimalize.minimalize-styl-2.btn.btn-primary').click()
+document
+    .querySelector(".navbar-minimalize.minimalize-styl-2.btn.btn-primary")
+    .click();
 console.clear();
-console.log('auctions_v4');
-let auctionsTable = document.querySelector('tbody').querySelectorAll('tr');
+console.log("auctions_v4");
+let auctionsTable = document.querySelector("tbody").querySelectorAll("tr");
 let today = new Date();
 let auctions = [];
 
 //toast shits
-const toastContainer = document.createElement('div');
-toastContainer.className = 'toast-container';
-document.querySelector('.navbar-header').appendChild(toastContainer);
+const toastContainer = document.createElement("div");
+toastContainer.className = "toast-container";
+document.querySelector(".navbar-header").appendChild(toastContainer);
 //toast shits end
 
-
 //infobar shits
-const infoContainer = document.createElement('div')
-infoContainer.className = 'info-container';
-let nav = document.querySelector(".navbar.navbar-static-top.white-bg")
+const infoContainer = document.createElement("div");
+infoContainer.className = "info-container";
+let nav = document.querySelector(".navbar.navbar-static-top.white-bg");
 nav.insertBefore(infoContainer, nav.children[1]);
 //infobar shits end
 
-let textToBeReplaced = ['търг', 'конкурс', 'ценово', 'добив', 'корен', 'действително добити', 'прогнозни'];
-let auctionsErrors = ['конкурс', 'ценово'];
+let textToBeReplaced = [
+    "търг",
+    "конкурс",
+    "ценово",
+    "добив",
+    "корен",
+    "действително добити",
+    "прогнозни",
+];
+let auctionsErrors = ["конкурс", "ценово"];
 
 // let auctionDocumetsTable = [{
 //         id: 'docs',
@@ -34,109 +43,125 @@ let auctionsErrors = ['конкурс', 'ценово'];
 //         title: '2ри купувач'
 //     }
 // ]
-let offersTable = [{
-        id: 'offersTotal',
+let offersTable = [
+    {
+        id: "offersTotal",
         title: "общо",
-        color: 'black'
+        color: "black",
     },
     {
-        id: 'approvedOffers',
+        id: "approvedOffers",
         title: "одобрени",
-        color: 'green'
-    }, {
-        id: 'refusedOffers',
+        color: "green",
+    },
+    {
+        id: "refusedOffers",
         title: "отхвърлени",
-        color: 'red'
-    }
-]
-let auctionDocumetsTable = [{
-    id: 'docs',
-    title: 'Документи'
-}];
-let woodsTable = [{
-        id: 'big',
-        title: 'едра'
-    }, {
-        id: 'mid',
-        title: 'средна'
+        color: "red",
+    },
+];
+let auctionDocumetsTable = [
+    {
+        id: "docs",
+        title: "Документи",
+    },
+];
+let woodsTable = [
+    {
+        id: "big",
+        title: "едра",
     },
     {
-        id: 'small',
-        title: 'дребна'
+        id: "mid",
+        title: "средна",
     },
     {
-        id: 'ozm',
-        title: 'ОЗМ'
+        id: "small",
+        title: "дребна",
     },
     {
-        id: 'firewood',
-        title: 'огрев'
+        id: "ozm",
+        title: "ОЗМ",
     },
     {
-        id: 'total',
-        title: 'общо'
-    },
-]
-let priceTable = [{
-    id: "bidStep",
-    title: "стъпка"
-}, {
-    id: "guarantee",
-    title: "гаранция"
-}, {
-    id: "percentage",
-    title: "процент"
-}]
-let infoTable = [{
-        id: 'frames',
-        title: 'заредени',
-        color: 'blue'
+        id: "firewood",
+        title: "огрев",
     },
     {
-        id: 'errors',
-        title: 'грешки',
-        color: 'black'
+        id: "total",
+        title: "общо",
+    },
+];
+let priceTable = [
+    {
+        id: "bidStep",
+        title: "стъпка",
     },
     {
-        id: 'notPublished',
-        title: 'непубликувани',
-        color: '#FFBB5C'
+        id: "guarantee",
+        title: "гаранция",
     },
     {
-        id: 'future',
-        title: 'бъдещи',
-        color: '#E25E3E'
+        id: "percentage",
+        title: "процент",
+    },
+];
+let infoTable = [
+    {
+        id: "frames",
+        title: "заредени",
+        color: "blue",
     },
     {
-        id: 'today',
-        title: 'днешни',
-        color: '#D1462F'
+        id: "errors",
+        title: "грешки",
+        color: "black",
     },
     {
-        id: 'passed',
-        title: 'минали',
-        color: '#81B622'
+        id: "notPublished",
+        title: "непубликувани",
+        color: "#FFBB5C",
     },
     {
-        id: 'commission',
-        title: 'комисии',
-        color: '#040D12'
+        id: "future",
+        title: "бъдещи",
+        color: "#E25E3E",
     },
     {
-        id: 'danger',
-        title: 'прекратени',
-        color: '#C70039'
+        id: "today",
+        title: "днешни",
+        color: "#D1462F",
     },
     {
-        id: 'seconds',
-        title: 'секунди',
-        color: 'black'
+        id: "passed",
+        title: "минали",
+        color: "#81B622",
     },
     {
-        id: 'fileCheck',
-        title: 'проверка',
-        color: '#ccffcc'
-    }
+        id: "commission",
+        title: "комисии",
+        color: "#040D12",
+    },
+    {
+        id: "danger",
+        title: "прекратени",
+        color: "#C70039",
+    },
+    {
+        id: "seconds",
+        title: "секунди",
+        color: "black",
+    },
+    {
+        id: "fileCheck",
+        title: "проверка",
+        color: "#ccffcc",
+    },
+    {
+        id: "firstOrderCheck",
+        title: "заповед_1ви?",
+        color: "#80b3ff",
+    },
 ];
 
 // counter for loaded iframes
@@ -147,32 +172,34 @@ function main() {
     auctionPublish();
 
     // coloring table if there are errors
-    auctionsTable.forEach(item => {
+    auctionsTable.forEach((item) => {
         // changes cell color if auction is in the array
-        auctionsErrors.forEach(el => {
+        auctionsErrors.forEach((el) => {
             if (item.cells[4].innerText.includes(el)) {
-                item.cells[4].style.color = 'white'
-                item.cells[4].style.backgroundColor = 'red'
+                item.cells[4].style.color = "white";
+                item.cells[4].style.backgroundColor = "red";
             }
-        })
+        });
 
         item.cells[4].innerHTML += '<span id="docsLengthInfo"></span>';
         // replaces text in the array with uppercase
-        textToBeReplaced.forEach(el => {
-            item.cells[4].innerHTML = item.cells[4].innerHTML.replace(el, el.toUpperCase().bold())
-        })
-    })
+        textToBeReplaced.forEach((el) => {
+            item.cells[4].innerHTML = item.cells[4].innerHTML.replace(
+                el,
+                el.toUpperCase().bold()
+            );
+        });
+    });
 
     // infoBar add cells
     let timeoutMS = 0;
     infoTable.forEach((el, index) => {
-        index++
+        index++;
         setTimeout(() => {
-            createInfoBar(el)
-
+            createInfoBar(el);
         }, timeoutMS);
         timeoutMS += 200;
-    })
+    });
 
     setTimeout(() => {
         addToInfoBar();
@@ -190,22 +217,24 @@ function main() {
     // check if loaded frames are equal to number of auctions on page, after specific time
     startCountdown(10);
     setTimeout(() => {
-        console.log("timeout")
+        console.log("timeout");
         if (counter === auctionsTable.length) {
             uploadedFilesCheck();
             addToInfoBar(); // update #infoTable after auctions file check
             populateTables();
             createButton();
-            document.querySelector('#infoButtonContainer').style.display = '';
+            document.querySelector("#infoButtonContainer").style.display = "";
         } else {
             startCountdown(75);
             setTimeout(() => {
-                console.log("timeout2")
+                console.log("timeout2");
                 if (counter === auctionsTable.length) {
                     uploadedFilesCheck();
                     addToInfoBar(); // update #infoTable after auctions file check
-                    populateTables()
-                    document.querySelector('#infoButtonContainer').style.display = '';
+                    populateTables();
+                    document.querySelector(
+                        "#infoButtonContainer"
+                    ).style.display = "";
                 }
             }, 75000);
         }
@@ -220,17 +249,19 @@ function main() {
 main();
 
 function startCountdown(seconds) {
-    console.log('🚀 ~ startCountdown ~ startCountdown: LOADED');
+    console.log("🚀 ~ startCountdown ~ startCountdown: LOADED");
 
     let secCounter = seconds;
     const interval = setInterval(() => {
-        let secondsInfo = document.querySelector(".info-container").querySelector("#seconds");
+        let secondsInfo = document
+            .querySelector(".info-container")
+            .querySelector("#seconds");
         secondsInfo.innerText = secCounter;
         secCounter--;
 
         if (secCounter < 0) {
             clearInterval(interval);
-            secondsInfo.innerText = 'Ding!';
+            secondsInfo.innerText = "Ding!";
         }
     }, 1000);
 }
@@ -239,23 +270,27 @@ function startCountdown(seconds) {
 // called in main()
 function createButton() {
     // Create container element
-    const div = document.createElement('div');
-    div.id = 'infoButtonContainer';
+    const div = document.createElement("div");
+    div.id = "infoButtonContainer";
     // div.style.display = 'none';
     // let nav = document.querySelector(".navbar.navbar-static-top.white-bg")
     // nav.insertBefore(div, nav.children[1])
-    document.querySelector('thead').querySelector('th').querySelector('div').appendChild(div);
+    document
+        .querySelector("thead")
+        .querySelector("th")
+        .querySelector("div")
+        .appendChild(div);
 
     // Create a button element
-    const button = document.createElement('a');
-    button.id = 'infoButton';
-    button.className = 'btn btn-success pull-left';
+    const button = document.createElement("a");
+    button.id = "infoButton";
+    button.className = "btn btn-success pull-left";
 
     // Set the button's text
-    button.textContent = 'HIDE';
+    button.textContent = "HIDE";
 
     // Add an event listener to the button
-    button.addEventListener('click', buttonClick);
+    button.addEventListener("click", buttonClick);
 
     // Append the button to a container element
     div.appendChild(button);
@@ -263,34 +298,33 @@ function createButton() {
 
 // called in createButton()
 function buttonClick() {
-    console.log('clicked: button')
-    let button = document.querySelector('#infoButton')
+    console.log("clicked: button");
+    let button = document.querySelector("#infoButton");
     if (button.innerText === "SHOW") {
         button.innerText = "HIDE";
-        document.querySelectorAll("#woods-pills").forEach(el => {
-            el.style.display = "flex"
-        })
-        document.querySelectorAll("#price-pills").forEach(el => {
-            el.style.display = "flex"
-        })
-        document.querySelectorAll("#docsLengthInfo").forEach(el => {
-            el.style.display = "flex"
-        })
-
+        document.querySelectorAll("#woods-pills").forEach((el) => {
+            el.style.display = "flex";
+        });
+        document.querySelectorAll("#price-pills").forEach((el) => {
+            el.style.display = "flex";
+        });
+        document.querySelectorAll("#docsLengthInfo").forEach((el) => {
+            el.style.display = "flex";
+        });
     } else if (button.innerText === "HIDE") {
         button.innerText = "SHOW";
-        document.querySelectorAll("#woods-pills").forEach(el => {
-            el.style.display = "none"
-        })
-        document.querySelectorAll("#price-pills").forEach(el => {
-            el.style.display = "none"
-        })
-        document.querySelectorAll("#docsLengthInfo").forEach(el => {
-            el.style.display = "none"
-        })
-        document.querySelectorAll(".customContainer").forEach(el => {
-            el.style.display = "none"
-        })
+        document.querySelectorAll("#woods-pills").forEach((el) => {
+            el.style.display = "none";
+        });
+        document.querySelectorAll("#price-pills").forEach((el) => {
+            el.style.display = "none";
+        });
+        document.querySelectorAll("#docsLengthInfo").forEach((el) => {
+            el.style.display = "none";
+        });
+        document.querySelectorAll(".customContainer").forEach((el) => {
+            el.style.display = "none";
+        });
     }
 }
 //BUTTON FUNCTIONS END
@@ -299,39 +333,68 @@ function buttonClick() {
 function toastCheck() {
     //creating toast notifications if needed
     let timeoutMS = 50;
-    if ((isItZero(arrayCounter().future) + isItZero(arrayCounter().notPublished)) != 0) {
+    if (
+        isItZero(arrayCounter().future) +
+            isItZero(arrayCounter().notPublished) !=
+        0
+    ) {
         setTimeout(() => {
-            createToast('бъдещи: ', 'toast-future', isItZero(arrayCounter().future) + isItZero(arrayCounter().notPublished))
+            createToast(
+                "бъдещи: ",
+                "toast-future",
+                isItZero(arrayCounter().future) +
+                    isItZero(arrayCounter().notPublished)
+            );
         }, timeoutMS);
         timeoutMS += 300;
     }
     if (isItZero(arrayCounter().notPublished) != 0) {
         setTimeout(() => {
-            createToast('непубликувани: ', 'toast-notPublished', isItZero(arrayCounter().notPublished))
+            createToast(
+                "непубликувани: ",
+                "toast-notPublished",
+                isItZero(arrayCounter().notPublished)
+            );
         }, timeoutMS);
         timeoutMS += 300;
     }
     if (isItZero(arrayCounter().today) != 0) {
         setTimeout(() => {
-            createToast('срок [днес]: ', 'toast-today', isItZero(arrayCounter().today))
+            createToast(
+                "срок [днес]: ",
+                "toast-today",
+                isItZero(arrayCounter().today)
+            );
         }, timeoutMS);
         timeoutMS += 300;
     }
     if (isItZero(arrayCounter().commission) != 0) {
         setTimeout(() => {
-            createToast('комисии: ', 'toast-commission', isItZero(arrayCounter().commission))
+            createToast(
+                "комисии: ",
+                "toast-commission",
+                isItZero(arrayCounter().commission)
+            );
         }, timeoutMS);
         timeoutMS += 300;
     }
     if (isItZero(arrayCounter().danger) != 0) {
         setTimeout(() => {
-            createToast('прекратени:', 'toast-danger', isItZero(arrayCounter().danger))
+            createToast(
+                "прекратени:",
+                "toast-danger",
+                isItZero(arrayCounter().danger)
+            );
         }, timeoutMS);
         timeoutMS += 300;
     }
     if (isItZero(arrayCounter().passed) != 0) {
         setTimeout(() => {
-            createToast('минали: ', 'toast-passed', isItZero(arrayCounter().passed))
+            createToast(
+                "минали: ",
+                "toast-passed",
+                isItZero(arrayCounter().passed)
+            );
         }, timeoutMS);
         timeoutMS += 300;
     }
@@ -344,42 +407,40 @@ function showToast() {
 
 function closeToast() {
     var toast = document.getElementById("toast");
-    console.log('click', this.parentElement.className.split('-')[1]);
-    this.parentElement.classList.remove('show');
-
+    console.log("click", this.parentElement.className.split("-")[1]);
+    this.parentElement.classList.remove("show");
 }
 
 function tabOpen() {
-    parentClass = this.className.split('-')[1];
-    auctionsTable.forEach(el => {
+    parentClass = this.className.split("-")[1];
+    auctionsTable.forEach((el) => {
         if (el.className === parentClass) {
-            let link = el.querySelectorAll('td')[7].querySelector('a').href;
+            let link = el.querySelectorAll("td")[7].querySelector("a").href;
             window.open(link, "_blank");
         }
-    })
+    });
 }
 
 function createToast(head, classN, number) {
-
-    const toast = document.createElement('div');
-    toast.className = 'toast'
+    const toast = document.createElement("div");
+    toast.className = "toast";
     toast.style.display = "block";
-    toast.classList.add('show');
+    toast.classList.add("show");
     toast.classList.add(classN);
 
-    const toastHead = document.createElement('div');
+    const toastHead = document.createElement("div");
     toastHead.textContent = head;
     toastHead.onclick = tabOpen;
 
-    const toastInfo = document.createElement('div');
+    const toastInfo = document.createElement("div");
     toastInfo.innerHTML = number;
     toastInfo.classList.add(classN);
     toastInfo.onclick = tabOpen;
 
-    const closeButton = document.createElement('div');
+    const closeButton = document.createElement("div");
     closeButton.onclick = closeToast;
-    closeButton.innerText = 'x';
-    closeButton.className = 'close-button'
+    closeButton.innerText = "x";
+    closeButton.className = "close-button";
 
     toast.appendChild(toastHead);
     toast.appendChild(toastInfo);
@@ -394,118 +455,214 @@ function createToast(head, classN, number) {
 }
 //TOAST FUNCTIONS
 
-
 //INFOBAR FUNCTIONS
 function addToInfoBar() {
     let cont = document.querySelector(".info-container");
 
     if (isItZero(arrayCounter().error) === 0) {
-        cont.querySelector('#errors').classList.remove('show-info-cell')
-        cont.querySelector('#errors').classList.textContent = '';
+        cont.querySelector("#errors").classList.remove("show-info-cell");
+        cont.querySelector("#errors").classList.textContent = "";
     } else {
-        cont.querySelector('#errors').classList.add('show-info-cell')
-        cont.querySelector('#errors').innerHTML = isItZero(arrayCounter().error)
+        cont.querySelector("#errors").classList.add("show-info-cell");
+        cont.querySelector("#errors").innerHTML = isItZero(
+            arrayCounter().error
+        );
     }
 
     if (isItZero(arrayCounter().danger) === 0) {
-        cont.querySelector('#danger').classList.remove('show-info-cell')
-        cont.querySelector('#danger').classList.textContent = '';
+        cont.querySelector("#danger").classList.remove("show-info-cell");
+        cont.querySelector("#danger").classList.textContent = "";
     } else {
-        cont.querySelector('#danger').classList.add('show-info-cell')
-        cont.querySelector('#danger').innerHTML = isItZero(arrayCounter().danger)
+        cont.querySelector("#danger").classList.add("show-info-cell");
+        cont.querySelector("#danger").innerHTML = isItZero(
+            arrayCounter().danger
+        );
     }
 
     if (isItZero(arrayCounter().notPublished) === 0) {
-        cont.querySelector('#notPublished').classList.remove('show-info-cell')
-        cont.querySelector('#notPublished').classList.textContent = '';
+        cont.querySelector("#notPublished").classList.remove("show-info-cell");
+        cont.querySelector("#notPublished").classList.textContent = "";
     } else {
-        cont.querySelector('#notPublished').classList.add('show-info-cell')
-        cont.querySelector('#notPublished').innerHTML = isItZero(arrayCounter().notPublished) + isItZero(arrayCounter().today)
+        cont.querySelector("#notPublished").classList.add("show-info-cell");
+        cont.querySelector("#notPublished").innerHTML =
+            isItZero(arrayCounter().notPublished) +
+            isItZero(arrayCounter().today);
     }
 
-    if ((isItZero(arrayCounter().future) + isItZero(arrayCounter().notPublished)) === 0) {
-        cont.querySelector('#future').classList.remove('show-info-cell')
-        cont.querySelector('#future').textContent = '';
+    if (
+        isItZero(arrayCounter().future) +
+            isItZero(arrayCounter().notPublished) ===
+        0
+    ) {
+        cont.querySelector("#future").classList.remove("show-info-cell");
+        cont.querySelector("#future").textContent = "";
     } else {
-        cont.querySelector('#future').classList.add('show-info-cell')
-        cont.querySelector('#future').innerHTML = isItZero(arrayCounter().future) + isItZero(arrayCounter().notPublished)
+        cont.querySelector("#future").classList.add("show-info-cell");
+        cont.querySelector("#future").innerHTML =
+            isItZero(arrayCounter().future) +
+            isItZero(arrayCounter().notPublished);
     }
 
     if (isItZero(arrayCounter().today) === 0) {
-        cont.querySelector('#today').classList.remove('show-info-cell')
-        cont.querySelector('#today').classList.textContent = '';
+        cont.querySelector("#today").classList.remove("show-info-cell");
+        cont.querySelector("#today").classList.textContent = "";
     } else {
-        cont.querySelector('#today').classList.add('show-info-cell')
-        cont.querySelector('#today').innerHTML = isItZero(arrayCounter().today)
+        cont.querySelector("#today").classList.add("show-info-cell");
+        cont.querySelector("#today").innerHTML = isItZero(arrayCounter().today);
     }
 
     if (isItZero(arrayCounter().passed) === 0) {
-        cont.querySelector('#passed').classList.remove('show-info-cell')
-        cont.querySelector('#passed').classList.textContent = '';
+        cont.querySelector("#passed").classList.remove("show-info-cell");
+        cont.querySelector("#passed").classList.textContent = "";
     } else {
-        cont.querySelector('#passed').classList.add('show-info-cell')
-        cont.querySelector('#passed').innerHTML = isItZero(arrayCounter().passed)
+        cont.querySelector("#passed").classList.add("show-info-cell");
+        cont.querySelector("#passed").innerHTML = isItZero(
+            arrayCounter().passed
+        );
     }
 
     if (isItZero(arrayCounter().commission) === 0) {
-        cont.querySelector('#commission').classList.remove('show-info-cell')
-        cont.querySelector('#commission').classList.textContent = '';
+        cont.querySelector("#commission").classList.remove("show-info-cell");
+        cont.querySelector("#commission").classList.textContent = "";
     } else {
-        cont.querySelector('#commission').classList.add('show-info-cell')
-        cont.querySelector('#commission').innerHTML = isItZero(arrayCounter().commission)
+        cont.querySelector("#commission").classList.add("show-info-cell");
+        cont.querySelector("#commission").innerHTML = isItZero(
+            arrayCounter().commission
+        );
     }
 }
 
 function createInfoBar(el) {
+    const cell = document.createElement("div");
+    cell.className = "info-cell";
 
-    const cell = document.createElement('div');
-    cell.className = 'info-cell';
-
-    const cellTextHolder = document.createElement('div');
+    const cellTextHolder = document.createElement("div");
     cellTextHolder.style.backgroundColor = el.color;
-    cellTextHolder.className = 'info-cell-text'
-    cellTextHolder.classList.add('show-info-cell');
+    cellTextHolder.className = "info-cell-text";
+    cellTextHolder.classList.add("show-info-cell");
     cellTextHolder.id = el.id;
     cellTextHolder.onclick = infoBarClick;
     cellTextHolder.onmouseover = barmouseover;
 
-
-    const cellTitle = document.createElement('div');
-    cellTitle.className = 'info-cell-title';
+    const cellTitle = document.createElement("div");
+    cellTitle.className = "info-cell-title";
     cellTitle.textContent = el.title;
 
-    cell.appendChild(cellTextHolder)
-    cell.appendChild(cellTitle)
+    cell.appendChild(cellTextHolder);
+    cell.appendChild(cellTitle);
     infoContainer.appendChild(cell);
 }
 
 function infoBarClick() {
     console.log("clicked", this.id, this.innerText);
-    auctionsTable.forEach(element => {
+    auctionsTable.forEach((element) => {
         if (element.className === this.id) {
-            window.open(element.querySelectorAll('td')[7].querySelector('a').href, "_blank")
+            window.open(
+                element.querySelectorAll("td")[7].querySelector("a").href,
+                "_blank"
+            );
         }
-    })
+    });
     if (this.id === "fileCheck") {
-        auctionsTable.forEach(el => {
-            let auctionObj = el.cells[5].innerHTML.split("<")[0].split(" ").pop();
+        auctionsTable.forEach((el) => {
+            let auctionObj = el.cells[5].innerHTML
+                .split("<")[0]
+                .split(" ")
+                .pop();
             if (el.cells[4].innerHTML.includes(auctionObj)) {
-                el.cells[5].style.backgroundColor = '#ccffcc';
+                el.cells[5].style.backgroundColor = "#ccffcc";
             } else {
-                el.cells[5].style.backgroundColor = '#ffcccc';
+                el.cells[5].style.backgroundColor = "#ffcccc";
             }
+        });
+    }
+    if (this.id === "firstOrderCheck") {
+        firstOrderCheck();
+    }
+}
+
+//called in infoBarClick()
+//gets list of the auctions that do not have first byuer orders published
+function firstOrderCheck() {
+    let auctionsTable = document.querySelector("tbody").querySelectorAll("tr");
+    let auctionsMap = {};
+
+    // Iterate over the rows
+    auctionsTable.forEach((auction) => {
+        if (auction.className !== "danger") {
+            // Exclude auctions with no offers
+            let firstOrderPill = auction.querySelector("#first"); // Use a class or refine the selector
+            if (firstOrderPill && firstOrderPill.innerText === "0") {
+                let name = auction.cells[1]?.innerText.split("\n")[0] || ""; // Extract name
+                let id = auction.cells[0]?.innerText || ""; // Extract ID
+                let link = auction.cells[7]?.querySelector("a")?.href || ""; // Extract link
+
+                // let nameCell = auction.cells[1];
+                // let idCell = auction.cells[0];
+                // let linkAnchor = auction.cells[7].querySelector("a");
+
+                // let name = nameCell ? nameCell.innerText.split("\n")[0] : "";
+                // let id = idCell ? idCell.innerText : "";
+                // let link = linkAnchor ? linkAnchor.href : "";
+
+                // Add the ID and link to the corresponding name group
+                if (name) {
+                    if (!auctionsMap[name]) {
+                        auctionsMap[name] = []; // Initialize the array for this name
+                    }
+                    // Check if the combination of ID and link already exists for this name
+                    if (
+                        !auctionsMap[name].some(
+                            (entry) => entry.id === id && entry.link === link
+                        )
+                    ) {
+                        auctionsMap[name].push({
+                            id,
+                            link,
+                        });
+                    }
+                }
+            }
+        }
+    });
+
+    // Convert the map to an array of objects
+    let uniqueAuctionsList = Object.entries(auctionsMap).map(
+        ([name, entries]) => ({
+            name,
+            entries,
         })
+    );
+
+    let promptMessage = "Select a position to open links:\n\n";
+    uniqueAuctionsList.forEach((auction, index) => {
+        let ids = auction.entries.map((entry) => entry.id).join(", ");
+        promptMessage += `${index + 1} ${auction.name} (IDs: ${ids})\n`;
+    });
+
+    // Show the prompt and open the links
+    let position = parseInt(prompt(promptMessage)) - 1;
+    if (
+        !isNaN(position) &&
+        position >= 0 &&
+        position < uniqueAuctionsList.length
+    ) {
+        let selectedAuction = uniqueAuctionsList[position];
+        selectedAuction.entries.forEach((entry) => {
+            window.open(entry.link, "_blank");
+        });
+    } else {
+        alert("Invalid position entered!");
     }
 }
 
 function barmouseover() {
     console.log("mouseover", this.id);
-    auctionsTable.forEach(el => {
+    auctionsTable.forEach((el) => {
         if (el.className === this.id) {
             console.log(el.cells[0].innerText);
         }
-    })
-
+    });
 }
 
 //INFOBAR FUNCTIONS
@@ -513,30 +670,38 @@ function barmouseover() {
 // called in main()
 //clicks all auction publish buttons if present
 function auctionPublish() {
-    console.log("-------------------------------------------------------auctionPublish()");
-    let btns = document.querySelector('tbody').querySelectorAll('button');
+    console.log(
+        "-------------------------------------------------------auctionPublish()"
+    );
+    let btns = document.querySelector("tbody").querySelectorAll("button");
     if (btns.length != 0) {
         if (confirm("Публикуване?")) {
-            btns.forEach(el => {
+            btns.forEach((el) => {
                 el.click();
-            })
+            });
         }
     }
-
 }
 
 // called in main()
 // error check for duplicates and wrong type of auction
 function errorCheck() {
-    console.log("-------------------------------------------------------errorCheck()");
+    console.log(
+        "-------------------------------------------------------errorCheck()"
+    );
     for (let i = 0; i < auctionsTable.length; i++) {
         for (let j = 0; j < auctionsTable.length; j++) {
             if (i != j) {
-                if (auctionsTable[i].cells[1].innerText === auctionsTable[j].cells[1].innerText && auctionsTable[i].cells[2].innerText === auctionsTable[j].cells[2].innerText) {
+                if (
+                    auctionsTable[i].cells[1].innerText ===
+                        auctionsTable[j].cells[1].innerText &&
+                    auctionsTable[i].cells[2].innerText ===
+                        auctionsTable[j].cells[2].innerText
+                ) {
                     // auctionsTable[i].className = 'error';
                     // auctionsTable[j].className = 'error';
-                    auctionsTable[i].classList.add('error');
-                    auctionsTable[j].classList.add('error');
+                    auctionsTable[i].classList.add("error");
+                    auctionsTable[j].classList.add("error");
                 }
             }
         }
@@ -544,19 +709,19 @@ function errorCheck() {
 }
 
 // called in main() in setTimeout
-function populateTables() { //called in main()
+function populateTables() {
+    //called in main()
     auctionsTable.forEach((element, index) => {
-        auctions.forEach(el => {
+        auctions.forEach((el) => {
             if (element.cells[0].innerText === el.id) {
-
                 function docsInfo(element, docs, id) {
-                    const docinf = document.createElement('span');
+                    const docinf = document.createElement("span");
                     docinf.innerText = isItZero(docs.length);
                     docinf.onclick = newDocShow;
                     docinf.id = id;
                     if (isItZero(docs.length) != 0) {
-                        let docinfTitle = '';
-                        docs.forEach(item => {
+                        let docinfTitle = "";
+                        docs.forEach((item) => {
                             docinfTitle += `${item.name} / ${item.date}\n`;
                         });
                         docinf.title = docinfTitle;
@@ -566,19 +731,31 @@ function populateTables() { //called in main()
                         docinf.style.backgroundColor = "green";
                         docinf.style.opacity = "0.5";
                     } else {
-                        let aucDateArr = element.cells[2].innerText.split(' ')[0].split('.');
-                        let aucDate = new Date(aucDateArr[2], aucDateArr[1] - 1, aucDateArr[0]);
+                        let aucDateArr = element.cells[2].innerText
+                            .split(" ")[0]
+                            .split(".");
+                        let aucDate = new Date(
+                            aucDateArr[2],
+                            aucDateArr[1] - 1,
+                            aucDateArr[0]
+                        );
 
-                        let deadlineDate = deadlineCheck(aucDateArr)
+                        let deadlineDate = deadlineCheck(aucDateArr);
 
                         // pills backgroundColor = red when auction is notPublished and deadline is today;
-                        if (deadlineDate.setHours(0, 0, 0, 0) === today.setHours(0, 0, 0, 0)) {
+                        if (
+                            deadlineDate.setHours(0, 0, 0, 0) ===
+                            today.setHours(0, 0, 0, 0)
+                        ) {
                             docinf.style.backgroundColor = "red";
                             docinf.style.opacity = "1";
                         }
 
-                        if (aucDate.setHours(0, 0, 0, 0) === today.setHours(0, 0, 0, 0)) {
-                            if (element.className === 'danger') {
+                        if (
+                            aucDate.setHours(0, 0, 0, 0) ===
+                            today.setHours(0, 0, 0, 0)
+                        ) {
+                            if (element.className === "danger") {
                                 docinf.style.backgroundColor = "grey";
                                 docinf.style.opacity = "0.5";
                             } else {
@@ -588,149 +765,175 @@ function populateTables() { //called in main()
                         }
                     }
 
-                    element.querySelector('#docsLengthInfo').appendChild(docinf);
+                    element
+                        .querySelector("#docsLengthInfo")
+                        .appendChild(docinf);
 
                     function newDocShow() {
-                        id = 'div#' + this.id
-                        docDiv = this.parentElement.parentElement.querySelector(id)
-                        if (docDiv.style.display === 'none') {
-                            docDiv.style.display = 'inline'
-                        } else if (docDiv.style.display === 'inline') {
-                            docDiv.style.display = 'none'
+                        id = "div#" + this.id;
+                        docDiv =
+                            this.parentElement.parentElement.querySelector(id);
+                        if (docDiv.style.display === "none") {
+                            docDiv.style.display = "inline";
+                        } else if (docDiv.style.display === "inline") {
+                            docDiv.style.display = "none";
                         }
                     }
                 }
 
-                docsInfo(element, el.documents, 'docs')
-                docsInfo(element, el.firstByuer, 'first')
+                docsInfo(element, el.documents, "docs");
+                docsInfo(element, el.firstByuer, "first");
                 if (isItZero(el.secondByuer.length) != 0) {
-                    docsInfo(element, el.secondByuer, 'second')
+                    docsInfo(element, el.secondByuer, "second");
                 }
 
                 function aucDocsCheck(element, docs, id) {
-                    const containerPill = document.createElement('span');
+                    const containerPill = document.createElement("span");
                     containerPill.style.opacity = "1";
-                    docs.forEach(doc => {
-                        if (doc.name.includes('Договор')) {
+                    docs.forEach((doc) => {
+                        if (doc.name.includes("Договор")) {
                             containerPill.innerText = "Д";
                             containerPill.style.backgroundColor = "green";
-                            containerPill.title = doc.download.split(".")[0] + "\nПубликуван на: " + doc.date; //shows file name in tooltip and published date
-                            containerPill.onclick = function () { //opens the document in new tab when pill is clicked
-                                window.open(doc.link, "_blank", "noopener,noreferrer");
+                            containerPill.title =
+                                doc.download.split(".")[0] +
+                                "\nПубликуван на: " +
+                                doc.date; //shows file name in tooltip and published date
+                            containerPill.onclick = function () {
+                                //opens the document in new tab when pill is clicked
+                                window.open(
+                                    doc.link,
+                                    "_blank",
+                                    "noopener,noreferrer"
+                                );
                             };
-                            element.querySelector('#docsLengthInfo').appendChild(containerPill);
+                            element
+                                .querySelector("#docsLengthInfo")
+                                .appendChild(containerPill);
                         }
-                        if (doc.name.includes('pdf') || doc.name.includes('rar')) {
+                        if (
+                            doc.name.includes("pdf") ||
+                            doc.name.includes("rar")
+                        ) {
                             containerPill.innerText = "PDF";
                             containerPill.style.backgroundColor = "black";
-                            element.querySelector('#docsLengthInfo').appendChild(containerPill);
+                            element
+                                .querySelector("#docsLengthInfo")
+                                .appendChild(containerPill);
                         }
-                        if (doc.name.includes('изпълнител')) {
+                        if (doc.name.includes("изпълнител")) {
                             containerPill.innerText = "ЗИ";
                             containerPill.style.backgroundColor = "red";
-                            element.querySelector('#docsLengthInfo').appendChild(containerPill);
+                            element
+                                .querySelector("#docsLengthInfo")
+                                .appendChild(containerPill);
                         }
-                    })
+                    });
                 }
                 if (el.documents.length != 0) {
-                    aucDocsCheck(element, el.documents, 'containerPill')
+                    aucDocsCheck(element, el.documents, "containerPill");
                 }
 
                 function documentsDisplay() {
                     if (el.documents.length != 0) {
-                        el.documents.forEach(doc => {
-                            let docSpan = document.createElement('a')
+                        el.documents.forEach((doc) => {
+                            let docSpan = document.createElement("a");
                             docSpan.innerText = `${doc.name} ${doc.date}`;
                             docSpan.href = doc.link;
                             docSpan.title = doc.download;
                             docSpan.download = doc.download;
-                            docSpan.target = '_blank';
-                            let newline = document.createElement('br')
-                            element.querySelector('div#docs').appendChild(docSpan)
-                            element.querySelector('div#docs').appendChild(newline)
-                        })
+                            docSpan.target = "_blank";
+                            let newline = document.createElement("br");
+                            element
+                                .querySelector("div#docs")
+                                .appendChild(docSpan);
+                            element
+                                .querySelector("div#docs")
+                                .appendChild(newline);
+                        });
                     }
                 }
                 documentsDisplay();
 
-
                 function fillPills(obj) {
                     for (const [key, value] of Object.entries(obj)) {
-                        id = '#' + key;
-                        element.querySelector(id).style.opacity = '0.7'
+                        id = "#" + key;
+                        element.querySelector(id).style.opacity = "0.7";
                         element.querySelector(id).innerText = value;
                         element.querySelector(id).title += ": " + value;
 
-                        if (value === '0') {
+                        if (value === "0") {
                             // element.querySelector(id).style.backgroundColor = 'green'
-                            element.querySelector(id).style.opacity = '0.3'
+                            element.querySelector(id).style.opacity = "0.3";
                         }
-                        if (key === 'percentage' && value > 5) {
-                            element.querySelector(id).style.backgroundColor = 'red'
+                        if (key === "percentage" && value > 5) {
+                            element.querySelector(id).style.backgroundColor =
+                                "red";
                         }
                     }
                 }
-                fillPills(el.woodsInfo)
-                fillPills(el.money)
+                fillPills(el.woodsInfo);
+                fillPills(el.money);
             }
-        })
-    })
+        });
+    });
 }
 
 // called in main()
 function prepareCells() {
-    auctionsTable.forEach(el => {
+    auctionsTable.forEach((el) => {
         offerCell = el.cells[1];
         subjectCell = el.cells[4];
         woodsCell = el.cells[5];
         priceCell = el.cells[6];
         // woodsCell = createContainer(woodsCell, 'woods', woodsTable)
         // priceCell = createContainer(priceCell, 'price', priceTable)
-        subjectCell = createContainer(subjectCell, 'docs', auctionDocumetsTable)
-        woodsCell = createPills(woodsCell, 'woods-pills', woodsTable)
-        priceCell = createPills(priceCell, 'price-pills', priceTable)
-        offerCell = createPills(offerCell, 'offers-pills', offersTable)
-    })
+        subjectCell = createContainer(
+            subjectCell,
+            "docs",
+            auctionDocumetsTable
+        );
+        woodsCell = createPills(woodsCell, "woods-pills", woodsTable);
+        priceCell = createPills(priceCell, "price-pills", priceTable);
+        offerCell = createPills(offerCell, "offers-pills", offersTable);
+    });
 }
 
 function createPills(cell, containerID, arrayTable) {
-    const container = document.createElement('div');
+    const container = document.createElement("div");
     container.id = containerID;
 
-    arrayTable.forEach(el => {
-        const pill = document.createElement('span');
+    arrayTable.forEach((el) => {
+        const pill = document.createElement("span");
         pill.id = el.id;
         pill.title = el.title;
-        container.append(pill)
-    })
+        container.append(pill);
+    });
 
-    cell.append(container)
-
+    cell.append(container);
 }
 
 // called in prepareCells()
 function createContainer(cell, containerID, array) {
     // create container element
-    const container = document.createElement('div');
+    const container = document.createElement("div");
     container.id = containerID;
-    container.className = 'customContainer';
-    container.style.display = 'none';
+    container.className = "customContainer";
+    container.style.display = "none";
 
+    array.forEach((el) => {
+        const contCell = document.createElement("div");
+        contCell.className = "containerCell";
 
-    array.forEach(el => {
-        const contCell = document.createElement('div');
-        contCell.className = 'containerCell';
-
-        const title = document.createElement('div');
+        const title = document.createElement("div");
         title.innerHTML = (el.title + ": ").bold().italics();
 
-        const info = document.createElement('div');
-        info.id = el.id
+        const info = document.createElement("div");
+        info.id = el.id;
 
         contCell.appendChild(title);
         contCell.appendChild(info);
-        container.append(contCell)
-    })
+        container.append(contCell);
+    });
 
     cell.appendChild(container);
 }
@@ -738,42 +941,52 @@ function createContainer(cell, containerID, array) {
 // called in main()
 // creating iframes for each row in auctionsTable, and loading corresponding auction in frame
 function createIFrames() {
-
-    auctionsTable.forEach(el => {
+    auctionsTable.forEach((el) => {
         // create iframe element
-        const iFrame = document.createElement('iframe');
-        let frameid = el.cells[0].innerHTML
+        const iFrame = document.createElement("iframe");
+        let frameid = el.cells[0].innerHTML;
         iFrame.id = frameid;
-        iFrame.style.display = 'none';
-        iFrame.src = el.cells[el.querySelectorAll('td').length - 2].querySelector('a').href;
+        iFrame.style.display = "none";
+        iFrame.src =
+            el.cells[el.querySelectorAll("td").length - 2].querySelector(
+                "a"
+            ).href;
         el.cells[0].appendChild(iFrame);
         iFrame.onload = function () {
             let loadedFrame = iFrame.contentWindow.document;
             // increase counter by 1 and show total number of loaded iframes in #infoTable
             counter++;
-            nav.querySelector('#frames').innerText = counter;
+            nav.querySelector("#frames").innerText = counter;
             // document.querySelector('#frames').innerText = counter;
             getInfoFromFrame(loadedFrame);
-            offersCheck(loadedFrame, el.cells[1])
-            assingedCommissionCheck(loadedFrame, el.className, el.cells[8], el.cells[1]);
-        }
-    })
+            offersCheck(loadedFrame, el.cells[1]);
+            assingedCommissionCheck(
+                loadedFrame,
+                el.className,
+                el.cells[8],
+                el.cells[1]
+            );
+        };
+    });
 }
 
 // called in createIFrames - check for deposited offers and their status
 // to be added color elements for approved and refused offers
 function offersCheck(loadedFrame, tpCell) {
-    let form = loadedFrame.querySelector('form');
+    let form = loadedFrame.querySelector("form");
     let approvedOffers = [];
-    let approvedOffersNames = 'Одобрени заявки:\n';
+    let approvedOffersNames = "Одобрени заявки:\n";
     let refusedOffers = [];
-    let refusedOffersNames = 'Отхвърлени заявки:\n';
-    let offersTotalNames = 'Подадени заявки:\n';
+    let refusedOffersNames = "Отхвърлени заявки:\n";
+    let offersTotalNames = "Подадени заявки:\n";
     if (form.innerText.includes("Заявки")) {
-        let offers = form.querySelectorAll('table');
+        let offers = form.querySelectorAll("table");
         let offersTable = offers.length - 1;
-        let offersTotal = form.querySelectorAll('table')[offersTable].querySelector('tbody').querySelectorAll('tr');
-        offersTotal.forEach(offer => {
+        let offersTotal = form
+            .querySelectorAll("table")
+            [offersTable].querySelector("tbody")
+            .querySelectorAll("tr");
+        offersTotal.forEach((offer) => {
             offersTotalNames += offer.cells[2].innerText.split("/")[0] + "\n";
             if (offer.cells[3].innerText.includes("Одобрена")) {
                 approvedOffers.push(offer.cells[2].innerText.split("/")[0]);
@@ -781,35 +994,43 @@ function offersCheck(loadedFrame, tpCell) {
             if (offer.cells[3].innerText.includes("Отхвърлена")) {
                 refusedOffers.push(offer.cells[2].innerText.split("/")[0]);
             }
-        })
-        approvedOffers.forEach(item => {
+        });
+        approvedOffers.forEach((item) => {
             approvedOffersNames += item + "\n";
         });
-        refusedOffers.forEach(item => {
+        refusedOffers.forEach((item) => {
             refusedOffersNames += item + "\n";
         });
-        if ((approvedOffers.length + refusedOffers.length) == offersTotal.length) {
+        if (
+            approvedOffers.length + refusedOffers.length ==
+            offersTotal.length
+        ) {
             tpCell.querySelector("#offersTotal").remove();
         } else {
             tpCell.querySelector("#offersTotal").innerText = offersTotal.length;
-            tpCell.querySelector("#offersTotal").style.backgroundColor = "black";
+            tpCell.querySelector("#offersTotal").style.backgroundColor =
+                "black";
             tpCell.querySelector("#offersTotal").style.color = "white";
             tpCell.querySelector("#offersTotal").title = offersTotalNames;
         }
 
-        if (approvedOffers.length == '0') {
+        if (approvedOffers.length == "0") {
             tpCell.querySelector("#approvedOffers").remove();
         } else {
-            tpCell.querySelector("#approvedOffers").innerText = approvedOffers.length;
-            tpCell.querySelector("#approvedOffers").style.backgroundColor = "green";
+            tpCell.querySelector("#approvedOffers").innerText =
+                approvedOffers.length;
+            tpCell.querySelector("#approvedOffers").style.backgroundColor =
+                "green";
             tpCell.querySelector("#approvedOffers").title = approvedOffersNames;
         }
 
-        if (refusedOffers.length == '0') {
+        if (refusedOffers.length == "0") {
             tpCell.querySelector("#refusedOffers").remove();
         } else {
-            tpCell.querySelector("#refusedOffers").innerText = refusedOffers.length;
-            tpCell.querySelector("#refusedOffers").style.backgroundColor = "red";
+            tpCell.querySelector("#refusedOffers").innerText =
+                refusedOffers.length;
+            tpCell.querySelector("#refusedOffers").style.backgroundColor =
+                "red";
             tpCell.querySelector("#refusedOffers").title = refusedOffersNames;
         }
         // tpCell.innerHTML += "<br> Оферти: " + offersTotal.length + " ( " + approvedOffers.length + " | " + refusedOffers.length + " )";
@@ -818,82 +1039,95 @@ function offersCheck(loadedFrame, tpCell) {
         tpCell.querySelector("#offersTotal").style.backgroundColor = "red";
         tpCell.querySelector("#approvedOffers").remove();
         tpCell.querySelector("#refusedOffers").remove();
-
     }
 }
-
 
 // called in createIFrames
 function assingedCommissionCheck(loadedFrame, classN, lastCell, tpCell) {
     // needs changes for more precise work
-    console.log("-------------------------------------------------------assingedCommissionCheck()");
-    if (classN === 'commission') {
-        const commission = loadedFrame.querySelector('select.form-control.commision');
+    console.log(
+        "-------------------------------------------------------assingedCommissionCheck()"
+    );
+    if (classN === "commission") {
+        const commission = loadedFrame.querySelector(
+            "select.form-control.commision"
+        );
         if (!commission) {
-            let requests = loadedFrame.querySelectorAll('tbody') // needs changing
+            let requests = loadedFrame.querySelectorAll("tbody"); // needs changing
             if (requests.length < 8) {
                 lastCell.style.backgroundColor = "#fa2a07";
                 tpCell.style.fontWeight = "bold";
                 tpCell.style.color = "#fa2a07";
-
             }
-        } else if (commission.value != '') {
+        } else if (commission.value != "") {
             lastCell.style.backgroundColor = "#9eb3c6";
             tpCell.style.fontWeight = "normal";
             tpCell.style.color = "#676a6c";
-            tpCell.querySelector("#offersTotal").style.backgroundColor = "#676a6c";
+            tpCell.querySelector("#offersTotal").style.backgroundColor =
+                "#676a6c";
         }
     }
-
 }
 
-// called in main() 
+// called in main()
 function uploadedFilesCheck() {
-    auctionsTable.forEach(element => {
-        if (element.className != 'danger' && element.className != 'commission') {
-            auctions.forEach(item => {
+    auctionsTable.forEach((element) => {
+        if (
+            element.className != "danger" &&
+            element.className != "commission"
+        ) {
+            auctions.forEach((item) => {
                 if (item.id === element.cells[0].innerText) {
                     if (item.documents.length != 0) {
-                        element.className = 'passed'
+                        element.className = "passed";
                     }
                 }
-            })
+            });
         }
-    })
+    });
 }
 
 // called in createIFrames()
 function getInfoFromFrame(loadedFrame) {
     let obj = []; //maybe it shoud be inside iFrame.onload
-    let woodsObj = {}
-    let woodsTableInputs = loadedFrame.querySelector('tbody').querySelectorAll('input');
+    let woodsObj = {};
+    let woodsTableInputs = loadedFrame
+        .querySelector("tbody")
+        .querySelectorAll("input");
     woodsTableInputs.forEach((el, index) => {
-        if (index != 0 && el.type === 'number') {
-            woodsObj[el.name.split('][')[1]] = el.value;
+        if (index != 0 && el.type === "number") {
+            woodsObj[el.name.split("][")[1]] = el.value;
         }
-    })
+    });
 
     let money = {
         bidStep: loadedFrame.querySelector("#аuctionBidStep").value,
         guarantee: loadedFrame.querySelector("#аuctionGuarantee").value,
-        percentage: ((loadedFrame.querySelector("#аuctionGuarantee").value / loadedFrame.querySelector("#auctionStartPrice").value) * 100).toFixed(2)
-    }
+        percentage: (
+            (loadedFrame.querySelector("#аuctionGuarantee").value /
+                loadedFrame.querySelector("#auctionStartPrice").value) *
+            100
+        ).toFixed(2),
+    };
 
     function getDocumentlist(id) {
         //check if id frame existst
         var elementExists = loadedFrame.getElementById(id);
         if (elementExists != null) {
-            let docs = loadedFrame.getElementById(id).querySelector('tbody').querySelectorAll('a');
-            let docsParameters = []
-            docs.forEach(el => {
+            let docs = loadedFrame
+                .getElementById(id)
+                .querySelector("tbody")
+                .querySelectorAll("a");
+            let docsParameters = [];
+            docs.forEach((el) => {
                 let item = {
-                    name: el.innerHTML.split('/')[0],
-                    date: el.innerHTML.split('/')[1].trim().split(" ")[0],
+                    name: el.innerHTML.split("/")[0],
+                    date: el.innerHTML.split("/")[1].trim().split(" ")[0],
                     link: el.href,
-                    download: el.download
-                }
-                docsParameters.push(item)
-            })
+                    download: el.download,
+                };
+                docsParameters.push(item);
+            });
             return docsParameters;
         } else {
             return 0;
@@ -903,9 +1137,13 @@ function getInfoFromFrame(loadedFrame) {
     delay(1000).then(() => saveToObj());
 
     function saveToObj() {
-        obj.id = loadedFrame.title.split(' ')[4];
-        obj.secondDate = loadedFrame.querySelector("#auctionSecondDueDate").value;
-        obj.appDueDate = loadedFrame.querySelector("#auctionApplicationsDueDate").value.split(' ')[0];
+        obj.id = loadedFrame.title.split(" ")[4];
+        obj.secondDate = loadedFrame.querySelector(
+            "#auctionSecondDueDate"
+        ).value;
+        obj.appDueDate = loadedFrame
+            .querySelector("#auctionApplicationsDueDate")
+            .value.split(" ")[0];
         obj.woodsInfo = woodsObj;
         obj.documents = getDocumentlist("auctionDocuments");
         obj.firstByuer = getDocumentlist("auctionOrder");
@@ -920,53 +1158,71 @@ function getInfoFromFrame(loadedFrame) {
 // when hovering on #infoTable it colors according rows in auctionsTable
 // when clicked on element in #infoTable opens new tabs according to clicked id if any
 function addMouseFunctionsToInfoTable() {
-    console.log('🚀 ~ addMouseFunctionsToInfoTable ~ addMouseFunctionsToInfoTable: LOADED', addMouseFunctionsToInfoTable);
-    infoTable.forEach(el => {
-        nav.getElementById(el.id).addEventListener("mouseover", (event) => {
+    console.log(
+        "🚀 ~ addMouseFunctionsToInfoTable ~ addMouseFunctionsToInfoTable: LOADED",
+        addMouseFunctionsToInfoTable
+    );
+    infoTable.forEach((el) => {
+        nav.getElementById(el.id).addEventListener(
+            "mouseover",
+            (event) => {
                 // highlight the mouseover target
                 event.target.style.color = "white";
                 event.target.style.backgroundColor = el.color;
-                auctionsTable.forEach(element => {
+                auctionsTable.forEach((element) => {
                     if (element.className === el.id) {
                         element.style.backgroundColor = el.color;
-                        element.style.color = 'white';
+                        element.style.color = "white";
                     }
-                })
+                });
 
                 // reset the color after a short delay
                 setTimeout(() => {
                     event.target.style.color = "";
                     event.target.style.backgroundColor = "";
-                    auctionsTable.forEach(element => {
+                    auctionsTable.forEach((element) => {
                         if (element.className === el.id) {
                             element.style.backgroundColor = "";
                             element.style.color = "";
                         }
-                    })
+                    });
                 }, 750);
             },
-            false, );
+            false
+        );
 
-        document.getElementById(el.id).addEventListener('click', function handleClick() {
-            console.log("click:", this.innerText, this.id);
-            auctionsTable.forEach(element => {
-                if (element.className === el.id) {
-                    window.open(element.querySelectorAll('td')[7].querySelector('a').href, "_blank")
-                }
-            })
-        });
-    })
+        document
+            .getElementById(el.id)
+            .addEventListener("click", function handleClick() {
+                console.log("click:", this.innerText, this.id);
+                auctionsTable.forEach((element) => {
+                    if (element.className === el.id) {
+                        window.open(
+                            element.querySelectorAll("td")[7].querySelector("a")
+                                .href,
+                            "_blank"
+                        );
+                    }
+                });
+            });
+    });
 }
 
 // show deadline for publishing documents in forth column
 // called in main()
 // error in deadlineCheck()-> removed | will be written anew
 function showDeadline() {
-    auctionsTable.forEach(el => {
-        let firstDate = el.cells[2].innerText.split(' ')[0].split(".");
-        let dateToShow = deadlineCheck(firstDate).getDate() + "." + (deadlineCheck(firstDate).getMonth() + 1) + "." + deadlineCheck(firstDate).getFullYear();
-        if (!el.cells[3].innerHTML.includes('br')) {
-            el.cells[3].innerHTML += '<br>' + '<b><i>' + dateToShow + '</b></i>';
+    auctionsTable.forEach((el) => {
+        let firstDate = el.cells[2].innerText.split(" ")[0].split(".");
+        let dateToShow =
+            deadlineCheck(firstDate).getDate() +
+            "." +
+            (deadlineCheck(firstDate).getMonth() + 1) +
+            "." +
+            deadlineCheck(firstDate).getFullYear();
+        if (!el.cells[3].innerHTML.includes("br")) {
+            el.cells[3].innerHTML +=
+                "<br>" + "<b><i>" + dateToShow + "</b></i>";
         }
     });
 }
@@ -1001,32 +1257,35 @@ function commissionDateCheck(date) {
 
 // called in main()
 function setAuctionsClasses() {
-    auctionsTable.forEach(el => {
-        if (el.className != 'danger') {
+    auctionsTable.forEach((el) => {
+        if (el.className != "danger") {
             if (window.getComputedStyle(el).color === "rgb(153, 153, 153)") {
-                if (auctionDateCheck(el) === 'today') {
-                    el.className = 'today';
+                if (auctionDateCheck(el) === "today") {
+                    el.className = "today";
                 } else {
-                    el.className = 'notPublished';
-                    el.querySelector('b').className = auctionDateCheck(el);
+                    el.className = "notPublished";
+                    el.querySelector("b").className = auctionDateCheck(el);
                 }
             } else {
                 el.className = auctionDateCheck(el);
-                el.querySelector('b').className = auctionDateCheck(el);
+                el.querySelector("b").className = auctionDateCheck(el);
             }
         }
-    })
+    });
 }
 
 // called in setAuctionsClasses()
 function auctionDateCheck(el) {
-    let firstDate = el.cells[2].innerText.split(' ')[0].split(".");
+    let firstDate = el.cells[2].innerText.split(" ")[0].split(".");
     let deadlineDate = deadlineCheck(firstDate);
     let commissionDate = commissionDateCheck(firstDate);
 
     if (deadlineDate.setHours(0, 0, 0, 0) === today.setHours(0, 0, 0, 0)) {
         return "today";
-    } else if (deadlineDate.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0) && commissionDate.setHours(0, 0, 0, 0) === today.setHours(0, 0, 0, 0)) {
+    } else if (
+        deadlineDate.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0) &&
+        commissionDate.setHours(0, 0, 0, 0) === today.setHours(0, 0, 0, 0)
+    ) {
         return "commission";
     } else if (deadlineDate.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0)) {
         return "passed";
@@ -1038,7 +1297,7 @@ function auctionDateCheck(el) {
 // called in addToInfoBar()
 function arrayCounter() {
     const count = {};
-    auctionsTable.forEach(el => {
+    auctionsTable.forEach((el) => {
         count[el.className] = (count[el.className] || 0) + 1;
     });
     return count;
@@ -1047,34 +1306,44 @@ function arrayCounter() {
 // called in addToInfoBar()
 function isItZero(counter) {
     if (counter === undefined) {
-        return counter = 0;
+        return (counter = 0);
     } else {
         return counter;
     }
 }
 
 function delay(time) {
-    return new Promise(resolve => setTimeout(resolve, time));
+    return new Promise((resolve) => setTimeout(resolve, time));
 }
 
 function tableOuput() {
-    console.log("-------------------------------------------------------tableOuput()");
+    console.log(
+        "-------------------------------------------------------tableOuput()"
+    );
     let consoleTable = [];
 
-    auctionsTable.forEach(el => {
+    auctionsTable.forEach((el) => {
         let obj = {
             number: el.cells[0].innerText,
             branch: el.cells[1].innerText,
             date: el.cells[2].innerText.split(" ")[0].trim(),
-            object: el.cells[5].innerText.split("/").pop().split(/\r?\n/)[0].split(":").pop().trim(),
-        }
+            object: el.cells[5].innerText
+                .split("/")
+                .pop()
+                .split(/\r?\n/)[0]
+                .split(":")
+                .pop()
+                .trim(),
+        };
         consoleTable.push(obj);
     });
     console.table(consoleTable);
 }
 
 //styling bellow
-document.head.insertAdjacentHTML("beforeend", `<style>
+document.head.insertAdjacentHTML(
+    "beforeend",
+    `<style>
 .customContainer {
     display: inline;
     width: 100%;
@@ -1344,4 +1613,5 @@ b.commission {
     font-weight: 550;
     color: white;
 }
-</style>`);
+</style>`
+);
