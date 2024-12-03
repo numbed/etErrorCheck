@@ -761,10 +761,10 @@ function createIFrames() {
 function offersCheck(loadedFrame, tpCell) {
     let form = loadedFrame.querySelector('form');
     let approvedOffers = [];
-    let approvedOffersNames = '';
+    let approvedOffersNames = 'Одобрени заявки:\n';
     let refusedOffers = [];
-    let refusedOffersNames = '';
-    let offersTotalNames = '';
+    let refusedOffersNames = 'Отхвърлени заявки:\n';
+    let offersTotalNames = 'Подадени заявки:\n';
     if (form.innerText.includes("Заявки")) {
         let offers = form.querySelectorAll('table');
         let offersTable = offers.length - 1;
@@ -790,7 +790,7 @@ function offersCheck(loadedFrame, tpCell) {
             tpCell.querySelector("#offersTotal").innerText = offersTotal.length;
             tpCell.querySelector("#offersTotal").style.backgroundColor = "black";
             tpCell.querySelector("#offersTotal").style.color = "white";
-            // tpCell.querySelector("#offersTotal").title = offersTotalNames;
+            tpCell.querySelector("#offersTotal").title = offersTotalNames;
         }
 
         if (approvedOffers.length == '0') {
