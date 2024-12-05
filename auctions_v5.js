@@ -185,7 +185,7 @@ function updateTable(tableData) {
                     : "N/A";
         
             cells[6].innerHTML = `
-                <div align='center'><strong>Start price: ${column7.startPrice || "N/A"}</strong></div>
+                <div><strong>Start price: ${column7.startPrice || "N/A"}</strong></div>
                 <div id='auctionDetails'>
                     <span title='Bid Step'> ${column7.auctionBidStep || "N/A"}</span>
                     <span title='Guarantee' style="${guaranteeStyle}">${column7.auctionGuarantee || "N/A"}</span>
