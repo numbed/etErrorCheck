@@ -70,14 +70,14 @@ function adjustWorkingDays(date, days) {
       // Extract data for column6
       const woodInfo = {
         total:
-          doc.querySelector('[name="data[woodInfo][total][0]"]')?.value || null,
+            parseFloat(doc.querySelector('[name="data[woodInfo][total][0]"]')?.value || null),
         firewood:
-          doc.querySelector('[name="data[woodInfo][firewood][0]"]')?.value ||
-          null,
-        ozm: doc.querySelector('[name="data[woodInfo][ozm][0]"]')?.value || null,
-        small: doc.querySelector('[name="data[woodInfo][small][0]"]')?.value || null,
-        mid: doc.querySelector('[name="data[woodInfo][mid][0]"]')?.value || null,
-        big: doc.querySelector('[name="data[woodInfo][big][0]"]')?.value || null,
+            parseFloat(doc.querySelector('[name="data[woodInfo][firewood][0]"]')?.value ||
+          null),
+        ozm: parseFloat(doc.querySelector('[name="data[woodInfo][ozm][0]"]')?.value || null),
+        small: parseFloat(doc.querySelector('[name="data[woodInfo][small][0]"]')?.value || null),
+        mid: parseFloat(doc.querySelector('[name="data[woodInfo][mid][0]"]')?.value || null),
+        big: parseFloat(doc.querySelector('[name="data[woodInfo][big][0]"]')?.value || null),
       };
   
       // Extract data for column7
@@ -185,7 +185,7 @@ function updateTable(tableData) {
                     : "N/A";
         
             cells[6].innerHTML = `
-                <div><strong>Start price: ${column7.startPrice || "N/A"}</strong></div>
+                <div align='center'><strong>Start price: ${column7.startPrice || "N/A"}</strong></div>
                 <div id='auctionDetails'>
                     <span title='Bid Step'> ${column7.auctionBidStep || "N/A"}</span>
                     <span title='Guarantee' style="${guaranteeStyle}">${column7.auctionGuarantee || "N/A"}</span>
